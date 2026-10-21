@@ -1,0 +1,230 @@
+{
+  "kit": "EcoGrid OpenCode",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 123,
+      "sha256": "8b263af61f39b21804bc2db7e281ed7db66419825f95fc3cfa65fbbc22a9a681"
+    },
+    {
+      "path": ".opencode/agents/auditor-calidad.md",
+      "bytes": 833,
+      "sha256": "3007f46d7181b63df6e66380346bf49d2f8d613fc950def0b63e7aafa1014314"
+    },
+    {
+      "path": ".opencode/agents/disenador-juego.md",
+      "bytes": 849,
+      "sha256": "e0fdbd331af590afd38ea9bb6c9d54d8564271b158aa5e81f0f92151da6b9799"
+    },
+    {
+      "path": ".opencode/agents/ecogrid-director.md",
+      "bytes": 1155,
+      "sha256": "6b3415d10075dcbf562ad597923d6fa718349745d0f5eb11b3fe4536bcc73c01"
+    },
+    {
+      "path": ".opencode/agents/revisor-academico.md",
+      "bytes": 777,
+      "sha256": "44f340b02ef9fa9ad826839ca9802e176fd29ee65b7e7df9c6b941265e3dc70c"
+    },
+    {
+      "path": ".opencode/agents/revisor-ambiental.md",
+      "bytes": 841,
+      "sha256": "11cba7c2d8a3aef400a5ebe59bec83567950d815dccf6c894078e803a8841e75"
+    },
+    {
+      "path": ".opencode/agents/revisor-control.md",
+      "bytes": 835,
+      "sha256": "1dbcab855afa1cda406d579f35c51107299d0960b4c376aa784ac1a29a74a725"
+    },
+    {
+      "path": ".opencode/agents/revisor-fisica.md",
+      "bytes": 854,
+      "sha256": "175e46540eb3faccf9f7e090555f064244561319431710894b94dffe8fe2898b"
+    },
+    {
+      "path": ".opencode/agents/revisor-ux.md",
+      "bytes": 735,
+      "sha256": "340130eea159d1f88500d5f115b84fea16caa3e725021a10cf05c71654512bf4"
+    },
+    {
+      "path": ".opencode/commands/ecogrid-arranque.md",
+      "bytes": 513,
+      "sha256": "83a23c7f992a48b9854129508afc82495228300ad81088b68a7e90f186ee704d"
+    },
+    {
+      "path": ".opencode/commands/ecogrid-auditoria.md",
+      "bytes": 372,
+      "sha256": "9b30f819b010c003cc5716847de347447a58d05450be123a12370af2c5ce6260"
+    },
+    {
+      "path": ".opencode/commands/ecogrid-fase.md",
+      "bytes": 420,
+      "sha256": "154f9cb51e2c5d878aff12515a16a47b31e7e844877570d1222e5bcae8f05d2b"
+    },
+    {
+      "path": ".opencode/commands/ecogrid-pitch.md",
+      "bytes": 452,
+      "sha256": "1e5ef650b2d9233ee5f80e65d22ebdaf82082fdea42c25d2bc6b6347959dba31"
+    },
+    {
+      "path": ".opencode/commands/ecogrid-relevo.md",
+      "bytes": 397,
+      "sha256": "9b77eca1c0dd1ebe6d0072d310f0c1a7ff3ca07aa5dd443af5bb61b274fd6904"
+    },
+    {
+      "path": ".opencode/commands/ecogrid-validar.md",
+      "bytes": 434,
+      "sha256": "f957fa8cf654d004015c4282bb926564cfe3ae88cf11c8e21590091ab4bed6f4"
+    },
+    {
+      "path": ".opencode/skills/ambiental-responsable/SKILL.md",
+      "bytes": 894,
+      "sha256": "d10399904e6f6a034a290e4f175c7ffff45230dc3329bea183a9b4747a686c7b"
+    },
+    {
+      "path": ".opencode/skills/control-energetico/SKILL.md",
+      "bytes": 932,
+      "sha256": "7f05c18e66295e022caa87c53dbc16e48686a202e5bdbdd63aa469cc67f80443"
+    },
+    {
+      "path": ".opencode/skills/gameplay-ux/SKILL.md",
+      "bytes": 929,
+      "sha256": "91f425f6d1ad93f88f48ec1cfa253e0c972e5a26a79e498263d79f48d61fa8de"
+    },
+    {
+      "path": ".opencode/skills/modelo-fisico/SKILL.md",
+      "bytes": 1004,
+      "sha256": "8a91d04f8fbe3487e139cf4d92019b460ef0d465ba668e83dcb49f4695f144af"
+    },
+    {
+      "path": ".opencode/skills/verificacion-entrega/SKILL.md",
+      "bytes": 914,
+      "sha256": "49df1a9b9bcd4ac5ecb3f00624ae64b7660467b958bbaa0760376a746404dd93"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 5516,
+      "sha256": "e2fcd03f6faea146255d14f8699818c33d3378335518d3efe56dec4adb299189"
+    },
+    {
+      "path": "LICENCIAS_Y_RECURSOS.md",
+      "bytes": 466,
+      "sha256": "984ec2118f50cd2ed77c290a1204e508f4299a1447bbd871cbeb4a47446f6df9"
+    },
+    {
+      "path": "PROMPT_INICIO_OPENCODE.md",
+      "bytes": 2008,
+      "sha256": "196556be661e1b793228b43cf165e95ab9f7ed1320087a1289f8f48aa619757f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3956,
+      "sha256": "2788cdc8d7920096474020240815f13e3ee3ce303fd93c3f168106c8e587d890"
+    },
+    {
+      "path": "datos/casos_referencia.json",
+      "bytes": 1549,
+      "sha256": "1cac280d5b33167c1f9abd17dc6c6a22de59f32521c97dbfd8dd54d7034d5364"
+    },
+    {
+      "path": "docs/00_DECISIONES_Y_RIESGOS.md",
+      "bytes": 3384,
+      "sha256": "379b61d6e7ab6eb46c15ff9eee2620899c74c36b2040dcf89ccbb7632e1fa80a"
+    },
+    {
+      "path": "docs/01_GDD.md",
+      "bytes": 5388,
+      "sha256": "dca035a1d0326dfb846d8d8c06156d1b1e9f79f1859ab724dc17e35d4c367f22"
+    },
+    {
+      "path": "docs/02_MODELOS_FISICOS.md",
+      "bytes": 9097,
+      "sha256": "b727c900c5764e4e58e112cc990c59566ae12a9d3f51cc568d8bc6a0bc017044"
+    },
+    {
+      "path": "docs/03_ARQUITECTURA.md",
+      "bytes": 4950,
+      "sha256": "e42308c23ad7ecc10dadc212c3663b6fe543df2140827ff1ce0c19c51fd28e98"
+    },
+    {
+      "path": "docs/04_BACKLOG_Y_FASES.md",
+      "bytes": 4222,
+      "sha256": "22e05fc5d7faab963bbe65a5197be6512d86dee6fc1278ef2ad0397d1b6fa1dd"
+    },
+    {
+      "path": "docs/05_CRITERIOS_ACEPTACION.md",
+      "bytes": 3215,
+      "sha256": "876e8638fdabc8883119361a6d8e26be257a28b4456ac8e76d81994192b57edf"
+    },
+    {
+      "path": "docs/06_MATRIZ_TRAZABILIDAD.md",
+      "bytes": 3205,
+      "sha256": "4f030eb8c14fe554b506ff6c5fd1cc24d49d6c57a51de5710b03e42ffde95219"
+    },
+    {
+      "path": "docs/07_PROCESO_IA.md",
+      "bytes": 1486,
+      "sha256": "402413964c89a46bb19ce2c0717b68b39925be5eaf68bc26902ed9c532869ae2"
+    },
+    {
+      "path": "docs/08_ESTADO_DEL_PROYECTO.md",
+      "bytes": 1743,
+      "sha256": "66fdf366d4c1f133c856f7d52842074c627356ec4aa854dac93834fcae431e10"
+    },
+    {
+      "path": "docs/09_PLAN_PRUEBAS.md",
+      "bytes": 3080,
+      "sha256": "023928b57a13bf13c6fe1c0544e8ce59572b77026c5e051b0bcec414ddad40c2"
+    },
+    {
+      "path": "docs/10_ENTREGABLES_ACADEMICOS.md",
+      "bytes": 2477,
+      "sha256": "9e45be9fbd197b3b9dbdab2ed57bbf4152a77d6a3789343cb398c92b2a2c32d6"
+    },
+    {
+      "path": "docs/11_INVESTIGACION_Y_FUENTES.md",
+      "bytes": 1892,
+      "sha256": "91c9eea547ec09a005ea772f92725160fcbde303abd98e5b2746166d23d4066b"
+    },
+    {
+      "path": "docs/12_PROCESO_DESARROLLO.md",
+      "bytes": 1663,
+      "sha256": "5e5704f0ae602872fcb3275bf174a31f4dfb7fa68272cdb146e9b0d665a924b5"
+    },
+    {
+      "path": "docs/13_DIRECCION_ARTE_UI.md",
+      "bytes": 6136,
+      "sha256": "80741d42c8827f65ab43d09bbd888e5798adeffd0312cf6fbc6c5afd8701e368"
+    },
+    {
+      "path": "docs/14_MISIONES_Y_EVENTOS.md",
+      "bytes": 4280,
+      "sha256": "02d417b0aa1cd18eadaac084dbf17167d0631f3b4de6a649fa8b01eac2a516f7"
+    },
+    {
+      "path": "docs/15_CHECKLIST_OPEN_CODE.md",
+      "bytes": 2244,
+      "sha256": "42e302439f206143e495974e0ad3bb5390844562cdcc8bc21d2996bbd1f42b5d"
+    },
+    {
+      "path": "opencode.json",
+      "bytes": 649,
+      "sha256": "ac76376dd664934355bb914228e50ab9c92c6ef400d0b5b8c58c0451390abfc2"
+    },
+    {
+      "path": "plantillas/CIERRE_TAREA.md",
+      "bytes": 450,
+      "sha256": "0d76da4ab4c7d243272a0c605479a528b2072b72e1c55199f7e237685736cccf"
+    },
+    {
+      "path": "plantillas/DECISION_ADR.md",
+      "bytes": 259,
+      "sha256": "ddcb224b660878796f5567ad257e445d4a307afff69b18abbe4206926c6d8c13"
+    },
+    {
+      "path": "referencias/Proyecto Termodinamica y MF 2026-2.pdf",
+      "bytes": 194011,
+      "sha256": "acb4bc8131633b20fb5cd86ddbf1cba0607e160eac2c9da2491a2062c1ee4da4"
+    }
+  ]
+}

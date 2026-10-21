@@ -1,0 +1,40 @@
+# Registro de decisiones (ADR) y riesgos
+
+## Decisiones tomadas por el equipo (base de proyecto)
+- **ADR-001**: Nombre y género: *EcoGrid: Ciudad al Límite*, estrategia de gestión de renovables con crisis y supervivencia energética.
+- **ADR-002**: Público abierto; dificultades que permiten jugar sin formación previa.
+- **ADR-003**: Ingeniería tercera: ambiental (junto a termodinámica, fluidos y electrónica).
+- **ADR-004**: Deseo de videojuego completamente programado, en lugar de juego de mesa con electrónica.
+
+## Decisiones propuestas por el kit, ajustables con justificación
+- **ADR-005**: Stack TypeScript + Phaser 3 + Vite + Vitest + Playwright. Estado: *propuesto, no ratificado por equipo*.
+- **ADR-006**: Vista 2D isométrica estilizada, controles ratón/táctil; sistema de paneles y eventos. Estado: *propuesto*.
+- **ADR-007**: Un escenario inicial, seis horas simuladas en ~seis minutos reales (1 segundo real = 60 segundos simulados) con paso fijo; modos pausa/tutoría. Estado: *propuesto, validar en pruebas*.
+- **ADR-008**: Modelo solar con balance térmico; hidro con pérdidas hidráulicas y caudal ecológico; eólica con curva simplificada; batería con eficiencia y límites de potencia. Estado: *propuesto, sujeto a revisión y pruebas*.
+- **ADR-009**: Juego local offline, sin multijugador ni servidor. Estado: *propuesto*.
+
+## Gate académico bloqueante (G-ACA-01)
+**Problema:** página 4, numeral 5, Liga 4: *«Sistema híbrido (juego de mesa + electrónica) donde variables reales (luz, calor ambiental, etc.) afecten el juego»*. El documento en página 1 admite juego físico, digital o híbrido en términos generales. NO presuponer que ese enunciado general deroga la exigencia específica.
+
+**Se necesita:** respuesta del docente aceptando juego completamente digital, sin juego de mesa ni sensores físicos, y qué evidencia reemplaza la integración hardware y variables reales.
+
+- Autorización obtenida: **PENDIENTE**.
+- Fecha de consulta: **PENDIENTE**.
+- Medio y evidencia (captura/correo): **PENDIENTE**.
+- Si rechaza: rediseñar a una variante híbrida mínima **solo con autorización del equipo**, sin ocultar el cambio.
+
+## Riesgos y mitigaciones
+| ID | Riesgo | Impacto | Tratamiento |
+|---|---|---|---|
+| R01 | Formato digital no aceptado para Liga 4 | crítico | G-ACA-01 antes de presentar como cumplimiento |
+| R02 | Simulación científicamente incorrecta | crítico | modelos SI, casos independientes, revisión experta, balances |
+| R03 | Demasiado alcance | alto | MVP estrictamente priorizado; limitar escenas y eventos |
+| R04 | Juego aburrido o poco entendible | alto | pruebas con jugadores ajenos al equipo; tutorial corto |
+| R05 | Dependencias/Internet en feria | alto | build estática local con activos empaquetados; prueba offline |
+| R06 | Caídas de FPS/móvil | medio | métricas básicas, texturas comprimidas, limite de partículas |
+| R07 | IA crea código no auditado | alto | commits, revisiones, bitácora y tests independientes |
+| R08 | Datos supuestos se confunden con datos reales | alto | etiquetar valores estimados y fuentes; sensibilidad |
+| R09 | Pérdida de progreso entre sesiones OpenCode | medio | relevo y estado actualizado obligatorios |
+
+## Cambios de decisión
+Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física/UX/plazo, responsable y autorización.

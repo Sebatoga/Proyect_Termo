@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "purpose": "Vectores de referencia manuales para tests a implementar por OpenCode; NO son evidencias de ejecución",
+  "solar": [
+    {
+      "id": "T-SOL-01",
+      "area_m2": 100,
+      "irradiance_Wm2": 1000,
+      "eff_ref": 0.2,
+      "beta_1K": 0.004,
+      "cell_temp_C": 25,
+      "expected_kW": 20
+    },
+    {
+      "id": "T-SOL-02",
+      "area_m2": 100,
+      "irradiance_Wm2": 1000,
+      "eff_ref": 0.2,
+      "beta_1K": 0.004,
+      "cell_temp_C": 35,
+      "expected_kW": 19.2
+    }
+  ],
+  "hydro": [
+    {
+      "id": "T-HYD-01",
+      "Qriver_m3s": 4,
+      "Qeco_m3s": 1,
+      "Qrequested_m3s": 2,
+      "head_gross_m": 20,
+      "head_loss_k_s2_per_m5": 0.1,
+      "eff_total": 0.8,
+      "density_kg_m3": 1000,
+      "g_m_s2": 9.81,
+      "expected_Qturb_m3s": 2,
+      "expected_Qbypass_m3s": 2,
+      "expected_head_net_m": 19.6,
+      "expected_kW": 307.6416
+    }
+  ],
+  "wind": [
+    {
+      "id": "T-WIND-01",
+      "wind_m_s": 4,
+      "air_density_kg_m3": 1.225,
+      "swept_area_m2": 100,
+      "Cp": 0.4,
+      "elec_eff": 0.9,
+      "rated_kW": 2,
+      "cut_in_m_s": 3,
+      "cut_out_m_s": 25,
+      "expected_kW": 1.4112
+    }
+  ],
+  "battery": [
+    {
+      "id": "T-BAT-01",
+      "mode": "charge",
+      "bus_power_kW": 120,
+      "eff": 0.95,
+      "dt_sim_s": 60,
+      "expected_delta_kWh": 1.9
+    },
+    {
+      "id": "T-BAT-02",
+      "mode": "discharge",
+      "bus_power_kW": 120,
+      "eff": 0.9,
+      "dt_sim_s": 60,
+      "expected_delta_kWh": -2.2222222222222223
+    }
+  ]
+}
