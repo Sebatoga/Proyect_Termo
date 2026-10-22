@@ -38,3 +38,15 @@
 
 ## Cambios de decisión
 Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física/UX/plazo, responsable y autorización.
+
+## Hallazgos ECO-001 — ejecución `20261021T031528Z`
+
+- La auditoría cerró por la rama permitida `blocked`: `.opencode/` sigue ausente y no se fabricó ni copió contenido porque no existe una fuente original aportada o autorizada.
+- ADR-005 conserva el estado **propuesto, no ratificado por el equipo**. Las versiones locales observadas no prueban compatibilidad con TypeScript, Phaser, Vite, Vitest ni Playwright.
+- `G-ACA-01` conserva el estado **PENDIENTE** y la responsabilidad de ECO-005. ECO-001 no obtuvo ni interpretó autorización docente para un formato completamente digital.
+- El expediente verificable está en `evidencias/ECO-001/20261021T031528Z/`; no constituye evidencia de aplicación ejecutable, pruebas del juego ni validación científica.
+
+| ID | Riesgo observado | Impacto | Tratamiento |
+|---|---|---|---|
+| R10 | Recursos EcoGrid de `.opencode/` ausentes y sin fuente original autorizada | alto | Mantener recuperación bloqueada; exigir procedencia, rutas, bytes y SHA-256 antes de cualquier escritura |
+| R11 | Confundir disponibilidad de herramientas con compatibilidad del stack | alto | Mantener ADR-005 sin ratificar hasta pruebas reproducibles en ECO-101 o dependencia aprobada de ECO-003 |

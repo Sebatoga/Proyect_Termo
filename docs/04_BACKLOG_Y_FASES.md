@@ -5,7 +5,7 @@
 ## F0 — Definición, acuerdo y contrato científico
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-001 | Auditar entorno/repo/OpenCode, fuente académica | informe entorno, versiones y pendientes | PENDIENTE |
+| ECO-001 | Auditar entorno/repo/OpenCode, fuente académica | informe entorno, versiones y pendientes | HECHA — rama `blocked`, evidencia `20261021T031528Z` |
 | ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | PENDIENTE |
 | ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE |
 | ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | PENDIENTE |
@@ -47,6 +47,10 @@
 3. F2 no puede degradar conservación, accesibilidad o trazabilidad científica.
 4. F3 requiere evidencia real; no «screenshots imaginarios» ni pruebas declaradas sin ejecutar.
 5. Antes de cada hito: revisión de alcance, evaluación de riesgos, respaldo/commit, test suite y relevo.
+
+## Evidencia de cierre ECO-001
+
+La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría mediante la rama permitida `blocked`: no hubo fuente original autorizada para recuperar `.opencode/`, por lo que las tareas condicionales 4.2–4.8 no aplicaron y permanecen bloqueadas, sin ejecución ni completado inferido. Este cierre no cambia ECO-002, ECO-003, ECO-005, ECO-101 ni el estado de Fase 1.
 
 ## Límites temporales del documento original
 - Pitch: fecha **sugerida** segunda semana de noviembre, **no confirmada** por profesor.
