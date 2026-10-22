@@ -1,0 +1,6 @@
+command: git rev-parse --show-toplevel
+cwd: /home/sebato/Escritorio/Proyecto_termo/Proyect_Termo
+exit_code: 0
+stdout: /home/sebato/Escritorio/Proyecto_termo/Proyect_Termo
+stderr:
+result: authorized root matched exactly

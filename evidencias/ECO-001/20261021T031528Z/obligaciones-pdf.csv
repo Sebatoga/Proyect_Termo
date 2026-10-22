@@ -1,0 +1,23 @@
+id,categoria,pagina,seccion,extracto_fiel,interpretacion,estado
+ACA-01,fenomenos,1,Alcance tecnico minimo,"al menos un fenomeno de termodinamica y uno de mecanica de fluidos",Ambos fenómenos son obligatorios,verificada
+ACA-02,modelo,1,Alcance tecnico minimo,"hipotesis... variables de entrada y salida... ecuaciones... unidades... limites... validacion",El modelo debe documentar todos esos elementos,verificada
+ACA-03,incidencia,2,Regla I,"intervenir directamente en las decisiones restricciones y resultados",No se admite trivia desconectada,verificada
+ACA-04,electronica,2,Regla I,"ingenieria electrica o electronica",Integración funcional obligatoria,verificada
+ACA-05,tercera-ingenieria,2,Regla I,"una tercera disciplina de ingenieria",Debe explicarse su aporte funcional,verificada
+ACA-06,equipo,1,Conformacion,"MAXIMO INNEGOCIABLE de 3 estudiantes",No se permiten cuatro integrantes,verificada
+ACA-07,ia,2,Regla III,"registrar las herramientas... proposito... resultados... modificaciones... verificar",Uso de IA documentado y verificado,verificada
+ACA-08,pitch-duracion,2,Entregable 1,"duracion maxima de siete minutos",Límite obligatorio del pitch,verificada
+ACA-09,pitch-concepto,2,Entregable 1,"Concepto Nombre e Historia",Contenido 1 del pitch,verificada
+ACA-10,pitch-mecanica,2,Entregable 1,"Mecanica Termodinamica",Contenido 2 del pitch,verificada
+ACA-11,pitch-integracion,3,Entregable 1,"Integracion interdisciplinaria",Contenido 3 del pitch,verificada
+ACA-12,pitch-diagrama,3,Entregable 1,"Diagrama de Bloques",Contenido 4 del pitch,verificada
+ACA-13,pitch-ia,3,Entregable 1,"Uso de IA",Contenido 5 del pitch,verificada
+ACA-14,evidencias-finales,3,Entregable 2,"modelo... comparacion... pruebas... errores ajustes y decisiones",Evidencia técnica reproducible obligatoria,verificada
+ACA-15,codigo-operacion,3,Entregable 2,"codigo desarrollado; instrucciones de operacion y seguridad",Código y manuales obligatorios,verificada
+ACA-16,contribuciones,3,Entregable 2,"contribuciones individuales",Aportes individuales explícitos,verificada
+ACA-17,producto-poster,3,Entregable 2,"Juego 100% Funcional y Terminado... Poster Cientifico/Tecnico",Producto y póster obligatorios,verificada
+ACA-18,seguridad,3,Seguridad,"analisis basico de riesgos y medidas de control",Aplica antes de pruebas con público,verificada
+ACA-19,formato-general,1,Presentacion,"Juego Fisico Digital o Hibrido",Permiso general sujeto al requisito específico de liga,verificada
+ACA-20,liga-4,4,Liga 4,"Sistema hibrido (juego de mesa + electronica)... variables reales",Prevalece para Liga 4; digital no autorizado,verificada_G_ACA_01_pendiente_ECO_005
+ACA-21,fecha-pitch,2,Entregable 1,"Fecha sugerida Segunda semana de noviembre",Fecha sugerida no confirmada,verificada_como_sugerida
+ACA-22,fecha-feria,3,Entregable 2,"Sugerencia Primera semana de diciembre",Fecha sugerida no confirmada,verificada_como_sugerida

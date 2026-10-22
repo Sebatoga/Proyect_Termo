@@ -1,0 +1,9 @@
+command: git rev-parse HEAD && git status --porcelain=v2 --branch && git diff --cached --name-status && git diff --name-status && git ls-files --others --exclude-standard
+cwd: /home/sebato/Escritorio/Proyecto_termo/Proyect_Termo
+exit_code: 0
+HEAD: a69703444311cde5348565126a9f55b540f21fdc
+branch: main; upstream origin/main; ahead 0; behind 0
+staged: none
+unstaged: none
+untracked: .gitignore and openspec/ (including eco-001 planning artifacts)
+preservation: no index or worktree cleanup/mutation command was executed

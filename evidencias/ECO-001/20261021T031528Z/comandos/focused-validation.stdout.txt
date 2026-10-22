@@ -1,0 +1,17 @@
+2.1 PASS: executable-looking paths remain non-executable inventory; symlink is special
+2.2 PASS: temporary repositories prove root/child equality and reject parent/foreign roots
+2.3 PASS: staged/unstaged/both/untracked/empty-index observed without identity changes
+2.4 FIXTURE CONTRACT: parser rejects malformed JSON; case labels declare expected outcomes
+2.5 FIXTURE CONTRACT: source case labels match the documented expected outcomes
+2.6 FIXTURE CONTRACT: transaction case labels match the documented expected outcomes
+2.7 FIXTURE CONTRACT: OpenCode case labels match the documented expected outcomes
+2.8 EVIDENCE CONTRACT: CSV records the missing category as unverified with an open gate
+3.1 PASS: manifest JSON is valid and manifiesto.csv reconciles 45/45 unique paths
+3.2 PASS: 3 independent byte/hash samples match; .gitignore and 19 .opencode gaps remain visible
+3.3 PASS: exact OpenCode commands, exit codes, raw stdout, and raw stderr are preserved
+3.4 PASS: raw discovery finds 28 agents, 20 skills, 13 commands, and 19 project gaps
+3.5 PASS: official PDF hash matches and 22 required rows carry page-backed extracts
+3.6 PASS: Liga 4 hybrid requirement remains specific; ECO-005 and suggested dates are preserved
+3.7 PASS: all 10 gaps include state, responsible party, dependency, and next action
+4.1 PASS: G5 remains honestly blocked with complete trace and zero target writes
+SUMMARY: 11 evidence checks passed; 5 fixture contracts matched (not runtime tests)

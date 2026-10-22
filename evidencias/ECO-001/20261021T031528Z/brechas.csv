@@ -1,0 +1,11 @@
+id,state,responsible,dependency,next_action
+GITIGNORE,pending_decision,Project team,Agree repository hygiene,"Review the pre-existing 31-byte .gitignore separately; do not overwrite it implicitly"
+ATL,pending_decision,Project team,Agree generated-cache policy,"Decide whether .atl remains ignored/local; do not delete or clean it in ECO-001"
+OPENCODE_SOURCE,blocked,Project team,Authorized original kit source,"Provide or authorize a local original source before Work Unit 2"
+OPENCODE_DISCOVERY,gap,Project team,OPENCODE_SOURCE,"After verified recovery, open a new session and repeat documented inventory"
+NODE_STACK,not_verified,Project team,Executable project and approved compatibility plan,"Test in ECO-101 or an approved ECO-003 dependency; do not ratify from version availability"
+ADR-005,proposed_not_ratified,Project team,NODE_STACK,"Record an explicit team decision only after reproducible compatibility evidence"
+G-ACA-01,pending,ECO-005,Written teacher response,"ECO-005 must validate and trace authorization; ECO-001 must not interpret it"
+ECO-002,pending,Project team,Scientific review,"Review hypotheses units equations limits sources and validation"
+ECO-003,pending,Project team,Approved executable harness dependency,"Create the pure TypeScript tick prototype outside ECO-001"
+ECO-101,pending,Project team,Stack ratification,"Initialize the application and test runner outside ECO-001"

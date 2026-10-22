@@ -1,0 +1,5 @@
+node --version | exit 0 | stdout: v26.9.0 | stderr:
+npm --version | exit 0 | stdout: 11.19.1 | stderr:
+git --version | exit 0 | stdout: git version 2.55.0 | stderr:
+opencode --version | exit 0 | stdout: 1.19.3 | stderr:
+Interpretation: observed availability only; stack compatibility is not verified.

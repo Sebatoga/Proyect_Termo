@@ -1,0 +1,6 @@
+command: python3 evidencias/ECO-001/20261021T031528Z/comandos/focused-validation.py
+cwd: /home/sebato/Escritorio/Proyecto_termo/Proyect_Termo
+exit_code: 0
+stdout_ref: comandos/focused-validation.stdout.txt
+stderr_ref: comandos/focused-validation.stderr.txt
+harness_ref: comandos/focused-validation.py

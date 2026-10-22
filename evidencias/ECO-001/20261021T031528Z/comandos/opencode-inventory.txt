@@ -1,0 +1,7 @@
+Interpretation only; raw output is preserved separately.
+
+- `opencode agent list`: exit 0; exact command in `opencode-agent-list.command.txt`; raw stdout/stderr in the corresponding `.stdout.txt` and `.stderr.txt` files. Parsed result: 28 agents — build, compaction, explore, general, plan, summary, title, gentle-orchestrator, jd-fix-agent, jd-judge-a, jd-judge-b, review-readability, review-refuter, review-reliability, review-resilience, review-risk, review-validator, sdd-apply, sdd-archive, sdd-design, sdd-explore, sdd-init, sdd-onboard, sdd-propose, sdd-research, sdd-spec, sdd-tasks, sdd-verify.
+- `opencode debug skill`: exit 0; exact command in `opencode-debug-skill.command.txt`; raw stdout/stderr in the corresponding `.stdout.txt` and `.stderr.txt` files. Parsed result: 20 global skills.
+- `opencode debug config`: exit 0; exact command in `opencode-debug-config.command.txt`; raw stdout/stderr in the corresponding `.stdout.txt` and `.stderr.txt` files. Parsed result: 13 global commands.
+
+Observed interpretation: zero EcoGrid project resources were discovered. The resolved configuration declares `default_agent: ecogrid-director`, but `.opencode/` remains absent and the agent is not in the raw discovered agent list.
