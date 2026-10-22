@@ -1,0 +1,1 @@
+{"cases":[{"path":"/absolute","expected":"reject"},{"path":"../escape","expected":"reject"},{"path":"missing","expected":"ausente"},{"path":"wrong-hash","expected":"discrepante"},{"path":"symlink","expected":"discrepante"}]}

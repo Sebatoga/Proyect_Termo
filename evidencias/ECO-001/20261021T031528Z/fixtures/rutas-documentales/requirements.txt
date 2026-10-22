@@ -1,0 +1,1 @@
+documentation-only fixture; never execute

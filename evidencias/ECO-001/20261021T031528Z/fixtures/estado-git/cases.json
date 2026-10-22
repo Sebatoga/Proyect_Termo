@@ -1,0 +1,1 @@
+{"cases":["staged","unstaged","both","untracked","empty_index"],"invariant":"HEAD, index and worktree identities unchanged by capture"}
