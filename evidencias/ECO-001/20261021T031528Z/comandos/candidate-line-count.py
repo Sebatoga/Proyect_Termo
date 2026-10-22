@@ -20,6 +20,7 @@ TRACKED_CLOSURE = (
     Path("docs/08_ESTADO_DEL_PROYECTO.md"),
 )
 RECORDED_STDOUT = RUN / "comandos/candidate-line-count.stdout.txt"
+GENERATED_INDEX = RUN / "registro-evidencias.json"
 THRESHOLD = 400
 
 
@@ -83,7 +84,12 @@ def collect() -> dict[str, object]:
         lambda: {"files": 0, "additions": 0, "deletions": 0, "changed_lines": 0}
     )
     included: list[dict[str, object]] = []
-    exclusions: list[dict[str, str]] = []
+    exclusions: list[dict[str, str]] = [
+        {
+            "path": GENERATED_INDEX.as_posix(),
+            "reason": "self-excluding generated index; regenerated after candidate counting",
+        }
+    ]
 
     for path in TRACKED_CLOSURE:
         additions, deletions = tracked_numstat(path, baseline)
@@ -113,15 +119,10 @@ def collect() -> dict[str, object]:
             relative = absolute_path.relative_to(ROOT)
             scope_relative = absolute_path.relative_to(absolute_scope)
             if ".git" in scope_relative.parts:
-                if absolute_path.is_file() or absolute_path.is_symlink():
-                    exclusions.append(
-                        {
-                            "path": relative.as_posix(),
-                            "reason": "generated nested-Git fixture administration; excluded by the documented generated-file policy",
-                        }
-                    )
                 continue
             if absolute_path.is_dir() and not absolute_path.is_symlink():
+                continue
+            if relative == GENERATED_INDEX:
                 continue
             if absolute_path.is_symlink():
                 data = os.readlink(absolute_path).encode("utf-8")
@@ -188,6 +189,12 @@ def collect() -> dict[str, object]:
         "candidate_files": len(included),
         "excluded_files": len(exclusions),
         "exclusions": exclusions,
+        "exclusion_policies": [
+            {
+                "selector": f"{RUN.as_posix()}/fixtures/**/.git/**",
+                "reason": "unversionable local fixture administration; temporary repositories replace it",
+            }
+        ],
         "grand_total_additions_plus_deletions": grand_total,
         "threshold": THRESHOLD,
         "threshold_exceeded": threshold_exceeded,
@@ -197,6 +204,7 @@ def collect() -> dict[str, object]:
             "complete_candidate_coverage": True,
             "tracked_closure_against_pre_eco_001": True,
             "candidate_roots_against_empty": True,
+            "generated_index_excluded": True,
             "raw_text_evidence_included": True,
             "threshold_evaluated": True,
         },

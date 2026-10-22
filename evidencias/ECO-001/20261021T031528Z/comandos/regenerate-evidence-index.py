@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -12,6 +11,11 @@ from pathlib import Path
 
 DOSSIER = Path(__file__).resolve().parents[1]
 INDEX = DOSSIER / "registro-evidencias.json"
+NESTED_FIXTURE_GIT_SELECTOR = "fixtures/**/.git/**"
+NESTED_FIXTURE_GIT_REASON = (
+    "Nested Git administration is local fixture state, cannot be versioned by the "
+    "project repository, and is replaced by temporary repositories in the harness."
+)
 
 
 def identity(path: Path) -> tuple[str, int, str]:
@@ -24,7 +28,6 @@ def identity(path: Path) -> tuple[str, int, str]:
 
 def main() -> None:
     index = json.loads(INDEX.read_text(encoding="utf-8"))
-    index["finished_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     index["repository"]["git_status_after_ref"] = "comandos/git-status-t1.txt"
     index["steps"] = [
         {
@@ -66,12 +69,17 @@ def main() -> None:
     ]
     files = []
     special_entries = []
+    excluded_nested_git = []
     for path in sorted(DOSSIER.rglob("*")):
         if path == INDEX or (not path.is_file() and not path.is_symlink()):
             continue
+        relative = path.relative_to(DOSSIER)
+        if relative.parts[0] == "fixtures" and ".git" in relative.parts:
+            excluded_nested_git.append(relative.as_posix())
+            continue
         kind, size, digest = identity(path)
         entry = {
-            "path": path.relative_to(DOSSIER).as_posix(),
+            "path": relative.as_posix(),
             "type": kind,
             "bytes": size,
             "sha256": digest,
@@ -82,9 +90,18 @@ def main() -> None:
             files.append(entry)
     index["files"] = files
     index["special_entries"] = special_entries
+    index["exclusions"] = [
+        {
+            "selector": NESTED_FIXTURE_GIT_SELECTOR,
+            "reason": NESTED_FIXTURE_GIT_REASON,
+            "observed_entries": len(excluded_nested_git),
+            "paths": excluded_nested_git,
+        }
+    ]
     INDEX.write_text(json.dumps(index, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"indexed_files: {len(files)}")
     print(f"indexed_special_entries: {len(special_entries)}")
+    print(f"excluded_nested_fixture_git_entries: {len(excluded_nested_git)}")
     print("self_hash_excluded: true")
 
 
