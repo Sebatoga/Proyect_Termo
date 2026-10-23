@@ -1,0 +1,18 @@
+{
+  "id": "ECO-002-WU2-S11",
+  "order": 11,
+  "purpose": "Reissue the immutable blocked gate with exact hashes and documentary validation.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S10",
+  "files": [
+    {"path": "evidencias/ECO-002/registry.yaml", "review_lines": 48},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-03/manifest.yaml", "review_lines": 176},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-03/report.md", "review_lines": 45},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-03/checksums.sha256", "review_lines": 11},
+    {"path": "evidencias/ECO-002/validation/work-unit-2.md", "review_lines": 48},
+    {"path": "evidencias/ECO-002/review-slices/slice-11-wu2-gate.json", "review_lines": 18}
+  ],
+  "total_review_lines": 346
+}

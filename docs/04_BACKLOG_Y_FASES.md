@@ -6,7 +6,7 @@
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
 | ECO-001 | Auditar entorno/repo/OpenCode, fuente académica | informe entorno, versiones y pendientes | HECHA — rama `blocked`, evidencia `20261021T031528Z` |
-| ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | PENDIENTE |
+| ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | BLOQUEADA — gate `ECO-002-GATE-20261022-03`; faltan revisiones humanas identificadas |
 | ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE |
 | ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | PENDIENTE |
 | ECO-005 | Tramitar respuesta docente al formato digital | autorización documentada o cambio de alcance aprobado | BLOQUEADA: docente |
@@ -51,6 +51,10 @@
 ## Evidencia de cierre ECO-001
 
 La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría mediante la rama permitida `blocked`: no hubo fuente original autorizada para recuperar `.opencode/`, por lo que las tareas condicionales 4.2–4.8 no aplicaron y permanecen bloqueadas, sin ejecución ni completado inferido. Este cierre no cambia ECO-002, ECO-003, ECO-005, ECO-101 ni el estado de Fase 1.
+
+## Estado bloqueado ECO-002
+
+El gate `ECO-002-GATE-20261022-03` conserva el resultado `blocked_with_traceability`: existen inventario, dimensiones, fronteras, fuentes públicas acotadas y cuatro cuadernos documentales, pero no revisores humanos identificados, evidencia de competencia, reproducciones independientes ni revisiones física, de control, ambiental y de calidad. No existe línea base congelada para ECO-003.
 
 ## Límites temporales del documento original
 - Pitch: fecha **sugerida** segunda semana de noviembre, **no confirmada** por profesor.

@@ -50,3 +50,12 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 |---|---|---|---|
 | R10 | Recursos EcoGrid de `.opencode/` ausentes y sin fuente original autorizada | alto | Mantener recuperación bloqueada; exigir procedencia, rutas, bytes y SHA-256 antes de cualquier escritura |
 | R11 | Confundir disponibilidad de herramientas con compatibilidad del stack | alto | Mantener ADR-005 sin ratificar hasta pruebas reproducibles en ECO-101 o dependencia aprobada de ECO-003 |
+| R12 | Consumir en ECO-003 modelos sin revisión humana independiente ni baseline congelada | crítico | Mantener ECO-002 bloqueada; exigir gate `accepted_frozen` o excluir explícitamente los elementos afectados |
+| R13 | Los gates históricos incluyen el registro mutable y dejan de verificar al avanzar el puntero vigente | medio | No afirmar reproducibilidad total de gates anteriores; registrar el mismatch y rediseñar el snapshot de metadatos en una corrección futura |
+
+## Hallazgos ECO-002 — gate `ECO-002-GATE-20261022-03`
+
+- El expediente conserva resultado `blocked_with_traceability`; no existe baseline ni autorización para que ECO-003 consuma los elementos científicos bloqueados.
+- Hay cuatro cálculos documentales y diez casos, pero siguen pendientes reproducciones y revisiones por personas identificadas con competencia evidenciada.
+- La cobertura de revisión quedó reconciliada en 22 slices de hasta 400 líneas; el validador ya no reporta rutas omitidas.
+- El gate histórico `ECO-002-GATE-20261022-02` fijó el hash del `registry.yaml` mutable. Tras avanzar el registro al gate `...-03`, su comprobación completa falla solo en esa ruta; los gates inmutables no se reescribieron y la limitación quedó documentada.

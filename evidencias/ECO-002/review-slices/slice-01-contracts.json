@@ -1,0 +1,16 @@
+{
+  "id": "ECO-002-WU1-S01",
+  "order": 1,
+  "purpose": "Establish registry, integrity contracts, and academic obligations.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": null,
+  "files": [
+    {"path": "evidencias/ECO-002/registry.yaml", "review_lines": 47},
+    {"path": "evidencias/ECO-002/working/schemas.yaml", "review_lines": 147},
+    {"path": "evidencias/ECO-002/working/academic-requirements.yaml", "review_lines": 75},
+    {"path": "evidencias/ECO-002/review-slices/slice-01-contracts.json", "review_lines": 16}
+  ],
+  "total_review_lines": 285
+}

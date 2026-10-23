@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU1-S03",
+  "order": 3,
+  "purpose": "Keep dimensional analyses with the documentary boundaries they validate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S02",
+  "files": [
+    {"path": "evidencias/ECO-002/working/dimensions.yaml", "review_lines": 201},
+    {"path": "evidencias/ECO-002/working/boundaries.yaml", "review_lines": 31},
+    {"path": "evidencias/ECO-002/review-slices/slice-03-analyses.json", "review_lines": 15}
+  ],
+  "total_review_lines": 247
+}

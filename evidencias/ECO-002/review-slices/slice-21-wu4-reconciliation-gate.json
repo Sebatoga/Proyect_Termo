@@ -1,0 +1,17 @@
+{
+  "id": "ECO-002-WU4-S21",
+  "order": 21,
+  "purpose": "Review the immutable reconciliation gate and its exact checksum ledger.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU3-S20",
+  "review_units": [
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-03/manifest.yaml", "records": ["complete file"], "review_lines": 236},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-03/report.md", "records": ["complete file"], "review_lines": 34},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-03/checksums.sha256", "records": ["complete file"], "review_lines": 19},
+    {"path": "evidencias/ECO-002/review-slices/slice-21-wu4-reconciliation-gate.json", "records": ["complete file"], "review_lines": 17}
+  ],
+  "total_review_lines": 306,
+  "non_overlap_key": "ECO-002-GATE-20261022-03"
+}

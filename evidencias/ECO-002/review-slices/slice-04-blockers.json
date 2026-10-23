@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU1-S04",
+  "order": 4,
+  "purpose": "Propagate blocking gaps and preserve the task completion boundary.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S03",
+  "files": [
+    {"path": "evidencias/ECO-002/working/gaps.yaml", "review_lines": 236},
+    {"path": "openspec/changes/eco-002/tasks.md", "review_lines": 105},
+    {"path": "evidencias/ECO-002/review-slices/slice-04-blockers.json", "review_lines": 15}
+  ],
+  "total_review_lines": 356
+}

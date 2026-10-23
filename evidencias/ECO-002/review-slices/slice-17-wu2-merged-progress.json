@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU2-S17",
+  "order": 17,
+  "purpose": "Merge the provenance revision into cumulative apply progress without changing task completion.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S16",
+  "review_units": [
+    {"path": "openspec/changes/eco-002/apply-progress.md", "records": ["complete cumulative receipt"], "review_lines": 253},
+    {"path": "evidencias/ECO-002/review-slices/slice-17-wu2-merged-progress.json", "records": ["complete file"], "review_lines": 15}
+  ],
+  "total_review_lines": 268,
+  "non_overlap_key": "cumulative-apply-progress-through-ECO-002-GATE-20261022-01"
+}

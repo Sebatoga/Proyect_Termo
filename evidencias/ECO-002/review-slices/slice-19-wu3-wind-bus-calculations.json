@@ -1,0 +1,18 @@
+{
+  "id": "ECO-002-WU3-S19",
+  "order": 19,
+  "purpose": "Review the wind and battery-bus calculation notebooks with their reproducible datasets.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU3-S18",
+  "review_units": [
+    {"path": "evidencias/ECO-002/working/calculations/CALC-WIND-001-r1.md", "records": ["complete file"], "review_lines": 58},
+    {"path": "evidencias/ECO-002/working/calculations/CALC-WIND-001-r1-data.csv", "records": ["complete file"], "review_lines": 4},
+    {"path": "evidencias/ECO-002/working/calculations/CALC-BUS-001-r1.md", "records": ["complete file"], "review_lines": 69},
+    {"path": "evidencias/ECO-002/working/calculations/CALC-BUS-001-r1-data.csv", "records": ["complete file"], "review_lines": 4},
+    {"path": "evidencias/ECO-002/review-slices/slice-19-wu3-wind-bus-calculations.json", "records": ["complete file"], "review_lines": 18}
+  ],
+  "total_review_lines": 153,
+  "non_overlap_key": "CALC-WIND-001-r1|CALC-BUS-001-r1"
+}

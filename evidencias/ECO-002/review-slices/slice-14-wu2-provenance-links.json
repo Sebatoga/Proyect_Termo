@@ -1,0 +1,16 @@
+{
+  "id": "ECO-002-WU2-S14",
+  "order": 14,
+  "purpose": "Link bounded hydro, PV, PVWatts, and wind claims without promoting equipment values.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S13",
+  "review_units": [
+    {"path": "evidencias/ECO-002/working/provenance.yaml", "records": ["summary", "PROV-013-r1..PROV-017-r1"], "review_lines": 58},
+    {"path": "evidencias/ECO-002/working/scientific-inventory.yaml", "records": ["classification_notice", "SCI-CLM-HYD-002-r1", "SCI-EQ-PV-004-r1..SCI-EQ-PV-006-r1", "SCI-CLM-WIND-002-r1"], "review_lines": 6},
+    {"path": "evidencias/ECO-002/review-slices/slice-14-wu2-provenance-links.json", "records": ["complete file"], "review_lines": 16}
+  ],
+  "total_review_lines": 80,
+  "non_overlap_key": "PROV-013-r1..PROV-017-r1|new-scientific-records-2026-10-22"
+}

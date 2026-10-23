@@ -1,0 +1,398 @@
+schema_version: 1
+research_attempt:
+  status: blocked
+  reason: The prior research worker had no web-retrieval capability and verified zero technical sources.
+  verified_technical_source_count: 0
+  promotion_allowed: false
+work_unit_2_access:
+  initial_accessed_at: '2026-10-21'
+  latest_rechecked_at: '2026-10-22'
+  authorization_ref: {id: ACCESS-001, revision: 1}
+  latest_authorization_ref: {id: ACCESS-002, revision: 1}
+  consulted_source_count: 13
+  consulted_verified_source_count: 8
+  retention_mode: metadata_only
+  retained_copy_count: 0
+  limitation: Consultation verifies only the bounded claims recorded in provenance; it does not select models or equipment values, close the hydro SI/net-head citation, establish a universal PV validity range, or complete independent human review.
+access_authorizations:
+  - id: ACCESS-001
+    revision: 1
+    supersedes_revision: null
+    authorized_by: project_user
+    authorized_at: '2026-10-21'
+    authorization_basis: Explicit authorization in the ECO-002 Work Unit 2 instruction.
+    scope: Public read-only access to SRC-008 through SRC-013 for metadata and localizable citations only.
+    restrictions: No credential discovery, remote writes, source-copy retention, redistribution, or additional remote operations.
+    evidence: User-supplied URLs, access date, immutable battery commit, and required interpretation limits.
+  - id: ACCESS-002
+    revision: 1
+    supersedes_revision: null
+    authorized_by: project_user
+    authorized_at: '2026-10-22'
+    authorization_basis: Explicit metadata-only public-source recheck supplied for the ECO-002 Work Unit 2 provenance revision.
+    scope: Public read-only metadata and localizable citations for SRC-014 through SRC-020 only.
+    restrictions: No further web work, credential discovery, remote writes, source-copy retention, redistribution, code, baseline, commit, push, or PR.
+    evidence: User-supplied URLs, exact report pages or web equations, recheck date, and required scientific limitations.
+retention_permissions: []
+retention_decision: No source copy is authorized; only metadata, stable locators, narrow summaries, and provenance links may be retained.
+sources:
+  - id: SRC-001
+    revision: 1
+    supersedes_revision: null
+    source_kind: official_pdf
+    author_or_institution: Universidad Nacional de Colombia, Sede Manizales
+    title: 'Ingeniería en Juego: Proyecto Integrador de Termodinámica y Mecánica de Fluidos'
+    edition_or_version: 'Semester 2026-2, course 4100855, group 01'
+    locator: 'referencias/Proyecto Termodinamica y MF 2026-2.pdf, pages 1-4'
+    consulted_at: '2026-10-21'
+    consulted_by: local_documentary_inventory
+    applicable_excerpt: Academic requirements transcribed in academic-requirements.yaml.
+    applicability_domain: Academic obligations only; not technical support for scientific formulas or values.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_unverified
+  - id: SRC-002
+    revision: 1
+    supersedes_revision: null
+    source_kind: book
+    author_or_institution: Çengel and Boles
+    title: Thermodynamics — candidate title recorded locally
+    edition_or_version: null
+    locator: null
+    consulted_at: null
+    consulted_by: null
+    applicable_excerpt: null
+    applicability_domain: Candidate for energy balances, heat transfer, and assumptions.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: candidate_unconsulted
+  - id: SRC-003
+    revision: 1
+    supersedes_revision: null
+    source_kind: book
+    author_or_institution: Çengel and Cimbala
+    title: Fluid Mechanics — candidate title recorded locally
+    edition_or_version: null
+    locator: null
+    consulted_at: null
+    consulted_by: null
+    applicable_excerpt: null
+    applicability_domain: Candidate for flow, conservation, head, and losses.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: candidate_unconsulted
+  - id: SRC-004
+    revision: 1
+    supersedes_revision: null
+    source_kind: book
+    author_or_institution: Duffie and Beckman
+    title: Solar Engineering of Thermal Processes
+    edition_or_version: null
+    locator: null
+    consulted_at: null
+    consulted_by: null
+    applicable_excerpt: null
+    applicability_domain: Candidate for solar irradiation and thermal balances.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: candidate_unconsulted
+  - id: SRC-005
+    revision: 1
+    supersedes_revision: null
+    source_kind: datasheet
+    author_or_institution: Unselected manufacturers
+    title: PV modules, turbines, controllers, and batteries for selected equipment
+    edition_or_version: null
+    locator: null
+    consulted_at: null
+    consulted_by: null
+    applicable_excerpt: null
+    applicability_domain: Candidate equipment-specific parameters; equipment is not selected.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: candidate_unconsulted
+  - id: SRC-006
+    revision: 1
+    supersedes_revision: null
+    source_kind: other
+    author_or_institution: Unidentified technical reference
+    title: Betz limit and wind-power theory candidate
+    edition_or_version: null
+    locator: null
+    consulted_at: null
+    consulted_by: null
+    applicable_excerpt: null
+    applicability_domain: Candidate for aerodynamic extraction limits.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: candidate_unconsulted
+  - id: SRC-007
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: Unselected competent environmental authority
+    title: Applicable ecological-flow guidance for a selected geographic scenario
+    edition_or_version: null
+    locator: null
+    consulted_at: null
+    consulted_by: null
+    applicable_excerpt: null
+    applicability_domain: Candidate only; no geography, authority, or universal Qeco value is selected.
+    access_authorization_ref: null
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: candidate_unconsulted
+  - id: SRC-008
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: NASA Glenn Research Center
+    title: Examining Spatial (Grid) Convergence
+    edition_or_version: Web tutorial accessed 2026-10-21
+    locator: https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html
+    consulted_at: '2026-10-21'
+    consulted_by: authorized_research_session
+    applicable_excerpt: Metadata-level evidence for convergence assessment by comparing progressively refined discretizations.
+    applicability_domain: Numerical convergence methodology only; not physical or experimental validation and not proof that the proposed EcoGrid time step converges.
+    access_authorization_ref: {id: ACCESS-001, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_unverified
+  - id: SRC-009
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: Ministerio de Ambiente y Desarrollo Sostenible de Colombia
+    title: Consultation proposal for a methodological guide to estimate environmental flow in Colombia
+    edition_or_version: Consultation page accessed 2026-10-21
+    locator: https://www.minambiente.gov.co/consulta/resolucion-por-la-cual-se-adopta-la-guia-metodologica-para-la-estimacion-del-caudal-ambiental-en-colombia-y-se-dictan-otras-disposiciones/
+    consulted_at: '2026-10-21'
+    consulted_by: authorized_research_session
+    applicable_excerpt: Metadata-level evidence that a methodological-guide proposal was published for consultation.
+    applicability_domain: Consultation history only; the page does not by itself prove final national adoption or provide a universal Qeco value.
+    access_authorization_ref: {id: ACCESS-001, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_unverified
+  - id: SRC-010
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: Ministerio de Ambiente y Desarrollo Sostenible de Colombia
+    title: Colombia has a new proposal for estimating environmental flows
+    edition_or_version: Institutional news page accessed 2026-10-21
+    locator: https://bpm.minambiente.gov.co/index.php/noticias-minambiente/3503-colombia-cuenta-con-una-nueva-propuesta-de-estimacion-de-caudales-ambientales
+    consulted_at: '2026-10-21'
+    consulted_by: authorized_research_session
+    applicable_excerpt: Metadata-level context describing an environmental-flow estimation proposal.
+    applicability_domain: Historical institutional context; not evidence of final adoption and not a source for an EcoGrid Qeco value.
+    access_authorization_ref: {id: ACCESS-001, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_unverified
+  - id: SRC-011
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: Ministerio de Ambiente y Desarrollo Sostenible de Colombia
+    title: MinAmbiente presents proposed guides for riparian-zone delimitation and environmental-flow estimation
+    edition_or_version: Institutional news page accessed 2026-10-21
+    locator: https://hac2-api.minambiente.gov.co/index.php/noticias-minambiente/3651-minambiente-da-a-conocer-propuestas-de-guias-para-el-acotamiento-de-las-rondas-hidricas-y-la-estimacion-de-caudal-ambiental
+    consulted_at: '2026-10-21'
+    consulted_by: authorized_research_session
+    applicable_excerpt: Metadata-level context that the environmental-flow guide remained a proposal in the described publication.
+    applicability_domain: Historical institutional context only; not proof of a nationally adopted universal method or value.
+    access_authorization_ref: {id: ACCESS-001, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_unverified
+  - id: SRC-012
+    revision: 1
+    supersedes_revision: null
+    source_kind: standard
+    author_or_institution: Ministerio de Ambiente y Desarrollo Sostenible de Colombia
+    title: Resolution 2130 of 2019
+    edition_or_version: Resolution dated 2019; metadata page accessed 2026-10-21
+    locator: https://www.minambiente.gov.co/documento-normativa/resolucion-2130-de-2019/
+    consulted_at: '2026-10-21'
+    consulted_by: authorized_research_session
+    applicable_excerpt: Metadata-level evidence that Resolution 2130 of 2019 applies to the Río Bogotá context.
+    applicability_domain: Río Bogotá only; it cannot be generalized to every Colombian watershed or used as a universal EcoGrid Qeco value.
+    access_authorization_ref: {id: ACCESS-001, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_unverified
+  - id: SRC-013
+    revision: 1
+    supersedes_revision: null
+    source_kind: web_resource
+    author_or_institution: National Laboratory of the Rockies
+    title: SSC shared battery implementation, lib_battery.cpp
+    edition_or_version: Git commit c92cbf05e3fc1411a91c0fb9b48827dd2104c7f8
+    locator: https://raw.githubusercontent.com/NatLabRockies/ssc/c92cbf05e3fc1411a91c0fb9b48827dd2104c7f8/shared/lib_battery.cpp
+    consulted_at: '2026-10-21'
+    consulted_by: authorized_research_session
+    applicable_excerpt: Metadata-level implementation evidence for battery state, limits, and efficiency accounting in an immutable source revision.
+    applicability_domain: Software implementation evidence only; not a physical standard, equipment datasheet, independent validation, or support for EcoGrid equipment-specific values.
+    access_authorization_ref: {id: ACCESS-001, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-014
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: United States Bureau of Reclamation
+    title: Hydroelectric Power
+    edition_or_version: Public pamphlet rechecked 2026-10-22
+    locator: 'https://www.usbr.gov/power/edu/pamphlet.pdf, page 7, How Power is Computed'
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: 'Power depends on discharge and head; theoretical horsepower is THP=(Q*H)/8.8, while penstock friction and mechanical efficiency reduce output.'
+    applicability_domain: Direct support for flow/head/loss dependence in the pamphlet's stated units; contextual only for the EcoGrid SI equation and not an exact citation for rho*g*Q*H_net*eta or its net-head definition.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-015
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: United States Department of Energy, Water Power Technologies Office
+    title: How Hydropower Works
+    edition_or_version: Public web resource rechecked 2026-10-22
+    locator: https://www.energy.gov/eere/water/how-hydropower-works
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: Hydropower energy depends on the volume of water flow and the elevation difference or head.
+    applicability_domain: Context for flow/head dependence only; no equation or net-head definition is attributed to this page.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-016
+    revision: 1
+    supersedes_revision: null
+    source_kind: web_resource
+    author_or_institution: Sandia National Laboratories, PV Performance Modeling Collaborative
+    title: Sandia Module Temperature Model
+    edition_or_version: Current public PVPMC page rechecked 2026-10-22; historical branch/version conflicts must remain separate
+    locator: https://pvpmc.sandia.gov/modeling-guide/2-dc-module-iv/module-temperature/sandia-module-temperature-model/
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: 'Tm=E_POA*exp(a+b*WS)+Ta; coefficients a and b are empirical and depend on module construction and mounting configuration.'
+    applicability_domain: Empirical steady module-temperature estimate using the documented irradiance and wind-speed conventions; not the existing EcoGrid lumped transient balance and not a universal coefficient set.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-017
+    revision: 1
+    supersedes_revision: null
+    source_kind: web_resource
+    author_or_institution: Sandia National Laboratories, PV Performance Modeling Collaborative
+    title: Sandia Cell Temperature Model
+    edition_or_version: Current public PVPMC page rechecked 2026-10-22; historical branch/version conflicts must remain separate
+    locator: https://pvpmc.sandia.gov/modeling-guide/2-dc-module-iv/cell-temperature/sandia-cell-temperature-model/
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: 'Tc=Tm+(E_POA/E0)*DeltaT; DeltaT depends on module construction and mounting configuration.'
+    applicability_domain: Empirical cell-from-module temperature estimate only; coefficients are configuration dependent and do not validate EcoGrid's transient thermal balance.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-018
+    revision: 1
+    supersedes_revision: null
+    source_kind: technical_report
+    author_or_institution: Sandia National Laboratories
+    title: Photovoltaic Array Performance Model
+    edition_or_version: SAND2004-3535
+    locator: 'https://www.osti.gov/servlets/purl/919131, pages 17-20, equations 11-12 and table 1; metadata: https://www.osti.gov/biblio/919131'
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: The system-engineering temperature model reports about plus or minus 5 degC accuracy and coefficients dependent on module configuration and wind measurement.
+    applicability_domain: Supports the documented empirical Sandia temperature relations and their configuration/measurement limitations; it is not universal validation of another PV thermal model.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-019
+    revision: 1
+    supersedes_revision: null
+    source_kind: technical_report
+    author_or_institution: National Renewable Energy Laboratory
+    title: PVWatts Version 5 Manual
+    edition_or_version: NREL/TP-6A20-62641
+    locator: 'https://www.osti.gov/servlets/purl/1158421, page 9, section 10, equation 8; metadata: https://www.osti.gov/biblio/1158421'
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: 'Pdc=(Itr/1000)*Pdc0*[1+gamma*(Tcell-Tref)]; the linear temperature coefficient is selected by module technology.'
+    applicability_domain: Representative PVWatts DC estimate; it does not establish a universal temperature coefficient or universal validity range for every module or for the EcoGrid candidate equation.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-020
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: United States Department of Energy, WINDExchange
+    title: Small Wind Guidebook
+    edition_or_version: Public guide rechecked 2026-10-22
+    locator: 'https://windexchange.energy.gov/small-wind-guidebook; redirect: https://www.energy.gov/cmei/systems/windexchange/small-wind-guidebook'
+    consulted_at: '2026-10-22'
+    consulted_by: project_user_verified_source_summary
+    applicable_excerpt: 'P=Cp*(1/2)*rho*A*V^3; air density varies with temperature and elevation; Betz limit is 16/27; cut-in, rated, and cut-out are turbine-specific operating points.'
+    applicability_domain: Direct support for the aerodynamic relation and theoretical Betz limit; actual output requires a turbine-specific power curve and site wind distribution, and turbulence may reduce estimates by 15-25 percent. No universal turbine values are selected.
+    access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified

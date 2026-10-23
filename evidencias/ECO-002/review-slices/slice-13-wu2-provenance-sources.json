@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU2-S13",
+  "order": 13,
+  "purpose": "Record the dated metadata-only recheck and exact public-source limitations.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S12",
+  "review_units": [
+    {"path": "evidencias/ECO-002/working/sources.yaml", "records": ["work_unit_2_access", "ACCESS-002-r1", "SRC-014-r1..SRC-020-r1"], "review_lines": 144},
+    {"path": "evidencias/ECO-002/review-slices/slice-13-wu2-provenance-sources.json", "records": ["complete file"], "review_lines": 15}
+  ],
+  "total_review_lines": 159,
+  "non_overlap_key": "ACCESS-002-r1|SRC-014-r1..SRC-020-r1"
+}

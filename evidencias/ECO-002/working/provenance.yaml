@@ -1,0 +1,191 @@
+schema_version: 1
+verified_technical_links: 5
+notice: Metadata-only links now verify bounded hydro-dependence, empirical PV-temperature, PVWatts, and wind claims. They do not close the hydro SI/net-head citation, select a PV validity range or equipment values, or complete independent human review.
+links:
+  - id: PROV-001
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-PV-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-004, revision: 1}]
+    derivation_steps: []
+    interpretation: Local documents name this candidate for the PV thermal balance; no passage was consulted.
+    applicable_scope: PV thermal balance candidate only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-002
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-HYD-004, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-003, revision: 1}]
+    derivation_steps: []
+    interpretation: Local documents name this candidate for flow, head, and hydraulic power; no passage was consulted.
+    applicable_scope: Run-of-river hydraulic equations candidate only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-003
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-WIND-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-006, revision: 1}]
+    derivation_steps: []
+    interpretation: A generic Betz/theory reference is named locally but remains unidentified and unconsulted.
+    applicable_scope: Wind available-power and extraction-limit candidate only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-004
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-BAT-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-005, revision: 1}]
+    derivation_steps: []
+    interpretation: Equipment datasheets are required but no battery or controller is selected.
+    applicable_scope: Battery limits and efficiencies candidate only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-005
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-BUS-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-002, revision: 1}]
+    derivation_steps: []
+    interpretation: Energy-balance literature is listed as a candidate but no exact edition or passage was consulted.
+    applicable_scope: Equivalent bus balance candidate only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-006
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-PAR-ENV-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-007, revision: 1}]
+    derivation_steps: []
+    interpretation: An applicable authority and geographic scenario are still unselected.
+    applicable_scope: Ecological-flow parameter candidate only; not a universal norm.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-007
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: ACA-REQ-001, revision: 1}
+    support_type: academic_requirement
+    source_refs: [{id: SRC-001, revision: 1}]
+    derivation_steps: []
+    interpretation: The official PDF requires active thermodynamic and fluid-mechanics phenomena.
+    applicable_scope: Academic obligation only; it cannot promote technical evidence.
+    reviewer_id: null
+    status_effect: authoritative_academic_requirement
+  - id: PROV-008
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-NUM-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-008, revision: 1}]
+    derivation_steps: []
+    interpretation: Step-refinement evidence may support a numerical convergence assessment, but convergence is not physical validation and no EcoGrid convergence study has been run.
+    applicable_scope: Numerical-method claim only; excludes physical validation and selection of dt_sim.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-009
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-ENV-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-009, revision: 1}, {id: SRC-010, revision: 1}, {id: SRC-011, revision: 1}]
+    derivation_steps: []
+    interpretation: The institutional pages establish consultation/proposal context, not final national adoption or a universal environmental-flow value.
+    applicable_scope: Status and interpretation limit of the cited proposal only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-010
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-ENV-003, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-012, revision: 1}]
+    derivation_steps: []
+    interpretation: Resolution 2130 of 2019 is retained as jurisdiction-specific evidence for Río Bogotá and cannot be generalized as a universal rule.
+    applicable_scope: Río Bogotá regulatory context only.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-011
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-BAT-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-013, revision: 1}]
+    derivation_steps: []
+    interpretation: The immutable code revision is implementation evidence for battery accounting patterns; it is not a physical standard or independent support for the EcoGrid equation or parameter values.
+    applicable_scope: Comparative implementation context for charging only; no scientific promotion.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-012
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-BAT-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-013, revision: 1}]
+    derivation_steps: []
+    interpretation: The immutable code revision is implementation evidence for battery accounting patterns; it is not a physical standard or independent support for the EcoGrid equation or parameter values.
+    applicable_scope: Comparative implementation context for discharging only; no scientific promotion.
+    reviewer_id: null
+    status_effect: placeholder_without_support
+  - id: PROV-013
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-HYD-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-014, revision: 1}, {id: SRC-015, revision: 1}]
+    derivation_steps: []
+    interpretation: USBR directly supports discharge/head dependence and reduction by penstock friction and mechanical efficiency in its stated formulation; DOE independently contextualizes dependence on water-flow volume and head.
+    applicable_scope: Bounded qualitative dependence and USBR customary-unit relation only; the exact EcoGrid SI equation and net-head definition remain unsupported.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-014
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-PV-004, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-016, revision: 1}, {id: SRC-018, revision: 1}]
+    derivation_steps: []
+    interpretation: The PVPMC page and SAND2004-3535 localize the empirical module-temperature relation and its configuration and wind-measurement dependence.
+    applicable_scope: Sandia empirical module-temperature model only; not the EcoGrid transient lumped balance and not universal coefficients.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-015
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-PV-005, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-017, revision: 1}, {id: SRC-018, revision: 1}]
+    derivation_steps: []
+    interpretation: The PVPMC page and report localize the empirical cell-temperature correction from module temperature.
+    applicable_scope: Sandia cell-temperature relation only; DeltaT is module/mounting dependent and no universal coefficient is selected.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-016
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-EQ-PV-006, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-019, revision: 1}]
+    derivation_steps: []
+    interpretation: PVWatts V5 equation 8 directly supports its linear DC-power estimate and module-technology coefficient selection.
+    applicable_scope: PVWatts representative estimate only; no universal validity range, coefficient, inverter boundary, or equivalence to SCI-EQ-PV-002 is claimed.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-017
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-WIND-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-020, revision: 1}]
+    derivation_steps: []
+    interpretation: WINDExchange directly states the Cp-based cubic aerodynamic relation, density dependence, operating-point definitions, and Betz limit.
+    applicable_scope: Aerodynamic relation and theoretical limit only; actual output, cut thresholds, rated power, turbulence correction, and equipment values require a selected turbine and site distribution.
+    reviewer_id: null
+    status_effect: verified_technical_source

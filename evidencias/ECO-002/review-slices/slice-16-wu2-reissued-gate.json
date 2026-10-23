@@ -1,0 +1,19 @@
+{
+  "id": "ECO-002-WU2-S16",
+  "order": 16,
+  "purpose": "Reissue the immutable blocked gate with registry pointer, exact hashes, and validation receipt.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S15",
+  "review_units": [
+    {"path": "evidencias/ECO-002/registry.yaml", "records": ["complete current registry"], "review_lines": 50},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-01/manifest.yaml", "records": ["complete file"], "review_lines": 190},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-01/report.md", "records": ["complete file"], "review_lines": 44},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-01/checksums.sha256", "records": ["complete file"], "review_lines": 11},
+    {"path": "evidencias/ECO-002/validation/work-unit-2-provenance-revision.md", "records": ["complete file"], "review_lines": 55},
+    {"path": "evidencias/ECO-002/review-slices/slice-16-wu2-reissued-gate.json", "records": ["complete file"], "review_lines": 19}
+  ],
+  "total_review_lines": 369,
+  "non_overlap_key": "ECO-002-GATE-20261022-01|registry-current-pointer|provenance-revision-validation"
+}

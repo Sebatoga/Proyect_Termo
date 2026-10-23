@@ -6,6 +6,7 @@ El documento oficial (pág. 2, Regla III) exige registrar: herramienta usada, pr
 | Fecha | ID tarea | Herramienta/modelo | Solicitante | Pedido/respuesta resumidos | Archivos generados/editados | Revisión humana | Verificación técnica | Cambios/correcciones | Estado |
 |---|---|---|---|---|---|---|---|---|---|
 | 2026-10-20 | diseño | ChatGPT / modelo según sesión | equipo | arquitectura, agentes y especificación EcoGrid | paquete inicial | PENDIENTE | revisión documental preliminar; **sin ejecución del juego** | por definir | PROPUESTA |
+| 2026-10-22 | ECO-002 | OpenCode / GPT-5.6 | equipo | continuar expediente científico y verificar su gate vigente | slices S18–S22, recibo de reconciliación y vistas de estado | PENDIENTE | validadores documentales, hashes y `git diff --check`; **sin tests del juego** | corregida cobertura faltante; documentado checksum histórico no reproducible | BLOQUEADA |
 
 ## Protocolo
 - Tras cada tarea, anotar decisiones afectadas, fórmula comprobada o prueba testable, resultado observado y revisión humana.

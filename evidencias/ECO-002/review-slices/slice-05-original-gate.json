@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU1-S05",
+  "order": 5,
+  "purpose": "Preserve the original immutable blocked gate evaluation as historical evidence.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S04",
+  "files": [
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-01/manifest.yaml", "review_lines": 159},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-01/report.md", "review_lines": 43},
+    {"path": "evidencias/ECO-002/review-slices/slice-05-original-gate.json", "review_lines": 15}
+  ],
+  "total_review_lines": 217
+}

@@ -1,0 +1,4 @@
+case,rho_kg_m3,A_m2,v_m_s,Cp,cut_in_m_s,cut_out_m_s,expected_W,tolerance_W,disposition
+nominal,1.15,50,8,0.35,3,25,5152,0.1,accepted_documentary
+below_cut_in,1.15,50,2,0.35,3,25,0,0,accepted_boundary
+betz_violation,1.15,50,8,0.60,3,25,,0,rejected_Cp_above_16_27

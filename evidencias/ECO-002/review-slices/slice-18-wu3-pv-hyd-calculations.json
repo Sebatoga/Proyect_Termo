@@ -1,0 +1,18 @@
+{
+  "id": "ECO-002-WU3-S18",
+  "order": 18,
+  "purpose": "Review the PV and hydro calculation notebooks with their reproducible datasets.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S17",
+  "review_units": [
+    {"path": "evidencias/ECO-002/working/calculations/CALC-PV-001-r1.md", "records": ["complete file"], "review_lines": 59},
+    {"path": "evidencias/ECO-002/working/calculations/CALC-PV-001-r1-data.csv", "records": ["complete file"], "review_lines": 3},
+    {"path": "evidencias/ECO-002/working/calculations/CALC-HYD-001-r1.md", "records": ["complete file"], "review_lines": 60},
+    {"path": "evidencias/ECO-002/working/calculations/CALC-HYD-001-r1-data.csv", "records": ["complete file"], "review_lines": 3},
+    {"path": "evidencias/ECO-002/review-slices/slice-18-wu3-pv-hyd-calculations.json", "records": ["complete file"], "review_lines": 18}
+  ],
+  "total_review_lines": 143,
+  "non_overlap_key": "CALC-PV-001-r1|CALC-HYD-001-r1"
+}

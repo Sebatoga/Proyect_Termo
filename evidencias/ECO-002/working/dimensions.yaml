@@ -1,0 +1,201 @@
+schema_version: 1
+base_dimension_order: [M, L, T, Theta, I, N, J]
+power_dimension: [1, 2, -3, 0, 0, 0, 0]
+energy_dimension: [1, 2, -2, 0, 0, 0, 0]
+time_notice: dt_real and dt_sim are distinct records; only dt_sim enters model integration.
+conversions:
+  - {id: DIM-CONV-001, revision: 1, supersedes_revision: null, from_unit: W, to_unit: kW, factor: 0.001, identity: '1 kW = 1000 W', dimension: [1, 2, -3, 0, 0, 0, 0], status: consistent, source_ref: {id: SCI-EQ-NUM-001, revision: 1}}
+  - {id: DIM-CONV-002, revision: 1, supersedes_revision: null, from_unit: J, to_unit: Wh, factor: 0.0002777777777777778, identity: '1 Wh = 3600 J', dimension: [1, 2, -2, 0, 0, 0, 0], status: consistent, source_ref: {id: SCI-EQ-NUM-001, revision: 1}}
+  - {id: DIM-CONV-003, revision: 1, supersedes_revision: null, from_unit: Wh, to_unit: kWh, factor: 0.001, identity: '1 kWh = 1000 Wh', dimension: [1, 2, -2, 0, 0, 0, 0], status: consistent, source_ref: {id: SCI-EQ-NUM-001, revision: 1}}
+  - {id: DIM-CONV-004, revision: 1, supersedes_revision: null, from_unit: 'kW*h', to_unit: kWh, factor: 1, identity: 'energy_kWh = power_kW * duration_h', dimension: [1, 2, -2, 0, 0, 0, 0], status: consistent, source_ref: {id: SCI-EQ-NUM-001, revision: 1}}
+  - {id: DIM-CONV-005, revision: 1, supersedes_revision: null, from_unit: s, to_unit: h, factor: 0.0002777777777777778, identity: '1 h = 3600 s', dimension: [0, 0, 1, 0, 0, 0, 0], status: consistent, source_ref: {id: SCI-EQ-NUM-001, revision: 1}}
+analyses:
+  - id: DIM-PV-001
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-PV-001, revision: 1}
+    terms:
+      - {expression: 'C_th*dT_cell/dt', factors: ['J/K', 'K/s'], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+      - {expression: 'alpha*A*G', factors: ['1', 'm^2', 'W/m^2'], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+      - {expression: 'h*A*(T_cell-T_air)', factors: ['W/(m^2*K)', 'm^2', K], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+      - {expression: P_elec, factors: [W], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: W
+    conversions: []
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-005, revision: 1}]
+  - id: DIM-PV-002
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-PV-002, revision: 1}
+    terms:
+      - {expression: 'A*G', factors: ['m^2', 'W/m^2'], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+      - {expression: eta_ref, factors: ['1'], dimension: [0, 0, 0, 0, 0, 0, 0], unit: '1'}
+      - {expression: 'beta*(T_cell-T_ref)', factors: ['1/K', K], dimension: [0, 0, 0, 0, 0, 0, 0], unit: '1'}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: W
+    conversions: [{id: DIM-CONV-001, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-002, revision: 1}]
+  - id: DIM-PV-003
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-PV-003, revision: 1}
+    terms:
+      - {expression: 'dt_sim*(P_abs-P_conv-P_elec)/C_th', factors: [s, W, K/J], dimension: [0, 0, 0, 1, 0, 0, 0], unit: K}
+      - {expression: 'dt_sim*h*A/C_th', factors: [s, 'W/(m^2*K)', 'm^2', K/J], dimension: [0, 0, 0, 0, 0, 0, 0], unit: '1'}
+    lhs_dimension: [0, 0, 0, 1, 0, 0, 0]
+    rhs_dimension: [0, 0, 0, 1, 0, 0, 0]
+    result_unit: degC
+    conversions: []
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-002, revision: 1}, {id: GAP-005, revision: 1}]
+  - id: DIM-HYD-001
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-HYD-001, revision: 1}
+    terms:
+      - {expression: 'Q_river-Q_eco', factors: ['m^3/s', 'm^3/s'], dimension: [0, 3, -1, 0, 0, 0, 0], unit: 'm^3/s'}
+      - {expression: 'min/max/clamp flow operands', factors: ['m^3/s'], dimension: [0, 3, -1, 0, 0, 0, 0], unit: 'm^3/s'}
+    lhs_dimension: [0, 3, -1, 0, 0, 0, 0]
+    rhs_dimension: [0, 3, -1, 0, 0, 0, 0]
+    result_unit: m^3/s
+    conversions: []
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-003, revision: 1}]
+  - id: DIM-HYD-002
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-HYD-003, revision: 1}
+    terms:
+      - {expression: H_gross, factors: [m], dimension: [0, 1, 0, 0, 0, 0, 0], unit: m}
+      - {expression: 'K_loss*Q_turb^2', factors: ['s^2/m^5', 'm^6/s^2'], dimension: [0, 1, 0, 0, 0, 0, 0], unit: m}
+    lhs_dimension: [0, 1, 0, 0, 0, 0, 0]
+    rhs_dimension: [0, 1, 0, 0, 0, 0, 0]
+    result_unit: m
+    conversions: []
+    local_dimensional_result: consistent
+    physical_sign_check: 'K_loss >= 0 and subtraction ensure the loss cannot increase head; max(0,...) prevents negative net head.'
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-002, revision: 1}]
+  - id: DIM-HYD-003
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-HYD-004, revision: 1}
+    terms:
+      - {expression: eta, factors: ['1'], dimension: [0, 0, 0, 0, 0, 0, 0], unit: '1'}
+      - {expression: rho, factors: ['kg/m^3'], dimension: [1, -3, 0, 0, 0, 0, 0], unit: 'kg/m^3'}
+      - {expression: g, factors: ['m/s^2'], dimension: [0, 1, -2, 0, 0, 0, 0], unit: 'm/s^2'}
+      - {expression: Q, factors: ['m^3/s'], dimension: [0, 3, -1, 0, 0, 0, 0], unit: 'm^3/s'}
+      - {expression: H, factors: [m], dimension: [0, 1, 0, 0, 0, 0, 0], unit: m}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: W
+    conversions: [{id: DIM-CONV-001, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-002, revision: 1}]
+  - id: DIM-WIND-001
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-WIND-001, revision: 1}
+    terms:
+      - {expression: '0.5*rho_air*A_swept*v^3', factors: ['1', 'kg/m^3', 'm^2', 'm^3/s^3'], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+      - {expression: Cp, factors: ['1'], dimension: [0, 0, 0, 0, 0, 0, 0], unit: '1'}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: W
+    conversions: [{id: DIM-CONV-001, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-002, revision: 1}]
+    evidence_caution: The local mention of the Betz limit and provisional Cp are not treated as verified evidence.
+  - id: DIM-WIND-002
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-WIND-002, revision: 1}
+    terms:
+      - {expression: 'P_aero*eta_elec', factors: [W, '1'], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+      - {expression: P_rated, factors: [W], dimension: [1, 2, -3, 0, 0, 0, 0], unit: W}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: W
+    conversions: [{id: DIM-CONV-001, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-002, revision: 1}]
+  - id: DIM-BAT-001
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-BAT-001, revision: 1}
+    terms:
+      - {expression: 'P_ch_in*eta_ch*dt_h', factors: [kW, '1', h], dimension: [1, 2, -2, 0, 0, 0, 0], unit: kWh}
+    lhs_dimension: [1, 2, -2, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -2, 0, 0, 0, 0]
+    result_unit: kWh
+    conversions: [{id: DIM-CONV-004, revision: 1}, {id: DIM-CONV-005, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-004, revision: 1}]
+  - id: DIM-BAT-002
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-BAT-002, revision: 1}
+    terms:
+      - {expression: '(P_dis_out/eta_dis)*dt_h', factors: [kW, '1', h], dimension: [1, 2, -2, 0, 0, 0, 0], unit: kWh}
+    lhs_dimension: [1, 2, -2, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -2, 0, 0, 0, 0]
+    result_unit: kWh
+    conversions: [{id: DIM-CONV-004, revision: 1}, {id: DIM-CONV-005, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-004, revision: 1}]
+  - id: DIM-BUS-001
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-BUS-001, revision: 1}
+    terms:
+      - {expression: 'P_ren+P_dis_out', factors: [kW, kW], dimension: [1, 2, -3, 0, 0, 0, 0], unit: kW}
+      - {expression: 'P_load_served+P_ch_in+P_curtail+P_net_losses', factors: [kW, kW, kW, kW], dimension: [1, 2, -3, 0, 0, 0, 0], unit: kW}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: kW
+    conversions: []
+    local_dimensional_result: consistent
+    double_count_risk: Conversion and distribution boundaries are not selected; efficiencies or net losses could be counted in both source outputs and bus losses.
+    status: pending
+    gap_refs: [{id: GAP-001, revision: 1}, {id: GAP-004, revision: 1}]
+  - id: DIM-BUS-002
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-BUS-002, revision: 1}
+    terms:
+      - {expression: P_demand, factors: [kW], dimension: [1, 2, -3, 0, 0, 0, 0], unit: kW}
+      - {expression: 'P_load_served+P_unserved', factors: [kW, kW], dimension: [1, 2, -3, 0, 0, 0, 0], unit: kW}
+    lhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    rhs_dimension: [1, 2, -3, 0, 0, 0, 0]
+    result_unit: kW
+    conversions: []
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-004, revision: 1}]
+  - id: DIM-NUM-001
+    revision: 1
+    supersedes_revision: null
+    equation_ref: {id: SCI-EQ-NUM-001, revision: 1}
+    terms:
+      - {expression: dt_sim_s, factors: [s], dimension: [0, 0, 1, 0, 0, 0, 0], unit: s}
+      - {expression: 'dt_sim_s*(1 h/3600 s)', factors: [s, h/s], dimension: [0, 0, 1, 0, 0, 0, 0], unit: h}
+    lhs_dimension: [0, 0, 1, 0, 0, 0, 0]
+    rhs_dimension: [0, 0, 1, 0, 0, 0, 0]
+    result_unit: h
+    conversions: [{id: DIM-CONV-005, revision: 1}]
+    local_dimensional_result: consistent
+    status: pending
+    gap_refs: [{id: GAP-002, revision: 1}]
