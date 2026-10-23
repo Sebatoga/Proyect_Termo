@@ -56,6 +56,10 @@ La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría median
 
 El gate `ECO-002-GATE-20261022-03` conserva el resultado `blocked_with_traceability`: existen inventario, dimensiones, fronteras, fuentes públicas acotadas y cuatro cuadernos documentales, pero no revisores humanos identificados, evidencia de competencia, reproducciones independientes ni revisiones física, de control, ambiental y de calidad. No existe línea base congelada para ECO-003.
 
+## Evidencia exploratoria para ECO-101
+
+El 2026-10-22 se creó `spikes/runtime-smoke/` como prueba descartable y aislada. Typecheck, un test determinista, build y entrega HTTP local respondieron correctamente con Phaser 3, TypeScript, Vite y Vitest. La advertencia de tamaño del bundle y la falta de validación visual/canvas quedan abiertas. Esta evidencia no consume ECO-002, no crea baseline, no ratifica ADR-005 y no satisface el criterio completo de ECO-101; por eso ECO-002 sigue **BLOQUEADA** y ECO-003/ECO-101 siguen **PENDIENTE**.
+
 ## Límites temporales del documento original
 - Pitch: fecha **sugerida** segunda semana de noviembre, **no confirmada** por profesor.
 - Feria final: fecha **sugerida** primera semana de diciembre, **no confirmada**.

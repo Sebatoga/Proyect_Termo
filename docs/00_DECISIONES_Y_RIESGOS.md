@@ -59,3 +59,11 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 - Hay cuatro cálculos documentales y diez casos, pero siguen pendientes reproducciones y revisiones por personas identificadas con competencia evidenciada.
 - La cobertura de revisión quedó reconciliada en 22 slices de hasta 400 líneas; el validador ya no reporta rutas omitidas.
 - El gate histórico `ECO-002-GATE-20261022-02` fijó el hash del `registry.yaml` mutable. Tras avanzar el registro al gate `...-03`, su comprobación completa falla solo en esa ruta; los gates inmutables no se reescribieron y la limitación quedó documentada.
+
+## Spike de compatibilidad ECO-101 — 2026-10-22
+
+- El spike descartable `spikes/runtime-smoke/` verificó instalación, tipado, test, build y entrega HTTP local con Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`.
+- La instalación sin versión resolvió inicialmente Phaser `4.2.1`; se corrigió a la línea `3.x` porque ADR-005 propone Phaser 3. El lockfile final conserva `3.90.0`.
+- Esta evidencia es exclusivamente de compatibilidad técnica: **ADR-005 continúa propuesto y no ratificado**. No se validaron canvas ni renderizado visual por ausencia de navegador automatizado.
+- El build emitió una advertencia no bloqueante por un chunk minificado mayor a 500 kB. Si el stack se ratifica, el bootstrap de producción deberá evaluar carga diferida o justificar el tamaño.
+- ECO-002 continúa **BLOQUEADA** sin baseline; ECO-003 y ECO-101 continúan **PENDIENTE**.
