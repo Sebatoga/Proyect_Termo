@@ -34,6 +34,11 @@ The repository has no executable application, package manifest, runtime, or test
   - Run typecheck, tests, build, and a bounded development-server smoke check.
   - Update project state, backlog, risks/decisions, and AI process log without changing scientific gate status.
   - Close with one Conventional Commit containing implementation, tests, evidence, and documentation.
+- [x] **RUNTIME-002 — Verify browser canvas behavior**
+  - Route: delegated direct for reproducible evidence capture and multi-file documentation; parent verification remained inline.
+  - Trigger evidence: the browser harness, preserved screenshot/DOM/report, project status, AI log, and tracker span multiple non-trivial files.
+  - Start the local Vite server, load the page in an installed headless browser, and confirm canvas creation without console/runtime errors.
+  - Preserve exact observed evidence, update the runtime limitation honestly, and close with a Conventional Commit.
 
 ## Acceptance criteria
 
@@ -46,15 +51,19 @@ The repository has no executable application, package manifest, runtime, or test
 
 ## Progress and evidence
 
-- Status: completed on 2026-10-22.
+- Status: RUNTIME-001 and RUNTIME-002 completed on 2026-10-22; ECO-101 remains pending.
 - Prerequisite evidence commit: `a6f6a04` (`docs(eco-002): record blocked scientific gate`); independent verification passed, while native review was unavailable because `lens_context_budget_exceeded`.
 - Work-unit commit: `5a22727` (`chore(spike): verify proposed web runtime`).
 - Verification: `npm run typecheck` passed; `npm run test` passed with 1 file and 1 test; `npm run build` passed with a non-blocking 1,196.09 kB chunk warning; the bounded Vite server returned HTTP 200 and was terminated; parent spot-check reran `npm run test` successfully; `git diff --check a6f6a04..5a22727` passed.
 - Versions: Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2`, and Vitest `5.0.5`.
-- Runtime limit: visual canvas rendering remains **NOT VERIFIED** because no browser automation is configured.
+- RUNTIME-002 command: `node evidencias/ECO-101/runtime-smoke/browser-smoke.mjs` from the repository root; the harness starts `npm run dev -- --host 127.0.0.1`, waits for Vite, monitors JavaScript console/runtime errors through CDP, runs Chrome headless with an 800 × 450 window and `--virtual-time-budget=5000`, dumps the DOM, captures the PNG, and always terminates the server.
+- RUNTIME-002 result: `VITE_READY=true`; `CHROME_VERSION=Google Chrome 156.0.8078.47`; `BROWSER_SMOKE=PASS canvas=true screenshot_bytes=9967 console_runtime_errors=0`.
+- RUNTIME-002 evidence: `evidencias/ECO-101/runtime-smoke/browser-smoke.png`, preserved DOM, reproducible harness, and `report.md`. Visual inspection observed a dark teal canvas with centered white `Phaser + Vite + TypeScript compatibility spike` text.
+- Verification rerun: `npm run typecheck` passed without diagnostics; `npm run test` passed with 1 file and 1 test; `npm run build` passed in 443 ms with the existing non-blocking 1,196.09 kB chunk warning.
+- Runtime limit: canvas creation and one rendered frame are verified only in Chrome headless in this environment. Firefox, interaction, compatibility across environments, performance, accessibility, and gameplay remain unverified. The missing `favicon.ico` produced a network 404 but no JavaScript console/runtime error.
 - Native review: medium-risk reliability review approved and acknowledged for target `sha256:0c07b6cb7827c1cd10321638f8d4e2b44ce78b147f4e2ff5a6c4582c7bc6d6b4`; authority burned. Informational warning `R3-bootstrap-unproved` records that the automated test covers descriptor metadata rather than browser/Phaser bootstrap behavior.
 - Rollback boundary: remove `spikes/runtime-smoke/`; no production or scientific path imports it.
 
 ## Next step
 
-Decide whether to perform the manual browser/canvas check and ratify ADR-005 before converting the spike into the production ECO-101 bootstrap.
+Decide whether to ratify ADR-005 before converting the spike into the production ECO-101 bootstrap. ADR-005 remains proposed and unratified; ECO-002 remains **BLOQUEADA**, while ECO-003 and ECO-101 remain **PENDIENTE**.

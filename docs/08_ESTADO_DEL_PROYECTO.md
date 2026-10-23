@@ -1,10 +1,10 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-22 (spike aislado de compatibilidad del runtime)
+**Última actualización:** 2026-10-22 (canvas del spike verificado en Chrome headless)
 **Fase actual:** F0, planificación y contrato científico.
 **Tarea en curso:** ECO-002 bloqueada con trazabilidad en `ECO-002-GATE-20261022-03`; spike auxiliar de ECO-101 ejecutado sin cambiar su estado.
 **Juego ejecutable:** NO EXISTE AÚN. Solo existe un spike descartable de runtime; no es la aplicación ni contiene gameplay o dominio científico.
-**Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5` en este entorno, sin ratificar el stack.
+**Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
 
 ## Lo que está decidido
 - EcoGrid: Ciudad al Límite; Liga 4, renovables; videojuego digital deseado.
@@ -26,8 +26,9 @@
 
 - **Resultado:** instalación y scripts operativos dentro de `spikes/runtime-smoke/`; ECO-101 continúa `PENDIENTE` porque no se creó el bootstrap de producción.
 - **Versiones finales:** Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; lockfile npm v3 rastreable.
-- **Pruebas:** `npm run typecheck` sin diagnósticos; `npm run test` con 1 archivo y 1 test aprobados; `npm run build` completado con advertencia de chunk de `1,196.09 kB`; servidor Vite en `127.0.0.1:5173` respondió HTTP 200 con el HTML esperado y se detuvo.
-- **Límites:** no hubo navegador automatizado, por lo que canvas y renderizado visual están **NO VERIFICADOS**. El spike no consume ECO-002, no crea baseline, no ratifica ADR-005 y no implementa ciencia, control, score ni gameplay.
+- **Pruebas:** `npm run typecheck` sin diagnósticos; `npm run test` con 1 archivo y 1 test aprobados; `npm run build` completado con advertencia de chunk de `1,196.09 kB`; el smoke reproducible inició y detuvo Vite, y Chrome headless `156.0.8078.47` reportó `canvas=true`, captura PNG de `9967` bytes y `console_runtime_errors=0`.
+- **Evidencia visual:** `evidencias/ECO-101/runtime-smoke/browser-smoke.png` (800 × 450) muestra el fondo verde azulado oscuro del canvas y el texto blanco centrado del spike; el DOM preservado contiene `<canvas`.
+- **Límites:** canvas y el cuadro estático quedaron verificados solo en Chrome headless y en este entorno; no se comprobó Firefox, interacción, compatibilidad general, rendimiento prolongado, accesibilidad ni gameplay. El spike no consume ECO-002, no crea baseline, no ratifica ADR-005 y no implementa ciencia, control, score ni gameplay.
 - **Rollback:** eliminar `spikes/runtime-smoke/`; ninguna ruta de producción o científica lo importa.
 
 ### ECO-002 — gate científico bloqueado
