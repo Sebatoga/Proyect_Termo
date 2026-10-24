@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-22 (canvas del spike verificado en Chrome headless)
+**Última actualización:** 2026-10-23 (ownership del puerto del browser smoke verificado)
 **Fase actual:** F0, planificación y contrato científico.
 **Tarea en curso:** ECO-002 bloqueada con trazabilidad en `ECO-002-GATE-20261022-03`; spike auxiliar de ECO-101 ejecutado sin cambiar su estado.
 **Juego ejecutable:** NO EXISTE AÚN. Solo existe un spike descartable de runtime; no es la aplicación ni contiene gameplay o dominio científico.
@@ -26,7 +26,8 @@
 
 - **Resultado:** instalación y scripts operativos dentro de `spikes/runtime-smoke/`; ECO-101 continúa `PENDIENTE` porque no se creó el bootstrap de producción.
 - **Versiones finales:** Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; lockfile npm v3 rastreable.
-- **Pruebas:** `npm run typecheck` sin diagnósticos; `npm run test` con 1 archivo y 1 test aprobados; `npm run build` completado con advertencia de chunk de `1,196.09 kB`; el smoke reproducible inició y detuvo Vite, y Chrome headless `156.0.8078.47` reportó `canvas=true`, captura PNG de `9967` bytes y `console_runtime_errors=0`.
+- **Pruebas:** `npm run typecheck` sin diagnósticos; `npm run test` con 1 archivo y 1 test aprobados; `npm run build` completado con advertencia de chunk de `1,196.09 kB`; el smoke reproducible inició Vite exclusivamente en `127.0.0.1:5173`, comprobó su señal de readiness, HTTP 200 y el marcador propio mientras el hijo seguía vivo, y Chrome headless `156.0.8078.47` reportó `canvas=true`, captura PNG de `9967` bytes y `console_runtime_errors=0`.
+- **Regresión RUNTIME-003:** una prueba Node ocupó primero el puerto con una respuesta HTTP 200 engañosa; `--strictPort` hizo terminar no-cero al harness sin informar PASS ni iniciar Chrome, y el puerto pudo enlazarse de nuevo al finalizar. El DOM y PNG conservaron sus hashes, por lo que no se incorporaron cambios de bytes.
 - **Evidencia visual:** `evidencias/ECO-101/runtime-smoke/browser-smoke.png` (800 × 450) muestra el fondo verde azulado oscuro del canvas y el texto blanco centrado del spike; el DOM preservado contiene `<canvas`.
 - **Límites:** canvas y el cuadro estático quedaron verificados solo en Chrome headless y en este entorno; no se comprobó Firefox, interacción, compatibilidad general, rendimiento prolongado, accesibilidad ni gameplay. El spike no consume ECO-002, no crea baseline, no ratifica ADR-005 y no implementa ciencia, control, score ni gameplay.
 - **Rollback:** eliminar `spikes/runtime-smoke/`; ninguna ruta de producción o científica lo importa.

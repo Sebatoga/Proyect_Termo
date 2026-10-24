@@ -7,6 +7,7 @@ const evidenceDir = path.dirname(new URL(import.meta.url).pathname);
 const repositoryRoot = path.resolve(evidenceDir, "../../..");
 const spikeDir = path.join(repositoryRoot, "spikes/runtime-smoke");
 const pageUrl = "http://127.0.0.1:5173";
+const pageMarker = "<title>EcoGrid Runtime Smoke</title>";
 const screenshotPath = path.join(evidenceDir, "browser-smoke.png");
 const domPath = path.join(evidenceDir, "browser-smoke.dom.html");
 const managedProcesses = new Set();
@@ -22,27 +23,43 @@ function startProcess(command, args, options = {}) {
   return child;
 }
 
-function stopProcess(child) {
+function signalProcess(child, signal = "SIGTERM") {
   if (!child || child.exitCode !== null || child.signalCode !== null) return;
   try {
-    process.kill(-child.pid, "SIGTERM");
+    process.kill(-child.pid, signal);
   } catch (error) {
     if (error.code !== "ESRCH") throw error;
   }
 }
 
-function stopAllProcesses() {
-  for (const child of managedProcesses) stopProcess(child);
-}
-
 async function waitForExit(child, timeoutMs = 5_000) {
   if (!child || child.exitCode !== null || child.signalCode !== null) return;
-  await Promise.race([
-    new Promise((resolve) => child.once("exit", resolve)),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`Process ${child.pid} did not exit in time`)), timeoutMs),
-    ),
-  ]);
+  await new Promise((resolve, reject) => {
+    const onExit = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    const timer = setTimeout(() => {
+      child.off("exit", onExit);
+      reject(new Error(`Process ${child.pid} did not exit in time`));
+    }, timeoutMs);
+    child.once("exit", onExit);
+  });
+}
+
+async function stopProcess(child) {
+  if (!child || child.exitCode !== null || child.signalCode !== null) return;
+  signalProcess(child);
+  try {
+    await waitForExit(child, 3_000);
+  } catch {
+    signalProcess(child, "SIGKILL");
+    await waitForExit(child, 2_000);
+  }
+}
+
+async function stopAllProcesses() {
+  await Promise.allSettled([...managedProcesses].map(stopProcess));
 }
 
 async function runChromeArtifact() {
@@ -69,24 +86,50 @@ async function runChromeArtifact() {
 
 for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
   process.once(signal, () => {
-    stopAllProcesses();
-    process.exit(128 + (signal === "SIGINT" ? 2 : signal === "SIGTERM" ? 15 : 1));
+    const exitCode = 128 + (signal === "SIGINT" ? 2 : signal === "SIGTERM" ? 15 : 1);
+    void stopAllProcesses().finally(() => process.exit(exitCode));
   });
 }
 
 async function waitForVite(server) {
-  const deadline = Date.now() + 15_000;
-  while (Date.now() < deadline) {
-    if (server.exitCode !== null) throw new Error(`Vite exited with code ${server.exitCode}`);
-    try {
-      const response = await fetch(pageUrl);
-      if (response.ok) return;
-    } catch {
-      // Vite is still starting.
-    }
-    await new Promise((resolve) => setTimeout(resolve, 100));
+  let output = "";
+
+  await new Promise((resolve, reject) => {
+    const onData = (chunk) => {
+      output += chunk;
+      if (output.includes("http://127.0.0.1:5173/")) finish(resolve);
+    };
+    const onExit = (code) => finish(reject, new Error(`Vite exited with code ${code}: ${output.trim()}`));
+    const timer = setTimeout(
+      () => finish(reject, new Error(`Vite was not ready within 15 seconds: ${output.trim()}`)),
+      15_000,
+    );
+    const finish = (complete, value) => {
+      clearTimeout(timer);
+      server.stdout.off("data", onData);
+      server.stderr.off("data", onData);
+      server.off("exit", onExit);
+      complete(value);
+    };
+
+    server.stdout.setEncoding("utf8");
+    server.stderr.setEncoding("utf8");
+    server.stdout.on("data", onData);
+    server.stderr.on("data", onData);
+    server.once("exit", onExit);
+  });
+
+  if (server.exitCode !== null || server.signalCode !== null) {
+    throw new Error("Vite exited before the ownership check");
   }
-  throw new Error("Vite was not ready within 15 seconds");
+  const response = await fetch(pageUrl);
+  const body = await response.text();
+  if (server.exitCode !== null || server.signalCode !== null) {
+    throw new Error("Vite exited during the ownership check");
+  }
+  if (response.status !== 200 || !body.includes(pageMarker)) {
+    throw new Error(`Owned page check failed: status=${response.status} marker=${body.includes(pageMarker)}`);
+  }
 }
 
 async function waitForDebuggerUrl(chrome, stderrLines) {
@@ -152,9 +195,11 @@ async function openCdp(webSocketUrl) {
 async function run() {
   await mkdir(evidenceDir, { recursive: true });
   const version = spawnSync("google-chrome", ["--version"], { encoding: "utf8" }).stdout.trim();
-  const server = startProcess("npm", ["run", "dev", "--", "--host", "127.0.0.1"], {
-    cwd: spikeDir,
-  });
+  const server = startProcess(
+    "npm",
+    ["run", "dev", "--", "--host", "127.0.0.1", "--port", "5173", "--strictPort"],
+    { cwd: spikeDir },
+  );
   const chromeStderr = [];
   let chrome;
   let cdp;
@@ -251,13 +296,13 @@ async function run() {
     }
   } finally {
     cdp?.close();
-    stopProcess(chrome);
-    stopProcess(server);
+    await Promise.allSettled([stopProcess(chrome), stopProcess(server)]);
   }
 }
 
 run().catch((error) => {
   console.error(error);
-  stopAllProcesses();
-  process.exitCode = 1;
+  void stopAllProcesses().finally(() => {
+    process.exitCode = 1;
+  });
 });
