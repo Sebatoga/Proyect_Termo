@@ -72,7 +72,8 @@ The repository has no executable application, package manifest, runtime, or test
 - RUNTIME-002 native review: approved and acknowledged for target `sha256:e090c64bbebc38b3b14d6e0ede76572e92402e5d350e4eba61527fdc5d71994c`; authority burned. Informational warning `R3-port-ownership` notes that the harness does not use Vite strict-port mode, so a pre-existing service on port 5173 could cause a false pass; resolve this before promoting the harness beyond spike evidence.
 - RUNTIME-003 normal evidence: `node evidencias/ECO-101/runtime-smoke/browser-smoke.mjs` reported `VITE_READY=true` and `BROWSER_SMOKE=PASS canvas=true screenshot_bytes=9967 console_runtime_errors=0`; Vite ran with explicit host, port and `--strictPort`, and ownership required child readiness, HTTP 200 and the spike marker while the child remained alive.
 - RUNTIME-003 occupied-port evidence: `node --test evidencias/ECO-101/runtime-smoke/browser-smoke-port-occupied.test.mjs` passed 1 test; its deceptive HTTP 200 blocker forced the harness to end non-zero without `BROWSER_SMOKE=PASS` or Chrome startup, then confirmed port reuse. DOM and PNG hashes remained unchanged.
-- `R3-port-ownership`: resolved by RUNTIME-003. No commit hash is recorded inside the same work-unit commit.
+- RUNTIME-003 commit: `4b89e46` (`fix(spike): enforce browser smoke port ownership`).
+- `R3-port-ownership`: resolved by RUNTIME-003. Native assessment classified the 227-line candidate as medium risk with `review_due_reason: under_budget`; no new review transaction was due.
 - Rollback boundary: revert only the RUNTIME-003 harness and documentation edits and remove `browser-smoke-port-occupied.test.mjs`; the spike code, dependencies, RUNTIME-001 and RUNTIME-002 remain intact.
 
 ## Next step
