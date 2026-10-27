@@ -1,20 +1,18 @@
 # EcoGrid: Ciudad al Límite — Kit maestro para OpenCode
 
-**Estado:** kit de planificación y control preparado; **el juego aún NO está implementado**.
-**Enfoque:** videojuego 2D de estrategia y gestión de una red renovable, 100 % digital **si lo aprueba el docente**.
+**Estado:** planificación rebaselinada; **no existen aún producto híbrido, hardware, firmware ni calibración**. Solo hay documentación y un spike descartable de consola.
+**Enfoque vigente:** juego cooperativo de mesa con electrónica; luz, temperatura y controles físicos deben cambiar una partida de seis rondas. La consola local es secundaria.
 **Fuente académica:** `referencias/Proyecto Termodinamica y MF 2026-2.pdf` (4 páginas, documento de la asignatura).
 **Idioma:** español (documentos, menú, tutorial, pruebas explicadas); código TypeScript con nombres consistentes.
 
 ## Cómo empezar
 
 1. Descomprime la carpeta completa en tu equipo, por ejemplo `C:\Proyectos\EcoGrid`.
-2. **No separes** `AGENTS.md`, `opencode.json` ni `.opencode/` de la raíz.
+2. Conserva `AGENTS.md`, `opencode.json`, `docs/`, `odd/` y `referencias/` en la raíz. `.opencode/` está ausente y su recuperación sigue bloqueada por falta de fuente original autorizada.
 3. Instala Node.js versión LTS compatible con Vite/Vitest (preferiblemente 22.12+ o superior), Git y OpenCode.
 4. Abre un terminal en esta carpeta y ejecuta `opencode` (no dentro de una subcarpeta).
-5. Selecciona el agente `ecogrid-director` si no se selecciona automáticamente.
-6. Copia el texto de `PROMPT_INICIO_OPENCODE.md`, o escribe `/ecogrid-arranque`.
-7. Solicita y registra la autorización docente de formato totalmente digital. **Mientras no haya respuesta, se permiten diseño y prototipos pero no declarar cumplimiento total de Liga 4.**
-8. Trabaja una fase y una tarea a la vez. Tras cada fase solicita `/ecogrid-auditoria` y `/ecogrid-relevo`.
+5. No supongas disponibles agentes, skills o comandos de `.opencode/`; aplica las instrucciones presentes en `AGENTS.md` y registra cualquier recuperación futura.
+6. Trabaja una fase y una tarea a la vez y conserva evidencia reproducible.
 
 ## Jerarquía de información
 
@@ -29,23 +27,19 @@
 9. `docs/07_PROCESO_IA.md`: trazabilidad del uso de IA.
 10. `docs/08_ESTADO_DEL_PROYECTO.md`: contexto persistente y reanudación.
 
-## Tecnologías propuestas (revisar versiones antes de instalar)
+## Fronteras técnicas propuestas (revisar componentes y versiones antes de elegir)
 
-- Juego 2D: Phaser 3.x, TypeScript en modo estricto, Vite.
 - Núcleo físico independiente del renderizador: TypeScript puro.
-- Pruebas: Vitest (modelos y reglas), Playwright (flujos en navegador).
-- Persistencia local opcional: localStorage versionado, sin cuentas ni servicios externos.
-- Presentación de feria: navegador de escritorio sin conexión después de empaquetar los activos.
-- No se exige backend, multiplayer, servicios pagos ni hardware en el alcance digital inicialmente aprobado.
+- Firmware y protocolo USB serial por definir después del inventario y spike de banco.
+- Consola local offline para variables, alertas y explicaciones; el spike web existente no ratifica el stack productivo.
+- Tablero, controles, LEDs, carcasa y cableado fijo de baja tensión; sin agua real, calor peligroso ni baterías de potencia.
 
-**Motivo:** distribuir un juego web ejecutable y revisable en un computador corriente; facilidad para pruebas y presentación académica.
+**Motivo:** cumplir la exigencia específica de Liga 4 con causalidad observable entre entradas reales, modelos científicos y decisiones sobre el tablero.
 
 ## Qué contiene este kit
 
 - `AGENTS.md`, `opencode.json`: memoria operativa y permisos.
-- `.opencode/agents/`: director y expertos consultivos.
-- `.opencode/skills/`: procedimientos repetibles de modelado, implementación, validación y UX.
-- `.opencode/commands/`: comandos de arranque, fase, auditoría, pitch, pruebas y relevo.
+- `.opencode/`: **no presente**; las referencias históricas a sus agentes, skills y comandos no prueban disponibilidad actual.
 - `docs/`: diseño, fórmulas, arquitectura, planificación, trazabilidad, pruebas, entrega.
 - `plantillas/`: formularios para decisiones y cierre de tareas.
 - `referencias/`: documento oficial del profesor.
@@ -55,4 +49,4 @@
 
 ## Política de alcance
 
-Primero entregar una **rebanada vertical** jugable: menú → ciudad → tres fuentes (solar/eólica/hidro) → demanda → batería → eventos → puntuación → pantalla final. Después pulir controles, visual, dificultad y pruebas. No iniciar con mundos abiertos, compras, backend o multijugador.
+En cuatro semanas se busca una única partida híbrida reproducible de seis rondas y 8–12 minutos: tablero → lectura validada de luz/temperatura → controles físicos → PV térmico + hidro de pasada + batería/bus → LEDs y consola → resultado explicable. Campaña, mapa isométrico, móvil, audio, eólica y arte elaborado quedan fuera del MVP.

@@ -1,10 +1,9 @@
 # Auditoría técnica del entorno OpenCode y primer inicio
 
 ## Comprobaciones iniciales en la máquina del equipo
-- Terminal abierto en carpeta que contiene `AGENTS.md`, `opencode.json`, `.opencode/` y `referencias/`.
-- OpenCode instalado y puede listar agentes del proyecto; verificar que `ecogrid-director` sea agente principal.
-- Skills descubiertas en `.opencode/skills/<slug>/SKILL.md`; confirmar al menos `modelo-fisico` y `verificacion-entrega`.
-- Comandos disponibles `/ecogrid-arranque`, `/ecogrid-fase`, `/ecogrid-validar`, `/ecogrid-auditoria`.
+- Terminal en carpeta con `AGENTS.md`, `opencode.json`, `docs/`, `odd/` y `referencias/`.
+- `.opencode/` está **ausente**; no afirmar que sus agentes, skills o comandos existen. Su recuperación sigue bloqueada hasta disponer de fuente original autorizada.
+- Confirmar que no existen aún producto, tablero, componentes elegidos, firmware, calibración, carcasa ni HIL; el runtime smoke es solo un spike de consola.
 - Versión de Node/npm y Git anotadas; conexión a repositorio opcional, no publicar sin permiso.
 - Permisos shell piden autorización salvo consultas de Git; `external_directory` denegado y sesión compartida deshabilitada por defecto.
 
@@ -16,15 +15,17 @@
 5. Si hay cambio de esquema entre versiones, adaptar config en un ADR, **sin reemplazar las instrucciones de proyecto**.
 
 ## Primera sesión, en orden
-1. `/ecogrid-arranque` (audit repositorio, PDFs y gates).
-2. Realizar ECO-001, registrar entorno real.
-3. Convocar revisión de modelos, desarrollar ECO-002 con bibliografía.
-4. Desarrollar ECO-003 creando mínimo harness TS+Vitest (si aún no hay Vite) y pruebas, o adelantar ECO-101 de herramientas si es dependencia técnica necesaria; anotar reordenamiento en backlog.
-5. Auditar tests y solo entonces iniciar visual.
-6. `/ecogrid-relevo` al terminar jornada.
+1. Leer estado, backlog, contrato híbrido y PDF oficial; registrar tarea ECO-###.
+2. Ejecutar G1: inventario/BOM, datasheets, presupuesto, roles, fechas y banco (ECO-108).
+3. Mantener ECO-002 bloqueada; avanzar solo prototipos explícitamente aislados.
+4. Tras G1, planificar ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
+5. Exigir banco, HIL, E2E, seguridad y esperado/obtenido antes de cerrar integración.
+6. Actualizar estado, backlog, pruebas, IA y relevo al terminar.
 
 ## Nunca confundir
 - «El agente se cargó» ≠ «El proyecto se ejecuta».
 - «JSON tiene sintaxis correcta» ≠ «la versión local de OpenCode lo acepta».
 - «Modelo probado con vector manual» ≠ «validación experimental del sistema real».
-- «Juego digital autorizado por el equipo» ≠ «aprobado por el profesor».
+- «Spike de consola ejecutado» ≠ «app productiva» ni «producto híbrido».
+- «Plan de hardware» ≠ «componentes disponibles, calibrados o seguros».
+- La corrección híbrida cerró ECO-005; no demuestra permiso docente para producto 100 % digital.

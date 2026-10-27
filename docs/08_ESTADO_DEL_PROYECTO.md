@@ -1,26 +1,30 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-23 (ownership del puerto del browser smoke verificado)
-**Fase actual:** F0, planificación y contrato científico.
-**Tarea en curso:** ECO-002 bloqueada con trazabilidad en `ECO-002-GATE-20261022-03`; spike auxiliar de ECO-101 ejecutado sin cambiar su estado.
-**Juego ejecutable:** NO EXISTE AÚN. Solo existe un spike descartable de runtime; no es la aplicación ni contiene gameplay o dominio científico.
+**Última actualización:** 2026-10-26 (HYBRID-002, rebaseline documental de cuatro semanas).
+**Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
+**Tarea vigente:** HYBRID-001/HYBRID-002 son documentales; ECO-002 sigue BLOQUEADA. ECO-101 conserva solo un spike de consola, no una app productiva.
+**Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
 
 ## Lo que está decidido
-- EcoGrid: Ciudad al Límite; Liga 4, renovables; videojuego digital deseado.
+- EcoGrid: Ciudad al Límite; Liga 4; juego cooperativo de mesa con electrónica y consola local secundaria.
 - Integración de termodinámica + mecánica de fluidos + electrónica + ambiental.
-- Priorizar una rebanada vertical y pruebas de cálculo.
+- MVP de cuatro semanas: PV térmico, hidro de pasada, batería/bus y seis rondas en 8–12 minutos.
 
 ## Lo que sigue pendiente
-- Permiso del docente para sustituir reto híbrido por digital.
-- Ratificar stack/plataforma por el equipo.
+- Inventario real, BOM, datasheets, presupuesto y componentes disponibles.
+- Responsables, fechas, acceso a fabricación y dimensiones/materiales del tablero.
+- Ratificar host de consola y stack productivo después del inventario.
 - Referencias bibliográficas de parámetros físicos específicos y calibración.
 - Resolver diseño del score ecológico para evitar incentivo trivial.
-- Crear app y código ejecutable F1.
-- Asignar miembros, roles, fechas académicas definitivas.
+- Ejecutar banco, firmware/protocolo, calibración, montaje y seguridad; hoy son planes, no evidencia.
+
+## Gate humano inmediato — G1
+
+El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO-108 solo avanza con BOM/datasheets y evidencia de banco observada. Sin G1 no se eligen modelos exactos ni se afirma disponibilidad. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
-- Generado kit: documentación, agentes, skills, comandos y datos de referencia. No se han implementado ni ejecutado tests del videojuego; el único test de código cubre metadata pura del spike.
+- El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; el único test de código cubre metadata pura del spike.
 
 ### ECO-101 — spike de compatibilidad, tarea aún pendiente
 
@@ -48,10 +52,10 @@
 - **Git T0/T1:** `comandos/git-status-t0.txt` y `comandos/git-status-t1.txt`; se preservó `.gitignore` no rastreado y no se ejecutaron operaciones de commit, limpieza ni publicación.
 - **Pruebas:** harness focalizado de auditoría, validación estructural del expediente, comprobación de hashes, referencias cruzadas y control de alcance. Los comandos y resultados exactos están en `comandos/verification-final.txt`.
 - **Límites:** no existe aplicación, dependencias ni suite ejecutable del juego; no se probaron física, UI ni gameplay.
-- **Riesgos abiertos:** recuperación de `.opencode/` depende de una fuente original autorizada; compatibilidad Node/stack no verificada; ADR-005 sigue propuesta y no ratificada; `G-ACA-01` continúa pendiente en ECO-005.
+- **Riesgos abiertos registrados entonces:** recuperación de `.opencode/` dependía de una fuente original autorizada; ADR-005 seguía propuesta. El `G-ACA-01` que estaba pendiente en ECO-005 fue cerrado después por ADR-010 y corrección de alcance, no por permiso docente.
 
 ## Próxima instrucción para agente
-No promover ECO-002 ni iniciar ECO-003 con sus elementos bloqueados. Para destrabarla, registrar personas revisoras reales y su competencia, completar revisión independiente de citas/licencias y ejecutar las revisiones física, de control, ambiental y de calidad. Si el equipo decide avanzar por otra tarea F0 mientras consigue revisores, mantener visible este bloqueo.
+Solicitar evidencia humana de G1: inventario, componentes, presupuesto, roles y fechas. No promover ECO-002 ni presentar su expediente como baseline; su revisión independiente continúa en paralelo. No convertir el spike ECO-101 en producto por inferencia.
 
 ## Plantilla a actualizar tras cada tarea
 Fecha/hora, tarea ECO-###, objetivo, archivos, decisiones, resultados de pruebas (comando, salida), capturas/evidencia, riesgos, git status/commit, próximos tres pasos y bloqueos.

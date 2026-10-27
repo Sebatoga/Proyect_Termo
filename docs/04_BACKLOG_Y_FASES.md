@@ -9,27 +9,30 @@
 | ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | BLOQUEADA — gate `ECO-002-GATE-20261022-03`; faltan revisiones humanas identificadas |
 | ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE |
 | ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | PENDIENTE |
-| ECO-005 | Tramitar respuesta docente al formato digital | autorización documentada o cambio de alcance aprobado | BLOQUEADA: docente |
+| ECO-005 | Corregir el alcance a sistema híbrido Liga 4 | ADR-010 y contrato trazables, sin atribuir permiso docente | HECHA — corrección documental 2026-10-23 |
 | ECO-006 | Cerrar requisitos para pitch de hasta 7 min | storyboard, principios, diagrama y reporte IA | PENDIENTE |
 
 ## F1 — Rebanada vertical jugable
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-101 | Inicializar Vite/TS/Phaser, tests y scripts | app arranca, build/typecheck/test ejecutados | PENDIENTE |
-| ECO-102 | Simulación PV+eólica+hidro en SI | tests fórmulas, calor y límites | PENDIENTE |
+| ECO-101 | Evaluar consola local web mediante spike descartable | compatibilidad acotada; no equivale a app productiva | PENDIENTE — spike ejecutado, producto no iniciado |
+| ECO-102 | Modelos mínimos PV térmico + hidro de pasada en SI | tests de fórmulas, calor, caudal ecológico y límites | PENDIENTE |
 | ECO-103 | Bus eléctrico, batería y control prioridades | balance por tick y SOC límites, pruebas | PENDIENTE |
-| ECO-104 | Escenario sembrado con clima/demanda y 4 eventos | reproducible y sin eventos imposibles de superar | PENDIENTE |
-| ECO-105 | Menú + mapa ciudad + HUD básico + consignas | loop jugable sin arte final | PENDIENTE |
+| ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE |
+| ECO-105 | Consola local secundaria: variables, alertas y causalidad | loop legible sin mapa ni arte final | PENDIENTE |
 | ECO-106 | Puntuación, derrota, victoria y resultados explicables | 5 escenarios prueba con resultados comprensibles | PENDIENTE |
-| ECO-107 | Prueba end-to-end + jugabilidad de 1 nivel | partida completa sin excepciones en consola | PENDIENTE |
+| ECO-107 | Prueba E2E/HIL y jugabilidad híbrida | seis rondas sin pérdida silenciosa de entradas | PENDIENTE |
+| ECO-108 | Inventario/BOM y spike de banco | componentes, costos, datasheets y sensor/control→USB registrados | PENDIENTE — próximo gate humano |
+| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | PENDIENTE; depende de ECO-108 |
+| ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE; depende de ECO-108/109 |
 
 ## F2 — Calidad de experiencia e integración
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-201 | Identidad visual, audio y feedback de fenómenos | indicadores visibles, licencias verificadas | PENDIENTE |
+| ECO-201 | Señalización del tablero y feedback accesible | texto/icono/LED, no solo color | PENDIENTE |
 | ECO-202 | Tutorial no técnico y modo información avanzada | jugador nuevo aprende en ≤90 s en prueba | PENDIENTE |
 | ECO-203 | Afinar demanda, dificultad y clima | curvas jugables, documentado y comprobable | PENDIENTE |
-| ECO-204 | Accesibilidad, rendimiento, escala de pantalla | pruebas escritorio y portátil/móvil compatible | PENDIENTE |
+| ECO-204 | Accesibilidad y legibilidad de tablero/consola | pruebas a distancia y con teclado donde aplique | PENDIENTE |
 | ECO-205 | Sensibilidad de parámetros y validación independiente | tablas/gráficas de error y límites | PENDIENTE |
 
 ## F3 — Pitch, feria y cierre
@@ -38,7 +41,7 @@
 | ECO-301 | Pitch de máximo siete minutos | 5 elementos documento profesor evidenciados | PENDIENTE |
 | ECO-302 | Manual, pruebas límite, repositorio y trazabilidad IA | auditable por jurados | PENDIENTE |
 | ECO-303 | Póster científico/técnico y guion de demostración | unidades, hipótesis, fórmulas, resultados y validación | PENDIENTE |
-| ECO-304 | Build offline, ensayo stand, plan de contingencia | demo en computador objetivo sin red | PENDIENTE |
+| ECO-304 | Ensayo offline de stand y contingencia híbrida | equipo objetivo, repuestos y modo seguro documentados | PENDIENTE |
 | ECO-305 | Auditoría final contra matriz de requisitos y gate docente | todas las obligaciones evidenciadas o brechas declaradas | PENDIENTE |
 
 ## Reglas de secuenciación
@@ -48,9 +51,20 @@
 4. F3 requiere evidencia real; no «screenshots imaginarios» ni pruebas declaradas sin ejecutar.
 5. Antes de cada hito: revisión de alcance, evaluación de riesgos, respaldo/commit, test suite y relevo.
 
+## Rebaseline ejecutable de cuatro semanas
+
+| Semana | Trabajo principal | Gate observable y evidencia mínima |
+|---|---|---|
+| 1 | contrato; ECO-108 inventario/BOM y banco; alcance PV+hidro+batería | **G1:** disponibilidad/costo/datasheets y registro sensor o control→USB; decisión humana de componentes, presupuesto, roles y fechas |
+| 2 | consola productiva mínima; ECO-109 firmware/protocolo; modelos mínimos | **G2:** USB serial correcto/corrupto/incompleto/timeout, calibración versionada y pruebas con esperado/obtenido; ECO-002 sigue bloqueada |
+| 3 | ECO-110 tablero protegido y loop de seis rondas | **G3:** entrada física cambia modelo, LEDs, fichas y consola; partida reproducible de 8–12 minutos sin campaña |
+| 4 | HIL/E2E, seguridad, playtesting y entrega | **G4:** HIL luz/temperatura, partida completa, carcasa/cableado, prueba con usuarios y paquete académico trazable |
+
+Cada gate requiere responsable, fecha, esperado/obtenido y evidencia real. HYBRID-002 ordena el trabajo; no demuestra componentes, montaje, firmware, calibración, HIL ni producto.
+
 ## Evidencia de cierre ECO-001
 
-La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría mediante la rama permitida `blocked`: no hubo fuente original autorizada para recuperar `.opencode/`, por lo que las tareas condicionales 4.2–4.8 no aplicaron y permanecen bloqueadas, sin ejecución ni completado inferido. Este cierre no cambia ECO-002, ECO-003, ECO-005, ECO-101 ni el estado de Fase 1.
+La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría mediante la rama permitida `blocked`: no hubo fuente original autorizada para recuperar `.opencode/`. En ese momento no cambió ECO-002, ECO-003, ECO-005, ECO-101 ni F1. Posteriormente ADR-010 cerró ECO-005 por corrección de alcance híbrido, no por permiso docente.
 
 ## Estado bloqueado ECO-002
 
