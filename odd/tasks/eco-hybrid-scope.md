@@ -37,7 +37,7 @@ No PR, push, merge, or publication is authorized by this tracker.
 
 ## Tasks
 
-- [ ] **HYBRID-001 — Adopt the hybrid product contract**
+- [x] **HYBRID-001 — Adopt the hybrid product contract**
   - Route: delegated direct.
   - Trigger evidence: coordinated corrections span repository policy, decisions, GDD, scientific framing, architecture, acceptance criteria, and requirements traceability.
   - Supersede the pure-digital direction without deleting historical decisions.
@@ -63,12 +63,12 @@ No PR, push, merge, or publication is authorized by this tracker.
 
 ## Progress and evidence
 
-- Status: in progress.
+- Status: HYBRID-001 verificada; HYBRID-002 permanece pendiente.
 - Decision: hybrid board game plus electronics adopted by the user on 2026-10-23.
 - Human decisions still required: available components, budget, team roles, fabrication access, board dimensions/materials, and confirmed academic dates.
-- HYBRID-001 commit: pending.
+- HYBRID-001 commit: pendiente de registro por el padre; este commit no registra su propio hash.
 - HYBRID-002 commit: pending.
-- Verification: pending.
+- HYBRID-001 verification: `git diff --check`, validación de rutas Markdown, búsqueda de alcance activo, búsqueda de terminología e inspección de líneas authored pasaron antes del cierre; resultados finales en el relevo.
 
 ## Next step
 

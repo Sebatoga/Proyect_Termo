@@ -1,7 +1,7 @@
 # EcoGrid — Reglas permanentes del repositorio (OpenCode)
 
 ## Misión
-Construir **EcoGrid: Ciudad al Límite**, videojuego educativo de estrategia energética 2D, científicamente verificable y divertido para público abierto, para el Proyecto Integrador de Termodinámica y Mecánica de Fluidos, Liga 4 «Mundo Renovable» (UNAL Manizales, 2026-2).
+Construir **EcoGrid: Ciudad al Límite**, juego cooperativo de mesa con electrónica, científicamente verificable y divertido para público abierto, para el Proyecto Integrador de Termodinámica y Mecánica de Fluidos, Liga 4 «Mundo Renovable» (UNAL Manizales, 2026-2).
 
 ## Inicio OBLIGATORIO de cada sesión
 1. Leer `docs/08_ESTADO_DEL_PROYECTO.md`, `docs/00_DECISIONES_Y_RIESGOS.md` y el backlog.
@@ -11,7 +11,7 @@ Construir **EcoGrid: Ciudad al Límite**, videojuego educativo de estrategia ene
 5. Al terminar, actualizar estado, backlog, decisiones, evidencias y registro de IA; dejar un relevo claro.
 
 ## Límites académicos
-- El PDF oficial prima sobre suposiciones. El enunciado general permite juego digital, pero **la Liga 4 especifica híbrido (mesa + electrónica)**. Se plantea alternativa 100 % digital, que **requiere autorización escrita del docente**. Registrar fecha/respuesta en `docs/00_DECISIONES_Y_RIESGOS.md`. No anunciar cumplimiento sin permiso.
+- El PDF oficial prima sobre suposiciones. Aunque el enunciado general permite varios formatos, **la Liga 4 especifica un sistema híbrido (juego de mesa + electrónica) donde variables reales afectan el juego**; este es el alcance adoptado por el equipo el 2026-10-23.
 - Es obligatorio modelar como mínimo **un fenómeno de termodinámica** y **uno de mecánica de fluidos**, con ecuaciones, unidades SI, hipótesis, entradas/salidas, límites y validación; deben cambiar el resultado del juego.
 - Integrar de forma funcional ingeniería electrónica o eléctrica y una tercera ingeniería: **ambiental**. No sustituir integración por preguntas tipo trivia.
 - Máximo **3 integrantes**; la sustentación pide evidencias, comparaciones, condiciones límite, código, manual, documentación de IA, pitch y póster.
@@ -20,6 +20,8 @@ Construir **EcoGrid: Ciudad al Límite**, videojuego educativo de estrategia ene
 - El dominio científico NO importa Phaser, DOM, Canvas ni librerías de UI. Fórmulas implementadas y probadas separadamente.
 - En el motor físico usar SI y declarar explícitamente conversiones a kW/kWh; distinguir tiempo real de tiempo simulado.
 - Separar física, reglas de juego, generación de eventos, control electrónico y presentación. No hardcodear físicas dentro de componentes de interfaz.
+- Sensores y controles físicos atraviesan calibración, validación y rangos antes de entrar al dominio; un sensor de luz no calibrado no se presenta como medidor de irradiancia.
+- El MVP opera por USB a baja tensión, con carcasa y cableado fijo; excluye agua real, bombas, calor peligroso y baterías de potencia.
 - Cada parámetro físico incluye unidad, rango y fuente/estatus (documentado, estimación para gameplay o calibración pendiente).
 - No atribuir capacidades imposibles: la energía no surge de la nada, el almacenamiento tiene pérdidas, PV no genera de noche, turbinas no extraen más caudal que el disponible tras caudal ecológico.
 - Escenarios reproducibles con semilla y reloj de simulación a paso fijo; no usar `Math.random()` sin semilla en lógica de dominio.

@@ -4,29 +4,28 @@
 - **ADR-001**: Nombre y género: *EcoGrid: Ciudad al Límite*, estrategia de gestión de renovables con crisis y supervivencia energética.
 - **ADR-002**: Público abierto; dificultades que permiten jugar sin formación previa.
 - **ADR-003**: Ingeniería tercera: ambiental (junto a termodinámica, fluidos y electrónica).
-- **ADR-004**: Deseo de videojuego completamente programado, en lugar de juego de mesa con electrónica.
+- **ADR-004 (histórica, sustituida)**: Se deseó un videojuego completamente programado en lugar de un juego de mesa con electrónica. No llegó a obtener autorización docente y se conserva como historia de decisión.
+- **ADR-010 (adoptada, 2026-10-23)**: El equipo sustituye ADR-004 y adopta para Liga 4 un juego cooperativo de mesa con electrónica donde variables reales afectan consignas y resultados. La consola local es secundaria al tablero y no reemplaza la experiencia física.
 
 ## Decisiones propuestas por el kit, ajustables con justificación
 - **ADR-005**: Stack TypeScript + Phaser 3 + Vite + Vitest + Playwright. Estado: *propuesto, no ratificado por equipo*.
-- **ADR-006**: Vista 2D isométrica estilizada, controles ratón/táctil; sistema de paneles y eventos. Estado: *propuesto*.
-- **ADR-007**: Un escenario inicial, seis horas simuladas en ~seis minutos reales (1 segundo real = 60 segundos simulados) con paso fijo; modos pausa/tutoría. Estado: *propuesto, validar en pruebas*.
-- **ADR-008**: Modelo solar con balance térmico; hidro con pérdidas hidráulicas y caudal ecológico; eólica con curva simplificada; batería con eficiencia y límites de potencia. Estado: *propuesto, sujeto a revisión y pruebas*.
+- **ADR-006**: Mapa isométrico, campaña, móvil y audio quedan fuera del MVP híbrido. Estado: *sustituido en alcance MVP por ADR-010*.
+- **ADR-007**: Partida cooperativa de seis rondas en 8–12 minutos. Estado: *adoptado como objetivo de diseño, pendiente de playtesting*.
+- **ADR-008**: MVP con PV térmico, hidro de pasada, batería/bus y prioridad de cargas; eólica queda fuera. Estado: *alcance adoptado, modelos aún sujetos al gate científico ECO-002*.
 - **ADR-009**: Juego local offline, sin multijugador ni servidor. Estado: *propuesto*.
 
-## Gate académico bloqueante (G-ACA-01)
+## Gate académico G-ACA-01 — CERRADO por corrección de alcance
 **Problema:** página 4, numeral 5, Liga 4: *«Sistema híbrido (juego de mesa + electrónica) donde variables reales (luz, calor ambiental, etc.) afecten el juego»*. El documento en página 1 admite juego físico, digital o híbrido en términos generales. NO presuponer que ese enunciado general deroga la exigencia específica.
 
-**Se necesita:** respuesta del docente aceptando juego completamente digital, sin juego de mesa ni sensores físicos, y qué evidencia reemplaza la integración hardware y variables reales.
+**Resolución (2026-10-23):** el equipo adoptó el formato híbrido específico de Liga 4. El gate se cierra porque ya no existe la desviación digital que requería consulta, **no** porque se haya obtenido permiso docente.
 
-- Autorización obtenida: **PENDIENTE**.
-- Fecha de consulta: **PENDIENTE**.
-- Medio y evidencia (captura/correo): **PENDIENTE**.
-- Si rechaza: rediseñar a una variante híbrida mínima **solo con autorización del equipo**, sin ocultar el cambio.
+- Autorización para producto 100 % digital: **NO OBTENIDA; ya no se solicita para el alcance vigente**.
+- Evidencia de cierre: ADR-010 y `docs/16_PLANTEAMIENTO_HIBRIDO_4_SEMANAS.md`.
 
 ## Riesgos y mitigaciones
 | ID | Riesgo | Impacto | Tratamiento |
 |---|---|---|---|
-| R01 | Formato digital no aceptado para Liga 4 | crítico | G-ACA-01 antes de presentar como cumplimiento |
+| R01 | Volver a tratar la consola digital como producto principal | crítico | Aplicar ADR-010 y verificar tablero, electrónica y variables reales |
 | R02 | Simulación científicamente incorrecta | crítico | modelos SI, casos independientes, revisión experta, balances |
 | R03 | Demasiado alcance | alto | MVP estrictamente priorizado; limitar escenas y eventos |
 | R04 | Juego aburrido o poco entendible | alto | pruebas con jugadores ajenos al equipo; tutorial corto |
@@ -35,6 +34,8 @@
 | R07 | IA crea código no auditado | alto | commits, revisiones, bitácora y tests independientes |
 | R08 | Datos supuestos se confunden con datos reales | alto | etiquetar valores estimados y fuentes; sensibilidad |
 | R09 | Pérdida de progreso entre sesiones OpenCode | medio | relevo y estado actualizado obligatorios |
+| R14 | Componentes no disponibles o montaje inseguro | crítico | decidir modelos/presupuesto tras inventario; baja tensión, carcasa y cableado fijo |
+| R15 | Confundir proxy de luz con irradiancia medida | alto | rotularlo como `proxy de luz calibrado para gameplay` hasta validación metrológica |
 
 ## Cambios de decisión
 Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física/UX/plazo, responsable y autorización.
@@ -43,7 +44,7 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 
 - La auditoría cerró por la rama permitida `blocked`: `.opencode/` sigue ausente y no se fabricó ni copió contenido porque no existe una fuente original aportada o autorizada.
 - ADR-005 conserva el estado **propuesto, no ratificado por el equipo**. Las versiones locales observadas no prueban compatibilidad con TypeScript, Phaser, Vite, Vitest ni Playwright.
-- `G-ACA-01` conserva el estado **PENDIENTE** y la responsabilidad de ECO-005. ECO-001 no obtuvo ni interpretó autorización docente para un formato completamente digital.
+- Registro histórico: durante ECO-001, `G-ACA-01` estaba **PENDIENTE** y no se obtuvo autorización docente para un formato completamente digital. ADR-010 lo cerró después por corrección de alcance.
 - El expediente verificable está en `evidencias/ECO-001/20261021T031528Z/`; no constituye evidencia de aplicación ejecutable, pruebas del juego ni validación científica.
 
 | ID | Riesgo observado | Impacto | Tratamiento |
@@ -60,10 +61,10 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 - La cobertura de revisión quedó reconciliada en 22 slices de hasta 400 líneas; el validador ya no reporta rutas omitidas.
 - El gate histórico `ECO-002-GATE-20261022-02` fijó el hash del `registry.yaml` mutable. Tras avanzar el registro al gate `...-03`, su comprobación completa falla solo en esa ruta; los gates inmutables no se reescribieron y la limitación quedó documentada.
 
-## Spike de compatibilidad ECO-101 — 2026-10-22
+## Spike de compatibilidad ECO-101 — 2026-10-22/23
 
 - El spike descartable `spikes/runtime-smoke/` verificó instalación, tipado, test, build y entrega HTTP local con Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`.
 - La instalación sin versión resolvió inicialmente Phaser `4.2.1`; se corrigió a la línea `3.x` porque ADR-005 propone Phaser 3. El lockfile final conserva `3.90.0`.
-- Esta evidencia es exclusivamente de compatibilidad técnica: **ADR-005 continúa propuesto y no ratificado**. No se validaron canvas ni renderizado visual por ausencia de navegador automatizado.
+- Esta evidencia es exclusivamente de viabilidad para una consola local secundaria: **ADR-005 continúa propuesto y no ratificado**. El smoke posterior verificó canvas en Chrome headless, pero no tablero, electrónica, gameplay ni modelos científicos; por tanto, no es el producto final.
 - El build emitió una advertencia no bloqueante por un chunk minificado mayor a 500 kB. Si el stack se ratifica, el bootstrap de producción deberá evaluar carga diferida o justificar el tamaño.
 - ECO-002 continúa **BLOQUEADA** sin baseline; ECO-003 y ECO-101 continúan **PENDIENTE**.
