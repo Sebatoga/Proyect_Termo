@@ -67,9 +67,9 @@ No PR, push, merge, or publication is authorized by this tracker.
 - Decision: hybrid board game plus electronics adopted by the user on 2026-10-23.
 - Human decisions still required: available components, budget, team roles, fabrication access, board dimensions/materials, and confirmed academic dates.
 - HYBRID-001 commit: `4d3a896` (`docs(scope): adopt Liga 4 hybrid game requirements`).
-- HYBRID-002 commit: se obtiene del historial Git después del commit; no se inventa un hash dentro del mismo commit.
+- HYBRID-002 commit: `c315865` (`docs(plan): rebaseline hybrid MVP delivery`).
 - HYBRID-001 verification: `git diff --check`, Markdown path/link validation, active-scope search, required-terminology search, and authored-line inspection passed; 332 authored changed lines. Native assessment classified the candidate as medium risk with `review_due_reason: under_budget`, so no review transaction was due.
-- HYBRID-002 evidence: backlog de cuatro semanas, gates G1–G4, pruebas banco/serial/HIL/E2E/seguridad, entregables y estado alineados; verificaciones observadas quedan en el commit/relevo sin atribuir evidencia física.
+- HYBRID-002 evidence: backlog de cuatro semanas, gates G1–G4, pruebas banco/serial/HIL/E2E/seguridad, entregables y estado alineados; Markdown paths/links, active-scope contradictions, required coverage, state consistency, and `git diff --check` passed; 293 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`, so structural readback was sufficient.
 
 ## Next step
 
