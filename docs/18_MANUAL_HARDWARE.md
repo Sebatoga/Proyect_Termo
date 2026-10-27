@@ -5,7 +5,9 @@
 > electrónico de EcoGrid. Su ejecución depende del gate humano G1 y de ECO-108.
 > A la fecha de este documento no se infiere que exista ningún componente,
 > datasheet, montaje, calibración ni prueba física. Toda selección comercial
-> permanece pendiente de inventario y decisión humana.
+> permanece pendiente de inventario e inspección. La
+> [BOM candidata ECO-108](19_BOM_ECO_108.md) es un objetivo de preparación
+> aprobado, no una selección física ni una autorización de compra.
 
 ## Uso rápido del manual
 
@@ -20,11 +22,12 @@
 
 ## Estado y límites
 
-- **Estado:** provisional y bloqueado por G1/ECO-108 para selección y compra.
+- **Estado:** provisional; ECO108-1 documentó una BOM candidata, pero G1/ECO-108
+  mantienen bloqueadas la selección física, la compra y las pruebas de banco.
 - **Existe hoy:** este contrato documental y la posibilidad de preparar trabajo
   independiente del hardware. BOOT-003 añadió un
   [simulador local JSON Lines v1](../tools/device-simulator/) ejecutable.
-- **No existe por inferencia:** inventario confirmado, BOM comprable, firmware,
+- **No existe por inferencia:** inventario confirmado, BOM autorizada para compra, firmware,
   protocolo integrado, pinout eléctrico, carcasa, cableado, calibración, banco
   aprobado ni HIL.
 - **No congela:** modelos, proveedores, tensión lógica, números de pin, valores

@@ -1,8 +1,8 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-27 (BOOT-003, simulador de dispositivo sin hardware).
+**Última actualización:** 2026-10-27 (ECO108-1, BOM candidata sin compra ni hardware).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** BOOT-003 está completada; el siguiente gate es G1. ECO-002 sigue BLOQUEADA. ECO-101 conserva solo un spike de consola, no una app productiva.
+**Tarea vigente:** ECO108-1 está completada como preparación documental; ECO108-2 y G1 siguen pendientes. Compra y banco permanecen bloqueados. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
 
@@ -10,9 +10,12 @@
 - EcoGrid: Ciudad al Límite; Liga 4; juego cooperativo de mesa con electrónica y consola local secundaria.
 - Integración de termodinámica + mecánica de fluidos + electrónica + ambiental.
 - MVP de cuatro semanas: PV térmico, hidro de pasada, batería/bus y seis rondas en 8–12 minutos.
+- El 2026-10-27 se aprobó la BOM separada como objetivo de preparación para
+  ECO-108, con presupuesto objetivo COP 83.000–90.000 más envío. No autoriza
+  compra ni acredita posesión, recepción, calibración o prueba física.
 
 ## Lo que sigue pendiente
-- Inventario real, BOM, datasheets, presupuesto y componentes disponibles.
+- Inventario real, datasheets aplicables, presupuesto final y componentes disponibles; existe una [BOM candidata](19_BOM_ECO_108.md), no una selección física.
 - Responsables, fechas, acceso a fabricación y dimensiones/materiales del tablero.
 - Ratificar host de consola y stack productivo después del inventario.
 - Referencias bibliográficas de parámetros físicos específicos y calibración.
@@ -21,7 +24,7 @@
 
 ## Gate humano inmediato — G1
 
-El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO-108 solo avanza con BOM/datasheets y evidencia de banco observada. Sin G1 no se eligen modelos exactos ni se afirma disponibilidad. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
+El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 solo preparó una BOM candidata; el próximo paso real es revalidar precio/stock, completar gates y obtener autorización antes de comprar. ECO108-2 y toda evidencia de banco continúan pendientes. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.

@@ -23,7 +23,7 @@ Turn the user-approved separate-component option into an auditable procurement c
 
 ## Tasks
 
-- [ ] **ECO108-1 — Document the approved procurement candidate**
+- [x] **ECO108-1 — Document the approved procurement candidate**
   - Route: delegated direct.
   - Trigger evidence: supplier citations, dated prices/stock, compatibility analysis, budget arithmetic, substitutions, and purchase gates span multiple non-trivial documentation views.
   - Acceptance: one auditable BOM distinguishes observed facts, estimates, pending checks, and explicit non-authorization to purchase.
@@ -43,9 +43,11 @@ Turn the user-approved separate-component option into an auditable procurement c
 
 ## Progress and evidence
 
-- Status: in progress.
+- Status: in progress; ECO108-1 complete, ECO108-2 pending.
 - Tracker branch: `feat/eco-108-bom-baseline` from `baab08a`.
-- ECO108-1 commit: pending.
+- ECO108-1 evidence: `docs/19_BOM_ECO_108.md`, linked from the hardware manual,
+  with project status/backlog updated; verification commands recorded in the
+  work-unit delivery. Commit message: `docs(hardware): record approved ECO-108 BOM candidate`.
 - ECO108-2 commit: pending.
 - Engram mirror: pending because session registration is unavailable.
 
