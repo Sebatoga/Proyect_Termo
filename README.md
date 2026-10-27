@@ -33,6 +33,9 @@
   errores y referencia rápida para una partida todavía sujeta a gates.
 - [`docs/18_MANUAL_HARDWARE.md`](docs/18_MANUAL_HARDWARE.md): BOM funcional,
   compatibilidad, protocolo, ensamblaje, seguridad y pruebas aún no ejecutadas.
+- [`tools/device-simulator/`](tools/device-simulator/): simulador determinista
+  JSON Lines v1 sin hardware; inicio rápido con
+  `node tools/device-simulator/cli.mjs emit nominal`.
 
 ## Fronteras técnicas propuestas (revisar componentes y versiones antes de elegir)
 

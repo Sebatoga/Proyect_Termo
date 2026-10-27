@@ -22,7 +22,8 @@
 
 - **Estado:** provisional y bloqueado por G1/ECO-108 para selección y compra.
 - **Existe hoy:** este contrato documental y la posibilidad de preparar trabajo
-  independiente del hardware.
+  independiente del hardware. BOOT-003 añadió un
+  [simulador local JSON Lines v1](../tools/device-simulator/) ejecutable.
 - **No existe por inferencia:** inventario confirmado, BOM comprable, firmware,
   protocolo integrado, pinout eléctrico, carcasa, cableado, calibración, banco
   aprobado ni HIL.
@@ -295,6 +296,10 @@ evidencia. Esta tabla es un plan: ninguna fila está ejecutada por redactarla.
 - Baud rate, timeout, debounce, rangos y tolerancias solo con evidencia.
 
 ## Trabajo que puede comenzar sin hardware
+
+BOOT-003 ya ejecutó la parte de simulador y parser mediante Node.js estándar.
+Esa evidencia es solo de transporte local determinista: no demuestra firmware,
+USB serial, calibración, electrónica, HIL ni modelos científicos.
 
 - Versionar el contrato JSON Lines y revisar su dirección y estados.
 - Crear fixtures `hello`, `inputs`, `output` y `error`, incluidos inválidos.

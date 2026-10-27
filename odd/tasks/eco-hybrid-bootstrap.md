@@ -46,7 +46,7 @@ feat/eco-hybrid-bootstrap                     tracker
   - Create `docs/18_MANUAL_HARDWARE.md` without selecting unavailable models or claiming tests.
   - Completion evidence: provisional manual, plan/manual links, focused Markdown/link checks, required-term scan, prohibited-claim scan, and authored-line budget; work-unit commit `docs(hardware): add provisional hardware manual`.
 
-- [ ] **BOOT-003 — Start the hardware-independent protocol simulator**
+- [x] **BOOT-003 — Start the hardware-independent protocol simulator**
   - Route: delegated direct.
   - Trigger evidence: executable protocol framing, fixtures, simulator behavior, failure paths, tests, and operator documentation span multiple non-trivial files.
   - Implement newline-delimited JSON protocol fixtures and a deterministic Node.js simulator using only the standard library.
@@ -62,12 +62,14 @@ feat/eco-hybrid-bootstrap                     tracker
 
 ## Progress and evidence
 
-- Status: in progress.
+- Status: completed.
 - BOOT-001 commit: `d3f78fd` (`docs(game): add provisional how-to-play manual`).
 - BOOT-001 verification: Markdown paths/links, required sections/terms, prohibited-claim scan, and `git diff --check` passed; 349 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`.
 - BOOT-002 commit: `74f596c` (`docs(hardware): add provisional hardware manual`).
 - BOOT-002 verification: Markdown paths/links, required coverage, prohibited-claim scan, and `git diff --check` passed; 339 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`; no physical or npm tests were claimed.
-- BOOT-003 commit: pending.
+- BOOT-003 work-unit commit: `feat(protocol): add deterministic device simulator`.
+- BOOT-003 verification: 8/8 Node tests passed; nominal output matched byte-for-byte across two executions; disconnected inputs were explicit `null`; stdin returned stable malformed/version codes; `git diff --check` passed.
+- BOOT-003 rollback: remove `tools/device-simulator/` and its links from the three authorized overview/manual documents; no product or scientific path imports it.
 - Human G1 inputs remain pending: inventory, exact models, budget, roles, dates, fabrication access, and board dimensions/materials.
 
 ## Next step

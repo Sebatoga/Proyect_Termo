@@ -1,8 +1,8 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-26 (HYBRID-002, rebaseline documental de cuatro semanas).
+**Última actualización:** 2026-10-27 (BOOT-003, simulador de dispositivo sin hardware).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** HYBRID-001/HYBRID-002 son documentales; ECO-002 sigue BLOQUEADA. ECO-101 conserva solo un spike de consola, no una app productiva.
+**Tarea vigente:** BOOT-003 aporta transporte simulado; ECO-002 sigue BLOQUEADA. ECO-101 conserva solo un spike de consola, no una app productiva.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
 
@@ -24,7 +24,14 @@
 El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO-108 solo avanza con BOM/datasheets y evidencia de banco observada. Sin G1 no se eligen modelos exactos ni se afirma disponibilidad. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
-- El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; el único test de código cubre metadata pura del spike.
+- El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
+
+### BOOT-003 — simulador de protocolo sin hardware
+
+- **Resultado:** parser JSON Lines v1 y CLI determinista en `tools/device-simulator/`, con escenarios nominal y desconectado, fixtures y pruebas Node.
+- **Pruebas:** 8/8 pruebas `node:test`; emisión nominal idéntica byte a byte; desconexión con seis valores `null`; stdin produjo `MALFORMED_JSON` y `UNSUPPORTED_VERSION`.
+- **Límites:** no es firmware, serial real, calibración, electrónica ni dominio científico; los enums de batería/prioridad son provisionales de la herramienta.
+- **Rollback:** eliminar `tools/device-simulator/` y sus enlaces documentales; ninguna ruta productiva o científica lo importa.
 
 ### ECO-101 — spike de compatibilidad, tarea aún pendiente
 
