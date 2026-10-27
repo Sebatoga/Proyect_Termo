@@ -4,6 +4,10 @@
 
 EcoGrid será un **juego cooperativo de mesa con electrónica** para 2–4 jugadores. En seis rondas de 8–12 minutos, variables reales y controles físicos cambian consignas y resultados. Esta decisión, adoptada por el equipo el 2026-10-23, sustituye el objetivo digital de ADR-004 sin afirmar que existió permiso docente para aquel formato.
 
+El flujo público provisional para preparar y ensayar una partida está en
+[`docs/17_COMO_JUGAR.md`](17_COMO_JUGAR.md); sus reglas y umbrales continúan
+sujetos a G1, ECO-002 y playtesting.
+
 ## Problema y objetivo
 
 Una ciudad debe sostener cargas críticas con recursos renovables variables sin vulnerar el caudal ecológico. El equipo jugador debe interpretar condiciones, acordar prioridades y operar el sistema energético. El objetivo educativo es hacer observables un balance térmico PV, la relación caudal–pérdidas–potencia de una hidro de pasada y el balance de batería/bus.

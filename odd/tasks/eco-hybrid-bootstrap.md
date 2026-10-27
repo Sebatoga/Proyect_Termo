@@ -31,11 +31,14 @@ feat/eco-hybrid-bootstrap                     tracker
 
 ## Tasks
 
-- [ ] **BOOT-001 — Create the provisional how-to-play manual**
+- [x] **BOOT-001 — Create the provisional how-to-play manual**
   - Route: delegated direct.
   - Trigger evidence: the manual consolidates rules, six-round flow, physical decisions, sensor behavior, failure handling, victory, anti-trivial scoring, example, and quick reference.
   - Create `docs/17_COMO_JUGAR.md` and align only the minimum affected index/reference views.
   - Keep unresolved thresholds and scientific values visibly provisional.
+  - Completion evidence: public manual, source-plan link, focused Markdown/link
+    checks, required-term scan, prohibited-claim scan, and authored-line budget;
+    work-unit commit `docs(game): add provisional how-to-play manual`.
 
 - [ ] **BOOT-002 — Create the hardware manual**
   - Route: delegated direct.
@@ -59,7 +62,8 @@ feat/eco-hybrid-bootstrap                     tracker
 ## Progress and evidence
 
 - Status: in progress.
-- BOOT-001 commit: pending.
+- BOOT-001 commit: `docs(game): add provisional how-to-play manual` on
+  `docs/eco-manual-como-jugar`.
 - BOOT-002 commit: pending.
 - BOOT-003 commit: pending.
 - Human G1 inputs remain pending: inventory, exact models, budget, roles, dates, fabrication access, and board dimensions/materials.
