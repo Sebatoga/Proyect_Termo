@@ -40,10 +40,11 @@ feat/eco-hybrid-bootstrap                     tracker
     checks, required-term scan, prohibited-claim scan, and authored-line budget;
     work-unit commit `docs(game): add provisional how-to-play manual`.
 
-- [ ] **BOOT-002 — Create the hardware manual**
+- [x] **BOOT-002 — Create the hardware manual**
   - Route: delegated direct.
   - Trigger evidence: BOM classes, compatibility gates, conceptual pinout, serial protocol, calibration, staged assembly, safety, diagnostics, purchase checklist, and HIL evidence form a separate review unit.
   - Create `docs/18_MANUAL_HARDWARE.md` without selecting unavailable models or claiming tests.
+  - Completion evidence: provisional manual, plan/manual links, focused Markdown/link checks, required-term scan, prohibited-claim scan, and authored-line budget; work-unit commit `docs(hardware): add provisional hardware manual`.
 
 - [ ] **BOOT-003 — Start the hardware-independent protocol simulator**
   - Route: delegated direct.
@@ -64,7 +65,7 @@ feat/eco-hybrid-bootstrap                     tracker
 - Status: in progress.
 - BOOT-001 commit: `d3f78fd` (`docs(game): add provisional how-to-play manual`).
 - BOOT-001 verification: Markdown paths/links, required sections/terms, prohibited-claim scan, and `git diff --check` passed; 349 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`.
-- BOOT-002 commit: pending.
+- BOOT-002 commit: `docs(hardware): add provisional hardware manual` (this work unit); documentation-only verification passed, with no physical or npm tests claimed.
 - BOOT-003 commit: pending.
 - Human G1 inputs remain pending: inventory, exact models, budget, roles, dates, fabrication access, and board dimensions/materials.
 

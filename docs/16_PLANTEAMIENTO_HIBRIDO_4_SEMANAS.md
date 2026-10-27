@@ -8,6 +8,11 @@ El flujo público provisional para preparar y ensayar una partida está en
 [`docs/17_COMO_JUGAR.md`](17_COMO_JUGAR.md); sus reglas y umbrales continúan
 sujetos a G1, ECO-002 y playtesting.
 
+La planificación operativa de componentes, compatibilidad, ensamblaje,
+calibración y pruebas está en
+[`docs/18_MANUAL_HARDWARE.md`](18_MANUAL_HARDWARE.md). Es un manual provisional:
+no demuestra disponibilidad, compra, montaje ni pruebas físicas.
+
 ## Problema y objetivo
 
 Una ciudad debe sostener cargas críticas con recursos renovables variables sin vulnerar el caudal ecológico. El equipo jugador debe interpretar condiciones, acordar prioridades y operar el sistema energético. El objetivo educativo es hacer observables un balance térmico PV, la relación caudal–pérdidas–potencia de una hidro de pasada y el balance de batería/bus.

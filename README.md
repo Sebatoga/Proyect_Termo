@@ -27,6 +27,13 @@
 9. `docs/07_PROCESO_IA.md`: trazabilidad del uso de IA.
 10. `docs/08_ESTADO_DEL_PROYECTO.md`: contexto persistente y reanudación.
 
+## Manuales operativos provisionales
+
+- [`docs/17_COMO_JUGAR.md`](docs/17_COMO_JUGAR.md): preparación, flujo de ronda,
+  errores y referencia rápida para una partida todavía sujeta a gates.
+- [`docs/18_MANUAL_HARDWARE.md`](docs/18_MANUAL_HARDWARE.md): BOM funcional,
+  compatibilidad, protocolo, ensamblaje, seguridad y pruebas aún no ejecutadas.
+
 ## Fronteras técnicas propuestas (revisar componentes y versiones antes de elegir)
 
 - Núcleo físico independiente del renderizador: TypeScript puro.
