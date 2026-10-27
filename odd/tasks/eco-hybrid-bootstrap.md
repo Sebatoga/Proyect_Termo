@@ -62,12 +62,12 @@ feat/eco-hybrid-bootstrap                     tracker
 ## Progress and evidence
 
 - Status: in progress.
-- BOOT-001 commit: `docs(game): add provisional how-to-play manual` on
-  `docs/eco-manual-como-jugar`.
+- BOOT-001 commit: `d3f78fd` (`docs(game): add provisional how-to-play manual`).
+- BOOT-001 verification: Markdown paths/links, required sections/terms, prohibited-claim scan, and `git diff --check` passed; 349 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`.
 - BOOT-002 commit: pending.
 - BOOT-003 commit: pending.
 - Human G1 inputs remain pending: inventory, exact models, budget, roles, dates, fabrication access, and board dimensions/materials.
 
 ## Next step
 
-Commit this tracker, create `docs/eco-manual-como-jugar`, and execute BOOT-001 before advancing the chain.
+Create `docs/eco-manual-hardware` from this branch and execute BOOT-002 without changing the provisional gameplay contract.
