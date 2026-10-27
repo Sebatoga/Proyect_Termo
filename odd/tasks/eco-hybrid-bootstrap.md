@@ -65,10 +65,11 @@ feat/eco-hybrid-bootstrap                     tracker
 - Status: in progress.
 - BOOT-001 commit: `d3f78fd` (`docs(game): add provisional how-to-play manual`).
 - BOOT-001 verification: Markdown paths/links, required sections/terms, prohibited-claim scan, and `git diff --check` passed; 349 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`.
-- BOOT-002 commit: `docs(hardware): add provisional hardware manual` (this work unit); documentation-only verification passed, with no physical or npm tests claimed.
+- BOOT-002 commit: `74f596c` (`docs(hardware): add provisional hardware manual`).
+- BOOT-002 verification: Markdown paths/links, required coverage, prohibited-claim scan, and `git diff --check` passed; 339 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`; no physical or npm tests were claimed.
 - BOOT-003 commit: pending.
 - Human G1 inputs remain pending: inventory, exact models, budget, roles, dates, fabrication access, and board dimensions/materials.
 
 ## Next step
 
-Create `docs/eco-manual-hardware` from this branch and execute BOOT-002 without changing the provisional gameplay contract.
+Create `feat/eco-device-simulator` from this branch and execute BOOT-003 against the provisional JSON Lines v1 contract.
