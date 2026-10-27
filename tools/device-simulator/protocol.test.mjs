@@ -17,8 +17,10 @@ test("accepts the nominal v1 fixture", async () => {
   }
 });
 
-test("serializes scenarios deterministically", () => {
-  assert.equal(serializeScenario("nominal"), serializeScenario("nominal"));
+test("serializes scenarios exactly as their versioned fixtures", async () => {
+  for (const scenario of ["nominal", "disconnected"]) {
+    assert.equal(serializeScenario(scenario), await fixture(`v1-${scenario}.jsonl`));
+  }
 });
 
 test("rejects malformed JSON with a stable code", async () => {

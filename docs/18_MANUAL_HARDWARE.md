@@ -303,7 +303,7 @@ USB serial, calibración, electrónica, HIL ni modelos científicos.
 
 - Versionar el contrato JSON Lines y revisar su dirección y estados.
 - Crear fixtures `hello`, `inputs`, `output` y `error`, incluidos inválidos.
-- Implementar simulador determinista y parser sin puerto físico.
+- Mantener fixtures y simulador determinista alineados mientras evolucione el contrato.
 - Probar framing, esquema, `sequence`, versiones y errores.
 - Modelar `valid`, `invalid` y `disconnected` en adaptador y consola.
 - Diseñar formularios de inventario, compra, calibración, banco y HIL.

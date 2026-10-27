@@ -67,11 +67,11 @@ feat/eco-hybrid-bootstrap                     tracker
 - BOOT-001 verification: Markdown paths/links, required sections/terms, prohibited-claim scan, and `git diff --check` passed; 349 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`.
 - BOOT-002 commit: `74f596c` (`docs(hardware): add provisional hardware manual`).
 - BOOT-002 verification: Markdown paths/links, required coverage, prohibited-claim scan, and `git diff --check` passed; 339 authored changed lines. Native assessment classified the candidate as passive with `review_due_reason: passive`; no physical or npm tests were claimed.
-- BOOT-003 work-unit commit: `feat(protocol): add deterministic device simulator`.
-- BOOT-003 verification: 8/8 Node tests passed; nominal output matched byte-for-byte across two executions; disconnected inputs were explicit `null`; stdin returned stable malformed/version codes; `git diff --check` passed.
+- BOOT-003 work-unit commit: `f189e43` (`feat(protocol): add deterministic device simulator`).
+- BOOT-003 verification: 8/8 Node tests passed; generated scenarios matched their versioned fixtures; nominal output matched byte-for-byte across two executions; disconnected inputs were explicit `null`; stdin returned stable malformed/version codes; `git diff --check` passed.
 - BOOT-003 rollback: remove `tools/device-simulator/` and its links from the three authorized overview/manual documents; no product or scientific path imports it.
 - Human G1 inputs remain pending: inventory, exact models, budget, roles, dates, fabrication access, and board dimensions/materials.
 
 ## Next step
 
-Create `feat/eco-device-simulator` from this branch and execute BOOT-003 against the provisional JSON Lines v1 contract.
+Obtain the human G1 evidence listed above before selecting hardware or starting ECO-108 bank work. ECO-002 remains blocked in parallel.
