@@ -66,10 +66,10 @@ No PR, push, merge, or publication is authorized by this tracker.
 - Status: HYBRID-001 verificada; HYBRID-002 permanece pendiente.
 - Decision: hybrid board game plus electronics adopted by the user on 2026-10-23.
 - Human decisions still required: available components, budget, team roles, fabrication access, board dimensions/materials, and confirmed academic dates.
-- HYBRID-001 commit: pendiente de registro por el padre; este commit no registra su propio hash.
+- HYBRID-001 commit: `4d3a896` (`docs(scope): adopt Liga 4 hybrid game requirements`).
 - HYBRID-002 commit: pending.
-- HYBRID-001 verification: `git diff --check`, validación de rutas Markdown, búsqueda de alcance activo, búsqueda de terminología e inspección de líneas authored pasaron antes del cierre; resultados finales en el relevo.
+- HYBRID-001 verification: `git diff --check`, Markdown path/link validation, active-scope search, required-terminology search, and authored-line inspection passed; 332 authored changed lines. Native assessment classified the candidate as medium risk with `review_due_reason: under_budget`, so no review transaction was due.
 
 ## Next step
 
-Commit this tracker on `feat/eco-hybrid-scope`, create `docs/eco-hybrid-product-contract`, and execute HYBRID-001 before preparing the dependent delivery-plan branch.
+Create `docs/eco-hybrid-delivery-plan` from this branch and execute HYBRID-002 without rewriting HYBRID-001 history.
