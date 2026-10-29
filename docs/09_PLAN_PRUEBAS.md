@@ -42,9 +42,10 @@ no acredita aprobación.
 HOST-001 separa las capturas deterministas del simulador: dispositivo → host usa
 `emit-device nominal|disconnected` y los fixtures `v1-device-*.jsonl`; host →
 dispositivo usa `emit-host nominal` y `v1-host-output-nominal.jsonl`. La suite
-`node --test tools/device-simulator/*.test.mjs` compara bytes, tipos por dirección,
-desconexión y determinismo. Esto no ejecuta USB serial, firmware ni HIL. La
-validación direccional del consumidor queda pendiente para HOST-002.
+conjunta del simulador y HOST-002 cubre bytes, tipos por dirección, seis valores
+válidos, `hello` sin entradas, desconexión, error de dispositivo, schema, versión,
+secuencia y `DIRECTION_INVALID`. La CLI del adaptador produce snapshots idénticos
+entre ejecuciones. Esto no ejecuta USB serial, firmware, timeout ni HIL.
 
 ## Reglas de tolerancia
 - Resultados algebraicos: `max(1e-9, 1e-10 * abs(valor_esperado))` en unidades de la magnitud, salvo justificación; la necesidad de un criterio relativo/absoluto por variable se revisará.

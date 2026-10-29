@@ -36,6 +36,8 @@
 - [`tools/device-simulator/`](tools/device-simulator/): simulador determinista
   JSON Lines v1 sin hardware; inicio rápido con
   `node tools/device-simulator/cli.mjs emit-device nominal`.
+- [`tools/host-adapter/`](tools/host-adapter/): consumidor Node.js de referencia
+  que normaliza snapshots fail-closed sin puerto serial ni hardware.
 
 ## Fronteras técnicas propuestas (revisar componentes y versiones antes de elegir)
 

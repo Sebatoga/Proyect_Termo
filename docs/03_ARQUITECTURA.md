@@ -32,6 +32,11 @@ src/
 
 El firmware se versionará fuera de `src/domain/`. El dominio no importa Phaser, serial, DOM, Canvas ni UI; recibe valores ya validados mediante puertos neutrales.
 
+HOST-002 añadió `tools/host-adapter/` como referencia descartable de esa frontera:
+consume JSON Lines dispositivo → host, reutiliza el schema del simulador y limpia
+los seis valores ante invalidez, desconexión, error o dirección incorrecta. No es
+el adaptador productivo ni decide transporte, timeout, reconexión o puerto serial.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.

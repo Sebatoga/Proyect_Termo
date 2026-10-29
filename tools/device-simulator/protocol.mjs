@@ -5,9 +5,9 @@ export const BATTERY_MODES = Object.freeze(["idle", "charge", "discharge"]);
 export const LOAD_PRIORITIES = Object.freeze(["critical", "balanced", "comfort"]);
 
 const TYPES = ["hello", "inputs", "output", "error"];
-const INPUT_FIELDS = [
+export const INPUT_FIELDS = Object.freeze([
   "lightProxy", "temperature", "hydroSetpoint", "batteryMode", "loadPriority", "confirm",
-];
+]);
 const DETAILS = Object.freeze({
   MALFORMED_JSON: "Line is not valid JSON.",
   UNSUPPORTED_VERSION: "Only protocolVersion 1 is supported.",

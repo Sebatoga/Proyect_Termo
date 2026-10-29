@@ -178,8 +178,10 @@ El simulador mantiene ambos sentidos separados: `emit-device nominal` y
 `emit-host nominal` reproduce `v1-host-output-nominal.jsonl`. Los comandos y la
 matriz de tipos están en el
 [README del simulador](../tools/device-simulator/README.md). `validate` conserva
-validación estructural genérica; HOST-002 añadirá la validación direccional del
-consumidor sin fijar todavía ACK, timeout, baud rate ni reinicio de secuencia.
+validación estructural genérica. HOST-002 añadió un
+[adaptador host de referencia](../tools/host-adapter/README.md) que valida la
+dirección y limpia valores no actuales, sin fijar ACK, timeout, baud rate, puerto,
+driver ni reconexión. ECO-109 continúa pendiente y debe cerrar esas decisiones.
 
 **No fijar todavía baud rate ni timeout.** Ambos dependen de la plataforma, la
 carga observada y la recuperación requerida. Mientras no exista ese gate, el
@@ -309,8 +311,9 @@ evidencia. Esta tabla es un plan: ninguna fila está ejecutada por redactarla.
 ## Trabajo que puede comenzar sin hardware
 
 BOOT-003 ya ejecutó la parte de simulador y parser mediante Node.js estándar.
-Esa evidencia es solo de transporte local determinista: no demuestra firmware,
-USB serial, calibración, electrónica, HIL ni modelos científicos.
+HOST-002 añadió la normalización fail-closed de snapshots sin hardware. Esa
+evidencia es solo de transporte local determinista: no demuestra firmware, USB
+serial, calibración, electrónica, HIL ni modelos científicos.
 
 - Versionar el contrato JSON Lines y revisar su dirección y estados.
 - Crear fixtures `hello`, `inputs`, `output` y `error`, incluidos inválidos.

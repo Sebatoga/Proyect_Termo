@@ -28,7 +28,7 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   - Trigger evidence: protocol library, CLI, fixtures, tests, README, and contract documentation require coordinated non-trivial edits.
   - Acceptance: device emission contains only `hello`/`inputs`/`error`; host output remains a separate fixture/command; legacy ambiguity is removed or rejected explicitly.
 
-- [ ] **HOST-002 — Implement the fail-closed host adapter**
+- [x] **HOST-002 — Implement the fail-closed host adapter**
   - Route: delegated direct.
   - Trigger evidence: state machine, CLI, integration fixtures/tests, failure semantics, and documentation span multiple files.
   - Acceptance: valid inputs normalize deterministically; every invalid/disconnected path clears current values and reports an explicit issue without claiming serial hardware.
@@ -43,16 +43,22 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
 
 ## Progress and evidence
 
-- Status: in progress.
+- Status: completed.
 - Branch: `feat/eco-host-adapter-reference`; HOST-001 started after `37cd209`.
-- HOST-001 commit: this work-unit commit, `fix(protocol): separate device and host message streams`.
+- HOST-001 commit: `aee15fb` (`fix(protocol): separate device and host message streams`).
 - HOST-001 evidence: 12/12 Node tests pass; all three CLI streams match their
   directional fixtures byte for byte; type scan, legacy-command failure,
   repeated-execution comparison and `git diff --check` pass.
-- HOST-002 commit: pending.
+- HOST-002 commit: this work-unit commit,
+  `feat(protocol): add fail-closed host adapter reference`.
+- HOST-002 evidence: 23/23 joint Node tests pass; nominal pipe ends with six
+  valid values; disconnect/error expose no stale values; malformed, version,
+  sequence and wrong-direction cases report stable codes; repeated CLI output
+  is byte-identical; `git diff --check` passes.
 - Engram mirror: pending because session registration is unavailable.
 
 ## Next step
 
-Execute HOST-002: implement the fail-closed consumer against the now separated
-device stream without changing the provisional transport semantics.
+Human: review the snapshot contract and fail-closed semantics. Technical: keep
+ECO-109 pending until G1 permits firmware, calibration and real USB serial work;
+do not infer physical connectivity from this reference.

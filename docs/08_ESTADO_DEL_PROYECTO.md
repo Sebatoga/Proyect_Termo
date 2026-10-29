@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-27 (ECO108-2, plantillas vacías sin compra ni hardware).
+**Última actualización:** 2026-10-29 (HOST-002, adaptador host de referencia sin hardware).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -28,6 +28,18 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
+
+### HOST-002 — adaptador host de referencia
+
+- **Resultado:** referencia Node.js en `tools/host-adapter/`; consume JSON Lines
+  dispositivo → host y elimina los seis valores ante invalidez, desconexión,
+  error, secuencia incorrecta o dirección host → dispositivo.
+- **Pruebas:** 23/23 pruebas conjuntas del simulador y adaptador aprobadas; CLI
+  nominal determinista y snapshots sin reutilización de valores anteriores.
+- **Límites:** no es producto, firmware, serial real, calibración, timeout, retry,
+  reconexión, electrónica ni HIL. ECO-109 continúa **PENDIENTE**.
+- **Rollback:** eliminar `tools/host-adapter/`, revertir la exportación inmutable
+  de campos y retirar sus enlaces; ninguna ruta productiva depende del spike.
 
 ### BOOT-003 — simulador de protocolo sin hardware
 
