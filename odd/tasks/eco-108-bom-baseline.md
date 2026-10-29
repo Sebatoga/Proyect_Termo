@@ -28,7 +28,7 @@ Turn the user-approved separate-component option into an auditable procurement c
   - Trigger evidence: supplier citations, dated prices/stock, compatibility analysis, budget arithmetic, substitutions, and purchase gates span multiple non-trivial documentation views.
   - Acceptance: one auditable BOM distinguishes observed facts, estimates, pending checks, and explicit non-authorization to purchase.
 
-- [ ] **ECO108-2 — Create receipt and bench evidence forms**
+- [x] **ECO108-2 — Create receipt and bench evidence forms**
   - Route: delegated direct.
   - Trigger evidence: inventory, datasheet, identity, USB enumeration, raw input, output-current, fault, expected/obtained, and rollback records require reusable structured artifacts.
   - Acceptance: blank forms permit the team to collect real evidence without pre-filling results or silently advancing ECO-108.
@@ -43,14 +43,19 @@ Turn the user-approved separate-component option into an auditable procurement c
 
 ## Progress and evidence
 
-- Status: in progress; ECO108-1 complete, ECO108-2 pending.
+- Feature status: completed as documentary preparation; ECO-108 and G1 remain open pending real purchase, receipt, and bench evidence.
 - Tracker branch: `feat/eco-108-bom-baseline` from `baab08a`.
 - ECO108-1 evidence: `docs/19_BOM_ECO_108.md`, linked from the hardware manual,
   with project status/backlog updated; verification commands recorded in the
-  work-unit delivery. Commit message: `docs(hardware): record approved ECO-108 BOM candidate`.
-- ECO108-2 commit: pending.
-- Engram mirror: pending because session registration is unavailable.
+  work-unit delivery. Commit: `5074792` (`docs(hardware): record approved ECO-108 BOM candidate`).
+- ECO108-2 evidence: `evidencias/ECO-108/README.md` and the three blank forms
+  under `evidencias/ECO-108/plantillas/`, linked from the BOM and test plan.
+  Commit message: `docs(hardware): add ECO-108 receipt and bench forms`.
+- Espejo en Engram: `PENDIENTE`; el guardado no pudo confirmar una sesión
+  registrada durante la entrega.
 
 ## Next step
 
-Execute ECO108-1, preserving every physical fact as pending until observed by the team.
+A person must revalidate price, stock, shipping, references, and total, then
+explicitly authorize purchase. Only afterward may the team complete receipt and
+bench forms with observed evidence. Do not claim that G1 has passed.

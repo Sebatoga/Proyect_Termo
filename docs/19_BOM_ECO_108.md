@@ -128,6 +128,11 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 ## Trazabilidad
 
 - Contrato operativo: [Manual provisional de hardware](18_MANUAL_HARDWARE.md).
+- Evidencia futura: [índice y plantillas ECO-108](../evidencias/ECO-108/README.md).
 - Estado del proyecto: [Relevo vigente](08_ESTADO_DEL_PROYECTO.md).
 - Backlog: [ECO-108 en F1](04_BACKLOG_Y_FASES.md).
 - Unidad de trabajo: [ECO108-1](../odd/tasks/eco-108-bom-baseline.md).
+
+Las plantillas parten en `NOT_RUN` y no autorizan compra ni demuestran recepción
+o banco. Una persona debe revalidar la cotización y autorizar la compra antes de
+que el equipo complete recepción, compatibilidad y prueba física.

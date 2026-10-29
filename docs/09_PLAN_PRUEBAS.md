@@ -8,6 +8,11 @@
 5. **HIL/E2E:** luz y temperatura reales, controles físicos, LEDs, tablero y consola durante una partida completa.
 6. **Personas/feria:** 3–5 visitantes, seguridad, operación offline, contingencia y registro de defectos.
 
+Los registros futuros de recepción, compatibilidad y banco usan las
+[plantillas ECO-108](../evidencias/ECO-108/README.md). Sus estados permitidos son
+`NOT_RUN`, `PASS`, `FAIL` y `BLOCKED`; comienzan en `NOT_RUN`, y una celda vacía
+no acredita aprobación.
+
 ## Matriz de pruebas propuestas
 | Caso | Entradas | Esperado | Etapa |
 |---|---|---|---|
@@ -43,7 +48,7 @@
 - Para pruebas visuales no reemplazar captura real por ilustración generada.
 - Cambios de fórmulas sin tests/regresión actualizados impiden cerrar tarea.
 - Casos límite: PV sin luz útil y temperatura extrema válida; hidro con `Qriver<Qeco`, consigna cero/máxima y salto neto no positivo; batería en SOC mínimo/máximo y balance con pérdidas.
-- Cada banco, HIL y E2E registra versión de firmware/calibración, montaje, entradas, **esperado/obtenido**, tolerancia, evidencia, responsable, fecha y PASS/FAIL. Una expectativa sin observación no es prueba.
+- Cada banco, HIL y E2E registra versión de firmware/calibración, montaje, entradas, **esperado/obtenido**, tolerancia, comando o procedimiento, evidencia, responsable, fecha/hora y estado. Una expectativa sin observación no es prueba.
 
 ## Prueba de jugabilidad
 Para cada sesión: edad aproximada voluntaria si acepta, experiencia en juegos, objetivo entendido, tiempo primer input, fallos del UI, emociones/aburrimiento/confusión, comentarios textuales anónimos. No inferir evaluación de 3 usuarios de un solo ensayo.

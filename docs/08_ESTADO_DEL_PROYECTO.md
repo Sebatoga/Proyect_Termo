@@ -1,8 +1,8 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-27 (ECO108-1, BOM candidata sin compra ni hardware).
+**Última actualización:** 2026-10-27 (ECO108-2, plantillas vacías sin compra ni hardware).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** ECO108-1 está completada como preparación documental; ECO108-2 y G1 siguen pendientes. Compra y banco permanecen bloqueados. ECO-002 sigue BLOQUEADA.
+**Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
 
@@ -24,7 +24,7 @@
 
 ## Gate humano inmediato — G1
 
-El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 solo preparó una BOM candidata; el próximo paso real es revalidar precio/stock, completar gates y obtener autorización antes de comprar. ECO108-2 y toda evidencia de banco continúan pendientes. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
+El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata y ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md). El próximo paso real es que una persona revalide precio/stock/envío y autorice la compra; después se completan recepción y banco con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
