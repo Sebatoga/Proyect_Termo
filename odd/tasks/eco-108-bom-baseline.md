@@ -50,7 +50,7 @@ Turn the user-approved separate-component option into an auditable procurement c
   work-unit delivery. Commit: `5074792` (`docs(hardware): record approved ECO-108 BOM candidate`).
 - ECO108-2 evidence: `evidencias/ECO-108/README.md` and the three blank forms
   under `evidencias/ECO-108/plantillas/`, linked from the BOM and test plan.
-  Commit message: `docs(hardware): add ECO-108 receipt and bench forms`.
+  Commit: `4c7b600` (`docs(hardware): add ECO-108 receipt and bench forms`).
 - Espejo en Engram: `PENDIENTE`; el guardado no pudo confirmar una sesión
   registrada durante la entrega.
 
