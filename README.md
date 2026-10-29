@@ -35,7 +35,7 @@
   compatibilidad, protocolo, ensamblaje, seguridad y pruebas aún no ejecutadas.
 - [`tools/device-simulator/`](tools/device-simulator/): simulador determinista
   JSON Lines v1 sin hardware; inicio rápido con
-  `node tools/device-simulator/cli.mjs emit nominal`.
+  `node tools/device-simulator/cli.mjs emit-device nominal`.
 
 ## Fronteras técnicas propuestas (revisar componentes y versiones antes de elegir)
 

@@ -23,7 +23,7 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
 
 ## Tasks
 
-- [ ] **HOST-001 — Make simulator direction explicit**
+- [x] **HOST-001 — Make simulator direction explicit**
   - Route: delegated direct.
   - Trigger evidence: protocol library, CLI, fixtures, tests, README, and contract documentation require coordinated non-trivial edits.
   - Acceptance: device emission contains only `hello`/`inputs`/`error`; host output remains a separate fixture/command; legacy ambiguity is removed or rejected explicitly.
@@ -44,11 +44,15 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
 ## Progress and evidence
 
 - Status: in progress.
-- Branch: `feat/eco-host-adapter-reference` from `2c27318`.
-- HOST-001 commit: pending.
+- Branch: `feat/eco-host-adapter-reference`; HOST-001 started after `37cd209`.
+- HOST-001 commit: this work-unit commit, `fix(protocol): separate device and host message streams`.
+- HOST-001 evidence: 12/12 Node tests pass; all three CLI streams match their
+  directional fixtures byte for byte; type scan, legacy-command failure,
+  repeated-execution comparison and `git diff --check` pass.
 - HOST-002 commit: pending.
 - Engram mirror: pending because session registration is unavailable.
 
 ## Next step
 
-Execute HOST-001 before implementing any consumer that could misinterpret message direction.
+Execute HOST-002: implement the fail-closed consumer against the now separated
+device stream without changing the provisional transport semantics.

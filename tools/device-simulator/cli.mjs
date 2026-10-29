@@ -1,12 +1,23 @@
 #!/usr/bin/env node
 import { createInterface } from "node:readline";
-import { errorMessage, parseLine, serializeScenario, validateSequence } from "./protocol.mjs";
+import {
+  errorMessage, parseLine, serializeDeviceScenario, serializeHostScenario, validateSequence,
+} from "./protocol.mjs";
 
 const [command, argument] = process.argv.slice(2);
 
-if (command === "emit") {
-  try { process.stdout.write(serializeScenario(argument)); }
+if (command === "emit-device") {
+  try { process.stdout.write(serializeDeviceScenario(argument)); }
   catch (error) { process.stderr.write(`${error.message}\n`); process.exitCode = 1; }
+} else if (command === "emit-host") {
+  try { process.stdout.write(serializeHostScenario(argument)); }
+  catch (error) { process.stderr.write(`${error.message}\n`); process.exitCode = 1; }
+} else if (command === "emit") {
+  process.stderr.write(
+    "The 'emit' command was removed because it mixed protocol directions. "
+    + "Use 'emit-device <nominal|disconnected>' or 'emit-host <nominal>'.\n",
+  );
+  process.exitCode = 1;
 } else if (command === "validate") {
   let previous = null;
   const lines = createInterface({ input: process.stdin, crlfDelay: Infinity });
@@ -25,6 +36,8 @@ if (command === "emit") {
     previous = parsed.message.sequence;
   }
 } else {
-  process.stderr.write("Usage: node cli.mjs emit <nominal|disconnected> | validate\n");
+  process.stderr.write(
+    "Usage: node cli.mjs emit-device <nominal|disconnected> | emit-host <nominal> | validate\n",
+  );
   process.exitCode = 1;
 }

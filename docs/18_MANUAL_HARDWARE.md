@@ -173,6 +173,14 @@ representar firmware→host. La dirección, confirmación de órdenes, reinicio 
 `sequence`, catálogo estable de errores y semántica exacta de los valores deben
 cerrarse en ECO-109 con fixtures y pruebas.
 
+El simulador mantiene ambos sentidos separados: `emit-device nominal` y
+`emit-device disconnected` reproducen los fixtures `v1-device-*.jsonl`, mientras
+`emit-host nominal` reproduce `v1-host-output-nominal.jsonl`. Los comandos y la
+matriz de tipos están en el
+[README del simulador](../tools/device-simulator/README.md). `validate` conserva
+validación estructural genérica; HOST-002 añadirá la validación direccional del
+consumidor sin fijar todavía ACK, timeout, baud rate ni reinicio de secuencia.
+
 **No fijar todavía baud rate ni timeout.** Ambos dependen de la plataforma, la
 carga observada y la recuperación requerida. Mientras no exista ese gate, el
 adaptador debe diseñarse para recibir configuración explícita y mostrar la

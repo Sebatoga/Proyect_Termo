@@ -37,6 +37,15 @@ no acredita aprobación.
 | T-SAFE-01 | inspección energizada/desenergizada | baja tensión, carcasa, cableado y alivio conformes | S4 |
 | T-OFF-01 | red desconectada | consola y partida operan con recursos locales | S4 |
 
+### Harness local previo al hardware
+
+HOST-001 separa las capturas deterministas del simulador: dispositivo → host usa
+`emit-device nominal|disconnected` y los fixtures `v1-device-*.jsonl`; host →
+dispositivo usa `emit-host nominal` y `v1-host-output-nominal.jsonl`. La suite
+`node --test tools/device-simulator/*.test.mjs` compara bytes, tipos por dirección,
+desconexión y determinismo. Esto no ejecuta USB serial, firmware ni HIL. La
+validación direccional del consumidor queda pendiente para HOST-002.
+
 ## Reglas de tolerancia
 - Resultados algebraicos: `max(1e-9, 1e-10 * abs(valor_esperado))` en unidades de la magnitud, salvo justificación; la necesidad de un criterio relativo/absoluto por variable se revisará.
 - Integración temporal por Euler: validar convergencia variando dt y comportamiento físico; no exigir coincidencia exacta con ecuación analítica a dt finito.
