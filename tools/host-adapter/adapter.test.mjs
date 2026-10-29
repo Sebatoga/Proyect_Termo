@@ -55,11 +55,13 @@ for (const [name, expected] of [
   ["v1-invalid-status-enum.jsonl", "SCHEMA_INVALID"],
 ]) {
   test(`${name} clears values with ${expected}`, async () => {
-    const adapter = createHostAdapter();
-    await ingestFixture(adapter, "v1-device-nominal.jsonl");
-    adapter.ingest(lines(await fixture(name))[0]);
-    assert.equal(adapter.snapshot().issue.code, expected);
-    assert.ok(Object.values(adapter.snapshot().values).every((value) => value === null));
+    for (const line of lines(await fixture(name))) {
+      const adapter = createHostAdapter();
+      await ingestFixture(adapter, "v1-device-nominal.jsonl");
+      adapter.ingest(line);
+      assert.equal(adapter.snapshot().issue.code, expected);
+      assert.ok(Object.values(adapter.snapshot().values).every((value) => value === null));
+    }
   });
 }
 
@@ -72,6 +74,7 @@ test("sequence gap clears values with SEQUENCE_INVALID", async () => {
 
 test("incoming output clears values with DIRECTION_INVALID", async () => {
   const adapter = createHostAdapter();
+  await ingestFixture(adapter, "v1-device-nominal.jsonl");
   adapter.ingest((await fixture("v1-host-output-nominal.jsonl")).trim());
   assert.equal(adapter.snapshot().issue.code, "DIRECTION_INVALID");
   assert.ok(Object.values(adapter.snapshot().values).every((value) => value === null));

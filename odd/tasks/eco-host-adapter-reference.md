@@ -49,8 +49,7 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
 - HOST-001 evidence: 12/12 Node tests pass; all three CLI streams match their
   directional fixtures byte for byte; type scan, legacy-command failure,
   repeated-execution comparison and `git diff --check` pass.
-- HOST-002 commit: this work-unit commit,
-  `feat(protocol): add fail-closed host adapter reference`.
+- HOST-002 commit: `2a4deab` (`feat(protocol): add fail-closed host adapter reference`).
 - HOST-002 evidence: 23/23 joint Node tests pass; nominal pipe ends with six
   valid values; disconnect/error expose no stale values; malformed, version,
   sequence and wrong-direction cases report stable codes; repeated CLI output
