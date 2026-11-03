@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-10-29 (HOST-002, adaptador host de referencia sin hardware).
+**Última actualización:** 2026-11-03 (cierre técnico del spike HOST-002 sin hardware).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -34,10 +34,23 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Resultado:** referencia Node.js en `tools/host-adapter/`; consume JSON Lines
   dispositivo → host y elimina los seis valores ante invalidez, desconexión,
   error, secuencia incorrecta o dirección host → dispositivo.
-- **Pruebas:** 23/23 pruebas conjuntas del simulador y adaptador aprobadas; CLI
-  nominal determinista y snapshots sin reutilización de valores anteriores.
+- **Pruebas:** verificación independiente ordinaria PASS, sin hallazgos
+  bloqueantes: `node --test tools/device-simulator/*.test.mjs
+  tools/host-adapter/*.test.mjs` aprobó 27/27 y `git diff --check` pasó sin
+  salida. El commit `c0a4380` agregó cobertura para tipo no soportado tras
+  valores válidos, secuencias duplicada y reordenada, y determinismo de
+  snapshots CLI de error.
+- **Revisión nativa:** no disponible y sin aprobación ni recibo. Gentle AI 3.7.0
+  perdió `base-ref`/`committed-only` al seleccionar archivos no rastreados y
+  convirtió el rango de 20 paths en un candidato vacío; la ocurrencia quedó en
+  [#4890](https://github.com/Gentleman-Programming/gentle-ai/issues/4890#issuecomment-6609495590).
+  PR #5872 contiene el fix, pero fue fusionado después de v4.3.1 y todavía no
+  existe una versión estable publicada que lo incluya.
 - **Límites:** no es producto, firmware, serial real, calibración, timeout, retry,
   reconexión, electrónica ni HIL. ECO-109 continúa **PENDIENTE**.
+- **Estado físico y local:** ECO-002 continúa **BLOQUEADA**; ECO-108/G1 siguen
+  abiertos. `.codegraph/` y `.gitignore` permanecen no rastreados y fuera de
+  alcance. Engram no confirmó el registro de sesión.
 - **Rollback:** eliminar `tools/host-adapter/`, revertir la exportación inmutable
   de campos y retirar sus enlaces; ninguna ruta productiva depende del spike.
 

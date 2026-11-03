@@ -43,7 +43,9 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
 
 ## Progress and evidence
 
-- Status: completed.
+- Status: technically completed; ordinary independent verification PASS with no
+  blocking findings. Native review is unavailable and produced no approval or
+  receipt.
 - Branch: `feat/eco-host-adapter-reference`; HOST-001 started after `37cd209`.
 - HOST-001 commit: `aee15fb` (`fix(protocol): separate device and host message streams`).
 - HOST-001 evidence: 12/12 Node tests pass; all three CLI streams match their
@@ -54,10 +56,24 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   valid values; disconnect/error expose no stale values; malformed, version,
   sequence and wrong-direction cases report stable codes; repeated CLI output
   is byte-identical; `git diff --check` passes.
-- Engram mirror: pending because session registration is unavailable.
+- Additional coverage commit: `c0a4380` (`test(protocol): cover remaining
+  fail-closed paths`), covering an unsupported type after valid values,
+  duplicate and reordered sequences, and deterministic CLI error snapshots.
+- Ordinary independent verification: `node --test
+  tools/device-simulator/*.test.mjs tools/host-adapter/*.test.mjs` → 27/27 PASS;
+  `git diff --check` → PASS with no output.
+- Native review: Gentle AI 3.7.0 dropped `base-ref`/`committed-only` during
+  untracked selection and turned the 20-path range into an empty candidate; no
+  approval or receipt was created. The occurrence is recorded in
+  [issue #4890](https://github.com/Gentleman-Programming/gentle-ai/issues/4890#issuecomment-6609495590).
+  PR #5872 contains the fix, but it merged after the latest published stable
+  release, v4.3.1; no stable fix is published yet.
+- Engram mirror: pending; session registration was not confirmed.
+- Local `.codegraph/` and `.gitignore` remain untracked and outside this task.
 
 ## Next step
 
-Human: review the snapshot contract and fail-closed semantics. Technical: keep
-ECO-109 pending until G1 permits firmware, calibration and real USB serial work;
-do not infer physical connectivity from this reference.
+Technical closure retains the ordinary independent PASS and explicitly lacks a
+native review receipt. Keep ECO-109 pending until G1 permits firmware,
+calibration and real USB serial work; do not infer physical connectivity from
+this reference.
