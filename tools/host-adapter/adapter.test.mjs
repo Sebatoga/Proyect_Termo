@@ -72,6 +72,29 @@ test("sequence gap clears values with SEQUENCE_INVALID", async () => {
   assert.ok(Object.values(adapter.snapshot().values).every((value) => value === null));
 });
 
+test("unsupported type clears prior valid values", async () => {
+  const adapter = createHostAdapter();
+  await ingestFixture(adapter, "v1-device-nominal.jsonl");
+  adapter.ingest(JSON.stringify({
+    type: "telemetry", protocolVersion: 1, sequence: 2, uptimeMs: 101,
+    calibrationVersion: "sim-v1", status: "valid",
+  }));
+  assert.equal(adapter.snapshot().issue.code, "TYPE_UNSUPPORTED");
+  assert.ok(Object.values(adapter.snapshot().values).every((value) => value === null));
+});
+
+for (const [name, sequence] of [["duplicate", 1], ["reordered", 0]]) {
+  test(`${name} sequence clears prior valid values`, async () => {
+    const adapter = createHostAdapter();
+    await ingestFixture(adapter, "v1-device-nominal.jsonl");
+    const message = JSON.parse(lines(await fixture("v1-device-nominal.jsonl"))[1]);
+    message.sequence = sequence;
+    adapter.ingest(JSON.stringify(message));
+    assert.equal(adapter.snapshot().issue.code, "SEQUENCE_INVALID");
+    assert.ok(Object.values(adapter.snapshot().values).every((value) => value === null));
+  });
+}
+
 test("incoming output clears values with DIRECTION_INVALID", async () => {
   const adapter = createHostAdapter();
   await ingestFixture(adapter, "v1-device-nominal.jsonl");
@@ -110,4 +133,16 @@ test("CLI nominal output is byte-identical across executions", async () => {
   assert.equal(second.status, 0);
   assert.equal(first.stdout, second.stdout);
   assert.deepEqual(JSON.parse(lines(first.stdout).at(-1)).values, validValues);
+});
+
+test("CLI error snapshots are byte-identical across executions", async () => {
+  const input = `${await fixture("v1-device-nominal.jsonl")}{malformed}\n`;
+  const first = cli(input);
+  const second = cli(input);
+  assert.equal(first.status, 0);
+  assert.equal(second.status, 0);
+  assert.equal(first.stdout, second.stdout);
+  const finalSnapshot = JSON.parse(lines(first.stdout).at(-1));
+  assert.equal(finalSnapshot.issue.code, "MALFORMED_JSON");
+  assert.ok(Object.values(finalSnapshot.values).every((value) => value === null));
 });
