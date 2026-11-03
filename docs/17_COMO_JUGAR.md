@@ -192,20 +192,32 @@ y ninguna cifra de ensayo se convierte en regla general.
 
 - `Scrit` expresa la proporción de energía crítica requerida que fue atendida.
 - `Stotal` expresa la proporción de toda la energía demandada que fue atendida.
-- El registro ambiental confirma si se respetó el caudal ecológico en todas las
-  derivaciones.
+- El registro ambiental indica `conforme`, `incumplimiento atribuible al equipo`
+  o `indisponibilidad natural`, y si la evidencia es verificable.
 
 Hay victoria cooperativa mínima solo si, al terminar las seis rondas:
 
 1. `Scrit` alcanza el umbral impreso en la tarjeta de misión;
 2. `Stotal` alcanza su propio umbral impreso;
-3. se respetó el caudal ecológico durante toda derivación válida; y
+3. el estado ambiental verificable permanece conforme; una indisponibilidad
+   natural verificable no se atribuye al equipo ni cuenta como incumplimiento; y
 4. no quedan rondas sin resolver ni estados técnicos ambiguos.
 
 Exigir `Scrit` y `Stotal` evita la trampa de atender únicamente una categoría o
 de apagar toda la ciudad para aparentar conservación. La reserva final y el
 vertimiento se muestran como diagnóstico o, si una futura misión lo declara,
 como desempate. **Todavía no forman un score ponderado.**
+
+Esta estructura multidimensional sin pesos fue adoptada en ADR-011. La
+referencia ejecutable permite ensayar el resultado, pero no convierte sus
+umbrales provisionales en reglas oficiales ni demuestra que la misión esté
+balanceada.
+
+Las coberturas se obtienen sumando servicio y demanda de todas las rondas antes
+de dividir; no se promedian porcentajes por ronda. Si no hubo demanda en una
+dimensión, su cobertura se muestra como completa, pero una misión sin demanda
+total externa termina en derrota conservadora y no en victoria trivial. Si hubo
+demanda total positiva y no se sirvió, `Stotal` es cero.
 
 ## Derrota e incompleta no significan lo mismo
 
@@ -223,6 +235,9 @@ deben estar impresos y probados. Un instante aislado no causa derrota automátic
 Una partida es **incompleta** si una entrada desconectada/incompleta, error de
 protocolo, desincronización, tarjeta faltante o estado ambiguo impide verificarla.
 No cuenta como derrota, victoria ni dato de balance sin registrar la incidencia.
+También queda incompleta si la evidencia ambiental no es verificable o el
+registro contiene cantidades inválidas, IDs repetidos o un número de rondas
+distinto del declarado por la misión.
 
 ## Desconexión, lectura inválida o error
 

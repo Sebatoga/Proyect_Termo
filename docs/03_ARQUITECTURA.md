@@ -37,6 +37,11 @@ consume JSON Lines dispositivo → host, reutiliza el schema del simulador y lim
 los seis valores ante invalidez, desconexión, error o dirección incorrecta. No es
 el adaptador productivo ni decide transporte, timeout, reconexión o puerto serial.
 
+ECO-004 añadió `tools/game-scorecard/` como referencia separada y descartable de
+las reglas futuras. Expone `evaluateScorecard(mission, ledger)`, no importa el
+adaptador, física, datos de ECO-002, hardware ni UI, y sólo consume cantidades
+sintéticas ya resueltas. No es la implementación productiva ni acredita balance.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.
@@ -44,6 +49,30 @@ el adaptador productivo ni decide transporte, timeout, reconexión o puerto seri
 - **No permite** llamadas directas a UI, DOM, Date.now, Math.random o lectura de datos globales ocultos.
 - Mismo estado, entradas validadas, carta y versión de calibración produce el mismo resultado.
 - Prevenir mutación de objetos de entrada; conservar `schemaVersion` para replay y exportación de resultados.
+
+## Contrato de scorecard v1 (referencia implementada)
+
+`evaluateScorecard(mission, ledger): ScorecardResult`
+
+- `mission` usa `scorecard-mission/v1`, ID, cantidad positiva de rondas y
+  umbrales provisionales `criticalCoverage`/`totalCoverage` en `[0,1]`.
+- `ledger` usa `scorecard-ledger/v1`; cada ID de ronda es único y cada ronda se
+  declara `resolved` o `incomplete`. Las cantidades finitas no negativas cumplen
+  demanda crítica ≤ total, servicio crítico ≤ total y servicio ≤ demanda.
+- La cobertura se calcula por sumas agregadas, nunca por promedio de porcentajes
+  de ronda ni score ponderado. Denominador cero da cobertura `1`, pero demanda
+  total agregada cero produce derrota conservadora `NO_TOTAL_DEMAND`.
+- Primero se valida: cualquier dato inválido, ronda incompleta o evidencia
+  ambiental no verificable produce `incomplete`, métricas `null` y razones. Sólo
+  un ledger puntuable puede producir `defeat` o `victory`.
+- Victoria requiere todas las rondas esperadas resueltas, ambas coberturas sobre
+  sus umbrales y estado ambiental verificable/conforme. `natural-unavailability`
+  verificable no se atribuye al jugador; la semántica sigue provisional.
+- El resultado `scorecard-result/v1` es profundamente inmutable y contiene
+  `outcome`, métricas visibles y reason codes estables. No usa reloj,
+  aleatoriedad, estado global ni mutación de entradas.
+- La referencia ejecutable corresponde al commit `6aa9af2`; permanece aislada
+  de ECO-002 y no se integra todavía con resolución de rondas ni producto.
 
 ## Modelo de datos mínimo
 - `ValidatedInputs`: proxy de luz para gameplay, temperatura, consigna hidro, modo batería, prioridad de cargas, estado y versión de calibración.

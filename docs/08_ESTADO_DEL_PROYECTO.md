@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-03 (cierre técnico del spike HOST-002 sin hardware).
+**Última actualización:** 2026-11-03 (ECO-004 en revisión tras referencia y trazabilidad documental).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -19,7 +19,9 @@
 - Responsables, fechas, acceso a fabricación y dimensiones/materiales del tablero.
 - Ratificar host de consola y stack productivo después del inventario.
 - Referencias bibliográficas de parámetros físicos específicos y calibración.
-- Resolver diseño del score ecológico para evitar incentivo trivial.
+- Validar mediante playtesting reproducible y revisión ambiental los umbrales y
+  la semántica de indisponibilidad natural de ECO-004; la estructura sin pesos
+  ya fue adoptada, pero no acredita balance.
 - Ejecutar banco, firmware/protocolo, calibración, montaje y seguridad; hoy son planes, no evidencia.
 
 ## Gate humano inmediato — G1
@@ -28,6 +30,22 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
+
+### ECO-004 — scorecard cooperativa en revisión
+
+- **Resultado:** ADR-011 adopta cobertura crítica, cobertura total y
+  cumplimiento ambiental como dimensiones separadas sin pesos. El commit
+  `6aa9af2` contiene la referencia pura y pruebas (379 líneas, 2 paths).
+- **Pruebas observadas:** scorecard 20/20 PASS; suite conjunta de simulador,
+  adaptador y scorecard 47/47 PASS; `git diff --check` PASS.
+- **Assessment nativo:** `risk: medium`, razón `executable_change`;
+  `review_due: false`, razón `under_budget`, contra `4d7f45c`.
+- **Límites:** no consume ECO-002 ni acredita umbrales oficiales, balance,
+  ciencia, hardware o producto. La indisponibilidad natural sigue provisional.
+  Por eso ECO-004 queda **EN REVISIÓN**, no HECHA.
+- **Gates preservados:** ECO-002 sigue **BLOQUEADA**; ECO-108/G1 abiertos y
+  ECO-109 **PENDIENTE**. `.codegraph/` y `.gitignore` siguen no rastreados y
+  fuera de alcance; Engram no confirmó el registro de sesión.
 
 ### HOST-002 — adaptador host de referencia
 

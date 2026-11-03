@@ -24,8 +24,8 @@
 
 ## Ingeniería ambiental y electrónica
 - CA-20: el controlador (despacho, prioridades, BMS y protecciones) cambia efectivamente la continuidad del suministro.
-- CA-21: el cumplimiento ambiental no es un texto decorativo, y las métricas no incentivan apagar toda la ciudad.
-- CA-22: sequía natural menor a Qeco no penaliza indebidamente al jugador.
+- CA-21: la scorecard expone por separado cobertura crítica, cobertura total y cumplimiento ambiental, sin score ponderado; apagar demanda positiva o servir sólo críticas no gana cuando falla cobertura total.
+- CA-22: indisponibilidad natural declarada y verificable no se clasifica como incumplimiento atribuible al jugador; evidencia no verificable deja el resultado incompleto. Esta semántica es provisional hasta revisión ambiental.
 - CA-23: sensor de luz se rotula `proxy de luz calibrado para gameplay`, no irradiancia física, salvo futura calibración metrológica trazable.
 - CA-24: selector de batería, prioridad de cargas y consigna hidro cambian el balance y el movimiento de fichas; LEDs/consola no son decoración.
 
@@ -37,5 +37,15 @@
 - CA-34: bitácora de IA, contribución de miembros y decisiones actualizadas.
 - CA-35: correspondencia demostrable entre consigna del PDF, funcionalidades, tests y evidencia.
 - CA-36: correspondencia demostrable con Liga 4: juego de mesa, electrónica y variables reales afectan decisiones y resultados.
+- CA-37: `evaluateScorecard(mission, ledger)` valida versiones, rondas, IDs,
+  umbrales y cantidades; input ordinario inválido/incompleto retorna `incomplete`
+  con métricas `null` y reason codes estables, sin lanzar.
+- CA-38: un ledger puntuable agrega coberturas como `sum(served)/sum(required)`;
+  denominador cero reporta cobertura `1`, pero demanda total agregada cero no
+  gana. Mismo input produce salida profundamente igual e inmutable sin mutarlo.
+
+CA-21, CA-22, CA-37 y CA-38 tienen cobertura técnica de referencia. No se
+consideran aceptación de balance: los umbrales y la semántica ambiental exigen
+playtesting reproducible y revisión ambiental antes de cerrar ECO-004.
 
 **Nota:** los umbrales de experiencia y rendimiento son objetivos internos propuestos por el kit; no provienen de la rúbrica oficial. El profesor da criterios cualitativos, no números de FPS ni porcentaje mínimo de score.

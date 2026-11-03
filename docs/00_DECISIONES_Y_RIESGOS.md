@@ -13,6 +13,13 @@
 - **ADR-007**: Partida cooperativa de seis rondas en 8–12 minutos. Estado: *adoptado como objetivo de diseño, pendiente de playtesting*.
 - **ADR-008**: MVP con PV térmico, hidro de pasada, batería/bus y prioridad de cargas; eólica queda fuera. Estado: *alcance adoptado, modelos aún sujetos al gate científico ECO-002*.
 - **ADR-009**: Juego local offline, sin multijugador ni servidor. Estado: *propuesto*.
+- **ADR-011 (adoptada, 2026-11-03)**: La scorecard cooperativa expone tres
+  dimensiones sin pesos —cobertura crítica, cobertura total y cumplimiento
+  ambiental— y devuelve `victory`, `defeat` o `incomplete` con razones visibles.
+  Esta decisión evita que una dimensión compense otra; **no** adopta umbrales
+  oficiales ni valida balance, ciencia, hardware o producto. Los umbrales por
+  misión y la semántica de indisponibilidad natural siguen provisionales hasta
+  playtesting reproducible y revisión ambiental.
 
 ## Gate académico G-ACA-01 — CERRADO por corrección de alcance
 **Problema:** página 4, numeral 5, Liga 4: *«Sistema híbrido (juego de mesa + electrónica) donde variables reales (luz, calor ambiental, etc.) afecten el juego»*. El documento en página 1 admite juego físico, digital o híbrido en términos generales. NO presuponer que ese enunciado general deroga la exigencia específica.
@@ -36,6 +43,7 @@
 | R09 | Pérdida de progreso entre sesiones OpenCode | medio | relevo y estado actualizado obligatorios |
 | R14 | Componentes no disponibles o montaje inseguro | crítico | decidir modelos/presupuesto tras inventario; baja tensión, carcasa y cableado fijo |
 | R15 | Confundir proxy de luz con irradiancia medida | alto | rotularlo como `proxy de luz calibrado para gameplay` hasta validación metrológica |
+| R16 | Presentar la referencia ECO-004 como score balanceado o regla ambiental validada | alto | mantener umbrales inyectables y provisionales; exigir playtesting reproducible y revisión ambiental antes de cerrar ECO-004 |
 
 ## Cambios de decisión
 Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física/UX/plazo, responsable y autorización.

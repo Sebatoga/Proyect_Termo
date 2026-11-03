@@ -8,7 +8,7 @@
 | ECO-001 | Auditar entorno/repo/OpenCode, fuente académica | informe entorno, versiones y pendientes | HECHA — rama `blocked`, evidencia `20261021T031528Z` |
 | ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | BLOQUEADA — gate `ECO-002-GATE-20261022-03`; faltan revisiones humanas identificadas |
 | ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE |
-| ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | PENDIENTE |
+| ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | EN REVISIÓN — referencia y contrato testeados; “balanceada” requiere playtesting reproducible y revisión ambiental |
 | ECO-005 | Corregir el alcance a sistema híbrido Liga 4 | ADR-010 y contrato trazables, sin atribuir permiso docente | HECHA — corrección documental 2026-10-23 |
 | ECO-006 | Cerrar requisitos para pitch de hasta 7 min | storyboard, principios, diagrama y reporte IA | PENDIENTE |
 
@@ -69,6 +69,14 @@ La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría median
 ## Estado bloqueado ECO-002
 
 El gate `ECO-002-GATE-20261022-03` conserva el resultado `blocked_with_traceability`: existen inventario, dimensiones, fronteras, fuentes públicas acotadas y cuatro cuadernos documentales, pero no revisores humanos identificados, evidencia de competencia, reproducciones independientes ni revisiones física, de control, ambiental y de calidad. No existe línea base congelada para ECO-003.
+
+## Evidencia parcial ECO-004
+
+El commit `6aa9af2` implementó la referencia pura y sus pruebas. La scorecard
+multidimensional sin pesos está documentada y testeada, pero ECO-004 permanece
+**EN REVISIÓN**: sus umbrales y la indisponibilidad natural son provisionales, y
+el criterio “balanceada” todavía exige playtesting reproducible y revisión
+ambiental. Esta evidencia no consume ECO-002 ni modifica ECO-108/G1 o ECO-109.
 
 ## Evidencia exploratoria para ECO-101
 
