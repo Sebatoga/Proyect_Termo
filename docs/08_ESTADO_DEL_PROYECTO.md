@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-03 (ECO-004 en revisión tras referencia y trazabilidad documental).
+**Última actualización:** 2026-11-03 (ECO-004 corregida y verificada; playtesting y revisión ambiental pendientes).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -34,12 +34,17 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 ### ECO-004 — scorecard cooperativa en revisión
 
 - **Resultado:** ADR-011 adopta cobertura crítica, cobertura total y
-  cumplimiento ambiental como dimensiones separadas sin pesos. El commit
-  `6aa9af2` contiene la referencia pura y pruebas (379 líneas, 2 paths).
-- **Pruebas observadas:** scorecard 20/20 PASS; suite conjunta de simulador,
-  adaptador y scorecard 47/47 PASS; `git diff --check` PASS.
-- **Assessment nativo:** `risk: medium`, razón `executable_change`;
-  `review_due: false`, razón `under_budget`, contra `4d7f45c`.
+  cumplimiento ambiental como dimensiones separadas sin pesos. `6aa9af2` aporta
+  la referencia y `11d325d` rechaza agregados no finitos (450 líneas, 2 paths).
+- **Hallazgo y corrección:** el verificador independiente inicial bloqueó por
+  overflow con dos rondas `Number.MAX_VALUE` (`Infinity`, coberturas `NaN` y
+  victoria incorrecta). Tras el fix, devuelve `incomplete`, métricas `null` y
+  `AGGREGATE_QUANTITY_INVALID`; la reverificación fue PASS sin bloqueantes.
+- **Pruebas observadas:** scorecard 24/24 PASS; suite conjunta 51/51 PASS;
+  `git diff --check` PASS.
+- **Entrega/revisión:** `stacked-to-main`, dos PR lógicos, sin ramas, push ni PR.
+  PR 1 y PR 2 tienen `size:exception` autorizada (450 y 414 líneas). La revisión
+  nativa acumulada sigue no disponible por #4890; no existe aprobación ni recibo.
 - **Límites:** no consume ECO-002 ni acredita umbrales oficiales, balance,
   ciencia, hardware o producto. La indisponibilidad natural sigue provisional.
   Por eso ECO-004 queda **EN REVISIÓN**, no HECHA.

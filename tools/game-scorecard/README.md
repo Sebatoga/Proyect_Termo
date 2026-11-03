@@ -2,8 +2,8 @@
 
 Referencia local, pura y sin dependencias para evaluar un ledger sintético de
 rondas. No importa física, casos de ECO-002, hardware, transporte, UI ni reloj.
-La implementación y sus pruebas están en el commit `6aa9af2` (379 líneas, 2
-paths). ADR-011 adopta la estructura multidimensional sin pesos, no sus umbrales.
+La implementación y sus pruebas están en `6aa9af2` y el guard de agregados en
+`11d325d` (450 líneas, 2 paths). ADR-011 adopta la estructura sin pesos, no sus umbrales.
 
 ## Ruta rápida
 
@@ -61,6 +61,8 @@ score ponderado. Si un denominador es cero, su cobertura vale `1`; sin embargo,
 demanda total agregada cero produce `defeat` con `NO_TOTAL_DEMAND`, regla
 conservadora que impide una victoria sin obligación externa. Si la demanda total
 es positiva y no se sirve, la cobertura total vale `0` y nunca hay victoria.
+Si cualquier suma agregada deja de ser finita, el resultado es `incomplete`, las
+métricas quedan en `null` y se informa `AGGREGATE_QUANTITY_INVALID`.
 
 ## Límites y rollback
 

@@ -39,7 +39,8 @@
 - CA-36: correspondencia demostrable con Liga 4: juego de mesa, electrónica y variables reales afectan decisiones y resultados.
 - CA-37: `evaluateScorecard(mission, ledger)` valida versiones, rondas, IDs,
   umbrales y cantidades; input ordinario inválido/incompleto retorna `incomplete`
-  con métricas `null` y reason codes estables, sin lanzar.
+  con métricas `null` y reason codes estables, sin lanzar. Sumas agregadas no
+  finitas retornan `AGGREGATE_QUANTITY_INVALID` bajo el mismo contrato.
 - CA-38: un ledger puntuable agrega coberturas como `sum(served)/sum(required)`;
   denominador cero reporta cobertura `1`, pero demanda total agregada cero no
   gana. Mismo input produce salida profundamente igual e inmutable sin mutarlo.

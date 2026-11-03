@@ -43,7 +43,7 @@ no acredita aprobación.
 | T-SCO-05 | indisponibilidad natural verificable | no se atribuye al jugador; semántica provisional | F0 |
 | T-SCO-06 | ambiente no verificable, ronda incompleta o conteo/ID inválido | `incomplete`; métricas `null` y reason code estable | F0 |
 | T-SCO-07 | demanda total agregada cero | coberturas `1`, pero `defeat` con `NO_TOTAL_DEMAND` | F0 |
-| T-SCO-08 | negativo/no finito o relaciones demanda-servicio inválidas | `incomplete`, sin lanzar ni puntuar | F0 |
+| T-SCO-08 | negativo/no finito, overflow agregado o relaciones demanda-servicio inválidas | `incomplete`, métricas `null`; overflow → `AGGREGATE_QUANTITY_INVALID` | F0 |
 | T-SCO-09 | mismo input repetido y congelado | salida profundamente igual e inmutable; input intacto | F0 |
 
 ### Harness local previo al hardware
@@ -62,10 +62,10 @@ anti-trampa, validación, precedencia `incomplete`, denominador cero, determinis
 e inmutabilidad. No ejecutan modelos físicos, casos de ECO-002, UI ni producto y
 no demuestran balance o validez científica.
 
-Evidencia observada de la referencia `6aa9af2` el 2026-11-03: T-SCO ejecutó
-20/20 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 47/47
-PASS. Es cobertura técnica, no playtesting ni revisión ambiental; por tanto no
-cierra el criterio de balance de ECO-004.
+Evidencia observada tras `11d325d` el 2026-11-03: T-SCO ejecutó 24/24 pruebas
+PASS y la suite conjunta con simulador/adaptador ejecutó 51/51 PASS, incluido el
+guard de agregados no finitos. Es cobertura técnica, no playtesting ni revisión
+ambiental; por tanto no cierra el criterio de balance de ECO-004.
 
 ## Reglas de tolerancia
 - Resultados algebraicos: `max(1e-9, 1e-10 * abs(valor_esperado))` en unidades de la magnitud, salvo justificación; la necesidad de un criterio relativo/absoluto por variable se revisará.

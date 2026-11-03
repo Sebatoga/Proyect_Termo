@@ -78,18 +78,27 @@ Critical-load coverage alone can reward serving only one category while abandoni
 - Rollback boundary: remove `tools/game-scorecard/` and revert only the ECO-004
   scorecard paragraphs in the five aligned documents and this task record.
 - Observed verification (2026-11-03):
-  - `node --test tools/game-scorecard/*.test.mjs` — exit 0; 20 tests, 20 pass,
-    0 fail, 0 skipped, duration 55.522025 ms.
+  - Initial independent verifier: **BLOCKED** because two rounds with
+    `Number.MAX_VALUE` overflowed aggregate sums to `Infinity`, produced `NaN`
+    coverage and incorrectly returned `victory`.
+  - Fix `11d325d` (`fix(game): reject non-finite score aggregates`): 71 authored
+    lines in implementation and tests. It returns `incomplete`, null metrics and
+    `AGGREGATE_QUANTITY_INVALID`; tests also cover sum-based aggregation,
+    `incomplete` precedence and immutability/non-mutation of incomplete results.
+  - Post-fix independent verifier: **PASS**, with no blockers.
+  - `node --test tools/game-scorecard/*.test.mjs` — exit 0; 24 tests, 24 pass,
+    0 fail, 0 skipped.
   - `node --test tools/device-simulator/*.test.mjs tools/host-adapter/*.test.mjs
-    tools/game-scorecard/*.test.mjs` — exit 0; 47 tests, 47 pass, 0 fail,
-    0 skipped, duration 363.283056 ms.
+    tools/game-scorecard/*.test.mjs` — exit 0; 51 tests, 51 pass, 0 fail,
+    0 skipped.
   - `git diff --check` — exit 0, no output.
 
 ### Work unit and native assessment
 
 - Executable work-unit commit: `6aa9af2` (`feat(game): add cooperative scorecard
-  reference`), 379 authored lines across `scorecard.mjs` and
-  `scorecard.test.mjs` (2 paths), based on `4d7f45c`.
+  reference`) plus fix `11d325d`: 450 authored lines across `scorecard.mjs` and
+  `scorecard.test.mjs` (2 paths). The user explicitly authorized
+  `size:exception` for this cohesive PR 1 boundary.
 - Native assessment: `risk: medium`, reason `executable_change`;
   `review_due: false`, reason `under_budget`.
 - The output is pure, deterministic and deeply immutable. It validates
@@ -105,16 +114,22 @@ or published by this task.
 
 ```text
 main @ 4d7f45c
-  └── PR 1: 6aa9af2 — pure reference + tests (379 lines) → main
-        └── PR 2: current docs/README/traceability 📍 → main after PR 1 merges
+  └── PR 1: 6aa9af2 + 11d325d — reference, tests and overflow fix (450 lines; size:exception) → main
+        └── PR 2: 59087aa + current adjustment 📍 — docs/README/traceability (414 lines) → main after PR 1 merges
 ```
 
 - PR 1 boundary: only `scorecard.mjs` and `scorecard.test.mjs`; destination
   `main` when published.
 - PR 2 boundary: current documentation, README and ODD traceability; depends on
   PR 1 and will target `main` only after PR 1 is integrated.
-- Review budget: each slice must remain at or below 400 authored changed lines.
-  Do not mix chain strategies or compress documentation to fit the budget.
+- Local history is `6aa9af2` → `59087aa` → `11d325d`; the documentation commit
+  therefore sits between the two logical PR 1 commits. No branch, push or PR was
+  created, and this ordering must not be hidden when the stacks are prepared.
+- PR 2 starts with 339 authored changed lines in `59087aa`; this adjustment adds
+  75, for 414 logical lines. The user explicitly authorized `size:exception`
+  after the honest split; the evidence was not compressed.
+- Cumulative native review remains unavailable due to #4890; there is no native
+  approval or receipt. Do not mix chain strategies or compress documentation.
 - Rollback for PR 2: revert only its documentation/README/tracker paths; PR 1
   remains independently removable through the earlier rollback boundary.
 
