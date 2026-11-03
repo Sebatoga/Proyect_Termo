@@ -23,6 +23,7 @@ const MESSAGES = Object.freeze({
   ROUND_STATUS_INVALID: "Round status must be resolved or incomplete.",
   ROUND_INCOMPLETE: "Every expected round must be resolved before scoring.",
   QUANTITY_INVALID: "Demand and service quantities must be finite and non-negative.",
+  AGGREGATE_QUANTITY_INVALID: "Aggregate demand and service totals must be finite and non-negative.",
   CRITICAL_DEMAND_EXCEEDS_TOTAL: "Critical demand cannot exceed total demand.",
   SERVICE_EXCEEDS_DEMAND: "Service cannot exceed its corresponding demand.",
   CRITICAL_SERVICE_EXCEEDS_TOTAL: "Critical service cannot exceed total service.",
@@ -163,6 +164,9 @@ export function evaluateScorecard(mission, ledger) {
     criticalService: sum.criticalService + round.service.critical,
     totalService: sum.totalService + round.service.total,
   }), { criticalDemand: 0, totalDemand: 0, criticalService: 0, totalService: 0 });
+  if (!Object.values(totals).every(isQuantity)) {
+    return incomplete([reason("AGGREGATE_QUANTITY_INVALID")]);
+  }
 
   const metrics = {
     criticalCoverage: coverage(totals.criticalService, totals.criticalDemand),

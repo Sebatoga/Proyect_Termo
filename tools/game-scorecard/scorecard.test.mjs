@@ -112,6 +112,39 @@ test("zero denominators report full coverage but cannot create a trivial victory
   assert.deepEqual(codes(result), ["NO_TOTAL_DEMAND"]);
 });
 
+test("non-finite aggregate quantities are incomplete without throwing", () => {
+  const maximum = { critical: Number.MAX_VALUE, total: Number.MAX_VALUE };
+  const result = evaluateScorecard(mission(), ledger(
+    round("r1", { demand: maximum, service: maximum }),
+    round("r2", { demand: maximum, service: maximum }),
+  ));
+
+  assert.equal(result.outcome, "incomplete");
+  assert.deepEqual(result.metrics, {
+    criticalCoverage: null,
+    totalCoverage: null,
+    environmentalCompliance: null,
+  });
+  assert.deepEqual(codes(result), ["AGGREGATE_QUANTITY_INVALID"]);
+});
+
+test("coverage uses aggregate service over aggregate demand across unequal rounds", () => {
+  const result = evaluateScorecard(mission(), ledger(
+    round("r1", {
+      demand: { critical: 1, total: 1 },
+      service: { critical: 1, total: 1 },
+    }),
+    round("r2", {
+      demand: { critical: 9, total: 9 },
+      service: { critical: 0, total: 0 },
+    }),
+  ));
+
+  assert.equal(result.metrics.criticalCoverage, 0.1);
+  assert.equal(result.metrics.totalCoverage, 0.1);
+  assert.notEqual(result.metrics.totalCoverage, 0.5);
+});
+
 for (const [name, badRound, expectedCodes] of [
   ["negative quantity", round("r1", { demand: { critical: -1, total: 10 } }), ["QUANTITY_INVALID"]],
   ["non-finite quantity", round("r1", { service: { critical: 4, total: Infinity } }), ["QUANTITY_INVALID"]],
@@ -130,6 +163,20 @@ for (const [name, badRound, expectedCodes] of [
 test("an explicitly incomplete round is not scored", () => {
   const result = evaluateScorecard(mission(), ledger(round("r1"), { id: "r2", status: "incomplete" }));
   assert.equal(result.outcome, "incomplete");
+  assert.deepEqual(codes(result), ["ROUND_INCOMPLETE"]);
+});
+
+test("incomplete rounds take precedence over low service and environmental noncompliance", () => {
+  const result = evaluateScorecard(mission(), ledger(
+    { id: "r1", status: "incomplete" },
+    round("r2", {
+      service: { critical: 0, total: 0 },
+      environment: { status: "player-noncompliant", verifiable: true },
+    }),
+  ));
+
+  assert.equal(result.outcome, "incomplete");
+  assert.ok(Object.values(result.metrics).every((value) => value === null));
   assert.deepEqual(codes(result), ["ROUND_INCOMPLETE"]);
 });
 
@@ -180,4 +227,24 @@ test("same input is deeply deterministic and neither input nor output can be mut
   assert.equal(Object.isFrozen(first.reasons[0]), true);
   assert.throws(() => { first.metrics.totalCoverage = 0; }, TypeError);
   assert.throws(() => { first.reasons.push({ code: "TAMPER" }); }, TypeError);
+});
+
+test("incomplete results are deeply immutable without mutating inputs", () => {
+  const inputMission = mission();
+  const inputLedger = ledger(
+    round("r1"),
+    round("r2", { environment: { status: "compliant", verifiable: false } }),
+  );
+  const before = structuredClone({ inputMission, inputLedger });
+  const result = evaluateScorecard(inputMission, inputLedger);
+
+  assert.equal(result.outcome, "incomplete");
+  assert.deepEqual({ inputMission, inputLedger }, before);
+  assert.equal(Object.isFrozen(result), true);
+  assert.equal(Object.isFrozen(result.metrics), true);
+  assert.equal(Object.isFrozen(result.reasons), true);
+  assert.equal(Object.isFrozen(result.reasons[0]), true);
+  assert.throws(() => { result.metrics.totalCoverage = 0; }, TypeError);
+  assert.throws(() => { result.reasons[0].code = "TAMPER"; }, TypeError);
+  assert.throws(() => { result.reasons.push({ code: "TAMPER" }); }, TypeError);
 });
