@@ -1,15 +1,16 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-04 (ECO104-8 ligó el orden provisional a claves semánticas; ECO-104 sigue pendiente).
+**Última actualización:** 2026-11-04 (ECO-101 inició el bootstrap productivo de la consola secundaria; sigue en curso).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** ECO108-4 registró la elección humana de la variante de 1 m de la sonda DS18B20 de tres conductores; ECO-108 y G1 siguen abiertos. Precio, stock, envío, compra, recepción, datasheets aplicables, pinout, fabricante, calibración, firmware, USB, HIL y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
-**Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
-**Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
+**Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
+**Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
+**Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó el canvas del spike histórico, no el bootstrap productivo.
 
 ## Lo que está decidido
 - EcoGrid: Ciudad al Límite; Liga 4; juego cooperativo de mesa con electrónica y consola local secundaria.
 - Integración de termodinámica + mecánica de fluidos + electrónica + ambiental.
 - MVP de cuatro semanas: PV térmico, hidro de pasada, batería/bus y seis rondas en 8–12 minutos.
+- Stack de consola secundaria: TypeScript, Phaser 3, Vite y Vitest en versiones exactas; Playwright fuera del primer corte.
 - El 2026-10-27 se aprobó la BOM separada como objetivo de preparación para
   ECO-108, con presupuesto objetivo COP 83.000–90.000 más envío. No autoriza
   compra ni acredita posesión, recepción, calibración o prueba física.
@@ -17,7 +18,7 @@
 ## Lo que sigue pendiente
 - Inventario real, datasheets aplicables, presupuesto final y componentes disponibles; existe una [BOM candidata](19_BOM_ECO_108.md), no una selección física.
 - Responsables, fechas, acceso a fabricación y dimensiones/materiales del tablero.
-- Ratificar host de consola y stack productivo después del inventario.
+- Verificar el bootstrap productivo en el navegador objetivo y su operación offline; ADR-005 ya fija el stack, pero no acredita gameplay ni integración híbrida.
 - Referencias bibliográficas de parámetros físicos específicos y calibración.
 - Validar mediante playtesting reproducible y revisión ambiental los umbrales y
   la semántica de indisponibilidad natural de ECO-004; la estructura sin pesos
@@ -29,7 +30,7 @@
 El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata, ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md), ECO108-3 separó [hechos visibles y pendientes](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md) y ECO108-4 registró la elección humana de 1 m. El próximo paso real es revalidar esa variante, precio, stock y envío, y obtener autorización humana de compra; después se completan recepción y banco con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
-- El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
+- El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas actuales del bootstrap cubren sólo metadata y configuración pura, además de las referencias aisladas existentes.
 
 ### ECO-104 — referencia parcial del ciclo de rondas
 
@@ -159,15 +160,15 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Límites:** no es firmware, serial real, calibración, electrónica ni dominio científico; los enums de batería/prioridad son provisionales de la herramienta.
 - **Rollback:** eliminar `tools/device-simulator/` y sus enlaces documentales; ninguna ruta productiva o científica lo importa.
 
-### ECO-101 — spike de compatibilidad, tarea aún pendiente
+### ECO-101 — bootstrap productivo inicial en curso
 
-- **Resultado:** instalación y scripts operativos dentro de `spikes/runtime-smoke/`; ECO-101 continúa `PENDIENTE` porque no se creó el bootstrap de producción.
-- **Versiones finales:** Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; lockfile npm v3 rastreable.
-- **Pruebas:** `npm run typecheck` sin diagnósticos; `npm run test` con 1 archivo y 1 test aprobados; `npm run build` completado con advertencia de chunk de `1,196.09 kB`; el smoke reproducible inició Vite exclusivamente en `127.0.0.1:5173`, comprobó su señal de readiness, HTTP 200 y el marcador propio mientras el hijo seguía vivo, y Chrome headless `156.0.8078.47` reportó `canvas=true`, captura PNG de `9967` bytes y `console_runtime_errors=0`.
+- **Resultado actual:** aplicación raíz con shell DOM accesible, escena Phaser mínima, configuración tipada y fronteras puras testeables. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`, con lockfile npm.
+- **Checks del bootstrap:** typecheck sin diagnósticos, 2/2 pruebas Vitest y build completado; Vite conserva la advertencia de chunk minificado de Phaser mayor a 500 kB.
+- **Spike histórico:** typecheck, 1 test y build pasaron; su harness inició Vite exclusivamente en `127.0.0.1:5173`, comprobó HTTP 200 y el marcador propio, y Chrome headless `156.0.8078.47` reportó `canvas=true`, PNG de `9967` bytes y `console_runtime_errors=0`.
 - **Regresión RUNTIME-003:** una prueba Node ocupó primero el puerto con una respuesta HTTP 200 engañosa; `--strictPort` hizo terminar no-cero al harness sin informar PASS ni iniciar Chrome, y el puerto pudo enlazarse de nuevo al finalizar. El DOM y PNG conservaron sus hashes, por lo que no se incorporaron cambios de bytes.
 - **Evidencia visual:** `evidencias/ECO-101/runtime-smoke/browser-smoke.png` (800 × 450) muestra el fondo verde azulado oscuro del canvas y el texto blanco centrado del spike; el DOM preservado contiene `<canvas`.
-- **Límites:** canvas y el cuadro estático quedaron verificados solo en Chrome headless y en este entorno; no se comprobó Firefox, interacción, compatibilidad general, rendimiento prolongado, accesibilidad ni gameplay. El spike no consume ECO-002, no crea baseline, no ratifica ADR-005 y no implementa ciencia, control, score ni gameplay.
-- **Rollback:** eliminar `spikes/runtime-smoke/`; ninguna ruta de producción o científica lo importa.
+- **Límites:** la evidencia visual existente corresponde al spike, no al bootstrap productivo. El nuevo canvas aún no fue observado en navegador; tampoco se comprobaron interacción, operación offline, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
+- **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 
 ### ECO-002 — gate científico bloqueado
 

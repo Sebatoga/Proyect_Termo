@@ -15,7 +15,7 @@
 ## F1 — Rebanada vertical jugable
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-101 | Evaluar consola local web mediante spike descartable | compatibilidad acotada; no equivale a app productiva | PENDIENTE — spike ejecutado, producto no iniciado |
+| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; navegador productivo aún pendiente | EN CURSO — bootstrap técnico implementado, sin gameplay ni integración física |
 | ECO-102 | Modelos mínimos PV térmico + hidro de pasada en SI | tests de fórmulas, calor, caudal ecológico y límites | PENDIENTE |
 | ECO-103 | Bus eléctrico, batería y control prioridades | balance por tick y SOC límites, pruebas | PENDIENTE |
 | ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — orden provisional ligado a claves semánticas; sin efectos, solvencia, balance o integración de producto |
@@ -83,7 +83,7 @@ humana y revisión ambiental. El paquete real continúa `NOT_RUN` y fail-closed.
 
 ## Evidencia exploratoria para ECO-101
 
-El 2026-10-22 se creó `spikes/runtime-smoke/` como prueba descartable y aislada. Typecheck, un test determinista, build y entrega HTTP local respondieron correctamente con Phaser 3, TypeScript, Vite y Vitest. La advertencia de tamaño del bundle y la falta de validación visual/canvas quedan abiertas. Esta evidencia no consume ECO-002, no crea baseline, no ratifica ADR-005 y no satisface el criterio completo de ECO-101; por eso ECO-002 sigue **BLOQUEADA** y ECO-003/ECO-101 siguen **PENDIENTE**.
+El spike descartable verificó compatibilidad y permitió adoptar ADR-005 el 2026-11-04. El primer bootstrap productivo raíz añade shell accesible, escena mínima, configuración tipada y pruebas puras sin consumir ECO-002. ECO-101 queda **EN CURSO**: falta observar el canvas productivo en navegador, validar operación offline y avanzar el loop híbrido; ECO-002 sigue **BLOQUEADA** y ECO-003 **PENDIENTE**.
 
 ## Límites temporales del documento original
 - Pitch: fecha **sugerida** segunda semana de noviembre, **no confirmada** por profesor.

@@ -1,0 +1,6 @@
+# Local AI runtime state
+.atl/
+
+# Root application dependencies and build output
+/node_modules/
+/dist/

@@ -6,9 +6,9 @@
 - **ADR-003**: Ingeniería tercera: ambiental (junto a termodinámica, fluidos y electrónica).
 - **ADR-004 (histórica, sustituida)**: Se deseó un videojuego completamente programado en lugar de un juego de mesa con electrónica. No llegó a obtener autorización docente y se conserva como historia de decisión.
 - **ADR-010 (adoptada, 2026-10-23)**: El equipo sustituye ADR-004 y adopta para Liga 4 un juego cooperativo de mesa con electrónica donde variables reales afectan consignas y resultados. La consola local es secundaria al tablero y no reemplaza la experiencia física.
+- **ADR-005 (adoptada, 2026-11-04)**: La consola local secundaria usa TypeScript `7.0.2`, Phaser `3.90.0`, Vite `8.3.5` y Vitest `5.0.5`, con versiones exactas y lockfile npm. La decisión se apoya en el spike reproducible y en el primer bootstrap productivo; conserva operación local offline y aislamiento del dominio científico. Playwright no forma parte de este primer corte y requeriría una decisión posterior.
 
 ## Decisiones propuestas por el kit, ajustables con justificación
-- **ADR-005**: Stack TypeScript + Phaser 3 + Vite + Vitest + Playwright. Estado: *propuesto, no ratificado por equipo*.
 - **ADR-006**: Mapa isométrico, campaña, móvil y audio quedan fuera del MVP híbrido. Estado: *sustituido en alcance MVP por ADR-010*.
 - **ADR-007**: Partida cooperativa de seis rondas en 8–12 minutos. Estado: *adoptado como objetivo de diseño, pendiente de playtesting*.
 - **ADR-008**: MVP con PV térmico, hidro de pasada, batería/bus y prioridad de cargas; eólica queda fuera. Estado: *alcance adoptado, modelos aún sujetos al gate científico ECO-002*.
@@ -59,7 +59,7 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 | ID | Riesgo observado | Impacto | Tratamiento |
 |---|---|---|---|
 | R10 | Recursos EcoGrid de `.opencode/` ausentes y sin fuente original autorizada | alto | Mantener recuperación bloqueada; exigir procedencia, rutas, bytes y SHA-256 antes de cualquier escritura |
-| R11 | Confundir disponibilidad de herramientas con compatibilidad del stack | alto | Mantener ADR-005 sin ratificar hasta pruebas reproducibles en ECO-101 o dependencia aprobada de ECO-003 |
+| R11 | Confundir un bootstrap técnico con compatibilidad completa del producto | alto | Conservar versiones exactas, pruebas reproducibles y límites explícitos; validar luego navegador objetivo, operación offline y flujo híbrido |
 | R12 | Consumir en ECO-003 modelos sin revisión humana independiente ni baseline congelada | crítico | Mantener ECO-002 bloqueada; exigir gate `accepted_frozen` o excluir explícitamente los elementos afectados |
 | R13 | Los gates históricos incluyen el registro mutable y dejan de verificar al avanzar el puntero vigente | medio | No afirmar reproducibilidad total de gates anteriores; registrar el mismatch y rediseñar el snapshot de metadatos en una corrección futura |
 
@@ -74,6 +74,6 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 
 - El spike descartable `spikes/runtime-smoke/` verificó instalación, tipado, test, build y entrega HTTP local con Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`.
 - La instalación sin versión resolvió inicialmente Phaser `4.2.1`; se corrigió a la línea `3.x` porque ADR-005 propone Phaser 3. El lockfile final conserva `3.90.0`.
-- Esta evidencia es exclusivamente de viabilidad para una consola local secundaria: **ADR-005 continúa propuesto y no ratificado**. El smoke posterior verificó canvas en Chrome headless, pero no tablero, electrónica, gameplay ni modelos científicos; por tanto, no es el producto final.
+- Esta evidencia fue la base técnica para adoptar ADR-005 el 2026-11-04 y crear el bootstrap productivo raíz. No verifica tablero, electrónica, gameplay ni modelos científicos; por tanto, no es el producto final.
 - El build emitió una advertencia no bloqueante por un chunk minificado mayor a 500 kB. Si el stack se ratifica, el bootstrap de producción deberá evaluar carga diferida o justificar el tamaño.
-- ECO-002 continúa **BLOQUEADA** sin baseline; ECO-003 y ECO-101 continúan **PENDIENTE**.
+- ECO-002 continúa **BLOQUEADA** sin baseline; ECO-003 permanece **PENDIENTE** y ECO-101 pasa a **EN CURSO** con un bootstrap técnico aún sin prueba de navegador productiva.

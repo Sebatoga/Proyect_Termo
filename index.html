@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Bootstrap de la consola local secundaria de EcoGrid"
+    />
+    <title>EcoGrid | Consola local</title>
+  </head>
+  <body>
+    <main class="console-shell" aria-labelledby="console-title">
+      <header class="console-header">
+        <p class="console-label">Consola local secundaria</p>
+        <h1 id="console-title">EcoGrid: Ciudad al Límite</h1>
+        <p>
+          Este arranque técnico no reemplaza el tablero físico ni representa una
+          partida completa.
+        </p>
+      </header>
+
+      <section aria-labelledby="canvas-title">
+        <h2 id="canvas-title" class="visually-hidden">Estado visual</h2>
+        <div
+          id="game-container"
+          class="game-container"
+          role="img"
+          aria-label="Área visual del bootstrap de la consola local EcoGrid"
+        ></div>
+        <p id="console-status" class="console-status" role="status">
+          Estado: bootstrap local disponible; gameplay y conexión física aún no
+          implementados.
+        </p>
+      </section>
+    </main>
+
+    <noscript>Esta consola local requiere JavaScript habilitado.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -32,6 +32,10 @@ src/
 
 El firmware se versionará fuera de `src/domain/`. El dominio no importa Phaser, serial, DOM, Canvas ni UI; recibe valores ya validados mediante puertos neutrales.
 
+## Bootstrap productivo actual de la consola
+
+ECO-101 implementa la entrada raíz de Vite y limita Phaser a presentación. `src/consoleSpec.ts` contiene metadata determinista, `createGameConfig.ts` construye la configuración tipada mediante bindings inyectados, `ConsoleBootstrapScene.ts` dibuja una única escena técnica y `main.ts` crea `Phaser.Game`. Este corte no crea `src/domain/`, no importa ECO-002 y no implementa física, serial, reglas ni gameplay.
+
 HOST-002 añadió `tools/host-adapter/` como referencia descartable de esa frontera:
 consume JSON Lines dispositivo → host, reutiliza el schema del simulador y limpia
 los seis valores ante invalidez, desconexión, error o dirección incorrecta. No es

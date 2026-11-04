@@ -50,6 +50,10 @@ no acredita aprobación.
 | T-RND-03 | mismo manifiesto, seed, resolutor sintético y secuencia | estados e historiales profundamente iguales | F1 |
 | T-RND-04 | stream dispositivo→host, tokens y corte de sesión | sólo confirmación explícita resuelve; invalidez y reset no reutilizan valores/ciclo | F1 |
 
+### Bootstrap de consola ECO-101
+
+Vitest cubre metadata determinista y la fábrica pura de `GameConfig` sin requerir DOM ni navegador. TypeScript valida la configuración productiva y Vite genera el bundle local. La observación del canvas productivo, la prueba offline y la accesibilidad en navegador permanecen pendientes; el smoke histórico no las sustituye.
+
 ### Harness local previo al hardware
 
 HOST-001 separa las capturas deterministas del simulador: dispositivo → host usa
