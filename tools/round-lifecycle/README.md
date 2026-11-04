@@ -25,6 +25,16 @@ The manifest fixture shows the closed v1 shape. A valid snapshot matches the hos
 - Only closed `synthetic` events with `{ key }` data are accepted.
 - Invalid, disconnected, missing, null, or unconfirmed input stays on the same round.
 - A consumed sequence or token returns `INPUT_REPLAYED` without calling the resolver.
+- A sequence below the last committed sequence returns
+  `INPUT_SEQUENCE_NOT_INCREASING`. Reconnect/session epochs are outside this
+  reference and require a new lifecycle instance; this module invents no epoch
+  protocol.
+- Descriptor-based capture rejects accessors, hidden/symbol/array-extra fields,
+  sparse arrays, cycles, unsupported prototypes/values and non-finite numbers
+  without invoking getters. Traversal is limited to depth 32, 2,048 nodes and
+  4,096 entries.
+- Recursive confirmation during resolution returns `RESOLUTION_IN_PROGRESS`;
+  resolver failure or invalid output clears the guard for a valid retry.
 - Resolver inputs and all returned snapshots/history are deeply frozen copies.
 - After round six, attempts return `LIFECYCLE_COMPLETED` without side effects.
 

@@ -68,6 +68,24 @@ for (const [name, mutate, code] of [
   test(`rejects ${name}`, () => expectCode(mutate, code));
 }
 
+for (const [name, mutate] of [
+  ["hidden manifest field", (value) => Object.defineProperty(value, "hidden", { value: true })],
+  ["symbol round field", (value) => { value.rounds[0][Symbol("hidden")] = true; }],
+  ["hidden event field", (value) => Object.defineProperty(value.rounds[0].event, "hidden", { value: true })],
+  ["array extra property", (value) => { value.rounds.extra = true; }],
+]) {
+  test(`rejects ${name} at the descriptor boundary`, () => expectCode(mutate, "MANIFEST_DATA_INVALID"));
+}
+
+test("rejects manifest accessors without invoking them", async () => {
+  let reads = 0;
+  await expectCode((value) => Object.defineProperty(value.rounds[0].event.data, "key", {
+    enumerable: true,
+    get() { reads += 1; return "event-1"; },
+  }), "MANIFEST_DATA_INVALID");
+  assert.equal(reads, 0);
+});
+
 test("records caller-provided trace values and resolves through frozen inputs", async () => {
   let calls = 0;
   const engine = await lifecycle({
@@ -122,6 +140,47 @@ test("confirm false remains retryable without stale-value reuse", async () => {
   assert.equal(calls, 1);
 });
 
+test("snapshot accessors never resolve, advance, or enter history", async () => {
+  let reads = 0;
+  let calls = 0;
+  const input = validSnapshot();
+  const controls = input.values;
+  Object.defineProperty(input, "values", {
+    enumerable: true,
+    get() { reads += 1; return reads === 1 ? controls : null; },
+  });
+  const engine = await lifecycle({ resolve: () => { calls += 1; return {}; } });
+  const response = engine.confirm(input, "token-1");
+  assert.equal(response.reason, "INPUT_DATA_INVALID");
+  assert.equal(reads, 0);
+  assert.equal(calls, 0);
+  assert.equal(response.state.roundIndex, 0);
+});
+
+test("control accessors are rejected without invocation", async () => {
+  let reads = 0;
+  const input = validSnapshot();
+  Object.defineProperty(input.values, "lightProxy", {
+    enumerable: true,
+    get() { reads += 1; return 0.5; },
+  });
+  const engine = await lifecycle();
+  assert.equal(engine.confirm(input, "token-1").reason, "INPUT_DATA_INVALID");
+  assert.equal(reads, 0);
+});
+
+for (const [name, mutate] of [
+  ["hidden snapshot field", (value) => Object.defineProperty(value, "hidden", { value: true })],
+  ["symbol control field", (value) => { value.values[Symbol("hidden")] = true; }],
+]) {
+  test(`rejects ${name}`, async () => {
+    const input = validSnapshot();
+    mutate(input);
+    const engine = await lifecycle();
+    assert.equal(engine.confirm(input, "token-1").reason, "INPUT_DATA_INVALID");
+  });
+}
+
 test("duplicate sequence or token resolves exactly once", async () => {
   let calls = 0;
   const engine = await lifecycle({ resolve: () => ({ call: ++calls }) });
@@ -132,7 +191,32 @@ test("duplicate sequence or token resolves exactly once", async () => {
   assert.equal(engine.snapshot().history.length, 1);
 });
 
-test("resolver failure or non-plain result leaves the same round retryable", async () => {
+test("committed sequences must increase strictly", async () => {
+  let calls = 0;
+  const engine = await lifecycle({ resolve: () => ({ call: ++calls }) });
+  assert.equal(engine.confirm(validSnapshot(10), "token-10").ok, true);
+  const regression = engine.confirm(validSnapshot(9), "token-9");
+  assert.equal(regression.reason, "INPUT_SEQUENCE_NOT_INCREASING");
+  assert.equal(calls, 1);
+  assert.equal(regression.state.history.length, 1);
+});
+
+test("recursive confirm is blocked before a second resolver call or append", async () => {
+  let calls = 0;
+  let nested;
+  let engine;
+  engine = await lifecycle({ resolve: () => {
+    calls += 1;
+    nested = engine.confirm(validSnapshot(1), "token-1");
+    return { call: calls };
+  } });
+  const outer = engine.confirm(validSnapshot(1), "token-1");
+  assert.equal(nested.reason, "RESOLUTION_IN_PROGRESS");
+  assert.equal(calls, 1);
+  assert.equal(outer.state.history.length, 1);
+});
+
+test("resolver guard clears after throw or invalid result so retry succeeds", async () => {
   let mode = "throw";
   const engine = await lifecycle({ resolve: () => {
     if (mode === "throw") throw new Error("synthetic failure");
@@ -146,10 +230,60 @@ test("resolver failure or non-plain result leaves the same round retryable", asy
   assert.equal(engine.confirm(validSnapshot(1), "token-1").ok, true);
 });
 
+test("resolver result accessors cannot insert changed or non-finite values", async () => {
+  let reads = 0;
+  const engine = await lifecycle({ resolve: () => {
+    const result = {};
+    Object.defineProperty(result, "value", {
+      enumerable: true,
+      get() { reads += 1; return reads === 1 ? 1 : Number.NaN; },
+    });
+    return result;
+  } });
+  const response = engine.confirm(validSnapshot(), "token-1");
+  assert.equal(response.reason, "RESOLVER_RESULT_INVALID");
+  assert.equal(reads, 0);
+  assert.deepEqual(response.state.history, []);
+});
+
+test("deep resolver results return a stable limit reason without throwing", async () => {
+  const engine = await lifecycle({ resolve: () => {
+    let result = {};
+    for (let depth = 0; depth < 100; depth += 1) result = { child: result };
+    return result;
+  } });
+  assert.doesNotThrow(() => {
+    assert.equal(engine.confirm(validSnapshot(), "token-1").reason, "RESOLVER_RESULT_LIMIT_EXCEEDED");
+  });
+  assert.deepEqual(engine.snapshot().history, []);
+});
+
+for (const [name, build] of [
+  ["hidden field", () => { const value = {}; Object.defineProperty(value, "hidden", { value: true }); return value; }],
+  ["symbol field", () => ({ [Symbol("hidden")]: true })],
+  ["array extra field", () => { const value = []; value.extra = true; return value; }],
+  ["sparse array", () => new Array(1)],
+  ["cycle", () => { const value = {}; value.self = value; return value; }],
+  ["unsupported prototype", () => new Date(0)],
+  ["unsupported value", () => ({ value: undefined })],
+]) {
+  test(`resolver result rejects ${name}`, async () => {
+    const engine = await lifecycle({ resolve: build });
+    assert.equal(engine.confirm(validSnapshot(), "token-1").reason, "RESOLVER_RESULT_INVALID");
+  });
+}
+
+test("wide resolver results return a stable aggregate limit reason", async () => {
+  const engine = await lifecycle({ resolve: () => Array.from({ length: 4097 }, () => 0) });
+  assert.equal(engine.confirm(validSnapshot(), "token-1").reason, "RESOLVER_RESULT_LIMIT_EXCEEDED");
+});
+
 test("six resolutions complete and a seventh is rejected deterministically", async () => {
   const engine = await lifecycle();
   for (let index = 1; index <= 6; index += 1) {
-    assert.equal(engine.confirm(validSnapshot(index), `token-${index}`).ok, true);
+    const response = engine.confirm(validSnapshot(index), `token-${index}`);
+    assert.equal(response.ok, true);
+    assert.ok(response.state.history.length <= 6);
   }
   assert.equal(engine.snapshot().status, "completed");
   assert.equal(engine.snapshot().currentRoundId, null);

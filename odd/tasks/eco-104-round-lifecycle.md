@@ -39,6 +39,18 @@ The project documents a six-round flow but has no executable lifecycle contract.
   - Route: `delegated`.
   - Trigger evidence: stateful executable + tests + fixtures + docs across 2+ non-trivial files.
   - Acceptance: exact commands, counts, authored lines, commit identity, rollback, limitations, and next step are recorded without promoting ECO-104.
+- [x] **ECO104-4 — Harden hostile-data and reentrant boundaries**
+  - Route: `delegated`.
+  - Trigger evidence: independent verification blocked `a0ac3ca`; safe capture,
+    lifecycle state, adversarial tests and contract documentation require a
+    coordinated correction across non-trivial files.
+  - Accepted findings: snapshot accessor TOCTOU; recursive resolver duplication;
+    resolver-result accessor/depth failures; sequence regression; and closed
+    schemas accepting hidden, symbol, accessor or array-extra properties.
+  - Acceptance: one bounded descriptor-based plain-data capture rejects hostile
+    structures with stable codes, snapshots/results are captured once,
+    reentrancy cannot append, committed sequences strictly increase, traversal
+    limits prevent native errors, and history cannot exceed six entries.
 
 ## Acceptance criteria
 
@@ -57,6 +69,10 @@ The project documents a six-round flow but has no executable lifecycle contract.
 
 - `node --test tools/round-lifecycle/*.test.mjs`
 - `node --test tools/device-simulator/*.test.mjs tools/host-adapter/*.test.mjs tools/game-scorecard/*.test.mjs tools/round-lifecycle/*.test.mjs`
+- Bounded adversarial probes reproduce and close all five accepted findings.
+- Regression coverage includes accessor snapshots/results, recursive confirm,
+  deep results, sequence 10→9, hidden/symbol/array-extra/accessor manifest data,
+  guard cleanup after failure, and the six-entry history ceiling.
 - Deterministic replay and deep-immutability tests in the focused suite.
 - Source scan for forbidden entropy, timer, and import tokens.
 - `git diff --check`
@@ -66,6 +82,10 @@ The project documents a six-round flow but has no executable lifecycle contract.
 ## Rollback
 
 Remove `tools/round-lifecycle/`, this tracker, and only the ECO-104 paragraphs added to project documents. No product, scientific, scorecard, adapter, or hardware path may depend on this reference.
+
+Correction rollback: revert only the ECO104-4 correction commit to restore
+`a0ac3ca`; that state is independently blocked and must not be treated as a safe
+reference.
 
 ## Progress and evidence
 
@@ -96,6 +116,21 @@ Remove `tools/round-lifecycle/`, this tracker, and only the ECO-104 paragraphs a
 - Commit subject: `feat(game): add deterministic round lifecycle reference`.
   The resulting hash is reported by `git show`; a commit cannot contain its own
   stable hash without changing that hash.
+- Correction status: reopened after an independent verifier blocked `a0ac3ca` on
+  the five accepted hostile-input and reentrancy defects listed in ECO104-4.
+- ECO104-4 focused check: `node --test tools/round-lifecycle/*.test.mjs` — exit
+  0; 41 tests, 41 pass, 0 fail, 0 skipped.
+- ECO104-4 combined check: the documented combined command — exit 0; 135 tests,
+  135 pass, 0 fail, 0 skipped.
+- Bounded adversarial probes returned `INPUT_DATA_INVALID` without getter or
+  resolver calls, `RESOLUTION_IN_PROGRESS` with one history entry,
+  `RESOLVER_RESULT_INVALID` without getter calls,
+  `RESOLVER_RESULT_LIMIT_EXCEEDED`, `INPUT_SEQUENCE_NOT_INCREASING`, and
+  `MANIFEST_DATA_INVALID`; no native error escaped.
+- ECO104-4 `git diff --check` — exit 0 with no output. The correction contains
+  361 authored changed lines (`318` additions, `43` deletions) across 7 paths;
+  final status/show are recorded after commit.
+- Correction commit subject: `fix(game): harden round lifecycle boundaries`.
 
 ## Next step
 

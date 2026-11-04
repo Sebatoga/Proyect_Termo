@@ -3,21 +3,13 @@ const EVENT_TYPES = new Set(["synthetic"]);
 const VALUE_FIELDS = Object.freeze([
   "lightProxy", "temperature", "hydroSetpoint", "batteryMode", "loadPriority", "confirm",
 ]);
+const CAPTURE_LIMITS = Object.freeze({ maxDepth: 32, maxNodes: 2048, maxEntries: 4096 });
 
 const isRecord = (value) => value !== null && typeof value === "object"
   && !Array.isArray(value) && Object.getPrototypeOf(value) === Object.prototype;
 const hasOnly = (value, fields) => isRecord(value)
   && Object.keys(value).length === fields.length
   && Object.keys(value).every((field) => fields.includes(field));
-const clone = (value) => structuredClone(value);
-const freezeDeep = (value) => {
-  if (value && typeof value === "object" && !Object.isFrozen(value)) {
-    Object.freeze(value);
-    for (const child of Object.values(value)) freezeDeep(child);
-  }
-  return value;
-};
-const immutable = (value) => freezeDeep(clone(value));
 
 export class LifecycleValidationError extends Error {
   constructor(code, message) {
@@ -28,6 +20,84 @@ export class LifecycleValidationError extends Error {
 }
 
 const reject = (code, message) => { throw new LifecycleValidationError(code, message); };
+
+function capturePlainData(root, invalidCode, limitCode) {
+  const seen = new WeakSet();
+  const containers = [];
+  const holder = { value: undefined };
+  const stack = [{ source: root, target: holder, key: "value", depth: 0 }];
+  let nodes = 0;
+  let entries = 0;
+
+  try {
+    while (stack.length > 0) {
+      const { source, target, key, depth } = stack.pop();
+      nodes += 1;
+      if (depth > CAPTURE_LIMITS.maxDepth || nodes > CAPTURE_LIMITS.maxNodes) {
+        return { ok: false, code: limitCode };
+      }
+      if (source === null || typeof source === "string" || typeof source === "boolean") {
+        target[key] = source;
+        continue;
+      }
+      if (typeof source === "number") {
+        if (!Number.isFinite(source)) return { ok: false, code: invalidCode };
+        target[key] = source;
+        continue;
+      }
+      if (typeof source !== "object" || seen.has(source)) return { ok: false, code: invalidCode };
+      seen.add(source);
+
+      const array = Array.isArray(source);
+      const prototype = Object.getPrototypeOf(source);
+      if (prototype !== (array ? Array.prototype : Object.prototype)) {
+        return { ok: false, code: invalidCode };
+      }
+      const descriptors = Object.getOwnPropertyDescriptors(source);
+      const keys = Reflect.ownKeys(descriptors);
+      if (keys.some((property) => typeof property === "symbol")) {
+        return { ok: false, code: invalidCode };
+      }
+
+      let dataKeys;
+      if (array) {
+        const lengthDescriptor = descriptors.length;
+        if (!lengthDescriptor || !("value" in lengthDescriptor)
+          || !Number.isSafeInteger(lengthDescriptor.value) || lengthDescriptor.value < 0) {
+          return { ok: false, code: invalidCode };
+        }
+        dataKeys = keys.filter((property) => property !== "length");
+        if (dataKeys.length !== lengthDescriptor.value
+          || dataKeys.some((property, index) => property !== String(index))) {
+          return { ok: false, code: invalidCode };
+        }
+      } else {
+        dataKeys = keys;
+      }
+      entries += dataKeys.length;
+      if (entries > CAPTURE_LIMITS.maxEntries) return { ok: false, code: limitCode };
+
+      const captured = array ? new Array(dataKeys.length) : {};
+      target[key] = captured;
+      containers.push(captured);
+      for (let index = dataKeys.length - 1; index >= 0; index -= 1) {
+        const property = dataKeys[index];
+        const descriptor = descriptors[property];
+        if (!("value" in descriptor) || !descriptor.enumerable) {
+          return { ok: false, code: invalidCode };
+        }
+        if (!array) Object.defineProperty(captured, property, {
+          value: undefined, enumerable: true, writable: true, configurable: true,
+        });
+        stack.push({ source: descriptor.value, target: captured, key: property, depth: depth + 1 });
+      }
+    }
+    for (let index = containers.length - 1; index >= 0; index -= 1) Object.freeze(containers[index]);
+    return { ok: true, value: holder.value };
+  } catch {
+    return { ok: false, code: invalidCode };
+  }
+}
 
 function validateManifest(manifest) {
   if (!hasOnly(manifest, ["schemaVersion", "rounds"])) reject("MANIFEST_SHAPE_INVALID", "Manifest fields are invalid.");
@@ -45,7 +115,7 @@ function validateManifest(manifest) {
     if (!hasOnly(round.event.data, ["key"]) || typeof round.event.data.key !== "string"
       || round.event.data.key.length === 0) reject("EVENT_DATA_INVALID", "Synthetic event data requires only a non-empty key.");
   }
-  return immutable(manifest);
+  return manifest;
 }
 
 function validateTrace(seed, resolverVersion, resolver) {
@@ -69,21 +139,17 @@ function snapshotIssue(snapshot) {
   return null;
 }
 
-function isPlainData(value, seen = new Set()) {
-  if (value === null || typeof value === "string" || typeof value === "boolean") return true;
-  if (typeof value === "number") return Number.isFinite(value);
-  if (typeof value !== "object" || seen.has(value)) return false;
-  seen.add(value);
-  const children = Array.isArray(value) ? value : (isRecord(value) ? Object.values(value) : null);
-  return children !== null && children.every((child) => isPlainData(child, seen));
-}
-
 export function createRoundLifecycle({ manifest, seed, resolverVersion, resolve }) {
-  const acceptedManifest = validateManifest(manifest);
+  const manifestCapture = capturePlainData(
+    manifest, "MANIFEST_DATA_INVALID", "MANIFEST_DATA_LIMIT_EXCEEDED",
+  );
+  if (!manifestCapture.ok) reject(manifestCapture.code, "Manifest data is unsafe or exceeds limits.");
+  const acceptedManifest = validateManifest(manifestCapture.value);
   validateTrace(seed, resolverVersion, resolve);
-  let history = immutable([]);
+  let history = Object.freeze([]);
+  let resolving = false;
 
-  const state = () => immutable({
+  const state = () => Object.freeze({
     schemaVersion: "round-lifecycle-state/v1",
     manifestVersion: acceptedManifest.schemaVersion,
     seed,
@@ -93,38 +159,59 @@ export function createRoundLifecycle({ manifest, seed, resolverVersion, resolve 
     status: history.length < 6 ? "waiting-input" : "completed",
     history,
   });
-  const response = (ok, reason) => immutable({ ok, reason, state: state() });
+  const response = (ok, reason) => Object.freeze({ ok, reason, state: state() });
 
   return Object.freeze({
     snapshot: state,
     confirm(snapshot, token) {
-      if (history.length === 6) return response(false, "LIFECYCLE_COMPLETED");
-      const issue = snapshotIssue(snapshot);
+      if (history.length >= 6) return response(false, "LIFECYCLE_COMPLETED");
+      if (resolving) return response(false, "RESOLUTION_IN_PROGRESS");
+      const snapshotCapture = capturePlainData(
+        snapshot, "INPUT_DATA_INVALID", "INPUT_DATA_LIMIT_EXCEEDED",
+      );
+      if (!snapshotCapture.ok) return response(false, snapshotCapture.code);
+      const acceptedSnapshot = snapshotCapture.value;
+      const issue = snapshotIssue(acceptedSnapshot);
       if (issue) return response(false, issue);
       if (typeof token !== "string" || token.length === 0) return response(false, "INPUT_TOKEN_INVALID");
-      if (!snapshot.values.confirm) return response(false, "CONFIRMATION_REQUIRED");
-      if (history.some((entry) => entry.input.sequence === snapshot.acceptedSequence
+      if (!acceptedSnapshot.values.confirm) return response(false, "CONFIRMATION_REQUIRED");
+      if (history.some((entry) => entry.input.sequence === acceptedSnapshot.acceptedSequence
         || entry.input.token === token)) return response(false, "INPUT_REPLAYED");
+      const lastSequence = history.at(-1)?.input.sequence;
+      if (lastSequence !== undefined && acceptedSnapshot.acceptedSequence <= lastSequence) {
+        return response(false, "INPUT_SEQUENCE_NOT_INCREASING");
+      }
 
       const round = acceptedManifest.rounds[history.length];
-      const resolverInput = immutable({
+      const acceptedInput = Object.freeze({
+        sequence: acceptedSnapshot.acceptedSequence,
+        token,
+        calibrationVersion: acceptedSnapshot.calibrationVersion,
+        controls: acceptedSnapshot.values,
+      });
+      const resolverInput = Object.freeze({
         seed, resolverVersion, round,
-        input: {
-          sequence: snapshot.acceptedSequence,
-          token,
-          calibrationVersion: snapshot.calibrationVersion,
-          controls: snapshot.values,
-        },
+        input: acceptedInput,
       });
       let result;
+      resolving = true;
       try {
         result = resolve(resolverInput);
       } catch {
+        resolving = false;
         return response(false, "RESOLVER_FAILED");
       }
-      if (!isPlainData(result)) return response(false, "RESOLVER_RESULT_INVALID");
-      history = immutable([...history, { roundId: round.id, input: resolverInput.input, result }]);
-      return response(true, history.length === 6 ? "LIFECYCLE_COMPLETED" : "ROUND_RESOLVED");
+      const resultCapture = capturePlainData(
+        result, "RESOLVER_RESULT_INVALID", "RESOLVER_RESULT_LIMIT_EXCEEDED",
+      );
+      resolving = false;
+      if (!resultCapture.ok) return response(false, resultCapture.code);
+      if (history.length >= 6) return response(false, "LIFECYCLE_COMPLETED");
+      const entry = Object.freeze({
+        roundId: round.id, input: acceptedInput, result: resultCapture.value,
+      });
+      history = Object.freeze([...history, entry]);
+      return response(true, history.length >= 6 ? "LIFECYCLE_COMPLETED" : "ROUND_RESOLVED");
     },
   });
 }

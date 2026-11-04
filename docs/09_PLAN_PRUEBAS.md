@@ -46,7 +46,7 @@ no acredita aprobación.
 | T-SCO-08 | negativo/no finito, overflow agregado o relaciones demanda-servicio inválidas | `incomplete`, métricas `null`; overflow → `AGGREGATE_QUANTITY_INVALID` | F0 |
 | T-SCO-09 | mismo input repetido y congelado | salida profundamente igual e inmutable; input intacto | F0 |
 | T-RND-01 | manifiesto v1 cerrado de seis rondas + seis confirmaciones válidas | seis resoluciones únicas, historial inmutable y terminación explícita | F1 |
-| T-RND-02 | snapshot inválido/desconectado/nulo, `confirm:false` o replay de secuencia/token | misma ronda; sin resolver, historial ni reutilización silenciosa | F1 |
+| T-RND-02 | snapshot inválido/desconectado/nulo/hostil, `confirm:false`, reentrada o secuencia no creciente | razón estable; misma ronda, sin resolución duplicada, historial ni reutilización silenciosa | F1 |
 | T-RND-03 | mismo manifiesto, seed, resolutor sintético y secuencia | estados e historiales profundamente iguales | F1 |
 
 ### Harness local previo al hardware
@@ -70,6 +70,10 @@ manifiesto sintético y snapshots normalizados sin importar el adaptador. Prueba
 validación cerrada, retry seguro, confirmación única, replay, terminación,
 determinismo e inmutabilidad; no prueba gameplay, duración, solvencia, física,
 hardware, balance ni integración de producto.
+La corrección ECO104-4 agrega captura por descriptores sin ejecutar accessors,
+límites iterativos de profundidad/nodos/entradas, guardia de reentrada y secuencia
+estrictamente creciente; una nueva instancia representa una nueva sesión y no se
+inventa protocolo de epochs.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

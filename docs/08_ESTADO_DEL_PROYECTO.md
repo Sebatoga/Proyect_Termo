@@ -38,9 +38,13 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   resolutor sintético inyectado, historial inmutable y terminación explícita.
 - **Estado:** ECO-104 continúa **PENDIENTE**. La referencia no prueba solvencia,
   balance, duración, gameplay, física, hardware ni integración de producto.
-- **Evidencia local:** suite focalizada 20/20 PASS; suite conjunta 114/114 PASS;
-  escaneos de entropía/timers e imports prohibidos PASS; `git diff --check` PASS.
-  El commit local se identifica en el tracker ODD y no promueve ECO-104.
+- **Corrección ECO104-4:** un verificador independiente bloqueó `a0ac3ca` por
+  accessors/TOCTOU, reentrada, profundidad no acotada, regresión de secuencia y
+  schemas cerrados eludibles. La corrección usa captura acotada por descriptores,
+  guardia de resolución y secuencias estrictamente crecientes.
+- **Evidencia local corregida:** suite focalizada 41/41 PASS; suite conjunta
+  135/135 PASS; probes adversariales cerraron los cinco hallazgos sin errores
+  nativos; `git diff --check` PASS. ECO-104 no se promueve.
 
 ### ECO108-4 — variante de sonda elegida
 
