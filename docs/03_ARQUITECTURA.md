@@ -42,6 +42,12 @@ las reglas futuras. Expone `evaluateScorecard(mission, ledger)`, no importa el
 adaptador, física, datos de ECO-002, hardware ni UI, y sólo consume cantidades
 sintéticas ya resueltas. No es la implementación productiva ni acredita balance.
 
+El primer corte de ECO-104 añade `tools/round-lifecycle/` como coordinador de
+referencia aislado: valida un manifiesto cerrado de seis rondas y snapshots
+normalizados compatibles con la frontera host, confirma una sola vez, invoca un
+resolutor sintético inyectado y conserva historial inmutable. No importa el
+adaptador ni implementa física, puntuación, balance, hardware, UI o producto.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.

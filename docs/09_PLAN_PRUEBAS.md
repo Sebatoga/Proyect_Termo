@@ -45,6 +45,9 @@ no acredita aprobación.
 | T-SCO-07 | demanda total agregada cero | coberturas `1`, pero `defeat` con `NO_TOTAL_DEMAND` | F0 |
 | T-SCO-08 | negativo/no finito, overflow agregado o relaciones demanda-servicio inválidas | `incomplete`, métricas `null`; overflow → `AGGREGATE_QUANTITY_INVALID` | F0 |
 | T-SCO-09 | mismo input repetido y congelado | salida profundamente igual e inmutable; input intacto | F0 |
+| T-RND-01 | manifiesto v1 cerrado de seis rondas + seis confirmaciones válidas | seis resoluciones únicas, historial inmutable y terminación explícita | F1 |
+| T-RND-02 | snapshot inválido/desconectado/nulo, `confirm:false` o replay de secuencia/token | misma ronda; sin resolver, historial ni reutilización silenciosa | F1 |
+| T-RND-03 | mismo manifiesto, seed, resolutor sintético y secuencia | estados e historiales profundamente iguales | F1 |
 
 ### Harness local previo al hardware
 
@@ -61,6 +64,12 @@ usa únicamente misiones y ledgers sintéticos versionados. Sus pruebas cubren
 anti-trampa, validación, precedencia `incomplete`, denominador cero, determinismo
 e inmutabilidad. No ejecutan modelos físicos, casos de ECO-002, UI ni producto y
 no demuestran balance o validez científica.
+
+La referencia parcial ECO-104 en `tools/round-lifecycle/` usa `node:test`, un
+manifiesto sintético y snapshots normalizados sin importar el adaptador. Prueba
+validación cerrada, retry seguro, confirmación única, replay, terminación,
+determinismo e inmutabilidad; no prueba gameplay, duración, solvencia, física,
+hardware, balance ni integración de producto.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

@@ -31,6 +31,17 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
 
+### ECO-104 — referencia parcial del ciclo de rondas
+
+- **Resultado:** referencia Node ESM aislada en `tools/round-lifecycle/` para un
+  manifiesto cerrado de seis rondas, snapshots normalizados, confirmación única,
+  resolutor sintético inyectado, historial inmutable y terminación explícita.
+- **Estado:** ECO-104 continúa **PENDIENTE**. La referencia no prueba solvencia,
+  balance, duración, gameplay, física, hardware ni integración de producto.
+- **Evidencia local:** suite focalizada 20/20 PASS; suite conjunta 114/114 PASS;
+  escaneos de entropía/timers e imports prohibidos PASS; `git diff --check` PASS.
+  El commit local se identifica en el tracker ODD y no promueve ECO-104.
+
 ### ECO108-4 — variante de sonda elegida
 
 - **Decisión humana:** variante de 1 m para la sonda DS18B20 de tres

@@ -19,6 +19,11 @@
 
 La secuencia es propuesta hasta playtesting. Cada ronda usa lectura/estado real validado, controles físicos y una resolución única en tablero, LEDs y consola. Una entrada inválida pausa o aplica la contingencia documentada; nunca altera el resultado silenciosamente.
 
+El primer corte ejecutable de ECO-104 sólo prueba el ciclo coordinador con seis
+eventos `synthetic` sin semántica física: esperar snapshot normalizado, validar,
+confirmar una vez, resolver por callback inyectado, anexar historial inmutable y
+avanzar. No demuestra esta secuencia propuesta, su solvencia ni su duración.
+
 ## Evento vs efecto físico
 - **Ola de calor:** aumenta temperatura ambiente, quizás demanda de climatización según perfil; temperatura celda evoluciona por ODE, no salta instantáneamente por una etiqueta.
 - **Nubosidad:** reduce G W/m², PV responde según la fórmula; sin «reducción de 50% arbitraria» adicional después del cálculo.
