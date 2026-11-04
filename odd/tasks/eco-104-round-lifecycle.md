@@ -22,8 +22,10 @@ The project documents a six-round flow but has no executable lifecycle contract.
 - No `Math.random()`, `Date.now()`, clocks, timers, global mutable state, or ambient entropy.
 - Invalid, missing, disconnected, or null controls never resolve, append, advance, or reuse stale values.
 - TDD mode: `disabled`, sourced from the existing project testing-capability record (`strict_tdd: false`); ordinary behavior-first tests remain mandatory.
-- Delivery strategy: `ask-on-risk`; keep the cohesive work unit near the 400 authored-line advisory without code-golf or omitted tests/docs.
-- Expected authored lines: approximately 400–500 across implementation, tests, README, tracker, and minimal project alignment.
+- Delivery strategy: chained PRs; do not apply one `size:exception` to the whole
+  candidate.
+- Chain strategy: `feature-branch-chain`, with a 400 authored changed-line
+  review budget per child slice and no code-golf or omitted tests/docs.
 
 ## Stable tasks
 
@@ -170,8 +172,74 @@ constructor exceptions and must not be treated as a safe reference.
   read. No seventh resolver invocation or native error occurred.
 - Second correction commit subject: `fix(game): guard round confirmation capture`.
 
+## Delivery decision and review chain
+
+- Decision date: 2026-11-04.
+- Candidate snapshot: `5e19fca..f6117d3` contains 1,016 authored changed lines
+  (`1,014` additions and `2` deletions) across 11 paths. This snapshot count is
+  not the sum of per-commit review effort because both correction commits modify
+  lines introduced earlier.
+- Chosen delivery: chained PRs using `feature-branch-chain`; the full candidate
+  does not receive a `size:exception`.
+- Review budget: at most approximately 400 authored additions plus deletions and
+  approximately 60 minutes per focused child review.
+- Remote status: no branch was pushed and no PR number, remote branch, merge, or
+  remote operation exists or is authorized.
+- Local history is preserved exactly; no commit is rewritten by this decision:
+  `5e19fca` → `a0ac3ca` → `cffd552` → `f6117d3` →
+  `docs(odd): record ECO-104 chained delivery plan`. The final commit cannot
+  record its own stable hash; inspect it with `git show`.
+
+### Intended dependency diagram
+
+The names below are review roles, not claims that remote branches or PRs exist.
+Each child would target the immediately preceding review branch; the local
+tracker/integration branch alone may eventually target `main`.
+
+```text
+main
+ └── feat/eco-104-round-lifecycle (local tracker/integration; final target only)
+      ↑ slice 1: executable reference (review-only / no-merge)
+      └── slice 1 review branch
+           ↑ slice 2: project traceability (review-only / no-merge)
+           └── slice 2 review branch
+                ↑ slice 3: boundary hardening (review-only / no-merge)
+                └── slice 3 review branch
+                     ↑ slice 4: capture guard (review-only / no-merge)
+                     └── slice 4 review branch
+```
+
+The tracker/integration view remains draft/no-merge until every child is
+reviewed and the final integrated verification passes. Intermediate children
+must never target or merge into `main`: slices 1 and 2 retain the severe defects
+closed by `cffd552`, and slice 3 retains the severe residual defects closed by
+`f6117d3`. Slice 4 is also review-only so integration occurs only from the final
+tracker branch.
+
+### One-pass slicing analysis and review boundaries
+
+| Slice | Local source | Authored lines | Start state | End state and boundary | Verification evidence | Merge status | Rollback |
+|---|---|---:|---|---|---|---|---|
+| 1 — executable lifecycle reference | Future review-only split of `a0ac3ca` | 366 (`366+0`) | `5e19fca`; no lifecycle executable | Keep `round-lifecycle.mjs`, its focused tests, manifest fixture, and operator README together as one runnable behavior unit | Existing original-snapshot evidence: focused 20/20 and combined 114/114 PASS, deterministic replay/deep immutability coverage, forbidden-token scans PASS, and `git diff --check` PASS | **Review-only / no-merge; unsafe snapshot** | Remove `tools/round-lifecycle/` only |
+| 2 — traceability and project alignment | Future review-only split of `a0ac3ca` | 138 (`137+1`) | Slice 1 behavior exists but project records are unaligned | Align architecture, backlog, AI log, status, test plan, event documentation, and this tracker; no executable behavior | Inspect exact docs-only diff and cross-references; `git diff --check`; no runtime boundary beyond slice 1 | **Review-only / no-merge; unsafe snapshot** | Revert only the eight documentation paths to the slice 1 state |
+| 3 — hostile-data and reentrancy hardening | `cffd552` | 361 (`318+43`) | Equivalent final state of slices 1–2, still blocked by five independently verified severe defects | Close TOCTOU/accessor, recursive resolution, result traversal, sequence regression, and closed-schema bypasses without mixing the later capture-guard fix | Focused 41/41 and combined 135/135 PASS; bounded adversarial probes close the five accepted findings; `git diff --check` PASS | **Review-only / no-merge; unsafe residual snapshot** | Revert `cffd552` only; restored state remains blocked |
+| 4 — capture-time guard and option validation | `f6117d3` | 349 (`293+56`) | `cffd552`, still vulnerable to capture-time reentry, constructor native errors, and late aggregate-limit checks | Guard capture through result handling, validate exact constructor options, and reject aggregate limits before descriptor materialization | Focused 52/52 and combined 146/146 PASS; original and new bounded probes PASS with no seventh resolver call or native error; `git diff --check` PASS | **Review-only / no-merge** | Revert `f6117d3` only; restored state remains blocked |
+
+This is the single honest slicing pass. The original 504-line commit separates
+cohesively into a 366-line executable unit and a 138-line traceability unit, so
+neither requires `size:exception`. Tests, fixture, implementation, and operator
+README stay together. The 361-line and 349-line corrections remain separate
+focused child reviews. No slice exceeds the budget, so no later
+`size:exception` is currently required; if reconstructed diffs change those
+counts above 400, record the smallest honest count and obtain explicit approval
+instead of shrinking code or evidence.
+
 ## Next step
 
-Use this reference only as evidence for the lifecycle contract. A later bounded
-unit must select real event/rule semantics and integration boundaries through
-authorized product decisions before ECO-104 can advance beyond `PENDIENTE`.
+Keep the current commits unchanged and local. If remote delivery is authorized
+later, first reconstruct and independently verify the four review-only child
+boundaries above, then request separate authorization before any push or PR
+creation; only the final tracker/integration branch may target `main`. Product
+work remains separate: use this reference only as lifecycle evidence until a
+later bounded unit selects real event/rule semantics and integration boundaries
+through authorized decisions. ECO-104 remains `PENDIENTE`.
