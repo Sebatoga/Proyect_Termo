@@ -19,6 +19,14 @@ the existing lifecycle constructor and exposes four operations:
 - `snapshot()` returns an immutable integration view containing the adapter and
   lifecycle snapshots.
 
+`ingest`, `confirm`, and `disconnect` share one synchronous transaction guard.
+Reentrant mutation returns `INTEGRATION_BUSY` without changing adapter,
+lifecycle, or reset state. `ingest` rejects non-string input as
+`INPUT_LINE_INVALID` before adapter parsing. Once reset is required, all three
+mutations return `SESSION_RESET_REQUIRED` without touching the cleared adapter;
+only a new harness instance starts another session epoch. The guard is cleared
+in `finally` after every success or rejection so ordinary retry remains safe.
+
 Malformed, unsupported, invalid-direction, invalid-sequence, disconnected,
 null-control, stale, unconfirmed, or replayed input remains fail-closed. After a
 disconnect, create a new harness instance before accepting a reset sequence;

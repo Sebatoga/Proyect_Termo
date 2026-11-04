@@ -32,6 +32,10 @@ const createHarness = async (onResolve = () => {}) => createRoundHostIntegration
     return { roundId: round.id, sequence: input.sequence, trace: seed };
   },
 });
+const createHarnessWithResolver = async (resolve) => createRoundHostIntegration({
+  manifest: await manifest(), seed: "integration-seed", resolverVersion: "synthetic-v1",
+  resolve,
+});
 
 test("ingestion exposes only adapter snapshots and explicit confirmation resolves once", async () => {
   let calls = 0;
@@ -124,16 +128,111 @@ test("disconnect requires a new integration instance before sequence reset", asy
   first.ingest(hello());
   first.ingest(inputs(1));
   first.confirm("old-token");
-  assert.equal(first.disconnect().reason, "SESSION_RESET_REQUIRED");
-  assert.equal(first.ingest(hello()).reason, "SESSION_RESET_REQUIRED");
-  assert.equal(first.ingest(inputs(1)).reason, "SESSION_RESET_REQUIRED");
-  assert.equal(first.confirm("new-token").reason, "SESSION_RESET_REQUIRED");
+  const disconnected = first.disconnect();
+  assert.equal(disconnected.reason, "SESSION_RESET_REQUIRED");
+  const clearedAdapter = disconnected.state.adapter;
+  assert.equal(disconnected.state.status, "reset-required");
+  for (const attempt of [
+    first.ingest(hello()), first.ingest(inputs(1)), first.confirm("new-token"), first.disconnect(),
+  ]) {
+    assert.equal(attempt.reason, "SESSION_RESET_REQUIRED");
+    assert.equal(attempt.state.status, "reset-required");
+    assert.deepEqual(attempt.state.adapter, clearedAdapter);
+  }
 
   const fresh = await createHarness(() => { calls += 1; });
   fresh.ingest(hello());
   fresh.ingest(inputs(1));
   assert.equal(fresh.confirm("new-token").ok, true);
   assert.equal(calls, 2);
+});
+
+test("non-string ingestion rejects before hostile coercion can confirm", async () => {
+  let resolverCalls = 0;
+  let coercionCalls = 0;
+  const harness = await createHarness(() => { resolverCalls += 1; });
+  harness.ingest(hello());
+  harness.ingest(inputs(1));
+  const before = harness.snapshot();
+  const hostile = {
+    [Symbol.toPrimitive]() {
+      coercionCalls += 1;
+      harness.confirm("coerced-token");
+      return inputs(2);
+    },
+  };
+
+  assert.equal(harness.ingest(hostile).reason, "INPUT_LINE_INVALID");
+  assert.equal(coercionCalls, 0);
+  assert.equal(resolverCalls, 0);
+  assert.deepEqual(harness.snapshot(), before);
+});
+
+test("resolver reentry cannot ingest or disconnect the active integration", async () => {
+  let harness;
+  const nested = [];
+  harness = await createHarnessWithResolver(({ round, input, seed }) => {
+    nested.push(harness.ingest(inputs(2)), harness.disconnect());
+    return { roundId: round.id, sequence: input.sequence, trace: seed };
+  });
+  harness.ingest(hello());
+  harness.ingest(inputs(1));
+  const adapterBefore = harness.snapshot().adapter;
+
+  const result = harness.confirm("outer-token");
+  assert.equal(result.ok, true);
+  assert.deepEqual(nested.map(({ reason }) => reason), ["INTEGRATION_BUSY", "INTEGRATION_BUSY"]);
+  assert.deepEqual(result.state.adapter, adapterBefore);
+  assert.equal(result.state.status, "active");
+  assert.equal(result.state.lifecycle.history.length, 1);
+});
+
+test("proxy capture reentry returns busy without changing the outer result", async () => {
+  let harness;
+  let nested;
+  harness = await createHarnessWithResolver(({ round, input }) => new Proxy({
+    roundId: round.id, sequence: input.sequence,
+  }, {
+    ownKeys(target) {
+      nested = harness.confirm("nested-token");
+      return Reflect.ownKeys(target);
+    },
+  }));
+  harness.ingest(hello());
+  harness.ingest(inputs(1));
+  const adapterBefore = harness.snapshot().adapter;
+
+  const result = harness.confirm("outer-token");
+  assert.equal(result.ok, true);
+  assert.equal(nested.reason, "INTEGRATION_BUSY");
+  assert.deepEqual(result.state.adapter, adapterBefore);
+  assert.equal(result.state.lifecycle.history.length, 1);
+});
+
+test("transaction guard clears after rejection, resolver failures and success", async () => {
+  const ingestion = await createHarness();
+  assert.equal(ingestion.ingest("{broken").reason, "MALFORMED_JSON");
+  assert.equal(ingestion.ingest(JSON.stringify({ protocolVersion: 2 })).reason,
+    "UNSUPPORTED_VERSION");
+  assert.equal(ingestion.ingest(hello()).reason, "SNAPSHOT_UNAVAILABLE");
+  assert.equal(ingestion.ingest(inputs(1)).reason, "SNAPSHOT_AVAILABLE");
+  assert.equal(ingestion.confirm("success-token").ok, true);
+  assert.equal(ingestion.ingest(inputs(2)).reason, "SNAPSHOT_AVAILABLE");
+
+  let mode = "throw";
+  const resolution = await createHarnessWithResolver(({ round, input }) => {
+    if (mode === "throw") throw new Error("expected");
+    if (mode === "invalid") return () => {};
+    return { roundId: round.id, sequence: input.sequence };
+  });
+  resolution.ingest(hello());
+  resolution.ingest(inputs(1));
+  assert.equal(resolution.confirm("retry-token").reason, "RESOLVER_FAILED");
+  mode = "invalid";
+  assert.equal(resolution.confirm("retry-token").reason, "RESOLVER_RESULT_INVALID");
+  mode = "valid";
+  assert.equal(resolution.confirm("retry-token").ok, true);
+  assert.equal(resolution.ingest(inputs(2)).reason, "SNAPSHOT_AVAILABLE");
 });
 
 test("six confirmations complete immutable history and a seventh skips resolution", async () => {

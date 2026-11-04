@@ -91,6 +91,23 @@ The project documents a six-round flow but has no executable lifecycle contract.
   - Planned feature-chain slice: one cohesive local child after `8268971`, under
     approximately 400 authored additions plus deletions; stop before commit if
     honest tests and documentation exceed the budget.
+- [x] **ECO104-7 — Make integration mutations transaction-safe**
+  - Route: `delegated`.
+  - Trigger evidence: independent verification blocked `8d8e439` because hostile
+    ingestion and resolver callbacks can reenter public mutations, while reset-
+    required ingestion can repopulate adapter state.
+  - Accepted findings: non-string coercion can confirm during adapter parsing;
+    resolver callbacks can ingest or disconnect during confirmation; and reset-
+    required sessions mutate the adapter before returning the reset reason.
+  - Acceptance: one integration-wide synchronous guard covers `ingest`, `confirm`
+    and `disconnect` before caller-controlled work; reentry returns
+    `INTEGRATION_BUSY` without mutation; non-string ingestion returns
+    `INPUT_LINE_INVALID`; reset-required calls preserve the cleared disconnected
+    adapter; `finally` cleanup permits safe retries after every result path.
+  - Planned feature-chain slice: the next cohesive child after `8d8e439`, keeping
+    implementation, adversarial tests and minimal contract/evidence updates
+    together below 400 authored additions plus deletions. Stop before commit if
+    the honest work unit exceeds that review budget.
 
 ## Acceptance criteria
 
@@ -212,6 +229,28 @@ constructor exceptions and must not be treated as a safe reference.
   harness and ECO104-6 documentation; adapter and lifecycle remain independent.
 - Engram mirror: pending. The save was attempted, but session registration could
   not be confirmed by the Engram server.
+- ECO104-7 reopened the integration after an independent verifier accepted three
+  severe defects: hostile coercion reentry, resolver-driven integration mutation,
+  and adapter repopulation after reset became mandatory.
+- The integration now guards all three mutating methods before lower-level or
+  caller-controlled work, rejects non-string lines before parsing, and checks
+  reset before adapter ingestion or lifecycle confirmation. Busy and reset paths
+  preserve adapter, lifecycle and reset state; `finally` cleanup permits retry.
+- Focused check: `node --test tools/round-host-integration/*.test.mjs` — exit 0;
+  18 tests, 18 pass, 0 fail, 0 skipped.
+- Combined simulator, adapter, scorecard, lifecycle and integration check — exit
+  0; 164 tests, 164 pass, 0 fail, 0 skipped.
+- Bounded probes returned `ORIGINAL_COERCION_PROBE_PASS` and
+  `NEW_TRANSACTION_RESET_PROBE_PASS`; coercion/resolver counts, adapter state,
+  reset status and the six-call resolver ceiling remained bounded. Forbidden
+  source/dependency scans and `git diff --check` passed without findings.
+- Delivery: the next cohesive `feature-branch-chain` child after `8d8e439`, under
+  the 400 authored-line budget: 208 lines (`191` additions, `17` deletions)
+  across seven paths. No push or PR is authorized.
+- Correction commit subject: `fix(game): guard integration mutations`; obtain its
+  stable hash from final `git show` because a commit cannot contain its own hash.
+- Rollback: revert only this correction child to restore `8d8e439`; that state is
+  independently blocked and must not be treated as a safe integration reference.
 
 ## Delivery decision and review chain
 

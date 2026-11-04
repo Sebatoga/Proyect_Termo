@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-04 (ECO104-6 compuso adaptador y ciclo en un harness aislado; ECO-104 sigue pendiente).
+**Última actualización:** 2026-11-04 (ECO104-7 endureció la transacción del harness aislado; ECO-104 sigue pendiente).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-4 registró la elección humana de la variante de 1 m de la sonda DS18B20 de tres conductores; ECO-108 y G1 siguen abiertos. Precio, stock, envío, compra, recepción, datasheets aplicables, pinout, fabricante, calibración, firmware, USB, HIL y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -56,6 +56,11 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   Invalidez, valores obsoletos, replay y desconexión no avanzan; la desconexión
   exige una instancia nueva. Suite focalizada 14/14 y conjunta 160/160 PASS.
   Es evidencia local aislada, no gameplay, serial, HIL ni integración de producto.
+- **Corrección ECO104-7:** una guardia síncrona común rechaza reentrada de
+  `ingest`/`confirm`/`disconnect`, valida líneas no string antes del adaptador y
+  bloquea toda mutación tras requerir reset. Suite focalizada 18/18 y conjunta
+  164/164 PASS; probes acotados preservaron adaptador, ciclo y límite de seis.
+  ECO-104 continúa pendiente y el harness sigue sin ser producto ni hardware.
 
 ### ECO108-4 — variante de sonda elegida
 
