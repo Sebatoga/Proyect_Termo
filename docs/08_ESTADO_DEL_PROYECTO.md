@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-03 (ECO108-4 registró la elección humana de la sonda de 1 m; compra y G1 siguen pendientes).
+**Última actualización:** 2026-11-04 (ECO104-5 corrigió reentrada durante captura y validación cerrada de opciones; ECO-104 sigue pendiente).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-4 registró la elección humana de la variante de 1 m de la sonda DS18B20 de tres conductores; ECO-108 y G1 siguen abiertos. Precio, stock, envío, compra, recepción, datasheets aplicables, pinout, fabricante, calibración, firmware, USB, HIL y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -45,6 +45,12 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Evidencia local corregida:** suite focalizada 41/41 PASS; suite conjunta
   135/135 PASS; probes adversariales cerraron los cinco hallazgos sin errores
   nativos; `git diff --check` PASS. ECO-104 no se promueve.
+- **Segunda corrección ECO104-5:** la guardia ahora cubre captura, validación,
+  resolución y captura de resultado con limpieza `finally`; las opciones del
+  constructor se capturan como cuatro propiedades de datos propias, enumerables
+  y exactas. Suite focalizada 52/52 PASS y conjunta 146/146 PASS; los probes
+  acotados confirman cero llamadas anidadas al resolutor, máximo seis entradas,
+  retry tras fallo de captura y límites antes de materializar descriptores.
 
 ### ECO108-4 — variante de sonda elegida
 

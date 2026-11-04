@@ -51,6 +51,22 @@ The project documents a six-round flow but has no executable lifecycle contract.
     structures with stable codes, snapshots/results are captured once,
     reentrancy cannot append, committed sequences strictly increase, traversal
     limits prevent native errors, and history cannot exceed six entries.
+- [x] **ECO104-5 — Guard capture-time reentry and constructor options**
+  - Route: `delegated`.
+  - Trigger evidence: a second independent correction found that the resolution
+    guard begins after snapshot capture and constructor parameter destructuring
+    leaks native exceptions before lifecycle validation.
+  - Accepted findings: snapshot Proxy traps can recursively fill all six rounds
+    before the outer resolver call; the outer call can then invoke a seventh
+    resolver with an undefined round; undefined/null/primitive or hostile options
+    leak native exceptions; and aggregate capture limits are checked only after
+    all descriptors are materialized.
+  - Acceptance: the guard covers capture, validation, resolution and result
+    capture with `finally` cleanup; state is rechecked after capture and directly
+    before resolution; options are captured as an exact closed data record with
+    stable lifecycle codes and no getter invocation; own-key bounds are decided
+    before per-property descriptor retrieval where practical; adversarial
+    regressions prove at most one resolver call/append and a six-entry ceiling.
 
 ## Acceptance criteria
 
@@ -72,7 +88,8 @@ The project documents a six-round flow but has no executable lifecycle contract.
 - Bounded adversarial probes reproduce and close all five accepted findings.
 - Regression coverage includes accessor snapshots/results, recursive confirm,
   deep results, sequence 10→9, hidden/symbol/array-extra/accessor manifest data,
-  guard cleanup after failure, and the six-entry history ceiling.
+  guard cleanup after snapshot-capture failure, hostile constructor options,
+  capture-time Proxy reentry, and the six-entry history ceiling.
 - Deterministic replay and deep-immutability tests in the focused suite.
 - Source scan for forbidden entropy, timer, and import tokens.
 - `git diff --check`
@@ -86,6 +103,10 @@ Remove `tools/round-lifecycle/`, this tracker, and only the ECO-104 paragraphs a
 Correction rollback: revert only the ECO104-4 correction commit to restore
 `a0ac3ca`; that state is independently blocked and must not be treated as a safe
 reference.
+
+Second-correction rollback: revert only the ECO104-5 correction commit to restore
+`cffd552`; that state remains vulnerable to capture-time reentry and uncoded
+constructor exceptions and must not be treated as a safe reference.
 
 ## Progress and evidence
 
@@ -131,6 +152,23 @@ reference.
   361 authored changed lines (`318` additions, `43` deletions) across 7 paths;
   final status/show are recorded after commit.
 - Correction commit subject: `fix(game): harden round lifecycle boundaries`.
+- ECO104-5 reopened the task for three accepted residual findings: the guard did
+  not cover snapshot reflection, constructor destructuring leaked native errors,
+  and descriptor aggregation preceded the entry-limit decision.
+- ECO104-5 focused check: `node --test tools/round-lifecycle/*.test.mjs` — exit
+  0; 52 tests, 52 pass, 0 fail, 0 skipped. All prior 41 tests remain green.
+- ECO104-5 combined check: the documented combined command — exit 0; 146 tests,
+  146 pass, 0 fail, 0 skipped.
+- The original bounded probe returned `INPUT_DATA_INVALID` with zero getter
+  reads, `RESOLUTION_IN_PROGRESS` with one append,
+  `RESOLVER_RESULT_INVALID`, `RESOLVER_RESULT_LIMIT_EXCEEDED`,
+  `INPUT_SEQUENCE_NOT_INCREASING`, and `MANIFEST_DATA_INVALID`.
+- The new bounded probe returned six nested `RESOLUTION_IN_PROGRESS` reasons,
+  one outer append, valid retry after `INPUT_DATA_INVALID`, exactly six total
+  resolver calls/entries, terminal `LIFECYCLE_COMPLETED`, stable
+  `OPTIONS_DATA_INVALID`, and an aggregate limit rejection before any descriptor
+  read. No seventh resolver invocation or native error occurred.
+- Second correction commit subject: `fix(game): guard round confirmation capture`.
 
 ## Next step
 

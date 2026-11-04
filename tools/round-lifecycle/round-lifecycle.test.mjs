@@ -41,6 +41,10 @@ const expectCode = async (mutate, code) => {
     (error) => error instanceof LifecycleValidationError && error.code === code,
   );
 };
+const assertLifecycleCode = (create, code) => assert.throws(
+  create,
+  (error) => error instanceof LifecycleValidationError && error.code === code,
+);
 
 test("accepts a closed manifest with exactly six ordered unique rounds", async () => {
   const engine = await lifecycle();
@@ -54,6 +58,65 @@ test("accepts a closed manifest with exactly six ordered unique rounds", async (
     status: "waiting-input",
     history: [],
   });
+});
+
+for (const [name, options] of [
+  ["undefined options", undefined],
+  ["null options", null],
+  ["primitive options", 7],
+]) {
+  test(`rejects ${name} with a stable lifecycle error`, () => {
+    assertLifecycleCode(() => createRoundLifecycle(options), "OPTIONS_DATA_INVALID");
+  });
+}
+
+test("rejects missing and extra option fields with a stable shape code", async () => {
+  const manifest = await loadManifest();
+  const valid = { manifest, seed: "seed-a", resolverVersion: "v1", resolve: syntheticResolver };
+  const { seed: unused, ...missing } = valid;
+  assertLifecycleCode(() => createRoundLifecycle(missing), "OPTIONS_SHAPE_INVALID");
+  assertLifecycleCode(() => createRoundLifecycle({ ...valid, extra: true }), "OPTIONS_SHAPE_INVALID");
+});
+
+test("rejects hidden, symbol and accessor options without invoking getters", async () => {
+  const manifest = await loadManifest();
+  const hidden = { manifest, seed: "seed-a", resolverVersion: "v1", resolve: syntheticResolver };
+  Object.defineProperty(hidden, "seed", { value: "seed-a", enumerable: false });
+  assertLifecycleCode(() => createRoundLifecycle(hidden), "OPTIONS_DATA_INVALID");
+
+  const symbol = { manifest, seed: "seed-a", resolverVersion: "v1", resolve: syntheticResolver };
+  symbol[Symbol("hidden")] = true;
+  assertLifecycleCode(() => createRoundLifecycle(symbol), "OPTIONS_DATA_INVALID");
+
+  let reads = 0;
+  const accessor = { manifest, resolverVersion: "v1", resolve: syntheticResolver };
+  Object.defineProperty(accessor, "seed", {
+    enumerable: true,
+    get() { reads += 1; return "seed-a"; },
+  });
+  assertLifecycleCode(() => createRoundLifecycle(accessor), "OPTIONS_DATA_INVALID");
+  assert.equal(reads, 0);
+});
+
+test("rejects unsupported option prototypes and non-function resolvers", async () => {
+  const manifest = await loadManifest();
+  const inherited = Object.assign(Object.create(null), {
+    manifest, seed: "seed-a", resolverVersion: "v1", resolve: syntheticResolver,
+  });
+  assertLifecycleCode(() => createRoundLifecycle(inherited), "OPTIONS_DATA_INVALID");
+  assertLifecycleCode(() => createRoundLifecycle({
+    manifest, seed: "seed-a", resolverVersion: "v1", resolve: "not-a-function",
+  }), "RESOLVER_INVALID");
+});
+
+test("rejects throwing and revoked option proxies without native exceptions", async () => {
+  const manifest = await loadManifest();
+  const target = { manifest, seed: "seed-a", resolverVersion: "v1", resolve: syntheticResolver };
+  const throwing = new Proxy(target, { ownKeys() { throw new Error("hostile trap"); } });
+  assertLifecycleCode(() => createRoundLifecycle(throwing), "OPTIONS_DATA_INVALID");
+  const { proxy, revoke } = Proxy.revocable(target, {});
+  revoke();
+  assertLifecycleCode(() => createRoundLifecycle(proxy), "OPTIONS_DATA_INVALID");
 });
 
 for (const [name, mutate, code] of [
@@ -214,6 +277,85 @@ test("recursive confirm is blocked before a second resolver call or append", asy
   assert.equal(nested.reason, "RESOLUTION_IN_PROGRESS");
   assert.equal(calls, 1);
   assert.equal(outer.state.history.length, 1);
+});
+
+test("snapshot reflection trap reentry is blocked for the whole transaction", async () => {
+  let calls = 0;
+  let engine;
+  const nested = [];
+  const reenter = () => {
+    nested.push(engine.confirm(validSnapshot(2), "nested-token"));
+  };
+  const input = new Proxy(validSnapshot(1), {
+    getPrototypeOf(target) { reenter(); return Reflect.getPrototypeOf(target); },
+    ownKeys(target) { reenter(); return Reflect.ownKeys(target); },
+    getOwnPropertyDescriptor(target, property) {
+      reenter();
+      return Reflect.getOwnPropertyDescriptor(target, property);
+    },
+  });
+  engine = await lifecycle({ resolve: () => ({ call: ++calls }) });
+  const outer = engine.confirm(input, "outer-token");
+  assert.ok(nested.length > 0);
+  assert.ok(nested.every((result) => result.reason === "RESOLUTION_IN_PROGRESS"));
+  assert.equal(calls, 1);
+  assert.equal(outer.ok, true);
+  assert.equal(outer.state.history.length, 1);
+});
+
+test("capture-time attempts cannot fill six rounds or cause a seventh resolver call", async () => {
+  let calls = 0;
+  let engine;
+  let attacked = false;
+  const nested = [];
+  const input = new Proxy(validSnapshot(1), {
+    getPrototypeOf(target) {
+      if (!attacked) {
+        attacked = true;
+        for (let index = 1; index <= 6; index += 1) {
+          nested.push(engine.confirm(validSnapshot(index), `nested-${index}`));
+        }
+      }
+      return Reflect.getPrototypeOf(target);
+    },
+  });
+  engine = await lifecycle({ resolve: ({ round }) => ({ call: ++calls, roundId: round.id }) });
+  const outer = engine.confirm(input, "outer-token");
+  assert.ok(nested.every((result) => result.reason === "RESOLUTION_IN_PROGRESS"));
+  assert.equal(calls, 1);
+  assert.equal(outer.state.history.length, 1);
+  for (let index = 2; index <= 6; index += 1) {
+    engine.confirm(validSnapshot(index), `token-${index}`);
+  }
+  const seventh = engine.confirm(validSnapshot(7), "token-7");
+  assert.equal(seventh.reason, "LIFECYCLE_COMPLETED");
+  assert.equal(calls, 6);
+  assert.equal(seventh.state.history.length, 6);
+});
+
+test("guard clears after snapshot capture failure so a valid retry resolves", async () => {
+  let calls = 0;
+  const engine = await lifecycle({ resolve: () => ({ call: ++calls }) });
+  const hostile = new Proxy(validSnapshot(1), {
+    ownKeys() { throw new Error("capture failed"); },
+  });
+  assert.equal(engine.confirm(hostile, "token-1").reason, "INPUT_DATA_INVALID");
+  const retry = engine.confirm(validSnapshot(1), "token-1");
+  assert.equal(retry.ok, true);
+  assert.equal(calls, 1);
+  assert.equal(retry.state.history.length, 1);
+});
+
+test("aggregate entry limit is checked before individual descriptors are materialized", async () => {
+  let descriptorReads = 0;
+  const keys = Array.from({ length: 4097 }, (_, index) => `field-${index}`);
+  const hostile = new Proxy({}, {
+    ownKeys() { return keys; },
+    getOwnPropertyDescriptor() { descriptorReads += 1; return undefined; },
+  });
+  const engine = await lifecycle();
+  assert.equal(engine.confirm(hostile, "token-1").reason, "INPUT_DATA_LIMIT_EXCEEDED");
+  assert.equal(descriptorReads, 0);
 });
 
 test("resolver guard clears after throw or invalid result so retry succeeds", async () => {

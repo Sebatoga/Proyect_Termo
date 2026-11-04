@@ -74,6 +74,9 @@ La corrección ECO104-4 agrega captura por descriptores sin ejecutar accessors,
 límites iterativos de profundidad/nodos/entradas, guardia de reentrada y secuencia
 estrictamente creciente; una nueva instancia representa una nueva sesión y no se
 inventa protocolo de epochs.
+ECO104-5 extiende la guardia a toda la transacción desde antes de reflejar el
+snapshot, exige opciones de construcción cerradas capturadas sin getters y
+comprueba el límite agregado de claves antes de solicitar descriptores individuales.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

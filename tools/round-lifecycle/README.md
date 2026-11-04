@@ -32,9 +32,13 @@ The manifest fixture shows the closed v1 shape. A valid snapshot matches the hos
 - Descriptor-based capture rejects accessors, hidden/symbol/array-extra fields,
   sparse arrays, cycles, unsupported prototypes/values and non-finite numbers
   without invoking getters. Traversal is limited to depth 32, 2,048 nodes and
-  4,096 entries.
-- Recursive confirmation during resolution returns `RESOLUTION_IN_PROGRESS`;
-  resolver failure or invalid output clears the guard for a valid retry.
+  4,096 entries; aggregate key limits are checked before individual descriptors.
+- Construction requires exactly four own enumerable data options: `manifest`,
+  `seed`, `resolverVersion`, and `resolve`. Accessors, hidden/symbol/extra fields,
+  unsupported prototypes and hostile proxies fail with stable lifecycle codes.
+- Recursive confirmation during snapshot capture, validation, resolution or
+  result capture returns `RESOLUTION_IN_PROGRESS`. A `finally` cleanup clears the
+  transaction guard after every success, rejection or failure so retry remains safe.
 - Resolver inputs and all returned snapshots/history are deeply frozen copies.
 - After round six, attempts return `LIFECYCLE_COMPLETED` without side effects.
 
