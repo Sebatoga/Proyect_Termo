@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "eco004-playtest-record/v1",
+  "packageVersion": "eco004-playtest-package/v1",
+  "status": "NOT_RUN",
+  "header": {
+    "recordId": null,
+    "mode": null,
+    "policyId": null,
+    "repetitionId": null,
+    "order": null,
+    "resolverVersion": null,
+    "startedAt": null,
+    "human": {
+      "applicability": null,
+      "anonymousCode": null,
+      "consent": null,
+      "approximateAge": null,
+      "gameExperience": null,
+      "facilitatorCode": null
+    }
+  },
+  "rounds": [
+    { "id": "round-1", "expected": null, "obtained": null, "environment": { "status": null, "environmentVerifiable": null, "evidence": [], "causalTrigger": null, "compliantAlternative": null, "visibility": null, "verdict": null } },
+    { "id": "round-2", "expected": null, "obtained": null, "environment": { "status": null, "environmentVerifiable": null, "evidence": [], "causalTrigger": null, "compliantAlternative": null, "visibility": null, "verdict": null } },
+    { "id": "round-3", "expected": null, "obtained": null, "environment": { "status": null, "environmentVerifiable": null, "evidence": [], "causalTrigger": null, "compliantAlternative": null, "visibility": null, "verdict": null } },
+    { "id": "round-4", "expected": null, "obtained": null, "environment": { "status": null, "environmentVerifiable": null, "evidence": [], "causalTrigger": null, "compliantAlternative": null, "visibility": null, "verdict": null } },
+    { "id": "round-5", "expected": null, "obtained": null, "environment": { "status": null, "environmentVerifiable": null, "evidence": [], "causalTrigger": null, "compliantAlternative": null, "visibility": null, "verdict": null } },
+    { "id": "round-6", "expected": null, "obtained": null, "environment": { "status": null, "environmentVerifiable": null, "evidence": [], "causalTrigger": null, "compliantAlternative": null, "visibility": null, "verdict": null } }
+  ],
+  "result": null,
+  "exclusionReason": null
+}

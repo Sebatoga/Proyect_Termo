@@ -77,6 +77,9 @@ multidimensional sin pesos está documentada y testeada, pero ECO-004 permanece
 **EN REVISIÓN**: sus umbrales y la indisponibilidad natural son provisionales, y
 el criterio “balanceada” todavía exige playtesting reproducible y revisión
 ambiental. Esta evidencia no consume ECO-002 ni modifica ECO-108/G1 o ECO-109.
+ECO004-5 y ECO004-7 están completadas; ECO004-6 es parcial por resolutor y
+candidatos aún vacíos; ECO004-8/9/10 siguen pendientes o bloqueadas por ejecución
+humana y revisión ambiental. El paquete real continúa `NOT_RUN` y fail-closed.
 
 ## Evidencia exploratoria para ECO-101
 

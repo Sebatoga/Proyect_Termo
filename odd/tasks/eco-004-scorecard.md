@@ -55,6 +55,35 @@ Critical-load coverage alone can reward serving only one category while abandoni
   - Trigger evidence: ODD evidence, project status, backlog, test plan, and AI trace require coordinated closure updates.
   - Acceptance: every observed command/result, limitation, commit, rollback boundary, and remaining playtesting dependency is recorded without claiming scientific or gameplay validation.
 
+- [x] **ECO004-5 — Prepare the reproducible playtest protocol**
+  - Route: delegated direct.
+  - Trigger evidence: protocol, privacy rules, evidence templates, and scorecard mapping span multiple non-trivial files.
+  - Acceptance: preparation and human execution are separated; no participants, outcomes, thresholds, or environmental verdicts are prefilled.
+
+- [ ] **ECO004-6 — Preregister scenarios, policies, order, and repetitions**
+  - Route: delegated direct.
+  - Trigger evidence: experiment manifest, policy definitions, and schema validation must remain mutually consistent.
+  - Acceptance: six round slots, five named policies, two repetitions, execution order, and empty threshold-candidate slots are versioned; unresolved resolver and candidate values remain typed blockers.
+  - Partial: the empty manifest and policies are preregistered; resolver selection,
+    threshold candidates, human approval, and execution remain blocked.
+
+- [x] **ECO004-7 — Validate the empty evidence package structurally**
+  - Route: delegated direct.
+  - Trigger evidence: templates, fixtures, validator, tests, and documentation require coordinated implementation.
+  - Acceptance: deterministic checks reject prefilled outcomes, invalid enums, duplicate rounds, missing policy decisions, unverifiable environmental claims, and inconsistent versions.
+
+- [ ] **ECO004-8 — Execute synthetic replays and facilitated paper sessions**
+  - Route: pending human execution.
+  - Acceptance: observed sessions use frozen versions and record expected/obtained evidence without fabricating participants or results.
+
+- [ ] **ECO004-9 — Obtain environmental review and select threshold candidates**
+  - Route: blocked on qualified human review and observed evidence.
+  - Acceptance: causal environmental classifications and retained/rejected candidates have named reviewers, rationale, and reproducible evidence.
+
+- [ ] **ECO004-10 — Reconcile final ECO-004 closure**
+  - Route: pending ECO004-8 and ECO004-9.
+  - Acceptance: backlog closure distinguishes technical scorecard proof from gameplay balance, environmental review, and scientific validation.
+
 ## Verification
 
 - Focused Node tests for the scorecard reference.
@@ -69,7 +98,7 @@ Critical-load coverage alone can reward serving only one category while abandoni
   review because reproducible playtesting and environmental review are pending.
 - Branch: `feat/eco-004-scorecard`, based on `feat/eco-host-adapter-reference` at `4d7f45c`.
 - Product decision: user confirmed the multidimensional scorecard on 2026-11-03.
-- Engram mirror: pending because session registration is unavailable.
+- Engram mirror: session registration remains unconfirmed.
 - First work unit: contract, pure reference, anti-trivial tests, and minimal
   alignment across GDD, architecture, acceptance, test plan, and player manual.
 - Public API: `evaluateScorecard(mission, ledger)` under
@@ -99,8 +128,8 @@ Critical-load coverage alone can reward serving only one category while abandoni
   reference`) plus fix `11d325d`: 450 authored lines across `scorecard.mjs` and
   `scorecard.test.mjs` (2 paths). The user explicitly authorized
   `size:exception` for this cohesive PR 1 boundary.
-- Native assessment: `risk: medium`, reason `executable_change`;
-  `review_due: false`, reason `under_budget`.
+- Native assessment against `cb89925`: `risk: medium`, reason
+  `executable_change`; `review_due: true`, reason `slice_budget_reached`.
 - The output is pure, deterministic and deeply immutable. It validates
   versioned mission/ledger inputs and returns `victory`, `defeat` or `incomplete`
   with stable reason codes.
@@ -109,13 +138,15 @@ Critical-load coverage alone can reward serving only one category while abandoni
 
 ### Delivery chain — `stacked-to-main`
 
-The user selected `ask-on-risk`, then two PRs stacked to `main`. No PR is created
-or published by this task.
+The user selected `ask-on-risk`, then kept four logical PRs stacked to `main`.
+No branch, push or PR is created by this task.
 
 ```text
 main @ 4d7f45c
   └── PR 1: 6aa9af2 + 11d325d — reference, tests and overflow fix (450 lines; size:exception) → main
-        └── PR 2: 59087aa + current adjustment 📍 — docs/README/traceability (414 lines) → main after PR 1 merges
+        └── PR 2: 59087aa + adjustment — docs/README/traceability (414 lines; size:exception) → main after PR 1
+              └── PR 3: 727c36b — empty-package validator/tests (605 lines; size:exception) → main after PR 2
+                    └── PR 4: current docs/fixtures/evidence/traceability 📍 (≤400 target) → main after PR 3
 ```
 
 - PR 1 boundary: only `scorecard.mjs` and `scorecard.test.mjs`; destination
@@ -135,6 +166,39 @@ main @ 4d7f45c
 
 ## Next step
 
-Run reproducible playtesting and environmental review before proposing final
-thresholds or marking ECO-004 done. ECO-002 remains blocked, ECO-108/G1 remain
-open and ECO-109 remains pending.
+Execute ECO004-8 only after resolving ECO004-6 with a versioned paper resolver
+and provisional threshold candidates. ECO004-9 requires qualified environmental
+review; ECO004-10 remains blocked on both.
+
+### Work units 3 and 4 — playtest package and documentary closure
+
+- PR 3 boundary: commit `727c36b` (`feat(game): validate empty playtest
+  packages`), 605 authored lines in 2 paths. The user explicitly authorized
+  `size:exception`.
+- PR 4 boundary: current protocol, fixtures, evidence and traceability only; no
+  validator code/tests, commit, branch, push or published PR.
+- ECO004-5 and ECO004-7 are prepared. ECO004-6 is partial because no resolver,
+  threshold candidate, execution or approval was invented.
+- The valid empty package is intentionally not ready. ECO004-8/9/10 remain pending.
+- Independent verifier 1: **BLOCKED** because blockers, results, participants and
+  environment could be bypassed. Independent verifier 2: **BLOCKED** because
+  seven aliases/unknown fields were accepted.
+- Corrections: `NOT_RUN` package fail-closed; exact blockers; null resolver;
+  canonical IDs/actions; no participants, results, thresholds or environment;
+  closed v1 schema with `UNKNOWN_FIELD`; unconditional `ready:false`.
+- Final local verification: focused scorecard/package suite 67/67 PASS; combined
+  simulator/adapter/scorecard suite 94/94 PASS; three JSON files `PARSE_OK`;
+  `git diff --check` PASS. The real fixture uses `rep-1`/`rep-2`, and tests no
+  longer normalize it. No playtest or environmental review was executed.
+- Final independent audit: **NOT RUN** because the provider exhausted its usage
+  limit. It must not be reported as PASS.
+- Native assessment against `cb89925`: `risk: medium`, `executable_change`,
+  `review_due: true`, `slice_budget_reached`. STATUS returned #4890
+  (`intended_untracked_selection_required`) because submission tokens omitted
+  `base-ref`/`committed-only`; the defective selection was not run, and no
+  approval or receipt exists.
+- Review budget: PR 4 must use final tracked numstat plus explicit line counts for
+  untracked files; preserve evidence rather than compressing it.
+- Rollback: remove `docs/20_PROTOCOLO_PLAYTEST_ECO_004.md`,
+  `evidencias/ECO-004/`, then revert only PR 4 text in README, backlog, AI log,
+  status, test plan and this tracker. PR 3 remains independently reversible.

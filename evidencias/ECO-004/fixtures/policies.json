@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "eco004-policies/v1",
+  "packageVersion": "eco004-playtest-package/v1",
+  "policies": [
+    {
+      "id": "do-nothing",
+      "decisions": [
+        { "roundId": "round-1", "action": "retain-declared-state" }, { "roundId": "round-2", "action": "retain-declared-state" }, { "roundId": "round-3", "action": "retain-declared-state" }, { "roundId": "round-4", "action": "retain-declared-state" }, { "roundId": "round-5", "action": "retain-declared-state" }, { "roundId": "round-6", "action": "retain-declared-state" }
+      ]
+    },
+    {
+      "id": "critical-only",
+      "decisions": [
+        { "roundId": "round-1", "action": "prioritize-critical" }, { "roundId": "round-2", "action": "prioritize-critical" }, { "roundId": "round-3", "action": "prioritize-critical" }, { "roundId": "round-4", "action": "prioritize-critical" }, { "roundId": "round-5", "action": "prioritize-critical" }, { "roundId": "round-6", "action": "prioritize-critical" }
+      ]
+    },
+    {
+      "id": "maximum-hydro-request",
+      "decisions": [
+        { "roundId": "round-1", "action": "request-maximum-hydro" }, { "roundId": "round-2", "action": "request-maximum-hydro" }, { "roundId": "round-3", "action": "request-maximum-hydro" }, { "roundId": "round-4", "action": "request-maximum-hydro" }, { "roundId": "round-5", "action": "request-maximum-hydro" }, { "roundId": "round-6", "action": "request-maximum-hydro" }
+      ]
+    },
+    {
+      "id": "environment-first",
+      "decisions": [
+        { "roundId": "round-1", "action": "protect-environmental-constraint" }, { "roundId": "round-2", "action": "protect-environmental-constraint" }, { "roundId": "round-3", "action": "protect-environmental-constraint" }, { "roundId": "round-4", "action": "protect-environmental-constraint" }, { "roundId": "round-5", "action": "protect-environmental-constraint" }, { "roundId": "round-6", "action": "protect-environmental-constraint" }
+      ]
+    },
+    {
+      "id": "resource-aware-balanced",
+      "decisions": [
+        { "roundId": "round-1", "action": "balance-declared-resources" }, { "roundId": "round-2", "action": "balance-declared-resources" }, { "roundId": "round-3", "action": "balance-declared-resources" }, { "roundId": "round-4", "action": "balance-declared-resources" }, { "roundId": "round-5", "action": "balance-declared-resources" }, { "roundId": "round-6", "action": "balance-declared-resources" }
+      ]
+    }
+  ]
+}

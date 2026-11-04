@@ -62,10 +62,29 @@ anti-trampa, validación, precedencia `incomplete`, denominador cero, determinis
 e inmutabilidad. No ejecutan modelos físicos, casos de ECO-002, UI ni producto y
 no demuestran balance o validez científica.
 
-Evidencia observada tras `11d325d` el 2026-11-03: T-SCO ejecutó 24/24 pruebas
-PASS y la suite conjunta con simulador/adaptador ejecutó 51/51 PASS, incluido el
-guard de agregados no finitos. Es cobertura técnica, no playtesting ni revisión
-ambiental; por tanto no cierra el criterio de balance de ECO-004.
+Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
+67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94
+PASS, incluidos agregados no finitos y el paquete `NOT_RUN` fail-closed. Los tres
+JSON devolvieron `PARSE_OK` y `git diff --check` pasó. La auditoría independiente
+final no pudo ejecutarse por límite de uso del proveedor y no se declara PASS.
+Es cobertura técnica, no playtesting ni revisión ambiental; por tanto no cierra
+el criterio de balance de ECO-004.
+
+### Preparación de playtest ECO-004
+
+El [protocolo autoritativo](20_PROTOCOLO_PLAYTEST_ECO_004.md) y el
+[paquete vacío](../evidencias/ECO-004/README.md) separan dos evidencias:
+`synthetic-replay` valida la scorecard y sensibilidad sobre ledgers declarados;
+`paper-facilitated`/`human-paper` observa comprensión y decisiones con un
+resolutor provisional explícito. Ninguna acredita física, hardware, balance final
+ni producto. La validación estructural no equivale a ejecutar una sesión.
+
+El manifest preregistra seis rondas, cinco políticas, dos repeticiones y orden
+registrado/reverso. Resolver y candidatos de threshold permanecen vacíos y
+bloquean ejecución. Toda sesión futura debe registrar expected/obtained, versión,
+evidencia e inclusión sin inventar personas ni completar retrospectivamente.
+El schema v1 cerrado rechaza aliases/campos desconocidos con `UNKNOWN_FIELD`; el
+fixture usa `rep-1`/`rep-2` y los tests no normalizan esos IDs.
 
 ## Reglas de tolerancia
 - Resultados algebraicos: `max(1e-9, 1e-10 * abs(valor_esperado))` en unidades de la magnitud, salvo justificación; la necesidad de un criterio relativo/absoluto por variable se revisará.

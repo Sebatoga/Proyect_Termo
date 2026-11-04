@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-03 (ECO-004 corregida y verificada; playtesting y revisión ambiental pendientes).
+**Última actualización:** 2026-11-03 (paquete ECO-004 preparado y verificado localmente; playtesting, revisión ambiental y auditoría independiente pendientes).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -40,11 +40,28 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   overflow con dos rondas `Number.MAX_VALUE` (`Infinity`, coberturas `NaN` y
   victoria incorrecta). Tras el fix, devuelve `incomplete`, métricas `null` y
   `AGGREGATE_QUANTITY_INVALID`; la reverificación fue PASS sin bloqueantes.
-- **Pruebas observadas:** scorecard 24/24 PASS; suite conjunta 51/51 PASS;
-  `git diff --check` PASS.
-- **Entrega/revisión:** `stacked-to-main`, dos PR lógicos, sin ramas, push ni PR.
-  PR 1 y PR 2 tienen `size:exception` autorizada (450 y 414 líneas). La revisión
-  nativa acumulada sigue no disponible por #4890; no existe aprobación ni recibo.
+- **Paquete de playtest:** ECO004-5 y ECO004-7 completadas; ECO004-6 parcial;
+  ECO004-8/9/10 pendientes o bloqueadas. Los artefactos reales siguen `NOT_RUN`,
+  sin resolver, thresholds, participantes, outcomes ni revisión inventada.
+- **Correcciones del validador:** paquete `NOT_RUN` fail-closed, blockers exactos,
+  resolver `null`, IDs/acciones canónicos, sin participantes/resultados/thresholds/
+  ambiente, schema v1 cerrado con `UNKNOWN_FIELD` y `ready:false` incondicional.
+- **Pruebas locales observadas:** scorecard+package 67/67 PASS; suite conjunta
+  94/94 PASS; `git diff --check` PASS; tres JSON `PARSE_OK`. El fixture real usa
+  `rep-1`/`rep-2` y los tests ya no normalizan esos IDs.
+- **Revisión independiente:** dos verificadores previos bloquearon respectivamente
+  por blockers/resultados/participantes/ambiente eludibles y por siete aliases o
+  campos desconocidos. La auditoría independiente final no pudo ejecutarse por
+  límite de uso del proveedor; **no** se declara PASS.
+- **Entrega/revisión:** `stacked-to-main`, cuatro PR lógicos, sin ramas, push ni PR.
+  PR 1 (450), PR 2 (414) y PR 3 (`727c36b`, 605 líneas, 2 paths) tienen
+  `size:exception` autorizada; PR 4 contiene sólo documentación/evidencia actual.
+  El assessment contra `cb89925` fue `risk: medium`, `executable_change`,
+  `review_due: true`, `slice_budget_reached`.
+- **Review nativo:** STATUS volvió a #4890:
+  `intended_untracked_selection_required`; los submission tokens omitieron
+  `base-ref`/`committed-only`. No se ejecutó la selección defectuosa y no existe
+  aprobación ni recibo.
 - **Límites:** no consume ECO-002 ni acredita umbrales oficiales, balance,
   ciencia, hardware o producto. La indisponibilidad natural sigue provisional.
   Por eso ECO-004 queda **EN REVISIÓN**, no HECHA.
