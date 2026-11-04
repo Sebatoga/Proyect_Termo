@@ -197,7 +197,7 @@ review; ECO004-10 remains blocked on both.
   (`intended_untracked_selection_required`) because submission tokens omitted
   `base-ref`/`committed-only`; the defective selection was not run, and no
   approval or receipt exists.
-- Review budget: PR 4 must use final tracked numstat plus explicit line counts for
+- PR 4 is 398 lines; native assessment was `risk: medium`, `review_due: false`, `under_budget`.
   untracked files; preserve evidence rather than compressing it.
 - Rollback: remove `docs/20_PROTOCOLO_PLAYTEST_ECO_004.md`,
   `evidencias/ECO-004/`, then revert only PR 4 text in README, backlog, AI log,
