@@ -48,6 +48,11 @@ normalizados compatibles con la frontera host, confirma una sola vez, invoca un
 resolutor sintético inyectado y conserva historial inmutable. No importa el
 adaptador ni implementa física, puntuación, balance, hardware, UI o producto.
 
+ECO104-6 añade `tools/round-host-integration/` como evidencia de composición:
+los mensajes pasan sólo por el adaptador y el snapshot actual llega al ciclo
+únicamente mediante confirmación explícita. Una desconexión exige una nueva
+instancia y no reutiliza el ciclo anterior. No es una ruta de producto.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.

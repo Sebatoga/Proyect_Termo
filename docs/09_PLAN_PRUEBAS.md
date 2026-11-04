@@ -48,6 +48,7 @@ no acredita aprobación.
 | T-RND-01 | manifiesto v1 cerrado de seis rondas + seis confirmaciones válidas | seis resoluciones únicas, historial inmutable y terminación explícita | F1 |
 | T-RND-02 | snapshot inválido/desconectado/nulo/hostil, `confirm:false`, reentrada o secuencia no creciente | razón estable; misma ronda, sin resolución duplicada, historial ni reutilización silenciosa | F1 |
 | T-RND-03 | mismo manifiesto, seed, resolutor sintético y secuencia | estados e historiales profundamente iguales | F1 |
+| T-RND-04 | stream dispositivo→host, tokens y corte de sesión | sólo confirmación explícita resuelve; invalidez y reset no reutilizan valores/ciclo | F1 |
 
 ### Harness local previo al hardware
 
@@ -77,6 +78,9 @@ inventa protocolo de epochs.
 ECO104-5 extiende la guardia a toda la transacción desde antes de reflejar el
 snapshot, exige opciones de construcción cerradas capturadas sin getters y
 comprueba el límite agregado de claves antes de solicitar descriptores individuales.
+ECO104-6 compone ambas referencias en `tools/round-host-integration/`: ingreso
+ordinario nunca avanza, los errores del adaptador bloquean valores obsoletos y
+la desconexión devuelve `SESSION_RESET_REQUIRED` hasta crear otra instancia.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

@@ -33,6 +33,9 @@ versión, secuencia o dirección limpian los seis valores. `output` se rechaza c
 `DIRECTION_INVALID`; un mensaje `error` conserva el código enviado por el
 dispositivo. La desconexión explícita reinicia secuencia y calibración.
 
+La composición aislada con confirmación de rondas se prueba por separado en
+[`tools/round-host-integration/`](../round-host-integration/README.md).
+
 ## Límites y rollback
 
 No es código productivo ni implementa puerto serial, driver, baud rate, timeout,

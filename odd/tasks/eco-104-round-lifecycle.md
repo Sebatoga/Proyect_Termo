@@ -69,6 +69,28 @@ The project documents a six-round flow but has no executable lifecycle contract.
     stable lifecycle codes and no getter invocation; own-key bounds are decided
     before per-property descriptor retrieval where practical; adversarial
     regressions prove at most one resolver call/append and a six-entry ceiling.
+- [x] **ECO104-6 — Compose adapter and lifecycle in an isolated harness**
+  - Route: `delegated`.
+  - Trigger evidence: the fail-closed host adapter and corrected lifecycle exist
+    separately; their confirmation, stale-value and session-reset boundary needs
+    executable integration evidence across source, tests and operator docs.
+  - Authorized scope: add one dependency-free Node ESM harness under `tools/`
+    that imports both existing APIs, focused integration tests, and only minimal
+    tracker/architecture/test-plan/state/backlog/AI-log/README alignment.
+  - Acceptance: ingestion only updates the adapter snapshot; an explicit unique
+    token is required to forward the current snapshot; invalid, disconnected,
+    replayed, reordered or unconfirmed input never resolves or advances; a
+    disconnect makes the integration session reset-required; six confirmations
+    complete immutable deterministic history and a seventh is terminal.
+  - Exact checks: `node --test tools/round-host-integration/*.test.mjs`; the
+    combined simulator/adapter/scorecard/lifecycle/integration suite; `git diff
+    --check`; forbidden dependency/formula scan; final `git status` and `git
+    show`.
+  - Rollback: remove `tools/round-host-integration/` and only the ECO104-6
+    documentation lines; existing adapter and lifecycle behavior remains intact.
+  - Planned feature-chain slice: one cohesive local child after `8268971`, under
+    approximately 400 authored additions plus deletions; stop before commit if
+    honest tests and documentation exceed the budget.
 
 ## Acceptance criteria
 
@@ -171,6 +193,25 @@ constructor exceptions and must not be treated as a safe reference.
   `OPTIONS_DATA_INVALID`, and an aggregate limit rejection before any descriptor
   read. No seventh resolver invocation or native error occurred.
 - Second correction commit subject: `fix(game): guard round confirmation capture`.
+- ECO104-6 added `tools/round-host-integration/` without changing either
+  composed API. Ordinary ingestion never calls the resolver; only
+  `confirm(token)` forwards the adapter's current normalized snapshot.
+- Focused check: `node --test tools/round-host-integration/*.test.mjs` — exit 0;
+  14 tests, 14 pass, 0 fail, 0 skipped.
+- Combined simulator, adapter, scorecard, lifecycle and integration check — exit
+  0; 160 tests, 160 pass, 0 fail, 0 skipped.
+- Forbidden source/dependency scans returned `FORBIDDEN_SOURCE_SCAN_PASS` and
+  `DEPENDENCY_SCAN_PASS`; `git diff --check` exited 0 with no output.
+- Delivery: one cohesive `feature-branch-chain` child after `8268971`, within
+  the approximately 400-line budget; no remote branch or PR is authorized.
+- Final authored count: 319 lines (`317` additions, `2` deletions) across 11 paths.
+- Commit subject: `feat(game): compose host adapter with round lifecycle`; the
+  stable hash is obtained from final `git show` because a commit cannot contain
+  its own hash.
+- Rollback: revert this one work-unit commit, removing only the integration
+  harness and ECO104-6 documentation; adapter and lifecycle remain independent.
+- Engram mirror: pending. The save was attempted, but session registration could
+  not be confirmed by the Engram server.
 
 ## Delivery decision and review chain
 
