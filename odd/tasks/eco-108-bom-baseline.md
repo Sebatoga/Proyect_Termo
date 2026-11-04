@@ -48,7 +48,23 @@ Turn the user-approved separate-component option into an auditable procurement c
   - Rollback: revertir únicamente el commit de esta unidad retira la selección comercial, los circuitos candidatos, R17 y sus vistas de trazabilidad sin afectar código, modelos ni plantillas previas.
   - Identidad del commit: `docs(hardware): reconcile ECO-108 sensor references`; el hash final se informa en la entrega porque un commit no puede contener su propio hash estable.
   - Espejo Engram: `PENDIENTE`; el guardado del documento completo en `odd/eco-108-bom-baseline/tasks` falló porque Engram no pudo confirmar una sesión registrada.
-  - Próximo paso: una persona elige 1 m o 2 m, revalida opción/precio/stock/envío, confirma Arduino y host, y autoriza o rechaza la compra antes de recepción o banco.
+  - Próximo paso histórico: cumplido por ECO108-4 para la longitud; siguen pendientes revalidar opción/precio/stock/envío, confirmar Arduino y host, y autorizar o rechazar la compra antes de recepción o banco.
+
+- [x] **ECO108-4 — Registrar la elección humana de la sonda de 1 m**
+  - Estado de ejecución: `elección documental registrada` sobre la rama actual `feat/eco-004-scorecard`; no se cambió de rama y la unidad permanece aislada en un solo commit.
+  - Route: `delegated`.
+  - Trigger evidence: `preparation + multiple non-trivial documentation views`.
+  - Alcance: registrar que una persona eligió la variante de 1 m de la sonda DS18B20 de tres conductores previamente seleccionada y reconciliar únicamente las vistas documentales que todavía presentan la longitud como no elegida.
+  - TDD mode: `not applicable for docs-only`; runtime harness `N/A` porque no cambia código ni existe una frontera ejecutable en esta unidad.
+  - Acceptance checks: la elección humana de 1 m queda explícita y separada de precio, stock, envío, pinout, fabricante, posesión, compra, recepción, calibración, tiempo de respuesta, USB/HIL y cierre de G1, que siguen sin resolverse; referencias locales resolubles; aserciones documentales focalizadas y `git diff --check` sin errores.
+  - Work unit: un único commit convencional con asunto `docs(hardware): record 1 m probe selection`.
+  - Archivos cambiados: `docs/04_BACKLOG_Y_FASES.md`, `docs/07_PROCESO_IA.md`, `docs/08_ESTADO_DEL_PROYECTO.md`, `docs/18_MANUAL_HARDWARE.md`, `docs/19_BOM_ECO_108.md`, `evidencias/ECO-108/preparacion-referencias-2026-11-03.md` y este documento.
+  - Checks observados: `git diff --check` sin salida; validador local `LOCAL_LINKS_CHECKED=13` y `LOCAL_LINKS_OK`; aserciones `STALE_LENGTH_ASSERTIONS=0`, `DOCUMENTARY_ASSERTIONS=PASS` y `DOCS_ONLY=true CHANGED_FILES=7`.
+  - Runtime harness: `N/A`; la unidad solo registra una elección humana en documentación y no modifica una frontera ejecutable.
+  - Evidencia: BOM, manual, preparación fechada, estado y backlog registran 1 m; precio, stock, envío, pinout, fabricante, posesión, compra, recepción, calibración, tiempo de respuesta, USB/HIL y G1 permanecen sin resolver.
+  - Rollback: revertir únicamente el commit `docs(hardware): record 1 m probe selection` devuelve la longitud a pendiente sin retirar la referencia comercial, los circuitos candidatos ni las plantillas de ECO-108.
+  - Espejo Engram: `PENDIENTE` en `odd/eco-108-bom-baseline/tasks`; el intento de guardar el documento completo falló porque Engram no pudo confirmar el registro de sesión.
+  - Próximo paso: una persona revalida la variante de 1 m, precio, stock, envío y total, y autoriza o rechaza la compra; G1 permanece abierto.
 
 ## Verification
 
@@ -71,11 +87,15 @@ Turn the user-approved separate-component option into an auditable procurement c
 - ECO108-3 evidence: `evidencias/ECO-108/preparacion-referencias-2026-11-03.md`,
   BOM/manual reconciliados y gates abiertos. Commit identificado por el asunto
   `docs(hardware): reconcile ECO-108 sensor references`; hash final en la entrega.
+- ECO108-4 evidence: la misma preparación fechada, la BOM y el manual registran
+  la elección humana de 1 m sin cerrar precio, disponibilidad, compra, recepción,
+  banco ni G1. Commit: `docs(hardware): record 1 m probe selection`.
 - Espejo histórico de ECO108-1/2: `PENDIENTE`; aquella entrega no pudo confirmar
   una sesión registrada. El espejo de ECO108-3 se registra dentro de su tarea.
 
 ## Next step
 
-A person must revalidate price, stock, shipping, references, and total, then
-explicitly authorize purchase. Only afterward may the team complete receipt and
-bench forms with observed evidence. Do not claim that G1 has passed.
+A person must revalidate the selected 1 m variant, price, stock, shipping,
+references, and total, then explicitly authorize purchase. Only afterward may
+the team complete receipt and bench forms with observed evidence. Do not claim
+that G1 has passed.

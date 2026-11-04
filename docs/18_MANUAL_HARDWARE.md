@@ -22,18 +22,20 @@
 
 ## Estado y límites
 
-- **Estado:** provisional; ECO108-3 reconcilió las referencias comerciales para
-  una sonda DS18B20 y una LDR desnuda, pero G1/ECO-108 mantienen bloqueadas la
-  compra, la recepción, la selección física y las pruebas de banco.
+- **Estado:** provisional; ECO108-3 reconcilió las referencias comerciales y
+  ECO108-4 registró la elección humana de una sonda DS18B20 de 1 m. G1/ECO-108
+  mantienen bloqueadas la compra, la recepción, la selección física y las
+  pruebas de banco.
 - **Existe hoy:** este contrato documental y la posibilidad de preparar trabajo
   independiente del hardware. BOOT-003 añadió un
   [simulador local JSON Lines v1](../tools/device-simulator/) ejecutable.
 - **No existe por inferencia:** inventario confirmado, BOM autorizada para compra, firmware,
   protocolo integrado, pinout eléctrico, carcasa, cableado, calibración, banco
   aprobado ni HIL.
-- **No congela:** modelos convencionales, longitud de la sonda, fabricante/lote,
-  tensión lógica, números de pin, valores finales de resistencias, rangos,
-  tolerancias, baud rate, timeout ni dimensiones.
+- **No congela:** modelos convencionales, fabricante/lote, pinout, tensión
+  lógica, números de pin, valores finales de resistencias, rangos, tolerancias,
+  baud rate, timeout ni dimensiones. La elección documental de cable de 1 m no
+  confirma ninguna de esas propiedades ni la disponibilidad de la variante.
 - **ECO-002 sigue bloqueada:** las entradas físicas no autorizan a consumir como
   baseline los modelos científicos todavía bajo revisión.
 
@@ -79,7 +81,7 @@ seleccionados ni equivalencias garantizadas.
 |---|---:|---|---|---|
 | Control central | 1 | microcontrolador con USB serial, ADC y GPIO suficientes | microcontrolador más interfaz USB serial compatible | tensión lógica, ADC/GPIO, drivers, alimentación y soporte verificados |
 | Proxy de luz | 1 | LDR desnuda de 5 mm, variante comercial seleccionada 10–20 kΩ a 10 lux | elemento fotosensible con acondicionamiento documentado | divisor, curva, rango ADC, alimentación y repetibilidad observados |
-| Temperatura | 1 | sonda DS18B20 de tres cables en modo alimentado | sensor digital con interfaz documentada | longitud, identidad, pinout, alimentación y respuesta de banco |
+| Temperatura | 1 | sonda DS18B20 de tres cables en modo alimentado, variante de 1 m elegida | sensor digital con interfaz documentada | disponibilidad de la variante, identidad, pinout, alimentación y respuesta de banco |
 | Consigna hidro | 1 | potenciómetro o slider lineal legible | control rotativo/lineal analógico equivalente | recorrido útil, ADC, ergonomía y fijación |
 | Modo de batería | 1 | selector discreto de posiciones estables | botones o control rotativo con estados inequívocos | cantidad de modos, GPIO, contactos y rotulado |
 | Prioridad de cargas | 1 | selector discreto rotulado | botones mutuamente excluyentes | estados permitidos, GPIO y prevención de ambigüedad |

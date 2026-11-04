@@ -3,19 +3,20 @@
 > **Estado: preparación documental.** Consulta de solo lectura realizada el
 > 2026-11-03. Las páginas son publicaciones de vendedor, no hojas de datos del
 > fabricante ni evidencia de compra, stock reservado, recepción o prueba física.
+> ECO108-4 añadió la elección humana de 1 m; no modificó los hechos del vendedor.
 
 ## Referencias seleccionadas
 
 | Cant. | Referencia | Selección humana |
 |---:|---|---|
-| 1 | [Sonda DS18B20](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) | una sonda; longitud aún no elegida |
+| 1 | [Sonda DS18B20](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) | una sonda de tres conductores; variante de 1 m elegida por una persona el 2026-11-03 |
 | 1 | [LDR](https://www.electronicoscaldas.com/es/sensores-de-luz-visible/177-serie-de-fotoresistencias-o-ldr-de-nte-con-diametros-5mm-12mm-y-20-mm.html#/993-diametro-5_mm/1294-resistencia_ldr-10000_a_20000_10_k_a_20_k) | una LDR desnuda de 5 mm, variante 10–20 kΩ a 10 lux indicada por el fragmento de la URL |
 
 ## Hechos visibles y pendientes
 
 | Referencia | Hechos visibles en la publicación | Pendiente de confirmar |
 |---|---|---|
-| Sonda DS18B20 | título “Sonda con DS18B20 (3 cables)”; opciones de cable de 1 m y 2 m; cabeza de acero inoxidable; alimentación publicada de 3 V a 5,5 V; interfaz 1-Wire; precio general mostrado COP 14.800; 3 artículos mostrados en stock; enlace visible a un PDF rotulado como hoja de datos | longitud exacta elegida; precio y stock de esa longitud al ordenar; envío; fabricante y lote de la sonda entregada; aplicabilidad/autenticidad del PDF para la unidad; wire colors y pinout; documentación incluida |
+| Sonda DS18B20 | título “Sonda con DS18B20 (3 cables)”; opciones de cable de 1 m y 2 m; cabeza de acero inoxidable; alimentación publicada de 3 V a 5,5 V; interfaz 1-Wire; precio general mostrado COP 14.800; 3 artículos mostrados en stock; enlace visible a un PDF rotulado como hoja de datos | precio y stock de la variante de 1 m al ordenar; envío; fabricante y lote de la sonda entregada; aplicabilidad/autenticidad del PDF para la unidad; colores de conductores y pinout; documentación incluida |
 | LDR | fotoresistencia desnuda con opciones de 5, 12 y 20 mm; rango seleccionable a 10 lux; el fragmento aportado identifica 5 mm y 10–20 kΩ; precio general mostrado COP 605; 422 artículos mostrados en stock; la página enumera varios fabricantes y varios PDF | atribución del precio y stock a la variante exacta al ordenar; envío; fabricante, referencia y datasheet aplicable de la unidad entregada; tolerancias y curva reales |
 
 Los conteos y precios son observaciones volátiles de página. No se incorporan al
@@ -50,7 +51,7 @@ para gameplay`, nunca como medición de lux, irradiancia o W/m².
 
 ## Checklist de compra, recepción y banco
 
-- [ ] Elegir y registrar 1 m o 2 m para la sonda.
+- [x] Registrar la elección humana de 1 m para la sonda; no acredita disponibilidad ni compra.
 - [ ] Capturar precio, stock por opción, envío y total al ordenar.
 - [ ] Confirmar modelo y disponibilidad física del Arduino.
 - [ ] Registrar computador host, sistema operativo y permisos USB serial.
@@ -59,5 +60,6 @@ para gameplay`, nunca como medición de lux, irradiancia o W/m².
 - [ ] Registrar respuesta cruda de temperatura, desconexión y estabilización.
 - [ ] Registrar ADC crudo de la LDR en condiciones reproducibles y extremos.
 
-Todos los ítems siguen sin marcar. Compra, recepción, inventario físico,
-calibración, firmware, USB, HIL, ECO-108 y G1 permanecen abiertos.
+Solo la elección documental de 1 m está marcada. Compra, recepción, inventario
+físico, calibración, tiempo de respuesta, firmware, USB, HIL, ECO-108 y G1
+permanecen abiertos.

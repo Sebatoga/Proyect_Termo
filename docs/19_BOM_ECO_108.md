@@ -19,6 +19,9 @@
 - El 2026-11-03 la persona solicitante seleccionó como referencias comerciales
   una sonda DS18B20 y una LDR desnuda de 5 mm de Electrónicos Caldas, una unidad
   de cada una. Son publicaciones de vendedor, no hojas de datos del fabricante.
+- El 2026-11-03 una persona confirmó la variante de **1 m** de la sonda DS18B20
+  de tres conductores. Esta elección no confirma precio, stock, envío, pinout,
+  fabricante, posesión, compra, recepción, calibración ni comportamiento físico.
 
 ## Cómo interpretar la evidencia
 
@@ -44,7 +47,7 @@ variante; por eso el costo y la disponibilidad comprables quedan pendientes.
 | 1 | 1 | Arduino Uno R3 compatible, ATmega328P, CH340, lógica 5 V, cable USB A/B incluido | 31.900 | 31.900 | 35 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/arduino-uno-r3-con-chip-ch340-compatible/) |
 | 2 | 1 | Protoboard MB102, 830 puntos | 13.900 | 13.900 | 28 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/protoboard-adhesiva-mb102-830-puntos-16-5cm-x-5-5cm/) |
 | 3 | 1 | Juego de 60 jumpers macho-macho | 7.500 | 7.500 | 8 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/65-cables-conectores-para-protoboard-macho-macho/) |
-| 4 | 1 | Sonda DS18B20 de tres cables; variante de 1 m o 2 m todavía sin elegir. La página mostró COP 14.800 y 3 artículos en stock, sin atribución verificable a una longitud | PENDIENTE | PENDIENTE | PENDIENTE por longitud | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) |
+| 4 | 1 | Sonda DS18B20 de tres cables; variante de 1 m elegida por una persona. La página mostró COP 14.800 y 3 artículos en stock, sin atribución verificable a la variante de 1 m | PENDIENTE | PENDIENTE | PENDIENTE para la variante | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) |
 | 5 | 1 | LDR desnuda de 5 mm; variante seleccionada 10–20 kΩ a 10 lux; sin AO/DO ni LM393. La página mostró COP 605 y 422 artículos en stock, sin atribución verificable a la variante | PENDIENTE | PENDIENTE | PENDIENTE para la variante | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-luz-visible/177-serie-de-fotoresistencias-o-ldr-de-nte-con-diametros-5mm-12mm-y-20-mm.html#/993-diametro-5_mm/1294-resistencia_ldr-10000_a_20000_10_k_a_20_k) |
 | 6 | 1 | Potenciómetro lineal B10K, 15 mm | 1.500 | 1.500 | 135 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/potenciometro-lineal-b-10k-ohm-15mm/) |
 | 7 | 1 | Perilla de 15 × 17 mm | 2.800 | 2.800 | 43 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/perilla-metalica-aluminio-para-potenciometro-knob-15x17mm/) |
@@ -69,7 +72,7 @@ partidas.
 |---|---|---|---|---|
 | Control y USB | Uno R3 compatible, ATmega328P, CH340, lógica 5 V | página y precio fechados; cable A/B anunciado | verificar referencia/lote, datasheet, alimentación, GPIO/ADC y enumeración en host real | pendiente de inspección |
 | Proxy de luz | una LDR desnuda de 5 mm, variante comercial 10–20 kΩ a 10 lux | publicación del vendedor y opciones visibles; precio/stock generales observados, pero atribución, fabricante y datasheet aplicable a la variante no confirmados | montar divisor candidato, caracterizar ADC y repetibilidad; rotular `proxy de luz calibrado para gameplay`, nunca lux, irradiancia ni W/m² | pendiente de compra, inspección y calibración |
-| Temperatura | una sonda DS18B20 de tres cables, alimentación 3–5,5 V y 1-Wire publicados | publicación del vendedor; precio/stock generales y enlace a PDF visibles; longitud, costo por variante, fabricante, aplicabilidad del PDF y pinout sin confirmar | elegir 1 m o 2 m, verificar continuidad/pinout y caracterizar respuesta y estabilización | pendiente de compra e inspección |
+| Temperatura | una sonda DS18B20 de tres cables, variante de 1 m elegida; alimentación 3–5,5 V y 1-Wire publicados | publicación del vendedor; precio/stock generales y enlace a PDF visibles; costo y disponibilidad de la variante de 1 m, fabricante, aplicabilidad del PDF y pinout sin confirmar | revalidar la variante de 1 m; verificar continuidad/pinout y caracterizar respuesta y estabilización | pendiente de compra e inspección |
 | Consigna hidro | B10K + perilla | páginas, dimensiones y precios fechados | comprobar curva real, recorrido, fijación y compatibilidad con ADC | pendiente de inspección |
 | Modos y prioridades | seis pulsadores 12 × 12 | página, cantidad, precio y stock fechados | representar 3 modos de batería + 3 prioridades con exclusión lógica y rotulado; no son reglas científicas finales | pendiente de definición lógica/UX |
 | Confirmación | PBS-110 roscado | página, precio y stock fechados | verificar contactos, montaje y comportamiento; debounce permanece sin valor asignado | pendiente de inspección |
@@ -130,7 +133,7 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 
 ## Checklist de compra, recepción y banco
 
-- [ ] Elegir y registrar la longitud exacta de cable DS18B20: 1 m o 2 m.
+- [x] Elección humana registrada: cable DS18B20 de 1 m. No acredita compra ni disponibilidad.
 - [ ] Capturar precio, stock por variante, envío y total en el momento de compra.
 - [ ] Confirmar modelo y disponibilidad física del Arduino; no inferirlos de la BOM.
 - [ ] Registrar computador host, sistema operativo y permisos para USB serial.
@@ -166,7 +169,7 @@ permanecen abiertos. Esta lista no demuestra que alguna actividad haya ocurrido.
 - Evidencia futura: [índice y plantillas ECO-108](../evidencias/ECO-108/README.md).
 - Estado del proyecto: [Relevo vigente](08_ESTADO_DEL_PROYECTO.md).
 - Backlog: [ECO-108 en F1](04_BACKLOG_Y_FASES.md).
-- Unidad de trabajo: [ECO108-3](../odd/tasks/eco-108-bom-baseline.md).
+- Unidad de trabajo: [ECO108-4](../odd/tasks/eco-108-bom-baseline.md).
 - Hechos de fuente y pendientes: [preparación de referencias 2026-11-03](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md).
 
 Las plantillas parten en `NOT_RUN` y no autorizan compra ni demuestran recepción
