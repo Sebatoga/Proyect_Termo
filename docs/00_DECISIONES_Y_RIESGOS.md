@@ -44,6 +44,7 @@
 | R14 | Componentes no disponibles o montaje inseguro | crítico | decidir modelos/presupuesto tras inventario; baja tensión, carcasa y cableado fijo |
 | R15 | Confundir proxy de luz con irradiancia medida | alto | rotularlo como `proxy de luz calibrado para gameplay` hasta validación metrológica |
 | R16 | Presentar la referencia ECO-004 como score balanceado o regla ambiental validada | alto | mantener umbrales inyectables y provisionales; exigir playtesting reproducible y revisión ambiental antes de cerrar ECO-004 |
+| R17 | Tratar una publicación comercial volátil o con contenido ajeno como fuente técnica confiable | alto | separar hechos visibles de vendedor; revalidar opción/precio/stock al comprar y autenticar datasheet, identidad y pinout antes de energizar |
 
 ## Cambios de decisión
 Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física/UX/plazo, responsable y autorización.

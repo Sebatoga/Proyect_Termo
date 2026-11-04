@@ -15,6 +15,10 @@
    [prueba-banco.md](plantillas/prueba-banco.md).
 5. Conserva archivos, fotos y registros enlazados mediante rutas relativas.
 
+La [preparación de referencias del 2026-11-03](preparacion-referencias-2026-11-03.md)
+separa hechos visibles de vendedor y pendientes. No es evidencia de compra,
+recepción ni banco.
+
 ## Estados y regla de evidencia
 
 Estados permitidos: `NOT_RUN`, `PASS`, `FAIL`, `BLOCKED`. Todo registro nuevo

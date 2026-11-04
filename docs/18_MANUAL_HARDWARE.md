@@ -22,16 +22,18 @@
 
 ## Estado y límites
 
-- **Estado:** provisional; ECO108-1 documentó una BOM candidata, pero G1/ECO-108
-  mantienen bloqueadas la selección física, la compra y las pruebas de banco.
+- **Estado:** provisional; ECO108-3 reconcilió las referencias comerciales para
+  una sonda DS18B20 y una LDR desnuda, pero G1/ECO-108 mantienen bloqueadas la
+  compra, la recepción, la selección física y las pruebas de banco.
 - **Existe hoy:** este contrato documental y la posibilidad de preparar trabajo
   independiente del hardware. BOOT-003 añadió un
   [simulador local JSON Lines v1](../tools/device-simulator/) ejecutable.
 - **No existe por inferencia:** inventario confirmado, BOM autorizada para compra, firmware,
   protocolo integrado, pinout eléctrico, carcasa, cableado, calibración, banco
   aprobado ni HIL.
-- **No congela:** modelos, proveedores, tensión lógica, números de pin, valores
-  de resistencias, rangos, tolerancias, baud rate, timeout ni dimensiones.
+- **No congela:** modelos convencionales, longitud de la sonda, fabricante/lote,
+  tensión lógica, números de pin, valores finales de resistencias, rangos,
+  tolerancias, baud rate, timeout ni dimensiones.
 - **ECO-002 sigue bloqueada:** las entradas físicas no autorizan a consumir como
   baseline los modelos científicos todavía bajo revisión.
 
@@ -76,8 +78,8 @@ seleccionados ni equivalencias garantizadas.
 | Función | Cantidad objetivo | Clase recomendada pendiente | Alternativa admisible pendiente | Gate antes de elegir |
 |---|---:|---|---|---|
 | Control central | 1 | microcontrolador con USB serial, ADC y GPIO suficientes | microcontrolador más interfaz USB serial compatible | tensión lógica, ADC/GPIO, drivers, alimentación y soporte verificados |
-| Proxy de luz | 1 | sensor de luz con salida compatible y caracterizable | elemento fotosensible con acondicionamiento documentado | curva, rango, alimentación, interfaz y repetibilidad observados |
-| Temperatura | 1 | sensor de temperatura electrónico compatible | sensor analógico o digital con interfaz documentada | rango, exactitud declarada, alimentación y lectura de banco |
+| Proxy de luz | 1 | LDR desnuda de 5 mm, variante comercial seleccionada 10–20 kΩ a 10 lux | elemento fotosensible con acondicionamiento documentado | divisor, curva, rango ADC, alimentación y repetibilidad observados |
+| Temperatura | 1 | sonda DS18B20 de tres cables en modo alimentado | sensor digital con interfaz documentada | longitud, identidad, pinout, alimentación y respuesta de banco |
 | Consigna hidro | 1 | potenciómetro o slider lineal legible | control rotativo/lineal analógico equivalente | recorrido útil, ADC, ergonomía y fijación |
 | Modo de batería | 1 | selector discreto de posiciones estables | botones o control rotativo con estados inequívocos | cantidad de modos, GPIO, contactos y rotulado |
 | Prioridad de cargas | 1 | selector discreto rotulado | botones mutuamente excluyentes | estados permitidos, GPIO y prevención de ambigüedad |
@@ -97,6 +99,27 @@ Las cuatro funciones LED son conceptuales. Sus textos finales deben coincidir
 con las reglas y ser comprensibles sin depender únicamente del color. La
 cantidad de resistencias adicionales y conectores se deriva del esquema real,
 no de esta tabla.
+
+### Circuitos candidatos para el primer banco
+
+Estos circuitos son hipótesis de trabajo, no un esquema final ni evidencia de
+montaje:
+
+- **DS18B20 alimentado:** `VDD` al riel lógico compatible, `GND` al retorno y
+  `DATA` a una entrada digital con pull-up candidato de **4,7 kΩ** hacia el mismo
+  riel. Se prevé una resistencia y una de repuesto. Antes de energizar se deben
+  identificar los tres conductores por documentación aplicable y continuidad;
+  los colores quedan pendientes de verificación específica.
+- **LDR desnuda:** `VLOGIC → LDR → LIGHT_SENSE/ADC → 10 kΩ → GND`. Se prevé una
+  resistencia fija y una de repuesto. Esta polaridad produce una tensión de nodo
+  mayor cuando baja la resistencia de la LDR; se debe confirmar con ADC crudo.
+  El valor de 10 kΩ, la tensión, la polaridad y el mapeo final quedan pendientes
+  de caracterización. No existe LM393 ni salida digital integrada.
+
+La camisa de acero de la sonda puede añadir retardo térmico en aire ambiente. La
+prueba debe conservar muestras y tiempo de estabilización antes de fijar reglas.
+La LDR se denomina siempre `proxy de luz calibrado para gameplay`; no mide por
+inferencia lux, irradiancia ni W/m².
 
 ## No comprar todavía
 
@@ -192,20 +215,27 @@ desconexión, no para ocultarla con constantes arbitrarias.
 
 ### Luz
 
-1. Definir condiciones reproducibles de gameplay y un montaje fijo.
-2. Registrar lectura cruda repetida en cada condición, ambiente y distancia.
-3. Evaluar dispersión, saturación, histéresis y luz parásita.
-4. Definir mapeo acotado, rango válido y criterio de desconexión.
-5. Versionar datos y procedimiento como `calibrationVersion`.
-6. Rotular siempre **proxy de luz calibrado para gameplay**; nunca irradiancia
+1. Montar provisionalmente el divisor con LDR arriba y 10 kΩ a retorno; registrar
+   tensión lógica, Arduino/ADC y polaridad antes de energizar.
+2. Definir condiciones reproducibles de gameplay y un montaje fijo.
+3. Registrar lectura cruda repetida en cada condición, ambiente y distancia.
+4. Evaluar dispersión, saturación, histéresis y luz parásita.
+5. Decidir con evidencia si 10 kΩ y la polaridad son adecuados; si cambian,
+   registrar motivo y repetir extremos.
+6. Definir mapeo acotado, rango válido y criterio de desconexión.
+7. Versionar datos y procedimiento como `calibrationVersion`.
+8. Rotular siempre **proxy de luz calibrado para gameplay**; nunca irradiancia
    física ni `W/m²` sin una futura calibración metrológica trazable.
 
 ### Temperatura
 
-1. Elegir referencia y puntos solo después de conocer sensor y rango requerido.
-2. Comparar esperado/obtenido con tiempo de estabilización documentado.
-3. Registrar error, repetibilidad, ubicación y posible autocalentamiento.
-4. Definir rango válido, desconexión y propagación de estado al adaptador.
+1. Registrar longitud de cable, identidad disponible y continuidad/pinout antes
+   de conectar; no inferir funciones desde los colores.
+2. Elegir referencia y puntos solo después de conocer sensor y rango requerido.
+3. Comparar esperado/obtenido con tiempo de estabilización documentado y muestras
+   suficientes para observar el retardo de la camisa en aire.
+4. Registrar error, repetibilidad, ubicación y posible autocalentamiento.
+5. Definir rango válido, desconexión y propagación de estado al adaptador.
 
 ### Controles y debounce
 

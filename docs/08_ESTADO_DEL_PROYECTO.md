@@ -2,7 +2,7 @@
 
 **Última actualización:** 2026-11-03 (paquete ECO-004 preparado y verificado localmente; playtesting, revisión ambiental y auditoría independiente pendientes).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** ECO108-1 y ECO108-2 completaron la preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
+**Tarea vigente:** ECO108-3 reconcilió las referencias comerciales DS18B20/LDR como preparación documental; ECO-108 y G1 siguen abiertos. Compra, recepción, datasheets aplicables, calibración, firmware, USB, HIL y banco permanecen pendientes. ECO-002 sigue BLOQUEADA.
 **Producto/hardware:** NO EXISTEN AÚN. No hay tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. El spike verificó Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` creó y renderizó el canvas en este entorno, sin ratificar el stack.
 
@@ -26,10 +26,24 @@
 
 ## Gate humano inmediato — G1
 
-El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata y ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md). El próximo paso real es que una persona revalide precio/stock/envío y autorice la compra; después se completan recepción y banco con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
+El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata, ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md) y ECO108-3 separó [hechos visibles y pendientes](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md) para las referencias elegidas. El próximo paso real es que una persona elija la longitud de sonda, revalide opción/precio/stock/envío y autorice la compra; después se completan recepción y banco con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas de código actuales cubren metadata del spike y el transporte simulado BOOT-003.
+
+### ECO108-3 — referencias comerciales preparadas
+
+- **Resultado documental:** una sonda DS18B20 y una LDR desnuda de 5 mm,
+  10–20 kΩ a 10 lux, quedaron registradas como referencias de compra candidatas,
+  una unidad de cada una. Las páginas son fuentes de vendedor, no datasheets.
+- **Banco previsto:** DS18B20 alimentado con pull-up candidato de 4,7 kΩ; LDR
+  sobre divisor candidato de 10 kΩ hacia retorno y nodo ADC intermedio. Valores,
+  polaridad final, pinout, fabricante y calibración siguen pendientes de banco.
+- **Fuente:** las páginas mostraron precios y stock generales, pero no se
+  atribuyen a opciones comprables exactas. Además incluyeron contenido ajeno al
+  catálogo; R17 exige autenticar toda fuente técnica antes de energizar.
+- **Gates:** ECO-108/G1 permanecen abiertos; no hubo compra, recepción,
+  inventario físico, firmware, USB, HIL ni prueba de hardware.
 
 ### ECO-004 — scorecard cooperativa en revisión
 

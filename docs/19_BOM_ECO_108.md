@@ -1,6 +1,6 @@
 # BOM candidata ECO-108 — preparación de compra y banco
 
-> **Estado al 2026-10-27:** objetivo de preparación documental aprobado por
+> **Estado al 2026-11-03:** objetivo de preparación documental aprobado por
 > decisión humana. Esta BOM no autoriza compra ni demuestra posesión, recepción,
 > calibración, prueba física o compatibilidad cerrada. La selección física sigue
 > pendiente de los gates indicados en este documento.
@@ -16,6 +16,9 @@
 - No están autorizados la compra, el montaje, el firmware, la calibración ni las
   pruebas de banco por la existencia de este documento.
 - ECO-002 continúa bloqueada: esta BOM no promueve modelos ni reglas científicas.
+- El 2026-11-03 la persona solicitante seleccionó como referencias comerciales
+  una sonda DS18B20 y una LDR desnuda de 5 mm de Electrónicos Caldas, una unidad
+  de cada una. Son publicaciones de vendedor, no hojas de datos del fabricante.
 
 ## Cómo interpretar la evidencia
 
@@ -29,36 +32,44 @@
 
 ## BOM candidata y aritmética
 
-Todos los valores están en COP. “Disponibles” reproduce la disponibilidad
-publicada del snapshot; debe revalidarse junto con el precio antes de cualquier
-compra.
+Todos los valores están en COP. Las filas distintas de los dos sensores conservan
+el snapshot histórico de Electronilab del 2026-10-27 como referencia convencional.
+No constituyen una cotización vigente. Las publicaciones seleccionadas de
+Electrónicos Caldas mostraron precio y stock generales el 2026-11-03, pero la
+consulta de solo lectura no permitió atribuirlos de forma inequívoca a cada
+variante; por eso el costo y la disponibilidad comprables quedan pendientes.
 
 | # | Cant. | Candidato y dato comercial observado | Unitario | Subtotal | Disponibilidad publicada | Fuente fechada |
 |---:|---:|---|---:|---:|---:|---|
 | 1 | 1 | Arduino Uno R3 compatible, ATmega328P, CH340, lógica 5 V, cable USB A/B incluido | 31.900 | 31.900 | 35 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/arduino-uno-r3-con-chip-ch340-compatible/) |
 | 2 | 1 | Protoboard MB102, 830 puntos | 13.900 | 13.900 | 28 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/protoboard-adhesiva-mb102-830-puntos-16-5cm-x-5-5cm/) |
 | 3 | 1 | Juego de 60 jumpers macho-macho | 7.500 | 7.500 | 8 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/65-cables-conectores-para-protoboard-macho-macho/) |
-| 4 | 1 | DS18B20 tipo sonda, 3,0–5,5 V, 1-Wire | 9.900 | 9.900 | 27 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/sensor-de-temperatura-ds18b20-tipo-sonda/) |
-| 5 | 1 | Módulo LDR, salidas analógica/digital, alimentación 3,3/5 V | 4.900 | 4.900 | 8 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/modulo-sensor-de-luz-fotorresistencia-fotocelda-ldr/) |
+| 4 | 1 | Sonda DS18B20 de tres cables; variante de 1 m o 2 m todavía sin elegir. La página mostró COP 14.800 y 3 artículos en stock, sin atribución verificable a una longitud | PENDIENTE | PENDIENTE | PENDIENTE por longitud | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) |
+| 5 | 1 | LDR desnuda de 5 mm; variante seleccionada 10–20 kΩ a 10 lux; sin AO/DO ni LM393. La página mostró COP 605 y 422 artículos en stock, sin atribución verificable a la variante | PENDIENTE | PENDIENTE | PENDIENTE para la variante | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-luz-visible/177-serie-de-fotoresistencias-o-ldr-de-nte-con-diametros-5mm-12mm-y-20-mm.html#/993-diametro-5_mm/1294-resistencia_ldr-10000_a_20000_10_k_a_20_k) |
 | 6 | 1 | Potenciómetro lineal B10K, 15 mm | 1.500 | 1.500 | 135 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/potenciometro-lineal-b-10k-ohm-15mm/) |
 | 7 | 1 | Perilla de 15 × 17 mm | 2.800 | 2.800 | 43 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/perilla-metalica-aluminio-para-potenciometro-knob-15x17mm/) |
 | 8 | 6 | Pulsador 12 × 12 amarillo, a 440 cada uno | 440 | 2.640 | 195 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/micro-boton-pulsador-switch-de-4-pines-12x12x7-3mm-b3f-4055-amarillo/) |
 | 9 | 1 | Pulsador de confirmación PBS-110 roscado | 1.600 | 1.600 | 134 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/pulsador-de-boton-con-rosca-para-montaje/) |
 | 10 | 4 | LED rojo difuso de 5 mm como referencia de precio, a 110 cada uno | 110 | 440 | 151 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/led-rojo-5mm-difuso/) |
 | 11 | 1 | Placa universal FR-4 de 7 × 9 cm | 4.500 | 4.500 | 51 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/placa-universal-doble-fibra-de-vidrio-fr-4-7cm-x-9cm/) |
-|  |  | **Suma observada de 11 partidas** |  | **COP 81.580** |  |  |
-|  |  | Reserva estimada para resistencias, cableado, fijaciones y etiquetas |  | **COP 1.420–8.420** | no observada | estimación, no precio comercial |
-|  |  | **Total objetivo** |  | **COP 83.000–90.000** |  | **envío excluido** |
+|  |  | **Subtotal histórico de las nueve partidas convencionales** |  | **COP 66.780** | no revalidada | snapshot 2026-10-27 |
+|  |  | Dos resistencias de 4,7 kΩ y dos de 10 kΩ, 1/4 W y 5 %, como candidatos de banco (una de uso y una de repuesto por valor) | PENDIENTE | PENDIENTE | PENDIENTE | especificación candidata, no cotización |
+|  |  | Cableado, fijaciones y etiquetas según esquema final | PENDIENTE | PENDIENTE | PENDIENTE | cantidad y cotización pendientes |
+|  |  | **Total vigente** |  | **PENDIENTE** |  | **sensores, pasivos y envío sin cotización confirmada** |
 
-Reproducción: `31.900 + 13.900 + 7.500 + 9.900 + 4.900 + 1.500 + 2.800 + 2.640 + 1.600 + 440 + 4.500 = 81.580`. Los pulsadores y LED ya están multiplicados en sus subtotales.
+Reproducción del subtotal histórico convencional: `31.900 + 13.900 + 7.500 +
+1.500 + 2.800 + 2.640 + 1.600 + 440 + 4.500 = 66.780`. Los pulsadores y
+LED ya están multiplicados en sus subtotales. El objetivo previo de COP
+83.000–90.000 más envío no se usa como total vigente hasta revalidar todas las
+partidas.
 
 ## Matriz de función, evidencia y gate
 
 | Función | Candidato | Evidencia comercial | Gate técnico | Estado |
 |---|---|---|---|---|
 | Control y USB | Uno R3 compatible, ATmega328P, CH340, lógica 5 V | página y precio fechados; cable A/B anunciado | verificar referencia/lote, datasheet, alimentación, GPIO/ADC y enumeración en host real | pendiente de inspección |
-| Proxy de luz | módulo LDR 3,3/5 V | página, interfaz anunciada y precio fechados | caracterizar salida y repetibilidad; rotular `proxy de luz calibrado para gameplay`, nunca irradiancia ni W/m² | pendiente de inspección y calibración futura |
-| Temperatura | DS18B20 tipo sonda, 3,0–5,5 V, 1-Wire | página, interfaz anunciada y precio fechados | verificar identidad, datasheet/lote, cableado real y resistencia pull-up; no confiar en colores del cable | pendiente de inspección |
+| Proxy de luz | una LDR desnuda de 5 mm, variante comercial 10–20 kΩ a 10 lux | publicación del vendedor y opciones visibles; precio/stock generales observados, pero atribución, fabricante y datasheet aplicable a la variante no confirmados | montar divisor candidato, caracterizar ADC y repetibilidad; rotular `proxy de luz calibrado para gameplay`, nunca lux, irradiancia ni W/m² | pendiente de compra, inspección y calibración |
+| Temperatura | una sonda DS18B20 de tres cables, alimentación 3–5,5 V y 1-Wire publicados | publicación del vendedor; precio/stock generales y enlace a PDF visibles; longitud, costo por variante, fabricante, aplicabilidad del PDF y pinout sin confirmar | elegir 1 m o 2 m, verificar continuidad/pinout y caracterizar respuesta y estabilización | pendiente de compra e inspección |
 | Consigna hidro | B10K + perilla | páginas, dimensiones y precios fechados | comprobar curva real, recorrido, fijación y compatibilidad con ADC | pendiente de inspección |
 | Modos y prioridades | seis pulsadores 12 × 12 | página, cantidad, precio y stock fechados | representar 3 modos de batería + 3 prioridades con exclusión lógica y rotulado; no son reglas científicas finales | pendiente de definición lógica/UX |
 | Confirmación | PBS-110 roscado | página, precio y stock fechados | verificar contactos, montaje y comportamiento; debounce permanece sin valor asignado | pendiente de inspección |
@@ -73,11 +84,18 @@ Reproducción: `31.900 + 13.900 + 7.500 + 9.900 + 4.900 + 1.500 + 2.800 + 2.640 
   en el host real; no se presume enumeración ni soporte por plataforma.
 - **Lógica 5 V:** es un atributo publicado del controlador candidato, no una
   validación del conjunto. Cada módulo, señal y alimentación debe cotejarse.
-- **DS18B20:** la forma de sonda no garantiza sensor genuino, pinout ni colores.
-  La resistencia pull-up se define tras consultar el datasheet aplicable y el
-  lote recibido, antes de energizar.
-- **LDR:** solo será un `proxy de luz calibrado para gameplay`; la salida digital
-  del módulo no crea una medición de irradiancia.
+- **DS18B20:** se proyecta uso alimentado con tres conductores: `VDD`, `DATA` y
+  `GND`. Como circuito candidato de banco, `DATA` llevará un pull-up de **4,7 kΩ**
+  al riel lógico. El valor se debe cotejar con la hoja de datos aplicable y el
+  controlador real; colores, orden de conductores y pinout quedan pendientes de
+  continuidad e identificación. La camisa de acero inoxidable puede aumentar el
+  retardo térmico al medir aire ambiente, por lo que se debe registrar el tiempo
+  de estabilización en banco.
+- **LDR:** no es un módulo LM393 y no integra salidas AO/DO. El divisor candidato
+  será `VLOGIC → LDR → nodo LIGHT_SENSE/ADC → 10 kΩ → GND`; con esta polaridad se
+  espera que el ADC aumente al bajar la resistencia de la LDR. Topología, tensión,
+  valor fijo y mapeo final permanecen sujetos a banco. Solo será un `proxy de luz
+  calibrado para gameplay`, nunca un medidor de lux, irradiancia o W/m².
 - **LED:** no se congelan 220 Ω ni 330 Ω por costumbre. La resistencia se calcula
   después de confirmar Vf/color, tensión de salida y límites por pin y totales.
 - La protoboard es solo para banco. La placa FR-4 no se compra ni fabrica hasta
@@ -110,6 +128,23 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 5. cotización de la reserva y cantidades derivadas del esquema;
 6. responsable, presupuesto final y autorización explícita de compra.
 
+## Checklist de compra, recepción y banco
+
+- [ ] Elegir y registrar la longitud exacta de cable DS18B20: 1 m o 2 m.
+- [ ] Capturar precio, stock por variante, envío y total en el momento de compra.
+- [ ] Confirmar modelo y disponibilidad física del Arduino; no inferirlos de la BOM.
+- [ ] Registrar computador host, sistema operativo y permisos para USB serial.
+- [ ] Al recibir, inspeccionar referencia, cantidad, daños y documentación incluida.
+- [ ] Con el montaje desenergizado, comprobar continuidad y pinout de la sonda;
+      no confiar en colores del cable.
+- [ ] Observar y conservar respuesta cruda de temperatura, desconexión y tiempo de
+      estabilización de la sonda.
+- [ ] Observar ADC crudo de la LDR en condiciones reproducibles, incluidos extremos
+      y saturación; decidir después el valor del divisor y la calibración.
+
+Compra, recepción, inventario disponible, calibración, firmware, USB, HIL y G1
+permanecen abiertos. Esta lista no demuestra que alguna actividad haya ocurrido.
+
 ## Checklist previo a compra
 
 - [ ] Revalidar precios, stock, referencias y plazo de entrega.
@@ -131,7 +166,8 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 - Evidencia futura: [índice y plantillas ECO-108](../evidencias/ECO-108/README.md).
 - Estado del proyecto: [Relevo vigente](08_ESTADO_DEL_PROYECTO.md).
 - Backlog: [ECO-108 en F1](04_BACKLOG_Y_FASES.md).
-- Unidad de trabajo: [ECO108-1](../odd/tasks/eco-108-bom-baseline.md).
+- Unidad de trabajo: [ECO108-3](../odd/tasks/eco-108-bom-baseline.md).
+- Hechos de fuente y pendientes: [preparación de referencias 2026-11-03](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md).
 
 Las plantillas parten en `NOT_RUN` y no autorizan compra ni demuestran recepción
 o banco. Una persona debe revalidar la cotización y autorizar la compra antes de

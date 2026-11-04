@@ -33,6 +33,23 @@ Turn the user-approved separate-component option into an auditable procurement c
   - Trigger evidence: inventory, datasheet, identity, USB enumeration, raw input, output-current, fault, expected/obtained, and rollback records require reusable structured artifacts.
   - Acceptance: blank forms permit the team to collect real evidence without pre-filling results or silently advancing ECO-108.
 
+- [x] **ECO108-3 — Reconciliar las referencias comerciales seleccionadas**
+  - Estado de ejecución: `preparación documental completada` sobre `feat/eco-004-scorecard`; no se cambió de rama porque esta unidad estaba autorizada y acotada sobre el estado actual.
+  - Objetivo: alinear la BOM, el manual y la evidencia de preparación con una sonda DS18B20 y una LDR desnuda de 5 mm, sin convertir fichas comerciales en hojas de datos ni anticipar evidencia física.
+  - Alcance: documentar hechos visibles de las dos publicaciones seleccionadas, circuitos candidatos de banco, pendientes de compra/recepción y la lista de comprobación humana; mantener abiertos ECO-108 y G1.
+  - Route: `delegated`.
+  - Trigger evidence: `preparation + 2+ non-trivial documentation files`.
+  - TDD mode: `not applicable/unknown for docs-only`; se aplican comprobaciones documentales proporcionales.
+  - Acceptance checks: fuentes y pendientes separados; cantidades y valores candidatos explícitos; sin afirmaciones de compra, posesión, calibración o prueba; referencias locales resolubles; `git diff --check` sin errores.
+  - Work unit: un único commit convencional planificado para documentos, evidencia y trazabilidad de ECO-108.
+  - Archivos cambiados: `docs/00_DECISIONES_Y_RIESGOS.md`, `docs/04_BACKLOG_Y_FASES.md`, `docs/07_PROCESO_IA.md`, `docs/08_ESTADO_DEL_PROYECTO.md`, `docs/18_MANUAL_HARDWARE.md`, `docs/19_BOM_ECO_108.md`, `evidencias/ECO-108/README.md`, `evidencias/ECO-108/preparacion-referencias-2026-11-03.md` y este documento.
+  - Checks observados: `git diff --check` sin salida; validador local de enlaces relativos `LOCAL_LINKS_CHECKED=17` y `LOCAL_LINKS_OK`; no se descubrió un validador existente específico para estos documentos.
+  - Evidencia: la preparación fechada separa hechos visibles, valores generales de página y pendientes por variante; ECO-108/G1 permanecen abiertos.
+  - Rollback: revertir únicamente el commit de esta unidad retira la selección comercial, los circuitos candidatos, R17 y sus vistas de trazabilidad sin afectar código, modelos ni plantillas previas.
+  - Identidad del commit: `docs(hardware): reconcile ECO-108 sensor references`; el hash final se informa en la entrega porque un commit no puede contener su propio hash estable.
+  - Espejo Engram: `PENDIENTE`; el guardado del documento completo en `odd/eco-108-bom-baseline/tasks` falló porque Engram no pudo confirmar una sesión registrada.
+  - Próximo paso: una persona elige 1 m o 2 m, revalida opción/precio/stock/envío, confirma Arduino y host, y autoriza o rechaza la compra antes de recepción o banco.
+
 ## Verification
 
 - Markdown structure and repository-relative links resolve.
@@ -51,8 +68,11 @@ Turn the user-approved separate-component option into an auditable procurement c
 - ECO108-2 evidence: `evidencias/ECO-108/README.md` and the three blank forms
   under `evidencias/ECO-108/plantillas/`, linked from the BOM and test plan.
   Commit: `4c7b600` (`docs(hardware): add ECO-108 receipt and bench forms`).
-- Espejo en Engram: `PENDIENTE`; el guardado no pudo confirmar una sesión
-  registrada durante la entrega.
+- ECO108-3 evidence: `evidencias/ECO-108/preparacion-referencias-2026-11-03.md`,
+  BOM/manual reconciliados y gates abiertos. Commit identificado por el asunto
+  `docs(hardware): reconcile ECO-108 sensor references`; hash final en la entrega.
+- Espejo histórico de ECO108-1/2: `PENDIENTE`; aquella entrega no pudo confirmar
+  una sesión registrada. El espejo de ECO108-3 se registra dentro de su tarea.
 
 ## Next step
 
