@@ -108,6 +108,18 @@ The project documents a six-round flow but has no executable lifecycle contract.
     implementation, adversarial tests and minimal contract/evidence updates
     together below 400 authored additions plus deletions. Stop before commit if
     the honest work unit exceeds that review budget.
+- [x] **ECO104-8 — Bind provisional event identifiers to the fixed round order**
+  - Route: `delegated`.
+  - Trigger evidence: the existing manifest still uses generic event keys while
+    project documents define one provisional fixed six-round order.
+  - TDD mode: `disabled`; focused behavior tests remain required.
+  - Acceptance: the closed manifest uses unique stable English semantic keys in
+    the documented exact order; deterministic replay preserves the caller seed;
+    and the injected resolver receives every expected key in sequence.
+  - Delivery: one `feature-branch-chain` child after `d97e5d1`, keeping fixture,
+    behavior tests and minimal documentation/evidence together below 400 authored
+    additions plus deletions. No physical effects, values, formulas, randomness,
+    scoring, balance, timing, UI copy or product integration enter this slice.
 
 ## Acceptance criteria
 
@@ -251,6 +263,22 @@ constructor exceptions and must not be treated as a safe reference.
   stable hash from final `git show` because a commit cannot contain its own hash.
 - Rollback: revert only this correction child to restore `8d8e439`; that state is
   independently blocked and must not be treated as a safe integration reference.
+- ECO104-8 replaced the six generic fixture keys with `base-demand`,
+  `high-temperature`, `low-river`, `demand-peak`, `reduced-light`, and
+  `seeded-combination`, preserving the closed `synthetic` event shape.
+- Focused lifecycle check: `node --test tools/round-lifecycle/*.test.mjs` — exit
+  0; 53 tests, 53 pass, 0 fail, 0 skipped. Focused integration check:
+  `node --test tools/round-host-integration/*.test.mjs` — exit 0; 18 tests,
+  18 pass, 0 fail, 0 skipped.
+- Combined simulator, adapter, scorecard, lifecycle and integration check — exit
+  0; 165 tests, 165 pass, 0 fail, 0 skipped. Forbidden entropy/timer/dependency
+  scans returned no matches; `git diff --check` exited 0 with no output.
+- Delivery: one cohesive `feature-branch-chain` child after `d97e5d1`, with 104
+  authored changed lines (`92` additions, `12` deletions). Commit subject:
+  `feat(game): bind provisional round
+  event keys`; obtain its stable hash from final `git show`.
+- Rollback: revert only the ECO104-8 child to restore generic fixture identifiers;
+  lifecycle validation, integration behavior and all earlier hardening remain.
 
 ## Delivery decision and review chain
 
@@ -304,6 +332,7 @@ tracker branch.
 | 2 — traceability and project alignment | Future review-only split of `a0ac3ca` | 138 (`137+1`) | Slice 1 behavior exists but project records are unaligned | Align architecture, backlog, AI log, status, test plan, event documentation, and this tracker; no executable behavior | Inspect exact docs-only diff and cross-references; `git diff --check`; no runtime boundary beyond slice 1 | **Review-only / no-merge; unsafe snapshot** | Revert only the eight documentation paths to the slice 1 state |
 | 3 — hostile-data and reentrancy hardening | `cffd552` | 361 (`318+43`) | Equivalent final state of slices 1–2, still blocked by five independently verified severe defects | Close TOCTOU/accessor, recursive resolution, result traversal, sequence regression, and closed-schema bypasses without mixing the later capture-guard fix | Focused 41/41 and combined 135/135 PASS; bounded adversarial probes close the five accepted findings; `git diff --check` PASS | **Review-only / no-merge; unsafe residual snapshot** | Revert `cffd552` only; restored state remains blocked |
 | 4 — capture-time guard and option validation | `f6117d3` | 349 (`293+56`) | `cffd552`, still vulnerable to capture-time reentry, constructor native errors, and late aggregate-limit checks | Guard capture through result handling, validate exact constructor options, and reject aggregate limits before descriptor materialization | Focused 52/52 and combined 146/146 PASS; original and new bounded probes PASS with no seventh resolver call or native error; `git diff --check` PASS | **Review-only / no-merge** | Revert `f6117d3` only; restored state remains blocked |
+| 5 — provisional event identifiers | ECO104-8 child after `d97e5d1` | 104 (`92+12`) | Transaction-safe lifecycle and host composition exist with generic event keys | Bind the documented fixed order to six unique semantic fixture keys; retain caller-seed traceability and no event effects | Focused lifecycle 53/53, integration 18/18 and combined 165/165 PASS; forbidden scans and `git diff --check` PASS | **Current local child / no remote operation** | Revert only the ECO104-8 child |
 
 This is the single honest slicing pass. The original 504-line commit separates
 cohesively into a 366-line executable unit and a 138-line traceability unit, so

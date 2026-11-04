@@ -19,10 +19,12 @@
 
 La secuencia es propuesta hasta playtesting. Cada ronda usa lectura/estado real validado, controles físicos y una resolución única en tablero, LEDs y consola. Una entrada inválida pausa o aplica la contingencia documentada; nunca altera el resultado silenciosamente.
 
-El primer corte ejecutable de ECO-104 sólo prueba el ciclo coordinador con seis
-eventos `synthetic` sin semántica física: esperar snapshot normalizado, validar,
-confirmar una vez, resolver por callback inyectado, anexar historial inmutable y
-avanzar. No demuestra esta secuencia propuesta, su solvencia ni su duración.
+El manifiesto de referencia ECO-104 identifica este orden mediante las claves
+provisionales `base-demand`, `high-temperature`, `low-river`, `demand-peak`,
+`reduced-light` y `seeded-combination`. Son identificadores semánticos de eventos
+`synthetic`, no efectos físicos implementados o validados. La última clave sigue
+siendo trazable mediante la semilla aportada por quien llama al ciclo. La
+referencia no demuestra solvencia, balance ni duración.
 
 ## Evento vs efecto físico
 - **Ola de calor:** aumenta temperatura ambiente, quizás demanda de climatización según perfil; temperatura celda evoluciona por ODE, no salta instantáneamente por una etiqueta.

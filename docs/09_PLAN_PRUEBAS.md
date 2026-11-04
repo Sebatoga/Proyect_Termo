@@ -84,6 +84,9 @@ la desconexión devuelve `SESSION_RESET_REQUIRED` hasta crear otra instancia.
 ECO104-7 prueba una guardia síncrona común para ingreso, confirmación y
 desconexión: coerción hostil y callbacks/proxies del resolutor no pueden reentrar,
 el reset bloquea antes del adaptador y la guardia se limpia en todas las salidas.
+ECO104-8 fija seis claves semánticas provisionales en el orden documentado y
+prueba orden exacto, unicidad, replay determinista y recepción secuencial por el
+resolutor, conservando la semilla aportada por quien llama.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

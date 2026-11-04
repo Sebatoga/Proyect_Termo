@@ -166,6 +166,11 @@ Las cartas no aplican penalizaciones arbitrarias además de los efectos del
 modelo. La ronda final debe ser reproducible mediante escenario o semilla
 versionada, no mediante una sorpresa oculta imposible de anticipar.
 
+La referencia aislada usa las claves de máquina `base-demand`,
+`high-temperature`, `low-river`, `demand-peak`, `reduced-light` y
+`seeded-combination` para conservar este orden. Son identificadores semánticos
+provisionales; no acreditan efectos, valores ni balance validados.
+
 ## Cómo se resuelve una decisión
 
 La resolución conceptual sigue este orden:

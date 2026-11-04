@@ -26,6 +26,14 @@ const syntheticResolver = ({ round, input, seed, resolverVersion }) => ({
   sequence: input.sequence,
   trace: `${seed}:${resolverVersion}`,
 });
+const EXPECTED_EVENT_KEYS = [
+  "base-demand",
+  "high-temperature",
+  "low-river",
+  "demand-peak",
+  "reduced-light",
+  "seeded-combination",
+];
 const lifecycle = async (overrides = {}) => createRoundLifecycle({
   manifest: await loadManifest(),
   seed: "seed-a",
@@ -47,6 +55,10 @@ const assertLifecycleCode = (create, code) => assert.throws(
 );
 
 test("accepts a closed manifest with exactly six ordered unique rounds", async () => {
+  const manifest = await loadManifest();
+  const eventKeys = manifest.rounds.map((round) => round.event.data.key);
+  assert.deepEqual(eventKeys, EXPECTED_EVENT_KEYS);
+  assert.equal(new Set(eventKeys).size, EXPECTED_EVENT_KEYS.length);
   const engine = await lifecycle();
   assert.deepEqual(engine.snapshot(), {
     schemaVersion: "round-lifecycle-state/v1",
@@ -168,6 +180,24 @@ test("records caller-provided trace values and resolves through frozen inputs", 
   assert.equal(response.state.seed, "caller-seed");
   assert.equal(response.state.resolverVersion, "resolver-7");
   assert.equal(response.state.history[0].result.accepted, "round-1");
+});
+
+test("passes each provisional event key to the resolver in exact order", async () => {
+  const received = [];
+  const engine = await lifecycle({
+    seed: "combination-seed-42",
+    resolve({ round, seed }) {
+      received.push({ key: round.event.data.key, seed });
+      return { key: round.event.data.key, seed };
+    },
+  });
+  for (let index = 1; index <= EXPECTED_EVENT_KEYS.length; index += 1) {
+    assert.equal(engine.confirm(validSnapshot(index), `token-${index}`).ok, true);
+  }
+  assert.deepEqual(received, EXPECTED_EVENT_KEYS.map((key) => ({
+    key,
+    seed: "combination-seed-42",
+  })));
 });
 
 for (const [name, mutate, reason] of [
@@ -443,6 +473,8 @@ test("identical replay produces deeply equal immutable snapshots and histories",
   const first = await run();
   const second = await run();
   assert.deepEqual(first, second);
+  assert.deepEqual(first.history.map((entry) => entry.result.key), EXPECTED_EVENT_KEYS);
+  assert.ok(first.history.every((entry) => entry.result.trace === "seed-a:synthetic-v1"));
   assert.ok(Object.isFrozen(first));
   assert.ok(Object.isFrozen(first.history));
   assert.ok(Object.isFrozen(first.history[0].input.controls));

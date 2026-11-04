@@ -1,11 +1,11 @@
 {
   "schemaVersion": "round-lifecycle-manifest/v1",
   "rounds": [
-    { "id": "round-1", "event": { "type": "synthetic", "data": { "key": "event-1" } } },
-    { "id": "round-2", "event": { "type": "synthetic", "data": { "key": "event-2" } } },
-    { "id": "round-3", "event": { "type": "synthetic", "data": { "key": "event-3" } } },
-    { "id": "round-4", "event": { "type": "synthetic", "data": { "key": "event-4" } } },
-    { "id": "round-5", "event": { "type": "synthetic", "data": { "key": "event-5" } } },
-    { "id": "round-6", "event": { "type": "synthetic", "data": { "key": "event-6" } } }
+    { "id": "round-1", "event": { "type": "synthetic", "data": { "key": "base-demand" } } },
+    { "id": "round-2", "event": { "type": "synthetic", "data": { "key": "high-temperature" } } },
+    { "id": "round-3", "event": { "type": "synthetic", "data": { "key": "low-river" } } },
+    { "id": "round-4", "event": { "type": "synthetic", "data": { "key": "demand-peak" } } },
+    { "id": "round-5", "event": { "type": "synthetic", "data": { "key": "reduced-light" } } },
+    { "id": "round-6", "event": { "type": "synthetic", "data": { "key": "seeded-combination" } } }
   ]
 }
