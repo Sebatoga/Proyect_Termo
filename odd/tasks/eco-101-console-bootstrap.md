@@ -53,6 +53,13 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Checks: typecheck, unit tests, build, existing product browser smoke, offline smoke twice, traversal and occupied-port negatives, `git diff --check`, authored-line count, final status/show.
   - Review slice: commit `9bd9195` is one cohesive work unit below 400 authored additions plus deletions, excluding generated evidence binaries.
   - Rollback: remove the offline harness/evidence and npm script, then revert only the BOOTSTRAP-003 tracker and project-view entries; the product bootstrap and BOOTSTRAP-002 smoke remain intact.
+- [x] **BOOTSTRAP-004 — Present an honest round-session status**
+  - Route delegated: direct implementation in the current agent; no child agent is launched.
+  - Trigger evidence: the product shell has no typed application seam and its static status cannot represent unavailable, valid, reset-required, or completed round-session snapshots.
+  - Acceptance: `src/application/` owns the immutable product snapshot port; `src/console/` maps safe snapshots to a deterministic, deeply immutable view model and renders neutral Spanish text with explicit round and confirmation availability; bootstrap starts unavailable without claiming hardware, gameplay, science, or integration.
+  - Checks: focused Vitest behavior/layer tests, typecheck, full Vitest, build, browser smoke, offline smoke, the 165-test Node reference suite, forbidden import/behavior scans, `git diff --check`, authored-line count, and final Git status/show.
+  - Rollback: revert only the round-session port, console mapper/presenter, DOM wiring, focused tests, and matching architecture/state/backlog/test-plan/AI/ODD entries; BOOTSTRAP-001–003 and their evidence remain intact.
+  - Delivery boundary: one cohesive Conventional Commit after `f7a76f9`, with fewer than 400 authored additions plus deletions; stop before commit rather than compress or omit required tests/docs if the honest boundary exceeds the limit.
 
 ## Acceptance criteria
 
@@ -110,6 +117,9 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - Checks passed: typecheck, unit tests, clean build, existing product browser smoke, two offline smoke runs, traversal and occupied-port negatives, `git diff --check`, authored-line count, and final Git status/show.
 - BOOTSTRAP-003 limitations: evidence covers a production build served over loopback HTTP and persistence without refresh for 1,000 ms after shutdown. It does not verify `file://`, PWA/service-worker caching, refresh after shutdown, other browsers or machines, serial/hardware, gameplay, physics, accessibility, or prolonged performance.
 - Status: ECO-101 remains **EN CURSO**; BOOTSTRAP-003 closes only the bounded offline/static boundary and does not consume ECO-002.
+- BOOTSTRAP-004 result: a typed `src/application/` snapshot port feeds a pure, fail-closed `src/console/` mapper and DOM presenter. The initial product snapshot is unavailable with `FUENTE_VALIDADA_PENDIENTE`; confirmation is explicitly unavailable and no reference under `tools/` is imported.
+- BOOTSTRAP-004 checks: typecheck PASS; Vitest 2 files/19 tests PASS; build PASS with the existing Phaser chunk warning; browser and offline smoke PASS; Node reference suite 165/165 PASS; forbidden scans and `git diff --check` PASS.
+- BOOTSTRAP-004 limits: no transition engine, protocol parsing, score, science, serial, hardware, network, persistence, or product integration was added. ECO-101 remains **EN CURSO**; ECO-104 and ECO-002 are unchanged.
 
 ## Next step
 
