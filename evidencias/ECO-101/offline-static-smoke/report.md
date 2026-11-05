@@ -10,7 +10,7 @@
 ## Request inventory
 
 - 200 Document http://127.0.0.1:4174/
-- 200 Script http://127.0.0.1:4174/assets/index-DpRxvn06.js
+- 200 Script http://127.0.0.1:4174/assets/index-BPBVPWyg.js
 - 200 Stylesheet http://127.0.0.1:4174/assets/index-npSrWtCa.css
 - 200 Image data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABAQMAAADD8p2OAAAAA1BMVEX/AP804Oa6AAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==
 - 200 Image data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABVJREFUeF7NwIEAAAAAgKD9qdeocAMAoAABm3DkcAAAAABJRU5ErkJggg==

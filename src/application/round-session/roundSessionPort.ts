@@ -5,6 +5,8 @@ export type RoundSessionStatus =
   | "reset-required"
   | "completed";
 
+export const EXPECTED_ROUND_COUNT = 6;
+
 export interface RoundSessionSnapshot {
   readonly status: RoundSessionStatus;
   readonly roundIndex: number;

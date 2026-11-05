@@ -67,6 +67,12 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Checks: focused/full Vitest adversarial matrix, typecheck, build, browser smoke with initial status markers, offline smoke and negatives, 165-test Node suite, forbidden layer/network scans, `git diff --check`, authored-line count, final status/show. PASS claims are updated only after observed PASS.
   - Rollback: revert only the snapshot capture/mapper correction, adversarial and browser assertions, regenerated offline report, and BOOTSTRAP-005 documentation; BOOTSTRAP-001–004 behavior outside this correction remains intact.
   - Delivery boundary: one correction commit after `aa8354a`, below 400 authored additions plus deletions; `.codegraph/` remains untracked and unstaged. Stop before commit on budget overflow.
+- [x] **BOOTSTRAP-006 — Enforce the six-round product snapshot contract**
+  - Trigger: the product mapper currently accepts any positive safe `roundCount`, although the MVP session is fixed at exactly six rounds.
+  - Acceptance: export one pure application constant for the expected count; accept active snapshots only at count six with indices 0–5 and bounded non-empty IDs, completed only at index/count 6 with a null ID, and retain the explicit unavailable bootstrap `0/0/null`; all other counts and bounds fail closed as `unavailable/SNAPSHOT_INVALIDO` without adding transitions or protocol/science behavior.
+  - Checks: focused and full Vitest with 5, 7, `MAX_SAFE_INTEGER`, and boundary-index cases; typecheck; build; browser and offline smokes; 165-test Node reference suite; layer/behavior scans; `git diff --check`; authored-line count; final status/show.
+  - Rollback: revert only the exported count constant, mapper contract, focused adversarial tests, and matching tracker/architecture/state/test-plan/AI evidence; BOOTSTRAP-001–005 remain intact.
+  - Delivery boundary: one Conventional Commit after `a2f11c3`, below 400 authored additions plus deletions; do not stage `.codegraph/` or add packages.
 
 ## Acceptance criteria
 
@@ -130,6 +136,8 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - BOOTSTRAP-005 result: the six-field snapshot is captured once through own descriptors; unsupported prototypes, accessors, hidden/symbol/extra fields, hostile proxies, strings over 64 code units, unsafe/non-finite round numbers and contradictory status/confirmation pairs fail closed without native errors. The mapper reads only captured primitives and retains deterministic deep freeze; the presenter remains `textContent`-only.
 - BOOTSTRAP-005 verification: typecheck PASS; Vitest 2 files/36 tests PASS; build PASS with the existing Phaser chunk warning; browser smoke PASS with visible `unavailable` and confirmation-disabled markers; offline smoke PASS with 8 local/data requests, 0 JavaScript errors and static scan 23+3; smoke negatives 1/1 and 2/2 PASS; Node references 165/165 PASS; focused layer scan 2/2 PASS; `git diff --check` PASS.
 - Authored correction size: 156 additions plus 30 deletions (186 lines) across 11 paths before the commit. Rollback is the BOOTSTRAP-005 correction commit only; ECO-101 remains **EN CURSO** and the independent review finding is not reclassified as independently reverified.
+- BOOTSTRAP-006 result: the application port exports one six-round product constant. Active snapshots accept only indices 0–5 at count 6, completed accepts only `6/6/null`, and the unavailable bootstrap remains `0/0/null`; every other count or bound maps to `unavailable/SNAPSHOT_INVALIDO` without transition behavior.
+- BOOTSTRAP-006 verification: focused Vitest 48/48 PASS; full Vitest 50/50 PASS; typecheck PASS; build PASS with the existing Phaser chunk warning; browser and offline smokes PASS with their existing markers; Node references 165/165 PASS; layer scans 2/2 PASS; `git diff --check` PASS. Authored size is 51 additions plus 13 deletions (64 lines) across nine paths; ECO-101 remains **EN CURSO**.
 
 ## Next step
 

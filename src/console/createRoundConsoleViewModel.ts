@@ -1,6 +1,7 @@
-import type {
-  RoundSessionSnapshot,
-  RoundSessionStatus,
+import {
+  EXPECTED_ROUND_COUNT,
+  type RoundSessionSnapshot,
+  type RoundSessionStatus,
 } from "../application/round-session/roundSessionPort";
 
 export interface RoundConsoleViewModel {
@@ -59,19 +60,17 @@ function isRoundNumber(value: unknown): value is number {
 }
 
 function hasActiveRound(snapshot: RoundSessionSnapshot): boolean {
-  return isRoundNumber(snapshot.roundCount)
-    && snapshot.roundCount > 0
+  return snapshot.roundCount === EXPECTED_ROUND_COUNT
     && isRoundNumber(snapshot.roundIndex)
-    && snapshot.roundIndex < snapshot.roundCount
+    && snapshot.roundIndex < EXPECTED_ROUND_COUNT
     && typeof snapshot.currentRoundId === "string"
     && snapshot.currentRoundId.length > 0
     && snapshot.currentRoundId.length <= MAX_CURRENT_ROUND_ID_LENGTH;
 }
 
 function hasCompletedRounds(snapshot: RoundSessionSnapshot): boolean {
-  return isRoundNumber(snapshot.roundCount)
-    && snapshot.roundCount > 0
-    && snapshot.roundIndex === snapshot.roundCount
+  return snapshot.roundCount === EXPECTED_ROUND_COUNT
+    && snapshot.roundIndex === EXPECTED_ROUND_COUNT
     && snapshot.currentRoundId === null;
 }
 

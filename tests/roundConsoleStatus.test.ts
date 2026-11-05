@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import type { RoundSessionSnapshot } from "../src/application/round-session/roundSessionPort";
+import {
+  EXPECTED_ROUND_COUNT,
+  type RoundSessionSnapshot,
+} from "../src/application/round-session/roundSessionPort";
 import {
   createRoundConsoleViewModel,
   MAX_CURRENT_ROUND_ID_LENGTH,
@@ -11,7 +14,7 @@ import { renderRoundConsoleStatus } from "../src/console/renderRoundConsoleStatu
 const activeSnapshot = (overrides: Partial<RoundSessionSnapshot> = {}): RoundSessionSnapshot => ({
   status: "waiting-input",
   roundIndex: 1,
-  roundCount: 6,
+  roundCount: EXPECTED_ROUND_COUNT,
   currentRoundId: "round-2",
   reasonCode: "ENTRADA_PENDIENTE",
   confirmationAllowed: false,
@@ -19,6 +22,10 @@ const activeSnapshot = (overrides: Partial<RoundSessionSnapshot> = {}): RoundSes
 });
 
 describe("round console view model", () => {
+  it("exports the fixed six-round product contract", () => {
+    expect(EXPECTED_ROUND_COUNT).toBe(6);
+  });
+
   it.each([
     ["unavailable", "Sesión no disponible.", false, 0, 0, null],
     ["waiting-input", "Esperando una entrada validada.", false, 1, 6, "round-2"],
@@ -53,10 +60,21 @@ describe("round console view model", () => {
   it.each([
     activeSnapshot({ status: "ready", roundIndex: -1, confirmationAllowed: true }),
     activeSnapshot({ status: "ready", roundIndex: 6, confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", roundIndex: Number.MAX_SAFE_INTEGER, confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", roundCount: 5, confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", roundCount: 7, confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", roundCount: Number.MAX_SAFE_INTEGER, confirmationAllowed: true }),
     activeSnapshot({ status: "ready", roundCount: 0, confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", currentRoundId: "", confirmationAllowed: true }),
     activeSnapshot({ status: "ready", currentRoundId: null, confirmationAllowed: true }),
     activeSnapshot({ status: "completed", roundIndex: 6, currentRoundId: "round-6" }),
     activeSnapshot({ status: "completed", roundIndex: 5, currentRoundId: null }),
+    activeSnapshot({ status: "completed", roundIndex: 7, currentRoundId: null }),
+    activeSnapshot({ status: "completed", roundIndex: Number.MAX_SAFE_INTEGER, currentRoundId: null }),
+    activeSnapshot({ status: "completed", roundIndex: 6, roundCount: 5, currentRoundId: null }),
+    activeSnapshot({ status: "completed", roundIndex: 6, roundCount: 7, currentRoundId: null }),
+    activeSnapshot({ status: "completed", roundIndex: 6, roundCount: Number.MAX_SAFE_INTEGER, currentRoundId: null }),
+    activeSnapshot({ status: "unavailable", roundIndex: 0, roundCount: 6, currentRoundId: null }),
     activeSnapshot({ roundIndex: Number.NaN }),
     activeSnapshot({ roundCount: Number.POSITIVE_INFINITY }),
     activeSnapshot({ roundIndex: Number.MAX_SAFE_INTEGER + 1 }),
@@ -70,6 +88,14 @@ describe("round console view model", () => {
     expect(viewModel.status.reasonCode).toBe("SNAPSHOT_INVALIDO");
     expect(viewModel.progress.text).toBe("Progreso: ronda no disponible.");
     expect(viewModel.confirmation.allowed).toBe(false);
+  });
+
+  it.each([0, EXPECTED_ROUND_COUNT - 1])("accepts active boundary index %s", (roundIndex) => {
+    const viewModel = createRoundConsoleViewModel(activeSnapshot({ roundIndex }));
+
+    expect(viewModel.status.reasonCode).toBe("ENTRADA_PENDIENTE");
+    expect(viewModel.progress.index).toBe(roundIndex);
+    expect(viewModel.progress.count).toBe(EXPECTED_ROUND_COUNT);
   });
 
   it.each([

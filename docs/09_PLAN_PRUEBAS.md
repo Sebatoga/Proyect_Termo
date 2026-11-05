@@ -56,6 +56,7 @@ Vitest cubre metadata determinista y la fábrica pura de `GameConfig` sin requer
 
 BOOTSTRAP-004 agrega casos Vitest para los cinco estados de sesión, límites e invariantes inválidos, confirmación fail-closed, determinismo, inmutabilidad profunda, semántica textual y restricciones de importación. Los smokes existentes preservan shell y canvas; esta cobertura no ejecuta transiciones, protocolo, hardware, ciencia ni gameplay.
 BOOTSTRAP-005 amplía esa matriz con getters no invocados, proxies cambiantes/throwing/revocados, campos heredados/ocultos/símbolo/extra, prototipos no admitidos, strings mayores a 64, `NaN`/infinito/enteros inseguros, todas las combinaciones estado-confirmación, ausencia de errores nativos, texto hostil literal e inmutabilidad determinista. El smoke de navegador exige además los marcadores iniciales de sesión no disponible y confirmación deshabilitada.
+BOOTSTRAP-006 fija el conteo de producto en seis y cubre conteos 5, 7 y `Number.MAX_SAFE_INTEGER`, índices activos límite 0/5 y rechazos en −1/6, además de terminación exclusiva `6/6/null` y bootstrap explícito `0/0/null`.
 
 ### Harness local previo al hardware
 
