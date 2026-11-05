@@ -52,7 +52,7 @@ no acredita aprobación.
 
 ### Bootstrap de consola ECO-101
 
-Vitest cubre metadata determinista y la fábrica pura de `GameConfig` sin requerir DOM ni navegador. TypeScript valida la configuración productiva y Vite genera el bundle local. La observación del canvas productivo, la prueba offline y la accesibilidad en navegador permanecen pendientes; el smoke histórico no las sustituye.
+Vitest cubre metadata determinista y la fábrica pura de `GameConfig` sin requerir DOM ni navegador. TypeScript valida la configuración productiva y Vite genera el bundle local. El smoke productivo inicia Vite en `127.0.0.1:4173` con `--strictPort`, exige el título propio, observa por CDP el shell y el canvas no vacío bajo `#game-container`, captura errores JavaScript y valida una PNG de 800 × 450. La regresión ocupa el puerto con un impostor HTTP 200 y exige fallo sin PASS ni Chrome. La prueba offline, interacción, accesibilidad asistida y rendimiento prolongado permanecen pendientes.
 
 ### Harness local previo al hardware
 

@@ -7,6 +7,7 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:browser-smoke": "node evidencias/ECO-101/product-browser-smoke/browser-smoke.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

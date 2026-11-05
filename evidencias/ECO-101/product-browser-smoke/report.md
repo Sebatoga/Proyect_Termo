@@ -1,0 +1,28 @@
+# ECO-101 product browser smoke
+
+BOOTSTRAP-002 reproducibly observes the root product shell and Phaser canvas in installed Chrome without adding a browser dependency. It closes only the browser/canvas bootstrap boundary; ECO-101 remains in progress.
+
+## Reproduce
+
+```bash
+npm run test:browser-smoke
+node --test evidencias/ECO-101/product-browser-smoke/port-impostor.test.mjs
+```
+
+The harness starts root Vite on `127.0.0.1:4173` with `--strictPort`, waits for Vite ownership and the exact `<title>EcoGrid | Consola local</title>` marker, then uses Chrome DevTools Protocol to observe the DOM and capture the screenshot. Every path terminates its child process groups; the occupied-port regression additionally proves the port can be rebound.
+
+## Observed result
+
+- Browser: `Google Chrome 156.0.8078.47`.
+- Two consecutive smoke runs: `PASS`.
+- Product checks: title marker, `EcoGrid: Ciudad al Límite`, `Consola local secundaria`, and a canvas under `#game-container` all present.
+- Canvas: backing size 960 × 540; displayed size 764 × 432, both non-zero.
+- Screenshot: 800 × 450 RGB PNG, 33,505 bytes, SHA-256 `8cfc6ff2b0920c7a9077cdfd932c1ac2d3ab02947404d4cfa89835dd832c6d80`.
+- Error signal: zero `Runtime.exceptionThrown`, console `error`, or JavaScript `Log.entryAdded` events observed through CDP.
+- Negative regression: an impostor returned HTTP 200 with the exact title/canvas markers; strict-port Vite exited non-zero before Chrome/PASS, then the test rebound port 4173.
+
+## Limits and rollback
+
+The bounded error signal excludes network/resource failures that are not JavaScript runtime or console errors. One headless Chrome frame does not verify offline operation, interaction, assistive-technology accessibility, other browsers/devices, prolonged performance, gameplay, physics, serial, or hardware.
+
+Rollback removes this directory, the `test:browser-smoke` package script, and BOOTSTRAP-002 documentation entries without reverting BOOTSTRAP-001 commit `9956eb5` or the historical disposable spike.

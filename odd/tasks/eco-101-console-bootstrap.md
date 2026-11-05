@@ -39,6 +39,13 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Keep configuration and scene metadata deterministic and testable without a browser.
   - Run all required checks and record exact results.
   - Close with exactly one Conventional Commit if the authored-line guard remains within budget.
+- [x] **BOOTSTRAP-002 — Observe the production canvas in headless Chrome**
+  - Route delegated: direct implementation in the current agent; no child agent is launched.
+  - Trigger evidence: BOOTSTRAP-001 passed typecheck, unit tests, and build, but its root product canvas remains unobserved in a browser.
+  - Acceptance: a dependency-free root-product harness owns a strict local port, waits for the product title marker, observes the shell text and non-zero Phaser canvas under `#game-container`, records bounded JavaScript error signals, and writes a verified non-empty 800 × 450 PNG.
+  - Checks: typecheck, unit tests, build, two consecutive browser-smoke passes, occupied-port negative regression, whitespace check, and final Git status/show.
+  - Rollback: revert only the product browser harness, generated ECO-101 product evidence, npm smoke script, and matching task/state/backlog/test-plan/AI-log entries; BOOTSTRAP-001 remains intact.
+  - Delivery strategy: `ask-on-risk`, one cohesive local commit below 400 authored additions plus deletions. The approved 431-line exception applies only to BOOTSTRAP-001 commit `9956eb5` and is not reused.
 
 ## Acceptance criteria
 
@@ -85,3 +92,6 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - Browser smoke: deferred because the existing reusable harness is hard-coded to `spikes/runtime-smoke/`; adapting it would expand this work unit. Product canvas rendering remains unverified.
 - Authored lines excluding generated `package-lock.json`: 431 additions plus deletions across 19 authored paths.
 - Delivery gate: the maintainer explicitly approved `size:exception` for the 431-line cohesive unit, preserving source, tests, documentation, and ODD evidence in the one requested work-unit commit.
+- BOOTSTRAP-002 result: Chrome `156.0.8078.47` observed the root shell, expected secondary-console text, and a 960 × 540 canvas displayed at 764 × 432 under `#game-container`. Two consecutive runs produced the same non-empty 800 × 450, 33,505-byte PNG with zero bounded JavaScript console/runtime errors.
+- Ownership regression: an HTTP 200 impostor with the exact title/canvas markers occupied port 4173; Vite `--strictPort` forced non-zero exit before Chrome or PASS output, and the test rebound the port after cleanup.
+- Evidence: `evidencias/ECO-101/product-browser-smoke/`; product browser/canvas bootstrap boundary is closed, while ECO-101 remains open for offline operation and does not claim gameplay, hardware, physics, serial, or prolonged accessibility/performance.
