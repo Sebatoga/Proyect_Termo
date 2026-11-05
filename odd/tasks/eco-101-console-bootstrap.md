@@ -60,6 +60,13 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Checks: focused Vitest behavior/layer tests, typecheck, full Vitest, build, browser smoke, offline smoke, the 165-test Node reference suite, forbidden import/behavior scans, `git diff --check`, authored-line count, and final Git status/show.
   - Rollback: revert only the round-session port, console mapper/presenter, DOM wiring, focused tests, and matching architecture/state/backlog/test-plan/AI/ODD entries; BOOTSTRAP-001–003 and their evidence remain intact.
   - Delivery boundary: one cohesive Conventional Commit after `f7a76f9`, with fewer than 400 authored additions plus deletions; stop before commit rather than compress or omit required tests/docs if the honest boundary exceeds the limit.
+- [x] **BOOTSTRAP-005 — Correct the hostile snapshot boundary and evidence**
+  - Trigger: independent verification blocked `aa8354a`; the accepted findings are repeated reads of hostile values (getters/proxies, native errors and TOCTOU), an open/unbounded schema, contradictory `ready` confirmation semantics, and a false offline PASS after its scanner matched a newly authored test.
+  - Acceptance: capture exactly six own enumerable data properties from a supported plain-object prototype without invoking getters; reject symbols, hidden/extra fields, accessors, hostile proxies, malformed/big values and incoherent statuses as `unavailable/SNAPSHOT_INVALIDO`; build only from captured primitives and preserve deep freeze plus `textContent` rendering.
+  - Bounds: document and test finite safe integer round bounds plus maximum lengths for `currentRoundId` and `reasonCode`; `ready` requires confirmation enabled, while all other statuses require it disabled.
+  - Checks: focused/full Vitest adversarial matrix, typecheck, build, browser smoke with initial status markers, offline smoke and negatives, 165-test Node suite, forbidden layer/network scans, `git diff --check`, authored-line count, final status/show. PASS claims are updated only after observed PASS.
+  - Rollback: revert only the snapshot capture/mapper correction, adversarial and browser assertions, regenerated offline report, and BOOTSTRAP-005 documentation; BOOTSTRAP-001–004 behavior outside this correction remains intact.
+  - Delivery boundary: one correction commit after `aa8354a`, below 400 authored additions plus deletions; `.codegraph/` remains untracked and unstaged. Stop before commit on budget overflow.
 
 ## Acceptance criteria
 
@@ -120,6 +127,9 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - BOOTSTRAP-004 result: a typed `src/application/` snapshot port feeds a pure, fail-closed `src/console/` mapper and DOM presenter. The initial product snapshot is unavailable with `FUENTE_VALIDADA_PENDIENTE`; confirmation is explicitly unavailable and no reference under `tools/` is imported.
 - BOOTSTRAP-004 checks: typecheck PASS; Vitest 2 files/19 tests PASS; build PASS with the existing Phaser chunk warning; browser and offline smoke PASS; Node reference suite 165/165 PASS; forbidden scans and `git diff --check` PASS.
 - BOOTSTRAP-004 limits: no transition engine, protocol parsing, score, science, serial, hardware, network, persistence, or product integration was added. ECO-101 remains **EN CURSO**; ECO-104 and ECO-002 are unchanged.
+- BOOTSTRAP-005 result: the six-field snapshot is captured once through own descriptors; unsupported prototypes, accessors, hidden/symbol/extra fields, hostile proxies, strings over 64 code units, unsafe/non-finite round numbers and contradictory status/confirmation pairs fail closed without native errors. The mapper reads only captured primitives and retains deterministic deep freeze; the presenter remains `textContent`-only.
+- BOOTSTRAP-005 verification: typecheck PASS; Vitest 2 files/36 tests PASS; build PASS with the existing Phaser chunk warning; browser smoke PASS with visible `unavailable` and confirmation-disabled markers; offline smoke PASS with 8 local/data requests, 0 JavaScript errors and static scan 23+3; smoke negatives 1/1 and 2/2 PASS; Node references 165/165 PASS; focused layer scan 2/2 PASS; `git diff --check` PASS.
+- Authored correction size: 156 additions plus 30 deletions (186 lines) across 11 paths before the commit. Rollback is the BOOTSTRAP-005 correction commit only; ECO-101 remains **EN CURSO** and the independent review finding is not reclassified as independently reverified.
 
 ## Next step
 

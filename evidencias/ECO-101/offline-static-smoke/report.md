@@ -4,13 +4,13 @@
 - Browser: `Google Chrome 156.0.8078.47`.
 - Result: PASS; 8 product requests, 0 JavaScript/console errors.
 - Canvas: 960 × 540; displayed 749 × 423.5625.
-- Static scan: 19 committed source/config files and 3 built HTML/CSS/JS files.
+- Static scan: 23 committed source/config files and 3 built HTML/CSS/JS files.
 - Post-shutdown: shell/canvas remained present for 1,000 ms (749 × 423.5625); no refresh was attempted.
 
 ## Request inventory
 
 - 200 Document http://127.0.0.1:4174/
-- 200 Script http://127.0.0.1:4174/assets/index-BFVblkB8.js
+- 200 Script http://127.0.0.1:4174/assets/index-DpRxvn06.js
 - 200 Stylesheet http://127.0.0.1:4174/assets/index-npSrWtCa.css
 - 200 Image data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABAQMAAADD8p2OAAAAA1BMVEX/AP804Oa6AAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==
 - 200 Image data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAABVJREFUeF7NwIEAAAAAgKD9qdeocAMAoAABm3DkcAAAAABJRU5ErkJggg==

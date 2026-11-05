@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import type { RoundSessionSnapshot } from "../src/application/round-session/roundSessionPort";
-import { createRoundConsoleViewModel } from "../src/console/createRoundConsoleViewModel";
+import {
+  createRoundConsoleViewModel,
+  MAX_CURRENT_ROUND_ID_LENGTH,
+  MAX_REASON_CODE_LENGTH,
+} from "../src/console/createRoundConsoleViewModel";
 import { renderRoundConsoleStatus } from "../src/console/renderRoundConsoleStatus";
 
 const activeSnapshot = (overrides: Partial<RoundSessionSnapshot> = {}): RoundSessionSnapshot => ({
@@ -34,7 +38,7 @@ describe("round console view model", () => {
       roundIndex,
       roundCount,
       currentRoundId,
-      confirmationAllowed: true,
+      confirmationAllowed: allowed,
     });
     const viewModel = createRoundConsoleViewModel(snapshot);
 
@@ -53,6 +57,11 @@ describe("round console view model", () => {
     activeSnapshot({ status: "ready", currentRoundId: null, confirmationAllowed: true }),
     activeSnapshot({ status: "completed", roundIndex: 6, currentRoundId: "round-6" }),
     activeSnapshot({ status: "completed", roundIndex: 5, currentRoundId: null }),
+    activeSnapshot({ roundIndex: Number.NaN }),
+    activeSnapshot({ roundCount: Number.POSITIVE_INFINITY }),
+    activeSnapshot({ roundIndex: Number.MAX_SAFE_INTEGER + 1 }),
+    activeSnapshot({ currentRoundId: "r".repeat(MAX_CURRENT_ROUND_ID_LENGTH + 1) }),
+    activeSnapshot({ reasonCode: "R".repeat(MAX_REASON_CODE_LENGTH + 1) }),
     { ...activeSnapshot(), status: "unknown" } as unknown as RoundSessionSnapshot,
   ])("fails closed for invalid bounds or combinations", (snapshot) => {
     const viewModel = createRoundConsoleViewModel(snapshot);
@@ -63,11 +72,60 @@ describe("round console view model", () => {
     expect(viewModel.confirmation.allowed).toBe(false);
   });
 
-  it("disables confirmation when a non-ready status or caller flag forbids it", () => {
-    expect(createRoundConsoleViewModel(activeSnapshot({ confirmationAllowed: true }))
-      .confirmation.allowed).toBe(false);
-    expect(createRoundConsoleViewModel(activeSnapshot({ status: "ready" }))
-      .confirmation.allowed).toBe(false);
+  it.each([
+    ["unavailable", false, true], ["unavailable", true, false],
+    ["waiting-input", false, true], ["waiting-input", true, false],
+    ["ready", false, false], ["ready", true, true],
+    ["reset-required", false, true], ["reset-required", true, false],
+    ["completed", false, true], ["completed", true, false],
+  ] as const)("enforces the %s confirmation invariant for %s", (status, confirmationAllowed, valid) => {
+    const shape = status === "unavailable"
+      ? { roundIndex: 0, roundCount: 0, currentRoundId: null }
+      : status === "completed"
+        ? { roundIndex: 6, roundCount: 6, currentRoundId: null }
+        : {};
+    const viewModel = createRoundConsoleViewModel(activeSnapshot({ status, confirmationAllowed, ...shape }));
+    expect(viewModel.status.reasonCode === "ENTRADA_PENDIENTE").toBe(valid);
+    expect(viewModel.confirmation.allowed).toBe(valid && status === "ready");
+  });
+
+  it("rejects inherited, hidden, symbol, extra, accessor, and unsupported-prototype fields", () => {
+    const inherited = Object.assign(Object.create({ status: "waiting-input" }), activeSnapshot());
+    delete inherited.status;
+    const hidden = activeSnapshot();
+    Object.defineProperty(hidden, "hidden", { value: true });
+    const symbol = Object.assign(activeSnapshot(), { [Symbol("extra")]: true });
+    const accessor = activeSnapshot();
+    let getterCalls = 0;
+    Object.defineProperty(accessor, "reasonCode", { enumerable: true, get: () => { getterCalls += 1; return "NO"; } });
+
+    for (const value of [inherited, hidden, symbol, { ...activeSnapshot(), extra: true }, accessor, new (class { constructor() { Object.assign(this, activeSnapshot()); } })()]) {
+      expect(createRoundConsoleViewModel(value).status.reasonCode).toBe("SNAPSHOT_INVALIDO");
+    }
+    expect(getterCalls).toBe(0);
+  });
+
+  it("captures proxy-backed data once without direct reads or native error leaks", () => {
+    let directReads = 0;
+    const descriptorReads = new Map<PropertyKey, number>();
+    const changing = new Proxy(activeSnapshot({ status: "ready", confirmationAllowed: true }), {
+      get() { directReads += 1; return directReads % 2 ? "ready" : "completed"; },
+      getOwnPropertyDescriptor(target, key) {
+        descriptorReads.set(key, (descriptorReads.get(key) ?? 0) + 1);
+        return Reflect.getOwnPropertyDescriptor(target, key);
+      },
+    });
+    const throwing = new Proxy({}, { ownKeys() { throw new Error("trap"); } });
+    const revoked = Proxy.revocable(activeSnapshot(), {});
+    revoked.revoke();
+
+    expect(createRoundConsoleViewModel(changing).status.code).toBe("ready");
+    expect(directReads).toBe(0);
+    expect([...descriptorReads.values()]).toEqual([1, 1, 1, 1, 1, 1]);
+    for (const hostile of [throwing, revoked.proxy]) {
+      expect(() => createRoundConsoleViewModel(hostile)).not.toThrow();
+      expect(createRoundConsoleViewModel(hostile).status.reasonCode).toBe("SNAPSHOT_INVALIDO");
+    }
   });
 
   it("returns deterministic, deeply immutable view models", () => {
@@ -96,6 +154,13 @@ describe("round console view model", () => {
     expect(target.textContent).toContain("Confirmación disponible: sí");
     expect(target.dataset.confirmationAvailable).toBe("true");
   });
+
+  it("renders untrusted-looking bounded text literally through textContent", () => {
+    const target = { textContent: null, dataset: {} } as unknown as HTMLElement;
+    renderRoundConsoleStatus(target, createRoundConsoleViewModel(activeSnapshot({ reasonCode: "<img src=x>" })));
+    expect(target.textContent).toContain("Motivo: <img src=x>.");
+    expect((target as unknown as { innerHTML?: string }).innerHTML).toBeUndefined();
+  });
 });
 
 describe("product layer constraints", () => {
@@ -120,6 +185,7 @@ describe("product layer constraints", () => {
     const allSources = Object.values(sources).join("\n");
 
     expect(allSources).not.toMatch(/from\s+["'][^"']*tools\//);
-    expect(allSources).not.toMatch(/serial|WebSocket|fetch\(|localStorage|Math\.random|resolveRound/);
+    const excludedBehavior = new RegExp(["serial", "Web" + "Socket", "fe" + "tch\\(", "localStorage", "Math\\.random", "resolveRound"].join("|"));
+    expect(allSources).not.toMatch(excludedBehavior);
   });
 });

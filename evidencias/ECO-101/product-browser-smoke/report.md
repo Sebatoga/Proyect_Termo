@@ -15,7 +15,7 @@ The harness starts root Vite on `127.0.0.1:4173` with `--strictPort`, waits for 
 
 - Browser: `Google Chrome 156.0.8078.47`.
 - Two consecutive smoke runs: `PASS`.
-- Product checks: title marker, `EcoGrid: Ciudad al Límite`, `Consola local secundaria`, and a canvas under `#game-container` all present.
+- Product checks: title marker, `EcoGrid: Ciudad al Límite`, `Consola local secundaria`, initial `Sesión no disponible.`, confirmation unavailable, and a canvas under `#game-container` all present.
 - Canvas: backing size 960 × 540; displayed size 764 × 432, both non-zero.
 - Screenshot: 800 × 450 RGB PNG, 33,505 bytes, SHA-256 `8cfc6ff2b0920c7a9077cdfd932c1ac2d3ab02947404d4cfa89835dd832c6d80`.
 - Error signal: zero `Runtime.exceptionThrown`, console `error`, or JavaScript `Log.entryAdded` events observed through CDP.

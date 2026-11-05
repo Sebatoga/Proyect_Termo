@@ -55,6 +55,7 @@ no acredita aprobación.
 Vitest cubre metadata determinista y la fábrica pura de `GameConfig` sin requerir DOM ni navegador. TypeScript valida la configuración productiva y Vite genera el bundle local. El smoke productivo inicia Vite en `127.0.0.1:4173` con `--strictPort` y observa por CDP shell/canvas. El smoke offline reconstruye, sirve sólo `dist/` en loopback, inventaría solicitudes, bloquea referencias externas, verifica errores y conserva shell/canvas durante 1.000 ms tras apagar el servidor. Regresiones separadas cubren traversal codificado y puerto impostor. No prueba `file://`, refresh sin servidor, PWA, otros navegadores, interacción, accesibilidad asistida ni rendimiento prolongado.
 
 BOOTSTRAP-004 agrega casos Vitest para los cinco estados de sesión, límites e invariantes inválidos, confirmación fail-closed, determinismo, inmutabilidad profunda, semántica textual y restricciones de importación. Los smokes existentes preservan shell y canvas; esta cobertura no ejecuta transiciones, protocolo, hardware, ciencia ni gameplay.
+BOOTSTRAP-005 amplía esa matriz con getters no invocados, proxies cambiantes/throwing/revocados, campos heredados/ocultos/símbolo/extra, prototipos no admitidos, strings mayores a 64, `NaN`/infinito/enteros inseguros, todas las combinaciones estado-confirmación, ausencia de errores nativos, texto hostil literal e inmutabilidad determinista. El smoke de navegador exige además los marcadores iniciales de sesión no disponible y confirmación deshabilitada.
 
 ### Harness local previo al hardware
 

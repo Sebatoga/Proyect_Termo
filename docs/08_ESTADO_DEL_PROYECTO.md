@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-04 (ECO-101 presenta un estado de sesión tipado y seguro; sigue en curso).
+**Última actualización:** 2026-11-04 (ECO-101 corrigió la frontera hostil del estado de sesión; sigue en curso).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -170,6 +170,7 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Prueba productiva BOOTSTRAP-002:** dos ejecuciones de Chrome headless `156.0.8078.47` observaron título propio, shell, texto de consola secundaria y canvas 960 × 540 mostrado a 764 × 432 bajo `#game-container`; ambas generaron la PNG 800 × 450 de 33.505 bytes y cero errores JavaScript en los canales CDP acotados. La regresión con impostor HTTP 200 falló antes de Chrome/PASS y liberó el puerto.
 - **Prueba offline BOOTSTRAP-003:** una build limpia servida exclusivamente desde `dist/` en `127.0.0.1:4174` produjo ocho solicitudes locales/data exitosas, canvas 960 × 540 y cero errores. Tras apagar el servidor, shell/canvas persistieron 1.000 ms; scans de 19 fuentes/configs y tres artefactos built no hallaron referencias externas ejecutables. Traversal y puerto ocupado fallaron de forma segura.
 - **Estado visible BOOTSTRAP-004:** el puerto productivo tipado se mapea a un view model inmutable y texto español explícito. El arranque declara sesión no disponible por fuente validada pendiente y bloquea confirmación; estados y combinaciones inválidas fallan cerrados.
+- **Corrección BOOTSTRAP-005:** la verificación independiente bloqueó `aa8354a` por lecturas hostiles repetidas/TOCTOU, schema abierto, strings sin cota, contradicción `ready` y evidencia offline obsoleta. La corrección captura seis descriptores una sola vez, limita strings a 64 unidades de código y números a enteros seguros coherentes, y hace fail-closed las invariantes. Vitest 36/36, referencias 165/165, smokes navegador/offline y negativas pasaron; el scan offline observado fue 23+3 con ocho solicitudes locales/data y cero errores.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 

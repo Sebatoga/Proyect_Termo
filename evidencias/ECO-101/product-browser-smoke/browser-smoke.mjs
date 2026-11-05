@@ -183,7 +183,7 @@ async function run() {
     while (!observed?.ready && Date.now() < deadline) {
       try {
         const evaluation = await cdp.send("Runtime.evaluate", {
-          expression: `(() => { const host = document.querySelector('#game-container'); const canvas = host?.querySelector('canvas'); const text = document.body?.innerText ?? ''; return { ready: document.readyState === 'complete' && Boolean(canvas), shell: text.includes('EcoGrid: Ciudad al Límite'), secondary: text.includes('Consola local secundaria'), canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0, rectWidth: canvas?.getBoundingClientRect().width ?? 0, rectHeight: canvas?.getBoundingClientRect().height ?? 0 }; })()`,
+          expression: `(() => { const host = document.querySelector('#game-container'); const canvas = host?.querySelector('canvas'); const text = document.body?.innerText ?? ''; return { ready: document.readyState === 'complete' && Boolean(canvas), shell: text.includes('EcoGrid: Ciudad al Límite'), secondary: text.includes('Consola local secundaria'), unavailable: text.includes('Sesión no disponible.'), confirmationUnavailable: text.includes('Confirmación disponible: no.'), canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0, rectWidth: canvas?.getBoundingClientRect().width ?? 0, rectHeight: canvas?.getBoundingClientRect().height ?? 0 }; })()`,
           returnByValue: true,
         }, sessionId);
         observed = evaluation.result.value;
@@ -196,11 +196,11 @@ async function run() {
     const capture = await cdp.send("Page.captureScreenshot", { format: "png" }, sessionId);
     const screenshot = Buffer.from(capture.data, "base64");
     const dimensions = pngDimensions(screenshot);
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.unavailable && observed.confirmationUnavailable && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
     if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true initial_status=unavailable confirmation_available=false canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {
