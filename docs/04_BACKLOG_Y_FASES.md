@@ -15,7 +15,7 @@
 ## F1 — Rebanada vertical jugable
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline aún pendiente | EN CURSO — canvas productivo observado en Chrome, sin gameplay ni integración física |
+| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline local verificada | EN CURSO — build estática sin recursos externos observada en Chrome, sin gameplay ni integración física |
 | ECO-102 | Modelos mínimos PV térmico + hidro de pasada en SI | tests de fórmulas, calor, caudal ecológico y límites | PENDIENTE |
 | ECO-103 | Bus eléctrico, batería y control prioridades | balance por tick y SOC límites, pruebas | PENDIENTE |
 | ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — orden provisional ligado a claves semánticas; sin efectos, solvencia, balance o integración de producto |
@@ -83,7 +83,7 @@ humana y revisión ambiental. El paquete real continúa `NOT_RUN` y fail-closed.
 
 ## Evidencia exploratoria para ECO-101
 
-El spike descartable verificó compatibilidad y permitió adoptar ADR-005 el 2026-11-04. El bootstrap productivo raíz añade shell accesible, escena mínima, configuración tipada y pruebas puras sin consumir ECO-002. Chrome headless observó el shell y canvas productivos con evidencia reproducible y protección de puerto. ECO-101 queda **EN CURSO**: falta validar operación offline y avanzar el loop híbrido; ECO-002 sigue **BLOQUEADA** y ECO-003 **PENDIENTE**.
+El spike descartable verificó compatibilidad y permitió adoptar ADR-005 el 2026-11-04. El bootstrap productivo raíz añade shell accesible, escena mínima, configuración tipada y pruebas puras sin consumir ECO-002. Chrome headless observó el shell/canvas desde una build limpia servida sólo desde `dist/`: no intentó HTTP(S) externo y permaneció visible durante un intervalo acotado tras apagar el servidor. ECO-101 queda **EN CURSO** porque aún falta comportamiento de producto e integración híbrida; ECO-002 sigue **BLOQUEADA** y ECO-003 **PENDIENTE**.
 
 ## Límites temporales del documento original
 - Pitch: fecha **sugerida** segunda semana de noviembre, **no confirmada** por profesor.

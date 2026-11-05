@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-04 (ECO-101 verificó el shell/canvas productivo en Chrome; sigue en curso).
+**Última actualización:** 2026-11-04 (ECO-101 verificó build estática productiva sin dependencias externas; sigue en curso).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -18,7 +18,7 @@
 ## Lo que sigue pendiente
 - Inventario real, datasheets aplicables, presupuesto final y componentes disponibles; existe una [BOM candidata](19_BOM_ECO_108.md), no una selección física.
 - Responsables, fechas, acceso a fabricación y dimensiones/materiales del tablero.
-- Verificar la operación offline del bootstrap productivo; su shell/canvas ya fue observado en Chrome, pero no acredita gameplay ni integración híbrida.
+- Integrar comportamiento de producto: la build estática ya fue verificada sin dependencia de Internet mientras la sirve un HTTP local, pero no acredita gameplay ni integración híbrida.
 - Referencias bibliográficas de parámetros físicos específicos y calibración.
 - Validar mediante playtesting reproducible y revisión ambiental los umbrales y
   la semántica de indisponibilidad natural de ECO-004; la estructura sin pesos
@@ -168,7 +168,8 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Regresión RUNTIME-003:** una prueba Node ocupó primero el puerto con una respuesta HTTP 200 engañosa; `--strictPort` hizo terminar no-cero al harness sin informar PASS ni iniciar Chrome, y el puerto pudo enlazarse de nuevo al finalizar. El DOM y PNG conservaron sus hashes, por lo que no se incorporaron cambios de bytes.
 - **Evidencia visual:** `evidencias/ECO-101/runtime-smoke/browser-smoke.png` (800 × 450) muestra el fondo verde azulado oscuro del canvas y el texto blanco centrado del spike; el DOM preservado contiene `<canvas`.
 - **Prueba productiva BOOTSTRAP-002:** dos ejecuciones de Chrome headless `156.0.8078.47` observaron título propio, shell, texto de consola secundaria y canvas 960 × 540 mostrado a 764 × 432 bajo `#game-container`; ambas generaron la PNG 800 × 450 de 33.505 bytes y cero errores JavaScript en los canales CDP acotados. La regresión con impostor HTTP 200 falló antes de Chrome/PASS y liberó el puerto.
-- **Límites:** la captura productiva prueba un cuadro local servido por Vite; no comprueba interacción, red desconectada, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
+- **Prueba offline BOOTSTRAP-003:** una build limpia servida exclusivamente desde `dist/` en `127.0.0.1:4174` produjo ocho solicitudes locales/data exitosas, canvas 960 × 540 y cero errores. Tras apagar el servidor, shell/canvas persistieron 1.000 ms; scans de 19 fuentes/configs y tres artefactos built no hallaron referencias externas ejecutables. Traversal y puerto ocupado fallaron de forma segura.
+- **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 
 ### ECO-002 — gate científico bloqueado
