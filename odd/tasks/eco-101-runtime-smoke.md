@@ -45,13 +45,6 @@ The repository has no executable application, package manifest, runtime, or test
   - Configure Vite to fail when port 5173 is occupied and make the harness reject any response not owned by its spawned server.
   - Verify both the normal PASS path and the occupied-port failure path without leaving background processes.
   - Resolve informational review finding `R3-port-ownership` in a new work-unit commit.
-- [x] **BOOTSTRAP-003 — Verify offline static production assets**
-  - Route: delegated direct for the bounded harness, negative regressions, durable evidence, and minimal project views.
-  - Acceptance: a clean build served only from `dist/` renders the product shell and non-zero Phaser canvas in installed headless Chrome/Chromium; every attempted HTTP(S) request is inventoried and loopback-local, required local resources succeed, static scans find no forbidden network references/APIs, and the loaded shell/canvas remains present without JavaScript errors during a bounded interval after server shutdown.
-  - Checks: typecheck, unit tests, build, existing product browser smoke, offline smoke twice, traversal and occupied-port negatives, `git diff --check`, authored-line count, final status/show.
-  - Rollback: remove the offline harness/evidence and npm script, then revert only the BOOTSTRAP-003 tracker and project-view entries; the product bootstrap and BOOTSTRAP-002 smoke remain intact.
-  - Review slice: one cohesive work-unit commit below 400 authored additions plus deletions, excluding generated evidence binaries; stop before commit if the honest slice exceeds the budget.
-
 ## Acceptance criteria
 
 - `spikes/runtime-smoke/` configures a minimal Phaser scene with no scientific-domain behavior; visual rendering remains separately verifiable.
@@ -84,6 +77,4 @@ The repository has no executable application, package manifest, runtime, or test
 
 ## Next step
 
-BOOTSTRAP-003 verified the clean production build with a dependency-free loopback server and Chrome `156.0.8078.47`: eight local/data requests succeeded, the 960 × 540 canvas remained displayed for 1,000 ms after server shutdown, and no JavaScript/console errors or external HTTP(S) attempts were observed. Static scans covered 19 committed source/config files and three built files; traversal and occupied-port regressions passed. Evidence is in `evidencias/ECO-101/offline-static-smoke/report.md`.
-
-ECO-101 remains **EN CURSO**: this proves no Internet/external resource dependency while `dist/` is served locally, not `file://`, PWA caching, refresh after shutdown, gameplay, physics, hardware, other browsers, accessibility, or prolonged performance. The next work unit should integrate only an approved product behavior without consuming blocked ECO-002 models.
+Decide whether to ratify ADR-005 before converting the spike into the production ECO-101 bootstrap. ADR-005 remains proposed and unratified; ECO-002 remains **BLOQUEADA**, while ECO-003 and ECO-101 remain **PENDIENTE**.

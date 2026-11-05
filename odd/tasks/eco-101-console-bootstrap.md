@@ -46,6 +46,13 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Checks: typecheck, unit tests, build, two consecutive browser-smoke passes, occupied-port negative regression, whitespace check, and final Git status/show.
   - Rollback: revert only the product browser harness, generated ECO-101 product evidence, npm smoke script, and matching task/state/backlog/test-plan/AI-log entries; BOOTSTRAP-001 remains intact.
   - Delivery strategy: `ask-on-risk`, one cohesive local commit below 400 authored additions plus deletions. The approved 431-line exception applies only to BOOTSTRAP-001 commit `9956eb5` and is not reused.
+- [x] **BOOTSTRAP-003 — Verify offline static production assets**
+  - Route: delegated direct for the bounded harness, negative regressions, durable evidence, and minimal project views.
+  - Trigger evidence: the offline boundary required a clean production build, dependency-free static server, Chrome request inventory, post-shutdown observation, static scans, and two negative regression paths.
+  - Acceptance: a clean build served only from `dist/` renders the product shell and non-zero Phaser canvas in installed headless Chrome/Chromium; every attempted HTTP(S) request is inventoried and loopback-local, required local resources succeed, static scans find no forbidden network references/APIs, and the loaded shell/canvas remains present without JavaScript errors during a bounded interval after server shutdown.
+  - Checks: typecheck, unit tests, build, existing product browser smoke, offline smoke twice, traversal and occupied-port negatives, `git diff --check`, authored-line count, final status/show.
+  - Review slice: commit `9bd9195` is one cohesive work unit below 400 authored additions plus deletions, excluding generated evidence binaries.
+  - Rollback: remove the offline harness/evidence and npm script, then revert only the BOOTSTRAP-003 tracker and project-view entries; the product bootstrap and BOOTSTRAP-002 smoke remain intact.
 
 ## Acceptance criteria
 
@@ -95,3 +102,15 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - BOOTSTRAP-002 result: Chrome `156.0.8078.47` observed the root shell, expected secondary-console text, and a 960 × 540 canvas displayed at 764 × 432 under `#game-container`. Two consecutive runs produced the same non-empty 800 × 450, 33,505-byte PNG with zero bounded JavaScript console/runtime errors.
 - Ownership regression: an HTTP 200 impostor with the exact title/canvas markers occupied port 4173; Vite `--strictPort` forced non-zero exit before Chrome or PASS output, and the test rebound the port after cleanup.
 - Evidence: `evidencias/ECO-101/product-browser-smoke/`; product browser/canvas bootstrap boundary is closed, while ECO-101 remains open for offline operation and does not claim gameplay, hardware, physics, serial, or prolonged accessibility/performance.
+- BOOTSTRAP-003 commit: `9bd9195` (`test(console): verify offline static build`).
+- BOOTSTRAP-003 result: Chrome `156.0.8078.47` made eight successful local/data requests, with zero external HTTP(S) requests, zero required-resource failures, and zero JavaScript/console errors. The canvas was 960 × 540 and displayed at 749 × 423.5625.
+- Post-shutdown observation: after the static server stopped, the shell and canvas remained present for 1,000 ms at 749 × 423.5625 without refresh, request failure, or JavaScript/console error.
+- Static scans: 19 committed source/config files and three built HTML/CSS/JS files contained no forbidden external resource reference or authored network API.
+- Negative regressions: encoded path traversal returned HTTP 400 without exposing `package.json`; an HTTP 200 impostor occupying port 4174 forced a non-zero harness exit without Chrome or PASS output, and the port was reusable after cleanup.
+- Checks passed: typecheck, unit tests, clean build, existing product browser smoke, two offline smoke runs, traversal and occupied-port negatives, `git diff --check`, authored-line count, and final Git status/show.
+- BOOTSTRAP-003 limitations: evidence covers a production build served over loopback HTTP and persistence without refresh for 1,000 ms after shutdown. It does not verify `file://`, PWA/service-worker caching, refresh after shutdown, other browsers or machines, serial/hardware, gameplay, physics, accessibility, or prolonged performance.
+- Status: ECO-101 remains **EN CURSO**; BOOTSTRAP-003 closes only the bounded offline/static boundary and does not consume ECO-002.
+
+## Next step
+
+Implement one approved product behavior without consuming ECO-002.
