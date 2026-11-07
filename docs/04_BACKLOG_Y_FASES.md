@@ -15,7 +15,7 @@
 ## F1 — Rebanada vertical jugable
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline local verificada | EN CURSO — sesión canónica mapeada al puerto visible, aún sin fuente/wiring; sin gameplay ni integración física |
+| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline local verificada | EN CURSO — loop local simulado y explícito visible; sin gameplay, ciencia, serial ni integración física |
 | ECO-102 | Modelos mínimos PV térmico + hidro de pasada en SI | tests de fórmulas, calor, caudal ecológico y límites | PENDIENTE |
 | ECO-103 | Bus eléctrico, batería y control prioridades | balance por tick y SOC límites, pruebas | PENDIENTE |
 | ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — lifecycle, composición y manifiesto provisional canónicos; sin efectos, solvencia, balance o wiring de producto |

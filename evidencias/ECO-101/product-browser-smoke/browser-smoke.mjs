@@ -183,7 +183,7 @@ async function run() {
     while (!observed?.ready && Date.now() < deadline) {
       try {
         const evaluation = await cdp.send("Runtime.evaluate", {
-          expression: `(() => { const host = document.querySelector('#game-container'); const canvas = host?.querySelector('canvas'); const text = document.body?.innerText ?? ''; return { ready: document.readyState === 'complete' && Boolean(canvas), shell: text.includes('EcoGrid: Ciudad al Límite'), secondary: text.includes('Consola local secundaria'), unavailable: text.includes('Sesión no disponible.'), confirmationUnavailable: text.includes('Confirmación disponible: no.'), canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0, rectWidth: canvas?.getBoundingClientRect().width ?? 0, rectHeight: canvas?.getBoundingClientRect().height ?? 0 }; })()`,
+          expression: `(() => { const host = document.querySelector('#game-container'); const canvas = host?.querySelector('canvas'); const text = document.body?.innerText ?? ''; return { ready: document.readyState === 'complete' && Boolean(canvas), shell: text.includes('EcoGrid: Ciudad al Límite'), secondary: text.includes('Consola local secundaria'), simulated: text.toLowerCase().includes('modo simulado'), waiting: text.includes('Esperando una entrada validada.'), confirmationUnavailable: text.includes('Confirmación disponible: no.'), canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0, rectWidth: canvas?.getBoundingClientRect().width ?? 0, rectHeight: canvas?.getBoundingClientRect().height ?? 0 }; })()`,
           returnByValue: true,
         }, sessionId);
         observed = evaluation.result.value;
@@ -192,15 +192,25 @@ async function run() {
       }
       if (!observed?.ready) await new Promise((resolve) => setTimeout(resolve, 100));
     }
+    const interaction = (await cdp.send("Runtime.evaluate", {
+      expression: `(() => { const load = document.querySelector('#load-simulated-input'); const confirm = document.querySelector('#confirm-simulated-round'); load?.click(); const readyText = document.querySelector('#console-status')?.textContent ?? ''; const ready = readyText.includes('Entrada validada lista para confirmar.') && readyText.includes('Confirmación disponible: sí.') && confirm?.disabled === false; confirm?.click(); const advancedText = document.querySelector('#console-status')?.textContent ?? ''; return { ready, advanced: advancedText.includes('ronda 2 de 6') && advancedText.includes('NEW_INPUT_REQUIRED') && load?.disabled === false && confirm?.disabled === true }; })()`,
+      returnByValue: true,
+    }, sessionId)).result.value;
     await new Promise((resolve) => setTimeout(resolve, 300));
     const capture = await cdp.send("Page.captureScreenshot", { format: "png" }, sessionId);
     const screenshot = Buffer.from(capture.data, "base64");
     const dimensions = pngDimensions(screenshot);
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.unavailable && observed.confirmationUnavailable && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
-    if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
+    await cdp.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const mobile = (await cdp.send("Runtime.evaluate", {
+      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: (load?.width ?? 0) > 0 && (confirm?.width ?? 0) > 0, canvasVisible: (canvas?.width ?? 0) > 0 && (canvas?.height ?? 0) > 0 }; })()`,
+      returnByValue: true,
+    }, sessionId)).result.value;
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.ready && interaction.advanced && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.canvasVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+    if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true initial_status=unavailable confirmation_available=false canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input interaction=ready-to-round-2 mobile=390px-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {

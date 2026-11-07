@@ -16,8 +16,8 @@
         <p class="console-label">Consola local secundaria</p>
         <h1 id="console-title">EcoGrid: Ciudad al Límite</h1>
         <p>
-          Este arranque técnico no reemplaza el tablero físico ni representa una
-          partida completa.
+          Este modo simulado no reemplaza el tablero físico ni representa una
+          partida completa o científicamente validada.
         </p>
       </header>
 
@@ -30,9 +30,23 @@
           aria-label="Área visual del bootstrap de la consola local EcoGrid"
         ></div>
         <p id="console-status" class="console-status" role="status">
-          Sesión no disponible. Progreso: ronda no disponible. Motivo:
-          FUENTE_VALIDADA_PENDIENTE. Confirmación disponible: no.
+          Esperando una entrada validada. Progreso: ronda 1 de 6. Motivo:
+          DEVICE_DISCONNECTED. Confirmación disponible: no.
         </p>
+        <div class="simulated-controls" aria-labelledby="simulated-mode-title">
+          <div>
+            <p class="simulation-label">Modo simulado</p>
+            <h2 id="simulated-mode-title">Prueba técnica local</h2>
+            <p>
+              Usa valores fijos no calibrados y un resolver sin efectos de energía,
+              puntuación ni ciencia. Cada acción es manual y determinista.
+            </p>
+          </div>
+          <div class="simulation-actions">
+            <button id="load-simulated-input" type="button">Cargar entrada simulada</button>
+            <button id="confirm-simulated-round" type="button" disabled>Confirmar ronda simulada</button>
+          </div>
+        </div>
       </section>
     </main>
 

@@ -27,7 +27,8 @@ body {
 }
 
 .console-label,
-.console-status {
+.console-status,
+.simulation-label {
   font-weight: 700;
 }
 
@@ -57,6 +58,63 @@ h1 {
   padding: 0.75rem 1rem;
   border-inline-start: 0.35rem solid #8fc9bb;
   background: #143531;
+}
+
+.simulated-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 2rem;
+  align-items: end;
+  max-width: 60rem;
+  padding: 1rem;
+  border: 1px solid #d5b86b;
+  border-radius: 0.75rem;
+  background: #2a2619;
+}
+
+.simulated-controls h2,
+.simulated-controls p {
+  margin-block: 0.25rem;
+}
+
+.simulation-label {
+  color: #f2cf74;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.simulation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+button {
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+  border: 2px solid #d5b86b;
+  border-radius: 0.5rem;
+  color: #071817;
+  background: #f2cf74;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 3px solid #eef7f4;
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+@media (max-width: 42rem) {
+  .simulated-controls {
+    grid-template-columns: 1fr;
+  }
 }
 
 .visually-hidden {

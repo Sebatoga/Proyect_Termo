@@ -84,6 +84,11 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Route: direct implementation on `feat/eco-round-session-integration` after `65cf481`.
   - Acceptance: a pure application mapper translates canonical integration state into coherent six-round snapshots accepted by the hardened console boundary; no manifest, transport or runtime source is wired into `main.ts`.
   - Checks and rollback are shared with ECO104-10 so code, tests and traceability remain one work unit below 400 authored lines.
+- [x] **BOOTSTRAP-009 — Wire an explicitly simulated local session**
+  - Authorization: the user explicitly selected local simulation on 2026-11-07; no real-hardware claim is permitted.
+  - Acceptance: the shell visibly labels simulation, exposes separate accessible load/confirm controls, advances deterministically through six canonical rounds, and uses a trace-only resolver with no physical effects, score or scientific claim.
+  - Checks: focused/full Vitest, typecheck, build, interactive browser smoke, offline smoke, complete Node references, layer/network/entropy scans, whitespace and authored-line guard.
+  - Rollback: revert only BOOTSTRAP-009 to restore the honest unavailable bootstrap; all promoted pure modules remain intact.
 
 ## Acceptance criteria
 
@@ -155,6 +160,15 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - BOOTSTRAP-008 maps canonical integration state to hardened console snapshots for
   waiting, ready, fresh-input-required, reset and completed states. Vitest 59/59,
   references 165/165 and smokes PASS; no runtime source is wired into `main.ts`.
+- BOOTSTRAP-009 was explicitly authorized by the user and wires only a local
+  simulated source. Separate load/confirm actions advance the canonical loop;
+  fixed controls are labeled uncalibrated and the resolver records trace only.
+- BOOTSTRAP-009 evidence: Vitest 62/62, references 165/165, typecheck and build
+  PASS; Chrome observed waiting → ready → round 2, zero JavaScript errors and a
+  390 px no-overflow layout; offline smoke scanned 40+3 and made eight local/data
+  requests. No serial, hardware, physics, energy, score or gameplay effect exists.
+- BOOTSTRAP-009 delivery: one child after `fdaf99d`, with 295 authored lines
+  (`265` additions and `30` deletions) across 15 paths plus one evidence PNG.
 
 ## Next step
 

@@ -75,6 +75,11 @@ ECO104-11 centraliza el orden de seis rondas y sus claves semánticas en un
 manifiesto de aplicación profundamente inmutable. Continúa marcado como
 provisional: no define efectos, magnitudes, balance, ciencia ni solvencia.
 
+BOOTSTRAP-009 conecta `main.ts` exclusivamente a una fuente local simulada,
+autorizada y etiquetada. Los botones cargan una entrada fija no calibrada y la
+confirman por separado; el resolver sólo registra trazabilidad. No representa
+USB, sensores, física, energía, score, balance o una partida completa.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.
