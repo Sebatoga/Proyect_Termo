@@ -4,7 +4,7 @@
 - Browser: `Google Chrome 156.0.8078.47`.
 - Result: PASS; 8 product requests, 0 JavaScript/console errors.
 - Canvas: 960 × 540; displayed 749 × 423.5625.
-- Static scan: 23 committed source/config files and 3 built HTML/CSS/JS files.
+- Static scan: 26 committed source/config files and 3 built HTML/CSS/JS files.
 - Post-shutdown: shell/canvas remained present for 1,000 ms (749 × 423.5625); no refresh was attempted.
 
 ## Request inventory

@@ -190,7 +190,7 @@ describe("round console view model", () => {
 });
 
 describe("product layer constraints", () => {
-  const sources = import.meta.glob("../src/**/*.ts", {
+  const sources = import.meta.glob("../src/**/*.{ts,mjs}", {
     eager: true,
     query: "?raw",
     import: "default",
@@ -203,7 +203,7 @@ describe("product layer constraints", () => {
       .join("\n");
     const mapper = sources["../src/console/createRoundConsoleViewModel.ts"];
 
-    expect(application).not.toMatch(/phaser|document|window|HTMLElement|Canvas/i);
+    expect(application).not.toMatch(/phaser|document|window|HTMLElement|Canvas|from\s+["']node:|process\.|\bBuffer\b/i);
     expect(mapper).not.toMatch(/phaser/i);
   });
 
@@ -211,7 +211,18 @@ describe("product layer constraints", () => {
     const allSources = Object.values(sources).join("\n");
 
     expect(allSources).not.toMatch(/from\s+["'][^"']*tools\//);
-    const excludedBehavior = new RegExp(["serial", "Web" + "Socket", "fe" + "tch\\(", "localStorage", "Math\\.random", "resolveRound"].join("|"));
+    const excludedBehavior = new RegExp([
+      "serial",
+      "Web" + "Socket",
+      "XMLHttp" + "Request",
+      "Event" + "Source",
+      "send" + "Beacon",
+      "import" + "Scripts",
+      "fe" + "tch\\(",
+      "localStorage",
+      "Math\\.random",
+      "resolveRound",
+    ].join("|"));
     expect(allSources).not.toMatch(excludedBehavior);
   });
 });

@@ -79,7 +79,7 @@ async function builtFiles(directory) {
 }
 
 async function staticScan() {
-  const tracked = run("git", ["ls-files"]).split("\n").filter((file) => /(?:\.html|\.css|\.tsx?|package\.json|tsconfig.*\.json|vite\.config\.ts)$/.test(file));
+  const tracked = run("git", ["ls-files"]).split("\n").filter((file) => /(?:\.html|\.css|\.tsx?|package\.json|tsconfig.*\.json|vite\.config\.ts)$/.test(file) || /^src\/.*\.m(?:j|t)s$/.test(file));
   const built = (await builtFiles(dist)).filter((file) => /\.(?:html|css|js)$/.test(file));
   const externalResource = /(?:\b(?:src|href)\s*=|url\s*\(|\b(?:fetch|importScripts)\s*\(|\.open\s*\(\s*["'](?:GET|POST)["']\s*,)\s*["']?\s*(?:https?:)?\/\//i;
   const authoredNetworkApi = /\b(?:fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|importScripts)\b/;

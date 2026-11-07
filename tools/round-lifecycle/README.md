@@ -1,11 +1,11 @@
 # Six-round lifecycle reference
 
-This isolated Node ESM reference coordinates a provisional six-round sequence. It validates normalized snapshots, requires explicit confirmation, calls an injected synthetic resolver once, appends immutable history, and advances.
+The canonical browser-neutral lifecycle now lives in `src/application/round-session/roundLifecycle.mjs`. This tool directory keeps its reference tests, manifest fixture, and operator documentation; there is no duplicate implementation.
 
 ## Quick path
 
 ```js
-import { createRoundLifecycle } from "./round-lifecycle.mjs";
+import { createRoundLifecycle } from "../../src/application/round-session/roundLifecycle.mjs";
 
 const lifecycle = createRoundLifecycle({
   manifest,
@@ -59,4 +59,4 @@ node --test tools/round-lifecycle/*.test.mjs
 
 ## Limits and rollback
 
-This is not gameplay, product integration, hardware behavior, a scientific model, a score, a balance result, a solvability proof, or duration evidence. It imports no product or project tool. Remove `tools/round-lifecycle/` to roll it back; no runtime path depends on it.
+This is not gameplay, product wiring, hardware behavior, a scientific model, a score, a balance result, a solvability proof, or duration evidence. Revert the lifecycle-promotion work unit to restore tool ownership; no `main.ts` or console path imports it.

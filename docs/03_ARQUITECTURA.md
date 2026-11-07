@@ -48,11 +48,11 @@ las reglas futuras. Expone `evaluateScorecard(mission, ledger)`, no importa el
 adaptador, física, datos de ECO-002, hardware ni UI, y sólo consume cantidades
 sintéticas ya resueltas. No es la implementación productiva ni acredita balance.
 
-El primer corte de ECO-104 añade `tools/round-lifecycle/` como coordinador de
-referencia aislado: valida un manifiesto cerrado de seis rondas y snapshots
-normalizados compatibles con la frontera host, confirma una sola vez, invoca un
-resolutor sintético inyectado y conserva historial inmutable. No importa el
-adaptador ni implementa física, puntuación, balance, hardware, UI o producto.
+BOOTSTRAP-007/ECO104-9 promueve el coordinador canónico, sin cambiar sus bytes,
+a `src/application/round-session/roundLifecycle.mjs`; su declaración estricta
+adyacente expone el contrato browser-neutral. Las pruebas y fixtures permanecen
+en `tools/round-lifecycle/`, pero no existe una segunda implementación. No hay
+wiring desde `main.ts` o consola ni física, puntuación, hardware o UI.
 
 ECO104-6 añade `tools/round-host-integration/` como evidencia de composición:
 los mensajes pasan sólo por el adaptador y el snapshot actual llega al ciclo

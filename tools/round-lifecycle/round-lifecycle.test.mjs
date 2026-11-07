@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { createRoundLifecycle, LifecycleValidationError } from "./round-lifecycle.mjs";
+import { createRoundLifecycle, LifecycleValidationError } from "../../src/application/round-session/roundLifecycle.mjs";
 
 const loadManifest = async () => JSON.parse(await readFile(
   new URL("fixtures/manifest-v1.json", import.meta.url), "utf8",

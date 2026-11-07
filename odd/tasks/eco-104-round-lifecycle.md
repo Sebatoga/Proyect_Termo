@@ -120,6 +120,13 @@ The project documents a six-round flow but has no executable lifecycle contract.
     behavior tests and minimal documentation/evidence together below 400 authored
     additions plus deletions. No physical effects, values, formulas, randomness,
     scoring, balance, timing, UI copy or product integration enter this slice.
+- [x] **ECO104-9 — Promote canonical lifecycle ownership**
+  - Route: delegated to the current implementation agent; no child agent is launched.
+  - Branch/start: `feat/eco-104-lifecycle-promotion` at parent `be6bd16`.
+  - Acceptance: relocate the lifecycle byte-identically into the application layer, leave one implementation, declare its complete runtime surface without `any`, and redirect reference tests plus host composition without adding product wiring or changing semantics.
+  - Checks: focused lifecycle/host/Vitest compatibility suites, full 165-test Node suite, typecheck, full Vitest, build, browser/offline smokes, widened layer/network and duplicate/import scans, declaration/runtime spot check, whitespace, authored-line guard, and final status/show.
+  - Rollback: revert the single promotion commit to restore `tools/round-lifecycle/round-lifecycle.mjs` and prior imports while removing only the declaration and compatibility test.
+  - Delivery boundary: one cohesive child below 400 authored additions plus deletions when the byte-identical relocation is treated as a rename; stop before commit on changed bytes or budget overflow.
 
 ## Acceptance criteria
 
@@ -279,6 +286,9 @@ constructor exceptions and must not be treated as a safe reference.
   event keys`; obtain its stable hash from final `git show`.
 - Rollback: revert only the ECO104-8 child to restore generic fixture identifiers;
   lifecycle validation, integration behavior and all earlier hardening remain.
+- ECO104-9 promoted the sole implementation byte-identically to the application layer; old/new SHA-256 both equal `9f30f4b171349581bfa1f0ac01587028cf2b7793f40d6a100da0272c28abac`. The tool suite and host harness import that canonical path; strict declarations and Vitest compatibility coverage add no runtime semantics.
+- Observed checks: lifecycle 53/53, integration 18/18, complete reference suite 165/165, focused compatibility 2/2, full Vitest 52/52, widened layer/network 2/2 and offline 26+3, typecheck, build, browser/offline smokes, API spot check, duplicate/import scan and whitespace PASS.
+- Delivery remains one local promotion child after `be6bd16`, with 259 authored lines (`237` additions and `22` deletions) across 17 paths and no push or PR; the lifecycle move is a zero-line rename. Rollback is the promotion commit only. ECO-104 remains **PENDIENTE** because no effects, balance, solvability, science, hardware or product wiring were added.
 
 ## Delivery decision and review chain
 

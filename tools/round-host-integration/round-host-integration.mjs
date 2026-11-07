@@ -1,5 +1,5 @@
 import { createHostAdapter } from "../host-adapter/adapter.mjs";
-import { createRoundLifecycle } from "../round-lifecycle/round-lifecycle.mjs";
+import { createRoundLifecycle } from "../../src/application/round-session/roundLifecycle.mjs";
 
 const freezeTree = (value) => {
   if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {

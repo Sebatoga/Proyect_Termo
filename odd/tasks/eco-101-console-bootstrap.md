@@ -73,6 +73,13 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Checks: focused and full Vitest with 5, 7, `MAX_SAFE_INTEGER`, and boundary-index cases; typecheck; build; browser and offline smokes; 165-test Node reference suite; layer/behavior scans; `git diff --check`; authored-line count; final status/show.
   - Rollback: revert only the exported count constant, mapper contract, focused adversarial tests, and matching tracker/architecture/state/test-plan/AI evidence; BOOTSTRAP-001–005 remain intact.
   - Delivery boundary: one Conventional Commit after `a2f11c3`, below 400 authored additions plus deletions; do not stage `.codegraph/` or add packages.
+- [x] **BOOTSTRAP-007 — Promote the canonical lifecycle to the application layer**
+  - Route: delegated to the current implementation agent; no child agent is launched.
+  - Branch/start: `feat/eco-104-lifecycle-promotion` at parent `be6bd16`.
+  - Acceptance: move the lifecycle byte-identically to `src/application/round-session/`, add strict adjacent declarations, redirect Node consumers, add focused Vitest compatibility coverage, and extend application scans to `.mjs` without wiring product runtime behavior.
+  - Checks: lifecycle and host-integration suites, full 165-test Node reference suite, typecheck, full Vitest, build, browser/offline smokes, widened layer/network scans, duplicate/import/API checks, `git diff --check`, authored-line guard, and final status/show.
+  - Rollback: revert only the promotion commit to restore tool ownership and remove declarations/compatibility coverage; BOOTSTRAP-001–006 behavior remains intact.
+  - Delivery boundary: one Conventional Commit below 400 authored additions plus deletions, treating the unchanged relocation as a rename; stop before commit if either guard fails.
 
 ## Acceptance criteria
 
@@ -138,6 +145,9 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - Authored correction size: 156 additions plus 30 deletions (186 lines) across 11 paths before the commit. Rollback is the BOOTSTRAP-005 correction commit only; ECO-101 remains **EN CURSO** and the independent review finding is not reclassified as independently reverified.
 - BOOTSTRAP-006 result: the application port exports one six-round product constant. Active snapshots accept only indices 0–5 at count 6, completed accepts only `6/6/null`, and the unavailable bootstrap remains `0/0/null`; every other count or bound maps to `unavailable/SNAPSHOT_INVALIDO` without transition behavior.
 - BOOTSTRAP-006 verification: focused Vitest 48/48 PASS; full Vitest 50/50 PASS; typecheck PASS; build PASS with the existing Phaser chunk warning; browser and offline smokes PASS with their existing markers; Node references 165/165 PASS; layer scans 2/2 PASS; `git diff --check` PASS. Authored size is 51 additions plus 13 deletions (64 lines) across nine paths; ECO-101 remains **EN CURSO**.
+- BOOTSTRAP-007 moved the lifecycle byte-identically to `src/application/round-session/roundLifecycle.mjs` (matching SHA-256 `9f30f4b171349581bfa1f0ac01587028cf2b7793f40d6a100da0272c28abac`), added strict adjacent declarations and 2/2 Vitest compatibility tests, redirected both Node consumers, and left one implementation with no product wiring.
+- Verification observed: lifecycle 53/53, host integration 18/18, Node references 165/165, Vitest 52/52, layer/network scan 2/2, typecheck, build, browser smoke, offline smoke with static scan 26+3, declaration/runtime spot check, duplicate/import scan, and `git diff --check` PASS. Build retained the existing Phaser chunk-size warning.
+- Delivery: one commit after `be6bd16`, with 259 authored lines (`237` additions and `22` deletions) across 17 paths; the lifecycle move is a zero-line rename. Rollback is that promotion commit only; ECO-101 remains **EN CURSO**.
 
 ## Next step
 

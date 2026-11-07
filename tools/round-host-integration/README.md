@@ -7,7 +7,7 @@ evidence, not a product path.
 ## API and behavior
 
 `createRoundHostIntegration(lifecycleOptions)` passes the options directly to
-the existing lifecycle constructor and exposes four operations:
+the application-owned browser-neutral lifecycle constructor and exposes four operations:
 
 - `ingest(line)` sends one device-to-host JSON Line only through the host
   adapter. It never calls the resolver or advances a round.
@@ -43,4 +43,4 @@ node --test tools/round-host-integration/*.test.mjs
 This harness contains no serial I/O, retry policy, timing behavior, UI, product
 stack, physical model, scoring, event balance, gameplay, or hardware claim.
 Remove `tools/round-host-integration/` and its documentation links to roll it
-back; existing adapter and lifecycle modules remain independent.
+back; the adapter and application-owned lifecycle remain independent.

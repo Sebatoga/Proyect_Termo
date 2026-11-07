@@ -74,8 +74,9 @@ anti-trampa, validación, precedencia `incomplete`, denominador cero, determinis
 e inmutabilidad. No ejecutan modelos físicos, casos de ECO-002, UI ni producto y
 no demuestran balance o validez científica.
 
-La referencia parcial ECO-104 en `tools/round-lifecycle/` usa `node:test`, un
-manifiesto sintético y snapshots normalizados sin importar el adaptador. Prueba
+El lifecycle canónico de ECO-104 en `src/application/round-session/` conserva
+sus pruebas `node:test` y fixture en `tools/round-lifecycle/`. Usa un manifiesto
+sintético y snapshots normalizados sin importar el adaptador. Prueba
 validación cerrada, retry seguro, confirmación única, replay, terminación,
 determinismo e inmutabilidad; no prueba gameplay, duración, solvencia, física,
 hardware, balance ni integración de producto.
@@ -95,6 +96,9 @@ el reset bloquea antes del adaptador y la guardia se limpia en todas las salidas
 ECO104-8 fija seis claves semánticas provisionales en el orden documentado y
 prueba orden exacto, unicidad, replay determinista y recepción secuencial por el
 resolutor, conservando la semilla aportada por quien llama.
+BOOTSTRAP-007/ECO104-9 añade una prueba Vitest de importación `.mjs` tipada,
+construcción determinista y una confirmación; los scans de aplicación y red
+incluyen ahora el módulo `.mjs` sin añadir wiring de producto.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94
