@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
+import {
+  PROVISIONAL_ROUND_MANIFEST,
+} from "../../src/application/round-session/provisionalRoundManifest.mjs";
 import { createRoundHostIntegration } from "./round-host-integration.mjs";
 
-const manifest = async () => JSON.parse(await readFile(
-  new URL("../round-lifecycle/fixtures/manifest-v1.json", import.meta.url), "utf8",
-));
+const manifest = async () => structuredClone(PROVISIONAL_ROUND_MANIFEST);
 const hello = (sequence = 0) => JSON.stringify({
   type: "hello", protocolVersion: 1, sequence, uptimeMs: sequence,
   calibrationVersion: "sim-v1", status: "valid", capabilities: ["inputs"],

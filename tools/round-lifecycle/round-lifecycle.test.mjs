@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
+import {
+  PROVISIONAL_ROUND_MANIFEST,
+} from "../../src/application/round-session/provisionalRoundManifest.mjs";
 import { createRoundLifecycle, LifecycleValidationError } from "../../src/application/round-session/roundLifecycle.mjs";
 
-const loadManifest = async () => JSON.parse(await readFile(
-  new URL("fixtures/manifest-v1.json", import.meta.url), "utf8",
-));
+const loadManifest = async () => structuredClone(PROVISIONAL_ROUND_MANIFEST);
 const validSnapshot = (sequence = 1, confirm = true) => ({
   transport: "connected",
   inputStatus: "valid",

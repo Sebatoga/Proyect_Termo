@@ -3,16 +3,11 @@ import { describe, expect, it } from "vitest";
 import {
   createRoundLifecycle,
   type NormalizedHostSnapshot,
-  type RoundLifecycleManifest,
 } from "../src/application/round-session/roundLifecycle.mjs";
-
-const manifest: RoundLifecycleManifest = {
-  schemaVersion: "round-lifecycle-manifest/v1",
-  rounds: Array.from({ length: 6 }, (_, index) => ({
-    id: `round-${index + 1}`,
-    event: { type: "synthetic", data: { key: `event-${index + 1}` } },
-  })),
-};
+import {
+  PROVISIONAL_EVENT_KEYS,
+  PROVISIONAL_ROUND_MANIFEST,
+} from "../src/application/round-session/provisionalRoundManifest.mjs";
 
 const snapshot: NormalizedHostSnapshot = {
   transport: "connected",
@@ -31,13 +26,30 @@ const snapshot: NormalizedHostSnapshot = {
 };
 
 const createLifecycle = () => createRoundLifecycle({
-  manifest,
+  manifest: PROVISIONAL_ROUND_MANIFEST,
   seed: "compatibility-seed",
   resolverVersion: "compatibility-v1",
   resolve: ({ round, input }) => ({ roundId: round.id, sequence: input.sequence }),
 });
 
 describe("round lifecycle application compatibility", () => {
+  it("owns the exact deeply immutable provisional round order", () => {
+    expect(PROVISIONAL_EVENT_KEYS).toEqual([
+      "base-demand",
+      "high-temperature",
+      "low-river",
+      "demand-peak",
+      "reduced-light",
+      "seeded-combination",
+    ]);
+    expect(Object.isFrozen(PROVISIONAL_EVENT_KEYS)).toBe(true);
+    expect(Object.isFrozen(PROVISIONAL_ROUND_MANIFEST)).toBe(true);
+    expect(Object.isFrozen(PROVISIONAL_ROUND_MANIFEST.rounds)).toBe(true);
+    expect(PROVISIONAL_ROUND_MANIFEST.rounds.every((round) => (
+      Object.isFrozen(round) && Object.isFrozen(round.event) && Object.isFrozen(round.event.data)
+    ))).toBe(true);
+  });
+
   it("constructs deterministically through the adjacent declaration", () => {
     expect(createLifecycle().snapshot()).toEqual(createLifecycle().snapshot());
   });

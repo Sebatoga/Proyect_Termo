@@ -18,7 +18,7 @@
 | ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline local verificada | EN CURSO — sesión canónica mapeada al puerto visible, aún sin fuente/wiring; sin gameplay ni integración física |
 | ECO-102 | Modelos mínimos PV térmico + hidro de pasada en SI | tests de fórmulas, calor, caudal ecológico y límites | PENDIENTE |
 | ECO-103 | Bus eléctrico, batería y control prioridades | balance por tick y SOC límites, pruebas | PENDIENTE |
-| ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — lifecycle canónico en aplicación y orden provisional tipado; sin efectos, solvencia, balance o wiring de producto |
+| ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — lifecycle, composición y manifiesto provisional canónicos; sin efectos, solvencia, balance o wiring de producto |
 | ECO-105 | Consola local secundaria: variables, alertas y causalidad | loop legible sin mapa ni arte final | PENDIENTE |
 | ECO-106 | Puntuación, derrota, victoria y resultados explicables | 5 escenarios prueba con resultados comprensibles | PENDIENTE |
 | ECO-107 | Prueba E2E/HIL y jugabilidad híbrida | seis rondas sin pérdida silenciosa de entradas | PENDIENTE |

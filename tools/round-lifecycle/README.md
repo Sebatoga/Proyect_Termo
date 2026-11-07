@@ -17,7 +17,7 @@ const lifecycle = createRoundLifecycle({
 const response = lifecycle.confirm(normalizedHostSnapshot, "input-token-1");
 ```
 
-The manifest fixture shows the closed v1 shape. A valid snapshot matches the host-adapter snapshot boundary but this module does not import the adapter. The caller supplies both trace values and a stable token.
+The canonical provisional manifest lives in `src/application/round-session/provisionalRoundManifest.mjs`. A valid snapshot matches the host-adapter snapshot boundary but this module does not import the adapter. The caller supplies both trace values and a stable token.
 
 Its ordered event keys are `base-demand`, `high-temperature`, `low-river`,
 `demand-peak`, `reduced-light`, and `seeded-combination`. These are provisional

@@ -71,6 +71,10 @@ una entrada fresca confirmada queda lista; una secuencia ya consumida exige una
 nueva entrada; desconexión exige reset y seis rondas completan. `main.ts` sigue
 sin wiring y no existe aún un manifiesto productivo.
 
+ECO104-11 centraliza el orden de seis rondas y sus claves semánticas en un
+manifiesto de aplicación profundamente inmutable. Continúa marcado como
+provisional: no define efectos, magnitudes, balance, ciencia ni solvencia.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.

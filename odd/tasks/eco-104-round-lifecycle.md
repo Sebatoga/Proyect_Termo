@@ -132,6 +132,11 @@ The project documents a six-round flow but has no executable lifecycle contract.
   - Acceptance: application owns one typed adapter-lifecycle composition and maps its trusted state to the existing six-field product port for waiting, ready, reset and completed states; the tool path becomes a facade and `main.ts` remains unwired.
   - Checks: integration Node suite, complete 165-test references, focused/full Vitest, typecheck, build, browser/offline smokes, layer/import/duplicate scans, whitespace and authored-line guard.
   - Rollback: revert only ECO104-10 to restore composition ownership to `tools/`; promoted lifecycle, protocol and adapter remain intact.
+- [x] **ECO104-11 — Promote the provisional six-round manifest**
+  - Route: direct implementation on `feat/eco-provisional-round-manifest` after `8dd2625`.
+  - Acceptance: application owns one deeply immutable provisional manifest and event-key order; Node and Vitest consumers use it directly, the duplicate JSON fixture is removed, and no event effects or runtime wiring are introduced.
+  - Checks: lifecycle/integration/full Node suites, Vitest, typecheck, build, browser/offline smokes, duplicate/import scans, whitespace and authored-line guard.
+  - Rollback: revert only ECO104-11 to restore the JSON fixture and local test manifests; promoted runtime modules remain intact.
 
 ## Acceptance criteria
 
@@ -302,6 +307,13 @@ constructor exceptions and must not be treated as a safe reference.
   manifests, event effects, science and hardware remain unwired.
 - ECO104-10 delivery: one child after `65cf481`, with 360 authored lines (`289`
   additions and `71` deletions) across 14 paths; no push, PR or merge is created.
+- ECO104-11 replaced the JSON fixture and local Vitest manifests with one deeply
+  immutable application manifest while preserving the six provisional keys.
+- ECO104-11 evidence: lifecycle+integration 71/71, complete references 165/165,
+  Vitest 60/60, typecheck, build, browser/offline smokes and scan 38+3 PASS.
+  Event effects, scientific values, solvability and `main.ts` remain unchanged.
+- ECO104-11 delivery: one child after `8dd2625`, with 135 authored lines (`92`
+  additions and `43` deletions) across 15 paths; no push, PR or merge is created.
 
 ## Delivery decision and review chain
 

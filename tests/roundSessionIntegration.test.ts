@@ -1,20 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import { createRoundSessionSnapshot } from "../src/application/round-session/createRoundSessionSnapshot";
+import {
+  PROVISIONAL_ROUND_MANIFEST,
+} from "../src/application/round-session/provisionalRoundManifest.mjs";
 import { createRoundHostIntegration } from "../src/application/round-session/roundHostIntegration.mjs";
-import type { RoundLifecycleManifest } from "../src/application/round-session/roundLifecycle.mjs";
 import { createRoundConsoleViewModel } from "../src/console/createRoundConsoleViewModel";
 
-const manifest: RoundLifecycleManifest = {
-  schemaVersion: "round-lifecycle-manifest/v1",
-  rounds: Array.from({ length: 6 }, (_, index) => ({
-    id: `round-${index + 1}`,
-    event: { type: "synthetic", data: { key: `event-${index + 1}` } },
-  })),
-};
-
 const createIntegration = () => createRoundHostIntegration({
-  manifest,
+  manifest: PROVISIONAL_ROUND_MANIFEST,
   seed: "session-integration-seed",
   resolverVersion: "session-integration-v1",
   resolve: ({ round }) => ({ roundId: round.id }),

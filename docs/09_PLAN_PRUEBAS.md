@@ -108,6 +108,9 @@ incluyen ahora el módulo `.mjs` sin añadir wiring de producto.
 ECO104-10/BOOTSTRAP-008 cubre la composición promovida y su mapper al puerto de
 consola: fuente ausente, entrada sin confirmar, entrada fresca lista, snapshot ya
 consumido, reset y terminación de seis rondas; `main.ts` permanece fuera del flujo.
+ECO104-11 usa el manifiesto provisional canónico en suites Node y Vitest, y
+comprueba orden exacto, seis entradas y congelamiento de manifiesto, arreglo,
+rondas, eventos y datos.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94
