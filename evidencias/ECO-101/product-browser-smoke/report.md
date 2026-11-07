@@ -16,7 +16,7 @@ The harness starts root Vite on `127.0.0.1:4173` with `--strictPort`, waits for 
 - Browser: `Google Chrome 156.0.8078.47`.
 - Result: `PASS`.
 - Product checks: title marker, `EcoGrid: Ciudad al Límite`, `Consola local secundaria`, visible simulated-mode label, initial waiting state, confirmation unavailable, and a canvas under `#game-container` all present.
-- Interaction: loading a simulated input exposed `ready` and confirmation available; confirming advanced to round 2, required a new input, enabled load, and disabled confirm.
+- Interaction: six separate simulated loads exposed `ready` and confirmation available; each confirmation advanced exactly once, and the sixth reached `completed` with both controls disabled.
 - Mobile check: at 390 × 844 CSS pixels the document had no horizontal overflow, both controls remained visible, and the canvas retained non-zero dimensions.
 - Canvas: backing size 960 × 540; displayed size 764 × 432, both non-zero.
 - Screenshot after interaction: 800 × 450 PNG, 30,759 bytes, SHA-256 `0313813a447197e25801576d8c551687ed1b21ecf74e116bfd2361aefa852570`.
@@ -25,6 +25,6 @@ The harness starts root Vite on `127.0.0.1:4173` with `--strictPort`, waits for 
 
 ## Limits and rollback
 
-The bounded error signal excludes network/resource failures that are not JavaScript runtime or console errors. This verifies one deterministic simulated interaction, not assistive-technology accessibility, other browsers/devices, prolonged performance, gameplay effects, physics, serial, calibration, or hardware.
+The bounded error signal excludes network/resource failures that are not JavaScript runtime or console errors. This verifies one deterministic six-round technical loop, not assistive-technology accessibility, other browsers/devices, prolonged performance, gameplay effects, physics, serial, calibration, or hardware.
 
 Rollback removes this directory, the `test:browser-smoke` package script, and BOOTSTRAP-002 documentation entries without reverting BOOTSTRAP-001 commit `9956eb5` or the historical disposable spike.

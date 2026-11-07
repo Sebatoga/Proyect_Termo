@@ -115,6 +115,9 @@ BOOTSTRAP-009 prueba carga y confirmación separadas, rechazo de acciones fuera 
 estado, replay determinista y terminación en seis rondas. El smoke Chrome ejecuta
 waiting→ready→ronda 2 y comprueba a 390 px controles/canvas visibles y ausencia de
 overflow horizontal; no valida efectos de juego, ciencia, serial o hardware.
+BOOTSTRAP-010 amplía ese smoke a las seis transiciones ready/avance y exige
+`completed` con ambos controles deshabilitados, preservando los checks móvil y de
+errores acotados. Sigue siendo evidencia técnica, no una validación de gameplay.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

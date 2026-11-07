@@ -89,6 +89,11 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Acceptance: the shell visibly labels simulation, exposes separate accessible load/confirm controls, advances deterministically through six canonical rounds, and uses a trace-only resolver with no physical effects, score or scientific claim.
   - Checks: focused/full Vitest, typecheck, build, interactive browser smoke, offline smoke, complete Node references, layer/network/entropy scans, whitespace and authored-line guard.
   - Rollback: revert only BOOTSTRAP-009 to restore the honest unavailable bootstrap; all promoted pure modules remain intact.
+- [x] **BOOTSTRAP-010 — Exercise the complete simulated loop in Chrome**
+  - Trigger: BOOTSTRAP-009 unit tests cover all six rounds, but its browser evidence stops after the first confirmation.
+  - Acceptance: Chrome completes six separate load/confirm pairs, observes every ready/advance transition, reaches the terminal state, and finds both controls disabled; the existing mobile and bounded-error checks remain intact.
+  - Limits: this extends technical UI evidence only. It does not validate gameplay, scientific effects, hardware, serial, accessibility technology, balance or session duration.
+  - Result: Chrome `156.0.8078.47` observed all six ready/advance transitions, terminal `completed`, both controls disabled, the existing 390 px no-overflow layout and zero bounded JavaScript errors. The unchanged visible canvas kept screenshot SHA-256 `0313813a447197e25801576d8c551687ed1b21ecf74e116bfd2361aefa852570`.
 
 ## Acceptance criteria
 
@@ -169,6 +174,10 @@ Revert the single work-unit commit. This removes the root application, exact dep
   requests. No serial, hardware, physics, energy, score or gameplay effect exists.
 - BOOTSTRAP-009 delivery: one child after `fdaf99d`, with 295 authored lines
   (`265` additions and `30` deletions) across 15 paths plus one evidence PNG.
+- BOOTSTRAP-010 browser evidence closes the complete six-round technical loop;
+  product logic is unchanged and all BOOTSTRAP-009 limits remain in force.
+- BOOTSTRAP-010 delivery: one child after `2d683b1`, with 55 authored lines
+  (`49` additions and `6` deletions) across six text paths; no binary changed.
 
 ## Next step
 
