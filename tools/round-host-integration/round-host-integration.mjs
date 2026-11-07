@@ -1,4 +1,4 @@
-import { createHostAdapter } from "../host-adapter/adapter.mjs";
+import { createHostAdapter } from "../../src/infrastructure/host-adapter/hostAdapter.mjs";
 import { createRoundLifecycle } from "../../src/application/round-session/roundLifecycle.mjs";
 
 const freezeTree = (value) => {

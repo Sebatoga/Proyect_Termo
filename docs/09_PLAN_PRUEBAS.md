@@ -70,6 +70,9 @@ entre ejecuciones. Esto no ejecuta USB serial, firmware, timeout ni HIL.
 HOST-003 conserva esas pruebas Node y añade Vitest para importar el parser `.mjs`
 mediante su declaración estricta, validar un mensaje nominal y observar errores
 de parseo y secuencia sin depender de escenarios del simulador.
+HOST-004 conserva las regresiones fail-closed y añade Vitest para importar el
+adaptador de infraestructura, observar el arranque desconectado, el borrado ante
+JSON inválido y snapshots estructuralmente desacoplados.
 
 La referencia ECO-004 en `tools/game-scorecard/` se ejecuta con `node:test` y
 usa únicamente misiones y ledgers sintéticos versionados. Sus pruebas cubren

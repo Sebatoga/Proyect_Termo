@@ -45,6 +45,9 @@ el adaptador productivo ni decide transporte, timeout, reconexión o puerto seri
 HOST-003 promueve sólo el parser y validador de secuencia canónicos a
 `src/infrastructure/device-protocol/`; los escenarios y la CLI permanecen en
 `tools/`. Esto corrige la dirección de dependencia sin integrar serial ni hardware.
+HOST-004 promueve el adaptador fail-closed puro a `src/infrastructure/host-adapter/`;
+la CLI y sus pruebas conservan una fachada en `tools/`, mientras la composición
+de rondas importa infraestructura directamente. Sigue sin existir transporte serial.
 
 ECO-004 añadió `tools/game-scorecard/` como referencia separada y descartable de
 las reglas futuras. Expone `evaluateScorecard(mission, ledger)`, no importa el

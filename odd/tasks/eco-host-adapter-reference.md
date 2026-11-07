@@ -40,6 +40,13 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   - Rollback: revert only HOST-003 to restore parser ownership to the simulator; lifecycle promotion and prior adapter behavior remain intact.
   - Delivery boundary: one child commit below 400 authored additions plus deletions; no serial, hardware, product wiring, gameplay or protocol-version change.
 
+- [x] **HOST-004 — Promote the fail-closed host adapter**
+  - Route: direct implementation on `feat/eco-host-adapter-promotion` after `0e0b1e5`.
+  - Acceptance: `src/infrastructure/host-adapter/` owns one typed adapter implementation; the tool API remains a thin compatibility facade and round integration imports infrastructure directly, with unchanged fail-closed behavior.
+  - Checks: adapter and integration suites, full 165-test references, typecheck, Vitest, build, browser/offline smokes, layer/duplicate/import scans, whitespace, authored-line guard and final status/show.
+  - Rollback: revert only HOST-004 to restore adapter ownership to `tools/`; HOST-003 parser ownership remains intact.
+  - Delivery boundary: one child commit below 400 authored additions plus deletions; no serial, hardware, timeout, retry, product wiring, gameplay or protocol change.
+
 ## Verification
 
 - Focused Node tests pass for protocol and adapter.
@@ -88,10 +95,20 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   added.
 - HOST-003 delivery: one child after `9ac1500`, with 320 authored lines (`232`
   additions and `88` deletions) across 14 paths; no push, PR or merge is created.
+- HOST-004 moved the sole fail-closed adapter implementation to
+  `src/infrastructure/host-adapter/`, added strict declarations and direct
+  Vitest compatibility coverage, retained a one-line tool facade, and redirected
+  round integration to infrastructure.
+- HOST-004 evidence: adapter plus integration 33/33 PASS; complete Node
+  references 165/165 PASS; Vitest 56/56 PASS; typecheck, build, browser smoke
+  and offline smoke PASS; the staged offline scan covered 32 source/config files
+  plus three built assets. No serial transport or hardware behavior was added.
+- HOST-004 delivery: one child after `0e0b1e5`, with 299 authored lines (`195`
+  additions and `104` deletions) across 14 paths; no push, PR or merge is created.
 
 ## Next step
 
-Promote the fail-closed host adapter itself into infrastructure in a later child
-without importing `tools/`. Keep ECO-109 pending until G1 permits firmware,
-calibration and real USB serial work; do not infer physical connectivity from
-this reference.
+Promote the isolated adapter-lifecycle composition only after defining its typed
+application snapshot mapping; do not wire `main.ts` yet. Keep ECO-109 pending
+until G1 permits firmware, calibration and real USB serial work; do not infer
+physical connectivity from this infrastructure.

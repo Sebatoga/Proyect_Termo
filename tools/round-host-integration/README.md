@@ -6,8 +6,8 @@ evidence, not a product path.
 
 ## API and behavior
 
-`createRoundHostIntegration(lifecycleOptions)` passes the options directly to
-the application-owned browser-neutral lifecycle constructor and exposes four operations:
+`createRoundHostIntegration(lifecycleOptions)` composes the infrastructure-owned
+host adapter with the application-owned browser-neutral lifecycle and exposes four operations:
 
 - `ingest(line)` sends one device-to-host JSON Line only through the host
   adapter. It never calls the resolver or advances a round.

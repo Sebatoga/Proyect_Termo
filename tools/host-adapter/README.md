@@ -1,8 +1,8 @@
 # Adaptador host de referencia JSON Lines v1
 
-Referencia local y determinista para consumir mensajes dispositivo → host sin
-hardware. Reutiliza el parser y la secuencia del simulador, y produce snapshots
-normalizados que eliminan valores actuales ante cualquier estado no válido.
+El adaptador canónico vive en `src/infrastructure/host-adapter/`. Este directorio
+conserva la CLI, pruebas y fachada compatible para consumir mensajes dispositivo
+→ host sin hardware y observar snapshots fail-closed deterministas.
 
 ## Ruta rápida
 
@@ -38,7 +38,7 @@ La composición aislada con confirmación de rondas se prueba por separado en
 
 ## Límites y rollback
 
-No es código productivo ni implementa puerto serial, driver, baud rate, timeout,
-retry, reconexión, firmware, calibración, electrónica, dominio científico, UI o
-gameplay. Eliminar `tools/host-adapter/` y sus enlaces documentales revierte el
-spike; ninguna ruta productiva depende de él.
+La implementación pura pertenece a infraestructura, pero no implementa puerto
+serial, driver, baud rate, timeout, retry, reconexión, firmware, calibración,
+electrónica, dominio científico, UI o gameplay. Revertir HOST-004 restaura la
+propiedad anterior sin afectar el parser canónico.
