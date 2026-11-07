@@ -1,8 +1,9 @@
 # Host-to-round integration harness
 
-This dependency-free Node ESM harness composes the existing fail-closed host
-adapter with the deterministic six-round lifecycle. It is isolated integration
-evidence, not a product path.
+The canonical dependency-free composition now lives in
+`src/application/round-session/roundHostIntegration.mjs`. This directory keeps
+its Node tests, operator documentation and compatibility facade; it remains
+isolated integration evidence, not runtime wiring.
 
 ## API and behavior
 

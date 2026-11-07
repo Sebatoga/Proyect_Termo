@@ -65,6 +65,12 @@ los mensajes pasan sólo por el adaptador y el snapshot actual llega al ciclo
 únicamente mediante confirmación explícita. Una desconexión exige una nueva
 instancia y no reutiliza el ciclo anterior. No es una ruta de producto.
 
+ECO104-10 promueve esa composición a `src/application/round-session/` y añade un
+mapper puro al puerto visible. Fuente desconectada o inválida espera entrada;
+una entrada fresca confirmada queda lista; una secuencia ya consumida exige una
+nueva entrada; desconexión exige reset y seis rondas completan. `main.ts` sigue
+sin wiring y no existe aún un manifiesto productivo.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.

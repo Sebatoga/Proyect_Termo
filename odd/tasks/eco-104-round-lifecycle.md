@@ -127,6 +127,11 @@ The project documents a six-round flow but has no executable lifecycle contract.
   - Checks: focused lifecycle/host/Vitest compatibility suites, full 165-test Node suite, typecheck, full Vitest, build, browser/offline smokes, widened layer/network and duplicate/import scans, declaration/runtime spot check, whitespace, authored-line guard, and final status/show.
   - Rollback: revert the single promotion commit to restore `tools/round-lifecycle/round-lifecycle.mjs` and prior imports while removing only the declaration and compatibility test.
   - Delivery boundary: one cohesive child below 400 authored additions plus deletions when the byte-identical relocation is treated as a rename; stop before commit on changed bytes or budget overflow.
+- [x] **ECO104-10 — Promote host composition and product snapshot mapping**
+  - Route: direct implementation on `feat/eco-round-session-integration` after `65cf481`.
+  - Acceptance: application owns one typed adapter-lifecycle composition and maps its trusted state to the existing six-field product port for waiting, ready, reset and completed states; the tool path becomes a facade and `main.ts` remains unwired.
+  - Checks: integration Node suite, complete 165-test references, focused/full Vitest, typecheck, build, browser/offline smokes, layer/import/duplicate scans, whitespace and authored-line guard.
+  - Rollback: revert only ECO104-10 to restore composition ownership to `tools/`; promoted lifecycle, protocol and adapter remain intact.
 
 ## Acceptance criteria
 
@@ -289,6 +294,14 @@ constructor exceptions and must not be treated as a safe reference.
 - ECO104-9 promoted the sole implementation byte-identically to the application layer; old/new SHA-256 both equal `9f30f4b171349581bfa1f0ac01587028cf2b7793f40d6a100da0272c28abac`. The tool suite and host harness import that canonical path; strict declarations and Vitest compatibility coverage add no runtime semantics.
 - Observed checks: lifecycle 53/53, integration 18/18, complete reference suite 165/165, focused compatibility 2/2, full Vitest 52/52, widened layer/network 2/2 and offline 26+3, typecheck, build, browser/offline smokes, API spot check, duplicate/import scan and whitespace PASS.
 - Delivery remains one local promotion child after `be6bd16`, with 259 authored lines (`237` additions and `22` deletions) across 17 paths and no push or PR; the lifecycle move is a zero-line rename. Rollback is the promotion commit only. ECO-104 remains **PENDIENTE** because no effects, balance, solvability, science, hardware or product wiring were added.
+- ECO104-10 moved the sole host composition into application and added a pure
+  product-port mapper. It requires a fresh sequence after every confirmation,
+  maps disconnect to reset, and maps six committed rounds to completion.
+- ECO104-10 evidence: integration 18/18, complete references 165/165, Vitest
+  59/59, typecheck, build, browser/offline smokes and scan 36+3 PASS. `main.ts`,
+  manifests, event effects, science and hardware remain unwired.
+- ECO104-10 delivery: one child after `65cf481`, with 360 authored lines (`289`
+  additions and `71` deletions) across 14 paths; no push, PR or merge is created.
 
 ## Delivery decision and review chain
 

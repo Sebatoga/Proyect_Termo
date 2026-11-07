@@ -80,6 +80,10 @@ The disposable runtime spike proved local compatibility, but the repository stil
   - Checks: lifecycle and host-integration suites, full 165-test Node reference suite, typecheck, full Vitest, build, browser/offline smokes, widened layer/network scans, duplicate/import/API checks, `git diff --check`, authored-line guard, and final status/show.
   - Rollback: revert only the promotion commit to restore tool ownership and remove declarations/compatibility coverage; BOOTSTRAP-001–006 behavior remains intact.
   - Delivery boundary: one Conventional Commit below 400 authored additions plus deletions, treating the unchanged relocation as a rename; stop before commit if either guard fails.
+- [x] **BOOTSTRAP-008 — Map canonical integration state to the console port**
+  - Route: direct implementation on `feat/eco-round-session-integration` after `65cf481`.
+  - Acceptance: a pure application mapper translates canonical integration state into coherent six-round snapshots accepted by the hardened console boundary; no manifest, transport or runtime source is wired into `main.ts`.
+  - Checks and rollback are shared with ECO104-10 so code, tests and traceability remain one work unit below 400 authored lines.
 
 ## Acceptance criteria
 
@@ -148,6 +152,9 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - BOOTSTRAP-007 moved the lifecycle byte-identically to `src/application/round-session/roundLifecycle.mjs` (matching SHA-256 `9f30f4b171349581bfa1f0ac01587028cf2b7793f40d6a100da0272c28abac`), added strict adjacent declarations and 2/2 Vitest compatibility tests, redirected both Node consumers, and left one implementation with no product wiring.
 - Verification observed: lifecycle 53/53, host integration 18/18, Node references 165/165, Vitest 52/52, layer/network scan 2/2, typecheck, build, browser smoke, offline smoke with static scan 26+3, declaration/runtime spot check, duplicate/import scan, and `git diff --check` PASS. Build retained the existing Phaser chunk-size warning.
 - Delivery: one commit after `be6bd16`, with 259 authored lines (`237` additions and `22` deletions) across 17 paths; the lifecycle move is a zero-line rename. Rollback is that promotion commit only; ECO-101 remains **EN CURSO**.
+- BOOTSTRAP-008 maps canonical integration state to hardened console snapshots for
+  waiting, ready, fresh-input-required, reset and completed states. Vitest 59/59,
+  references 165/165 and smokes PASS; no runtime source is wired into `main.ts`.
 
 ## Next step
 

@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-07 (HOST-004 promovió el adaptador canónico; ECO-101 sigue en curso).
+**Última actualización:** 2026-11-07 (ECO104-10/BOOTSTRAP-008 mapearon la sesión canónica; ECO-101 sigue en curso).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -175,6 +175,7 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Promoción BOOTSTRAP-007/ECO104-9:** el lifecycle browser-neutral canónico se movió byte-idéntico a `src/application/round-session/`, con declaración estricta adyacente; tests y host usan esa única implementación. Lifecycle 53/53, integración 18/18, referencias 165/165, Vitest 52/52, typecheck, build y smokes pasaron; offline escaneó 26+3. No existe wiring desde consola/main ni cambio semántico.
 - **Promoción HOST-003:** el parser JSON Lines v1 y el validador de secuencia canónicos viven en `src/infrastructure/device-protocol/`, con declaración estricta. El simulador conserva escenarios/CLI mediante una fachada y el adaptador importa directamente infraestructura. Protocolo+adaptador 27/27, integración 18/18, referencias 165/165, Vitest 54/54, typecheck, build y smokes pasaron; offline escaneó 29+3. No existe serial, hardware ni wiring de producto.
 - **Promoción HOST-004:** el adaptador fail-closed canónico vive en `src/infrastructure/host-adapter/`, con declaración estricta y snapshots desacoplados; `tools/host-adapter/` conserva CLI/pruebas mediante una fachada y la integración importa infraestructura. Adaptador+integración 33/33, referencias 165/165, Vitest 56/56, typecheck, build y smokes pasaron; offline escaneó 32+3. No existe serial, timeout, retry, hardware ni wiring en `main.ts`.
+- **Integración ECO104-10/BOOTSTRAP-008:** la composición adapter+lifecycle canónica vive en aplicación y un mapper puro produce snapshots aceptados por la consola. Fuente ausente espera entrada; una entrada fresca confirmada queda lista; una secuencia consumida exige otra; desconexión exige reset y seis rondas completan. Integración 18/18, referencias 165/165, Vitest 59/59, typecheck, build y smokes pasaron; offline escaneó 36+3. `main.ts` sigue sin fuente real o manifiesto.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 
