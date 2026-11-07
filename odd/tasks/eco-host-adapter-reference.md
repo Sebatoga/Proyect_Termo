@@ -33,6 +33,13 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   - Trigger evidence: state machine, CLI, integration fixtures/tests, failure semantics, and documentation span multiple files.
   - Acceptance: valid inputs normalize deterministically; every invalid/disconnected path clears current values and reports an explicit issue without claiming serial hardware.
 
+- [x] **HOST-003 — Promote the canonical protocol parser**
+  - Route: direct implementation on `feat/eco-protocol-promotion` after `9ac1500`.
+  - Acceptance: `src/infrastructure/device-protocol/` owns one typed parser and sequence validator; simulator scenarios remain in `tools/`, while the simulator facade and host adapter consume the same implementation without behavioral change.
+  - Checks: protocol/adapter/integration Node suites, full 165-test reference suite, typecheck, Vitest, build, browser/offline smokes, source-layer and duplicate scans, whitespace, authored-line guard and final status/show.
+  - Rollback: revert only HOST-003 to restore parser ownership to the simulator; lifecycle promotion and prior adapter behavior remain intact.
+  - Delivery boundary: one child commit below 400 authored additions plus deletions; no serial, hardware, product wiring, gameplay or protocol-version change.
+
 ## Verification
 
 - Focused Node tests pass for protocol and adapter.
@@ -70,10 +77,21 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   release, v4.3.1; no stable fix is published yet.
 - Engram mirror: pending; session registration was not confirmed.
 - Local `.codegraph/` and `.gitignore` remain untracked and outside this task.
+- HOST-003 extracted the parser and sequence validator into
+  `src/infrastructure/device-protocol/`, added strict declarations, retained the
+  simulator scenarios behind a compatibility facade, and redirected the host
+  adapter to the canonical infrastructure path.
+- HOST-003 evidence: protocol plus adapter 27/27 PASS; host integration 18/18
+  PASS; complete Node references 165/165 PASS; Vitest 54/54 PASS; typecheck,
+  build, browser smoke and offline smoke PASS; the staged offline scan covered
+  29 source/config files plus three built assets. No serial or hardware path was
+  added.
+- HOST-003 delivery: one child after `9ac1500`, with 320 authored lines (`232`
+  additions and `88` deletions) across 14 paths; no push, PR or merge is created.
 
 ## Next step
 
-Technical closure retains the ordinary independent PASS and explicitly lacks a
-native review receipt. Keep ECO-109 pending until G1 permits firmware,
+Promote the fail-closed host adapter itself into infrastructure in a later child
+without importing `tools/`. Keep ECO-109 pending until G1 permits firmware,
 calibration and real USB serial work; do not infer physical connectivity from
 this reference.

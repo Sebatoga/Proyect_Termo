@@ -67,6 +67,9 @@ conjunta del simulador y HOST-002 cubre bytes, tipos por dirección, seis valore
 válidos, `hello` sin entradas, desconexión, error de dispositivo, schema, versión,
 secuencia y `DIRECTION_INVALID`. La CLI del adaptador produce snapshots idénticos
 entre ejecuciones. Esto no ejecuta USB serial, firmware, timeout ni HIL.
+HOST-003 conserva esas pruebas Node y añade Vitest para importar el parser `.mjs`
+mediante su declaración estricta, validar un mensaje nominal y observar errores
+de parseo y secuencia sin depender de escenarios del simulador.
 
 La referencia ECO-004 en `tools/game-scorecard/` se ejecuta con `node:test` y
 usa únicamente misiones y ledgers sintéticos versionados. Sus pruebas cubren

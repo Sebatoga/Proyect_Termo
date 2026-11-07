@@ -42,6 +42,9 @@ HOST-002 añadió `tools/host-adapter/` como referencia descartable de esa front
 consume JSON Lines dispositivo → host, reutiliza el schema del simulador y limpia
 los seis valores ante invalidez, desconexión, error o dirección incorrecta. No es
 el adaptador productivo ni decide transporte, timeout, reconexión o puerto serial.
+HOST-003 promueve sólo el parser y validador de secuencia canónicos a
+`src/infrastructure/device-protocol/`; los escenarios y la CLI permanecen en
+`tools/`. Esto corrige la dirección de dependencia sin integrar serial ni hardware.
 
 ECO-004 añadió `tools/game-scorecard/` como referencia separada y descartable de
 las reglas futuras. Expone `evaluateScorecard(mission, ledger)`, no importa el

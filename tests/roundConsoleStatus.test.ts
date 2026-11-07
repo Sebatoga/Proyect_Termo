@@ -197,13 +197,13 @@ describe("product layer constraints", () => {
   }) as Record<string, string>;
 
   it("keeps application and mapper layers independent from presentation runtimes", () => {
-    const application = Object.entries(sources)
-      .filter(([path]) => path.includes("/application/"))
+    const nonPresentation = Object.entries(sources)
+      .filter(([path]) => path.includes("/application/") || path.includes("/infrastructure/"))
       .map(([, source]) => source)
       .join("\n");
     const mapper = sources["../src/console/createRoundConsoleViewModel.ts"];
 
-    expect(application).not.toMatch(/phaser|document|window|HTMLElement|Canvas|from\s+["']node:|process\.|\bBuffer\b/i);
+    expect(nonPresentation).not.toMatch(/phaser|document|window|HTMLElement|Canvas|from\s+["']node:|process\.|\bBuffer\b/i);
     expect(mapper).not.toMatch(/phaser/i);
   });
 

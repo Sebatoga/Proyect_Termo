@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-04 (BOOTSTRAP-007 promovió ownership del lifecycle; ECO-101 sigue en curso).
+**Última actualización:** 2026-11-07 (HOST-003 promovió el parser canónico; ECO-101 sigue en curso).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -173,6 +173,7 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Corrección BOOTSTRAP-005:** la verificación independiente bloqueó `aa8354a` por lecturas hostiles repetidas/TOCTOU, schema abierto, strings sin cota, contradicción `ready` y evidencia offline obsoleta. La corrección captura seis descriptores una sola vez, limita strings a 64 unidades de código y números a enteros seguros coherentes, y hace fail-closed las invariantes. Vitest 36/36, referencias 165/165, smokes navegador/offline y negativas pasaron; el scan offline observado fue 23+3 con ocho solicitudes locales/data y cero errores.
 - **Contrato BOOTSTRAP-006:** el puerto exporta el conteo esperado de seis rondas; estados activos admiten sólo índices 0–5, completado exige `6/6/null` y el bootstrap no disponible conserva `0/0/null`. Conteos 5, 7 y `MAX_SAFE_INTEGER` fallan cerrados. Vitest 50/50, typecheck, build, smokes, referencias 165/165 y scans de capas pasaron; no se añadió transición, protocolo ni ciencia.
 - **Promoción BOOTSTRAP-007/ECO104-9:** el lifecycle browser-neutral canónico se movió byte-idéntico a `src/application/round-session/`, con declaración estricta adyacente; tests y host usan esa única implementación. Lifecycle 53/53, integración 18/18, referencias 165/165, Vitest 52/52, typecheck, build y smokes pasaron; offline escaneó 26+3. No existe wiring desde consola/main ni cambio semántico.
+- **Promoción HOST-003:** el parser JSON Lines v1 y el validador de secuencia canónicos viven en `src/infrastructure/device-protocol/`, con declaración estricta. El simulador conserva escenarios/CLI mediante una fachada y el adaptador importa directamente infraestructura. Protocolo+adaptador 27/27, integración 18/18, referencias 165/165, Vitest 54/54, typecheck, build y smokes pasaron; offline escaneó 29+3. No existe serial, hardware ni wiring de producto.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 

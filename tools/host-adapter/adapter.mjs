@@ -1,4 +1,8 @@
-import { INPUT_FIELDS, parseLine, validateSequence } from "../device-simulator/protocol.mjs";
+import {
+  INPUT_FIELDS,
+  parseLine,
+  validateSequence,
+} from "../../src/infrastructure/device-protocol/protocol.mjs";
 
 const LOCAL_ISSUES = Object.freeze({
   DIRECTION_INVALID: "Host output is not valid in the device-to-host direction.",

@@ -2,6 +2,8 @@
 
 Herramienta local y determinista para desarrollar el futuro adaptador host sin
 hardware. Usa solo Node.js estándar y emite un objeto JSON por línea.
+El parser canónico vive en `src/infrastructure/device-protocol/`; este directorio
+conserva únicamente la fachada compatible, los escenarios, fixtures y la CLI.
 
 ## Ruta rápida
 
