@@ -103,8 +103,8 @@ Create a dependency-free, hardware-independent reference for the device-to-host 
   references 165/165 PASS; Vitest 56/56 PASS; typecheck, build, browser smoke
   and offline smoke PASS; the staged offline scan covered 32 source/config files
   plus three built assets. No serial transport or hardware behavior was added.
-- HOST-004 delivery: one child after `0e0b1e5`, with 299 authored lines (`195`
-  additions and `104` deletions) across 14 paths; no push, PR or merge is created.
+- HOST-004 delivery: commit `59cd057` after `0e0b1e5`, with 298 authored lines
+  (`195` additions and `103` deletions) across 14 paths; no push, PR or merge.
 
 ## Next step
 
