@@ -1,6 +1,6 @@
 # BOM candidata ECO-108 — preparación de compra y banco
 
-> **Estado al 2026-11-03:** objetivo de preparación documental aprobado por
+> **Estado al 2026-11-08:** objetivo de preparación documental aprobado por
 > decisión humana. Esta BOM no autoriza compra ni demuestra posesión, recepción,
 > calibración, prueba física o compatibilidad cerrada. La selección física sigue
 > pendiente de los gates indicados en este documento.
@@ -22,6 +22,10 @@
 - El 2026-11-03 una persona confirmó la variante de **1 m** de la sonda DS18B20
   de tres conductores. Esta elección no confirma precio, stock, envío, pinout,
   fabricante, posesión, compra, recepción, calibración ni comportamiento físico.
+- El 2026-11-08 la persona solicitante sustituyó el candidato Uno por un
+  **ESP32 genérico de 30 pines** para adquisición futura. Es una clase documental:
+  modelo, revisión, módulo/SoC, pinout, USB, alimentación y disponibilidad siguen
+  pendientes de identificación y verificación.
 
 ## Cómo interpretar la evidencia
 
@@ -44,7 +48,7 @@ variante; por eso el costo y la disponibilidad comprables quedan pendientes.
 
 | # | Cant. | Candidato y dato comercial observado | Unitario | Subtotal | Disponibilidad publicada | Fuente fechada |
 |---:|---:|---|---:|---:|---:|---|
-| 1 | 1 | Arduino Uno R3 compatible, ATmega328P, CH340, lógica 5 V, cable USB A/B incluido | 31.900 | 31.900 | 35 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/arduino-uno-r3-con-chip-ch340-compatible/) |
+| 1 | 1 | ESP32 genérico de 30 pines; identidad exacta y características pendientes | PENDIENTE | PENDIENTE | PENDIENTE | decisión documental 2026-11-08; fuente comercial por seleccionar |
 | 2 | 1 | Protoboard MB102, 830 puntos | 13.900 | 13.900 | 28 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/protoboard-adhesiva-mb102-830-puntos-16-5cm-x-5-5cm/) |
 | 3 | 1 | Juego de 60 jumpers macho-macho | 7.500 | 7.500 | 8 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/65-cables-conectores-para-protoboard-macho-macho/) |
 | 4 | 1 | Sonda DS18B20 de tres cables; variante de 1 m elegida por una persona. La página mostró COP 14.800 y 3 artículos en stock, sin atribución verificable a la variante de 1 m | PENDIENTE | PENDIENTE | PENDIENTE para la variante | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) |
@@ -55,13 +59,13 @@ variante; por eso el costo y la disponibilidad comprables quedan pendientes.
 | 9 | 1 | Pulsador de confirmación PBS-110 roscado | 1.600 | 1.600 | 134 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/pulsador-de-boton-con-rosca-para-montaje/) |
 | 10 | 4 | LED rojo difuso de 5 mm como referencia de precio, a 110 cada uno | 110 | 440 | 151 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/led-rojo-5mm-difuso/) |
 | 11 | 1 | Placa universal FR-4 de 7 × 9 cm | 4.500 | 4.500 | 51 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/placa-universal-doble-fibra-de-vidrio-fr-4-7cm-x-9cm/) |
-|  |  | **Subtotal histórico de las nueve partidas convencionales** |  | **COP 66.780** | no revalidada | snapshot 2026-10-27 |
+|  |  | **Subtotal de las ocho partidas convencionales sin controlador** |  | **COP 34.880** | no revalidada | snapshot 2026-10-27 |
 |  |  | Dos resistencias de 4,7 kΩ y dos de 10 kΩ, 1/4 W y 5 %, como candidatos de banco (una de uso y una de repuesto por valor) | PENDIENTE | PENDIENTE | PENDIENTE | especificación candidata, no cotización |
 |  |  | Cableado, fijaciones y etiquetas según esquema final | PENDIENTE | PENDIENTE | PENDIENTE | cantidad y cotización pendientes |
 |  |  | **Total vigente** |  | **PENDIENTE** |  | **sensores, pasivos y envío sin cotización confirmada** |
 
-Reproducción del subtotal histórico convencional: `31.900 + 13.900 + 7.500 +
-1.500 + 2.800 + 2.640 + 1.600 + 440 + 4.500 = 66.780`. Los pulsadores y
+Reproducción del subtotal convencional sin controlador: `13.900 + 7.500 +
+1.500 + 2.800 + 2.640 + 1.600 + 440 + 4.500 = 34.880`. Los pulsadores y
 LED ya están multiplicados en sus subtotales. El objetivo previo de COP
 83.000–90.000 más envío no se usa como total vigente hasta revalidar todas las
 partidas.
@@ -70,7 +74,7 @@ partidas.
 
 | Función | Candidato | Evidencia comercial | Gate técnico | Estado |
 |---|---|---|---|---|
-| Control y USB | Uno R3 compatible, ATmega328P, CH340, lógica 5 V | página y precio fechados; cable A/B anunciado | verificar referencia/lote, datasheet, alimentación, GPIO/ADC y enumeración en host real | pendiente de inspección |
+| Control y USB | ESP32 genérico de 30 pines | elección documental; sin modelo, precio ni fuente aplicable | identificar placa/módulo/revisión, conector, alimentación, interfaz USB, ADC/GPIO y enumeración en host real; no asignar pines antes del gate | pendiente de selección e inspección |
 | Proxy de luz | una LDR desnuda de 5 mm, variante comercial 10–20 kΩ a 10 lux | publicación del vendedor y opciones visibles; precio/stock generales observados, pero atribución, fabricante y datasheet aplicable a la variante no confirmados | montar divisor candidato, caracterizar ADC y repetibilidad; rotular `proxy de luz calibrado para gameplay`, nunca lux, irradiancia ni W/m² | pendiente de compra, inspección y calibración |
 | Temperatura | una sonda DS18B20 de tres cables, variante de 1 m elegida; alimentación 3–5,5 V y 1-Wire publicados | publicación del vendedor; precio/stock generales y enlace a PDF visibles; costo y disponibilidad de la variante de 1 m, fabricante, aplicabilidad del PDF y pinout sin confirmar | revalidar la variante de 1 m; verificar continuidad/pinout y caracterizar respuesta y estabilización | pendiente de compra e inspección |
 | Consigna hidro | B10K + perilla | páginas, dimensiones y precios fechados | comprobar curva real, recorrido, fijación y compatibilidad con ADC | pendiente de inspección |
@@ -83,24 +87,30 @@ partidas.
 
 ## Compatibilidad que no se presume
 
-- **CH340:** en Windows puede requerir driver. Linux y macOS deben verificarse
-  en el host real; no se presume enumeración ni soporte por plataforma.
-- **Lógica 5 V:** es un atributo publicado del controlador candidato, no una
-  validación del conjunto. Cada módulo, señal y alimentación debe cotejarse.
+- **Controlador:** “ESP32 de 30 pines” no identifica placa, módulo/SoC, revisión,
+  pinout, conector, regulador ni puente USB. Cada dato debe obtenerse de la unidad
+  y documentación aplicable antes del esquema energizado.
+- **Lógica y ADC:** toda interfaz se restringe provisionalmente como señal
+  candidata de **3,3 V** y cada nodo ADC debe permanecer en ese rango candidato.
+  No se presume tolerancia a 5 V. Una posible alimentación de entrada por USB no
+  define la tensión lógica ni autoriza conectar señales a su tensión de entrada.
 - **DS18B20:** se proyecta uso alimentado con tres conductores: `VDD`, `DATA` y
   `GND`. Como circuito candidato de banco, `DATA` llevará un pull-up de **4,7 kΩ**
-  al riel lógico. El valor se debe cotejar con la hoja de datos aplicable y el
+  al riel lógico candidato de 3,3 V. El valor se debe cotejar con la hoja de datos aplicable y el
   controlador real; colores, orden de conductores y pinout quedan pendientes de
   continuidad e identificación. La camisa de acero inoxidable puede aumentar el
   retardo térmico al medir aire ambiente, por lo que se debe registrar el tiempo
   de estabilización en banco.
 - **LDR:** no es un módulo LM393 y no integra salidas AO/DO. El divisor candidato
-  será `VLOGIC → LDR → nodo LIGHT_SENSE/ADC → 10 kΩ → GND`; con esta polaridad se
+  será `3,3 V candidato → LDR → nodo LIGHT_SENSE/ADC → 10 kΩ → GND`; con esta polaridad se
   espera que el ADC aumente al bajar la resistencia de la LDR. Topología, tensión,
   valor fijo y mapeo final permanecen sujetos a banco. Solo será un `proxy de luz
   calibrado para gameplay`, nunca un medidor de lux, irradiancia o W/m².
 - **LED:** no se congelan 220 Ω ni 330 Ω por costumbre. La resistencia se calcula
-  después de confirmar Vf/color, tensión de salida y límites por pin y totales.
+  después de confirmar Vf/color, tensión de salida y límites por pin y totales;
+  se añadirá un driver externo si el presupuesto de corriente verificado lo exige.
+- **Botones:** los roles pueden diseñarse provisionalmente activos en bajo, pero
+  el esquema debe incluir la polarización verificada; no se presumen pull-ups internos.
 - La protoboard es solo para banco. La placa FR-4 no se compra ni fabrica hasta
   lograr un banco estable y revisar el esquema.
 
@@ -111,6 +121,7 @@ físicos en esta preparación.
 
 | Alternativa | Ventaja | Motivo para no recomendarla inicialmente | Gate si se reconsidera |
 |---|---|---|---|
+| Arduino Uno R3 compatible, ATmega328P, CH340 y lógica 5 V (snapshot 2026-10-27: COP 31.900) | antecedente con publicación y cable anunciados | sustituido como candidato vigente por decisión humana del 2026-11-08 | reabrir identidad, tensión, USB, costo y compatibilidad completa si vuelve a considerarse |
 | Nano USB-C observado a COP 27.900 | menor precio y tamaño | llega sin regletas soldadas ni cable; agrega fabricación y abastecimiento | cotizar cable/regletas, confirmar USB serial, soldadura disponible y costo total |
 | Kit básico observado a COP 135.300 | simplifica abastecimiento | excede el presupuesto y contiene piezas innecesarias | nueva aprobación de sobrecosto y revisión de contenido/compatibilidad |
 | Cambio de proveedor o referencia | puede resolver stock o plazo | apariencia y nombre no garantizan equivalencia | reabrir todos los gates eléctricos, mecánicos, de driver, datasheet y costo afectados |
@@ -126,7 +137,7 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 
 1. inventario existente y faltantes reales;
 2. precio, stock, envío y total revalidados;
-3. datasheets aplicables e identidad esperada de cada referencia;
+3. identidad exacta de placa/módulo/revisión y datasheets aplicables a cada referencia;
 4. matriz de compatibilidad eléctrica, lógica, USB y mecánica revisada;
 5. cotización de la reserva y cantidades derivadas del esquema;
 6. responsable, presupuesto final y autorización explícita de compra.
@@ -135,7 +146,7 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 
 - [x] Elección humana registrada: cable DS18B20 de 1 m. No acredita compra ni disponibilidad.
 - [ ] Capturar precio, stock por variante, envío y total en el momento de compra.
-- [ ] Confirmar modelo y disponibilidad física del Arduino; no inferirlos de la BOM.
+- [ ] Confirmar identidad exacta, revisión y disponibilidad física de la placa ESP32; no inferirlas de “30 pines”.
 - [ ] Registrar computador host, sistema operativo y permisos para USB serial.
 - [ ] Al recibir, inspeccionar referencia, cantidad, daños y documentación incluida.
 - [ ] Con el montaje desenergizado, comprobar continuidad y pinout de la sonda;
@@ -154,7 +165,7 @@ permanecen abiertos. Esta lista no demuestra que alguna actividad haya ocurrido.
 - [ ] Registrar el envío por separado y confirmar que la BOM, sin envío, no supera COP 90.000; si lo supera, solicitar nueva aprobación.
 - [ ] Registrar inventario actual sin inferir posesión desde esta BOM.
 - [ ] Archivar datasheets aplicables y cotejar identidad, lote y tensiones.
-- [ ] Confirmar host objetivo y plan de verificación del CH340.
+- [ ] Confirmar host objetivo e interfaz/driver USB observados, sin presumir puente.
 - [ ] Revisar DS18B20, cableado real y pull-up antes de energizar.
 - [ ] Mantener el LDR rotulado solo como proxy de luz para gameplay.
 - [ ] Cerrar semántica y accesibilidad de seis pulsadores y cuatro LED.
@@ -169,7 +180,7 @@ permanecen abiertos. Esta lista no demuestra que alguna actividad haya ocurrido.
 - Evidencia futura: [índice y plantillas ECO-108](../evidencias/ECO-108/README.md).
 - Estado del proyecto: [Relevo vigente](08_ESTADO_DEL_PROYECTO.md).
 - Backlog: [ECO-108 en F1](04_BACKLOG_Y_FASES.md).
-- Unidad de trabajo: [ECO108-4](../odd/tasks/eco-108-bom-baseline.md).
+- Unidad de trabajo: [ECO108-5](../odd/tasks/eco-108-bom-baseline.md).
 - Hechos de fuente y pendientes: [preparación de referencias 2026-11-03](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md).
 
 Las plantillas parten en `NOT_RUN` y no autorizan compra ni demuestran recepción

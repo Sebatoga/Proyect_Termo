@@ -38,7 +38,7 @@
 |---|---|---|---|---|---|---|---|---|
 | 1 | Inspección desenergizada y continuidad | | | | | `NOT_RUN` | | |
 | 2 | Controlador y alimentación USB | | | | | `NOT_RUN` | | |
-| 3 | CH340/USB: enumeración y reconexión | | | | | `NOT_RUN` | | |
+| 3 | USB: interfaz observada, enumeración y reconexión | | | | | `NOT_RUN` | | |
 | 4 | DS18B20 aislado | | | | | `NOT_RUN` | | |
 | 5 | LDR aislado como proxy de luz | | | | | `NOT_RUN` | | |
 | 6 | Potenciómetro y extremos | | | | | `NOT_RUN` | | |
@@ -51,9 +51,10 @@ archivar el resultado.
 
 ## Capturas específicas por componente
 
-### CH340 y enlace USB
+### Controlador y enlace USB
 
-Registrar SO/versión, driver si aplica, VID/PID u otra identidad observable,
+Registrar placa/módulo/revisión observados, SO/versión, interfaz o puente USB,
+driver si aplica, VID/PID u otra identidad observable,
 puerto asignado en la ejecución, enumeración, desconexión y reconexión. No fijar
 un nombre de puerto como contrato. Conservar salida cruda del comando utilizado.
 

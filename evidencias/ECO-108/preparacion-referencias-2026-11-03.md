@@ -4,6 +4,8 @@
 > 2026-11-03. Las páginas son publicaciones de vendedor, no hojas de datos del
 > fabricante ni evidencia de compra, stock reservado, recepción o prueba física.
 > ECO108-4 añadió la elección humana de 1 m; no modificó los hechos del vendedor.
+> ECO108-5 añadió un ESP32 genérico de 30 pines como candidato documental, sin
+> atribuirle identidad, especificaciones comerciales ni evidencia física.
 
 ## Referencias seleccionadas
 
@@ -34,11 +36,11 @@ antes de aceptarse como hoja de datos aplicable.
 ## Candidatos de banco, no diseño final
 
 - **Temperatura:** uso alimentado de tres hilos (`VDD`, `DATA`, `GND`) con un
-  pull-up candidato de 4,7 kΩ entre `DATA` y el riel lógico compatible. Se prevé
+  pull-up candidato de 4,7 kΩ entre `DATA` y el riel candidato de 3,3 V. Se prevé
   una resistencia de uso y una de repuesto, 1/4 W y 5 % como especificación
   convencional provisional. Antes de energizar: identificar conductores y
   pinout mediante documentación aplicable y continuidad; no confiar en colores.
-- **Luz:** `VLOGIC → LDR → LIGHT_SENSE/ADC → 10 kΩ → GND`, con una resistencia
+- **Luz:** `3,3 V candidato → LDR → LIGHT_SENSE/ADC → 10 kΩ → GND`, con una resistencia
   fija de uso y una de repuesto, 1/4 W y 5 % como candidatos provisionales. En
   esta polaridad, una menor resistencia de la LDR debería elevar el nodo ADC;
   debe observarse en crudo. No hay LM393 ni AO/DO integrados.
@@ -53,7 +55,9 @@ para gameplay`, nunca como medición de lux, irradiancia o W/m².
 
 - [x] Registrar la elección humana de 1 m para la sonda; no acredita disponibilidad ni compra.
 - [ ] Capturar precio, stock por opción, envío y total al ordenar.
-- [ ] Confirmar modelo y disponibilidad física del Arduino.
+- [ ] Registrar identidad exacta de placa, módulo/SoC y revisión del ESP32 recibido.
+- [ ] Archivar documentación aplicable y verificar pinout, ADC/GPIO, arranque y límites sin asignar pines por apariencia.
+- [ ] Registrar conector, interfaz USB observada, alimentación de entrada y tensión lógica por separado.
 - [ ] Registrar computador host, sistema operativo y permisos USB serial.
 - [ ] Inspeccionar al recibir: referencia, cantidad, daños y documentación.
 - [ ] Comprobar continuidad y pinout de la sonda con el montaje desenergizado.

@@ -4,6 +4,10 @@
 > evidencia futura; no demuestran compra, recepción, compatibilidad, calibración
 > ni prueba física. ECO-108 y G1 permanecen abiertos.
 
+El ESP32 genérico de 30 pines es únicamente el candidato documental vigente. El
+expediente no identifica modelo, revisión, módulo/SoC, pinout, USB, conector,
+regulador, driver, precio, disponibilidad ni posesión; todos siguen `NOT_RUN`.
+
 ## Uso rápido
 
 1. Una persona revalida cotización y autoriza la compra fuera de este expediente.
@@ -53,3 +57,4 @@ códigos personales, pantallas con sesiones abiertas y metadatos innecesarios.
 
 Este expediente no promueve ECO-002 ni acredita ciencia validada. Firmware,
 serial real, pinout final y calibraciones quedan fuera de esta preparación.
+La consola continúa secundaria al producto físico.

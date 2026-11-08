@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-07 (BOOTSTRAP-010 verificó en Chrome el loop simulado completo; ECO-101 sigue en curso).
+**Última actualización:** 2026-11-08 (ECO108-5 adoptó el candidato documental ESP32 sin cerrar identidad ni G1).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -14,6 +14,9 @@
 - El 2026-10-27 se aprobó la BOM separada como objetivo de preparación para
   ECO-108, con presupuesto objetivo COP 83.000–90.000 más envío. No autoriza
   compra ni acredita posesión, recepción, calibración o prueba física.
+- El 2026-11-08 se sustituyó el candidato Uno por un ESP32 genérico de 30 pines.
+  Es una decisión documental: identidad exacta, pinout, USB, costo y evidencia
+  física siguen pendientes.
 
 ## Lo que sigue pendiente
 - Inventario real, datasheets aplicables, presupuesto final y componentes disponibles; existe una [BOM candidata](19_BOM_ECO_108.md), no una selección física.
@@ -27,7 +30,7 @@
 
 ## Gate humano inmediato — G1
 
-El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata, ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md), ECO108-3 separó [hechos visibles y pendientes](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md) y ECO108-4 registró la elección humana de 1 m. El próximo paso real es revalidar esa variante, precio, stock y envío, y obtener autorización humana de compra; después se completan recepción y banco con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
+El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata, ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md), ECO108-3 separó [hechos visibles y pendientes](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md), ECO108-4 registró la elección humana de 1 m y ECO108-5 adoptó el ESP32 genérico de 30 pines como candidato documental. El próximo gate exacto es identificar placa, módulo/SoC y revisión, autenticar documentación aplicable, revalidar variante, precios, stock, envío y total, y obtener autorización humana de compra. Solo después se completan recepción, esquema desenergizado, pinout versionado y banco incremental con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas actuales del bootstrap cubren sólo metadata y configuración pura, además de las referencias aisladas existentes.
@@ -75,6 +78,16 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   posesión, compra, recepción, calibración, tiempo de respuesta, USB ni HIL.
 - **Gate:** autorización de compra y G1 permanecen abiertos; primero se revalidan
   la variante de 1 m, el total y los datos comerciales aplicables.
+
+### ECO108-5 — candidato ESP32 provisional
+
+- **Decisión humana:** ESP32 genérico de 30 pines para adquisición futura,
+  reemplazando el Uno como candidato vigente.
+- **Diseño permitido:** roles sin pines; señales y ADC dentro del rango candidato
+  de 3,3 V; USB de entrada separado de lógica; pull-up DS18B20 al riel candidato.
+- **Gate:** identificar placa/módulo/revisión y documentación aplicable, revisar
+  esquema desenergizado, revalidar costos y autorizar compra. Sin firmware, banco,
+  calibración o HIL; ECO-108/G1 abiertos y ECO-109 pendiente.
 
 ### ECO108-3 — referencias comerciales preparadas
 
@@ -201,7 +214,7 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Riesgos abiertos registrados entonces:** recuperación de `.opencode/` dependía de una fuente original autorizada; ADR-005 seguía propuesta. El `G-ACA-01` que estaba pendiente en ECO-005 fue cerrado después por ADR-010 y corrección de alcance, no por permiso docente.
 
 ## Próxima instrucción para agente
-Solicitar evidencia humana de G1: inventario, componentes, presupuesto, roles y fechas. No promover ECO-002 ni presentar su expediente como baseline; su revisión independiente continúa en paralelo. No convertir el spike ECO-101 en producto por inferencia.
+Solicitar identidad exacta y documentación aplicable del ESP32 de 30 pines, además de evidencia humana de G1: inventario, cotización total, roles y fechas. No asignar GPIO ni energizar antes de revisar el esquema. No promover ECO-002 ni presentar su expediente como baseline; su revisión independiente continúa en paralelo. No convertir el spike ECO-101 en producto por inferencia.
 
 ## Plantilla a actualizar tras cada tarea
 Fecha/hora, tarea ECO-###, objetivo, archivos, decisiones, resultados de pruebas (comando, salida), capturas/evidencia, riesgos, git status/commit, próximos tres pasos y bloqueos.

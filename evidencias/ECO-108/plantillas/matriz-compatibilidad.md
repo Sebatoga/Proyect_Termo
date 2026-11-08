@@ -14,6 +14,9 @@
 | Revisor | |
 | Fecha/hora y zona | |
 | Montaje/versión/referencia evaluada | |
+| Fabricante y modelo exacto de placa | |
+| Módulo/SoC y revisión observados | |
+| Conector e interfaz/puente USB observados | |
 | Comando o procedimiento | |
 | Resultado observado | |
 | Evidencia: archivo o enlace relativo | |
@@ -28,12 +31,12 @@
 | | GPIO, ADC, buses y funciones compartidas | | | | `NOT_RUN` | |
 | | Corriente por señal, salida y total | | | | `NOT_RUN` | |
 | DS18B20 | Identidad, pinout observado y pull-up requerido | | | | `NOT_RUN` | |
-| CH340/USB | Host, SO/versión, driver e identidad observable | | | | `NOT_RUN` | |
+| Controlador/USB | Host, SO/versión, interfaz observada, driver e identidad observable | | | | `NOT_RUN` | |
 | | Compatibilidad mecánica, conectores y fijación | | | | `NOT_RUN` | |
 | | Seguridad, arranque y estado desenergizado | | | | `NOT_RUN` | |
 
 El pinout eléctrico real permanece pendiente hasta inspección y contraste con
-la referencia/lote. Para CH340/USB registrar VID/PID u otra identidad observable
+la referencia/lote. Para USB registrar VID/PID u otra identidad observable
 cuando aplique y el puerto asignado en esa ejecución; no congelar un nombre de
 puerto. Cambiar referencia, lote o proveedor reabre las filas afectadas.
 

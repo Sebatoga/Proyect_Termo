@@ -22,8 +22,9 @@
 
 ## Estado y límites
 
-- **Estado:** provisional; ECO108-3 reconcilió las referencias comerciales y
-  ECO108-4 registró la elección humana de una sonda DS18B20 de 1 m. G1/ECO-108
+- **Estado:** provisional; ECO108-3 reconcilió las referencias comerciales,
+  ECO108-4 registró una sonda DS18B20 de 1 m y ECO108-5 adopta como candidato
+  documental un ESP32 genérico de 30 pines sin identificar. G1/ECO-108
   mantienen bloqueadas la compra, la recepción, la selección física y las
   pruebas de banco.
 - **Existe hoy:** este contrato documental y la posibilidad de preparar trabajo
@@ -79,7 +80,7 @@ seleccionados ni equivalencias garantizadas.
 
 | Función | Cantidad objetivo | Clase recomendada pendiente | Alternativa admisible pendiente | Gate antes de elegir |
 |---|---:|---|---|---|
-| Control central | 1 | microcontrolador con USB serial, ADC y GPIO suficientes | microcontrolador más interfaz USB serial compatible | tensión lógica, ADC/GPIO, drivers, alimentación y soporte verificados |
+| Control central | 1 | ESP32 genérico de 30 pines, pendiente de identidad exacta | microcontrolador más interfaz USB serial compatible | placa/módulo/revisión, documentación aplicable, tensión lógica, ADC/GPIO, USB, drivers y alimentación verificados |
 | Proxy de luz | 1 | LDR desnuda de 5 mm, variante comercial seleccionada 10–20 kΩ a 10 lux | elemento fotosensible con acondicionamiento documentado | divisor, curva, rango ADC, alimentación y repetibilidad observados |
 | Temperatura | 1 | sonda DS18B20 de tres cables en modo alimentado, variante de 1 m elegida | sensor digital con interfaz documentada | disponibilidad de la variante, identidad, pinout, alimentación y respuesta de banco |
 | Consigna hidro | 1 | potenciómetro o slider lineal legible | control rotativo/lineal analógico equivalente | recorrido útil, ADC, ergonomía y fijación |
@@ -107,12 +108,12 @@ no de esta tabla.
 Estos circuitos son hipótesis de trabajo, no un esquema final ni evidencia de
 montaje:
 
-- **DS18B20 alimentado:** `VDD` al riel lógico compatible, `GND` al retorno y
+- **DS18B20 alimentado:** `VDD` al riel lógico candidato de 3,3 V, `GND` al retorno y
   `DATA` a una entrada digital con pull-up candidato de **4,7 kΩ** hacia el mismo
   riel. Se prevé una resistencia y una de repuesto. Antes de energizar se deben
   identificar los tres conductores por documentación aplicable y continuidad;
   los colores quedan pendientes de verificación específica.
-- **LDR desnuda:** `VLOGIC → LDR → LIGHT_SENSE/ADC → 10 kΩ → GND`. Se prevé una
+- **LDR desnuda:** `3,3 V candidato → LDR → LIGHT_SENSE/ADC → 10 kΩ → GND`. Se prevé una
   resistencia fija y una de repuesto. Esta polaridad produce una tensión de nodo
   mayor cuando baja la resistencia de la LDR; se debe confirmar con ADC crudo.
   El valor de 10 kΩ, la tensión, la polaridad y el mapeo final quedan pendientes
@@ -122,6 +123,14 @@ La camisa de acero de la sonda puede añadir retardo térmico en aire ambiente. 
 prueba debe conservar muestras y tiempo de estabilización antes de fijar reglas.
 La LDR se denomina siempre `proxy de luz calibrado para gameplay`; no mide por
 inferencia lux, irradiancia ni W/m².
+
+Hasta identificar la placa, toda señal y nodo ADC se limita conservadoramente al
+rango candidato de 3,3 V; no se presume tolerancia a 5 V. La posible alimentación
+de entrada por USB se registra por separado y no determina la tensión lógica.
+Los botones pueden tener roles provisionales activos en bajo, con polarización
+externa por definir: no se presumen pull-ups internos. Las resistencias LED se
+derivan de Vf, corriente y límites verificados; se usa driver externo solo si el
+presupuesto de corriente observado lo requiere.
 
 ## No comprar todavía
 
@@ -146,6 +155,10 @@ venta no sustituye el datasheet del fabricante ni una lectura de banco.
 Los nombres siguientes definen intención para firmware y diagramas. No asignan
 pines físicos ni garantizan que una señal sea analógica, digital o de bus hasta
 seleccionar componentes.
+
+La asignación queda bloqueada hasta registrar identidad de placa, módulo/SoC y
+revisión, documentación aplicable, funciones compartidas/arranque y un esquema
+desenergizado versionado. “30 pines” no autoriza inferir ningún número de GPIO.
 
 | Nombre lógico | Dirección conceptual | Función |
 |---|---|---|
@@ -218,7 +231,7 @@ desconexión, no para ocultarla con constantes arbitrarias.
 ### Luz
 
 1. Montar provisionalmente el divisor con LDR arriba y 10 kΩ a retorno; registrar
-   tensión lógica, Arduino/ADC y polaridad antes de energizar.
+   tensión lógica, controlador/ADC y polaridad antes de energizar.
 2. Definir condiciones reproducibles de gameplay y un montaje fijo.
 3. Registrar lectura cruda repetida en cada condición, ambiente y distancia.
 4. Evaluar dispersión, saturación, histéresis y luz parásita.
