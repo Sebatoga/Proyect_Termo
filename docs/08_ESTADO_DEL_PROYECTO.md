@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-08 (ECO108-5 adoptó el candidato documental ESP32 sin cerrar identidad ni G1).
+**Última actualización:** 2026-11-08 (ECO105-1 añadió observabilidad técnica simulada; ECO-105 sigue pendiente).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -192,6 +192,10 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Manifiesto ECO104-11:** una única fuente profundamente inmutable en aplicación define las seis rondas y claves provisionales; reemplaza el fixture JSON y manifiestos locales de Vitest. Lifecycle+integración 71/71, referencias 165/165, Vitest 60/60, typecheck, build y smokes pasaron; offline escaneó 38+3. No define efectos, magnitudes, balance, solvencia ni wiring.
 - **Loop BOOTSTRAP-009:** `main.ts` usa una fuente local explícitamente simulada, autorizada por el usuario. La interfaz etiqueta valores fijos no calibrados, separa carga/confirmación y avanza por el ciclo canónico con resolver de traza. Vitest 62/62, referencias 165/165, typecheck/build y smokes pasaron; Chrome verificó waiting→ready→ronda 2, móvil 390 px sin overflow y cero errores; offline escaneó 40+3. No acredita serial, hardware, física, energía, score, balance o gameplay.
 - **Evidencia BOOTSTRAP-010:** Chrome `156.0.8078.47` ejecutó seis pares separados de carga/confirmación, observó cada transición ready/avance y terminó en `completed` con ambos controles deshabilitados. Se conservaron el check móvil de 390 px sin overflow y cero errores JavaScript acotados. Es evidencia del loop técnico simulado, no gameplay ni integración física.
+- **ECO105-1:** la consola expone el último input simulado normalizado aceptado y
+  seis filas de traza derivadas del estado canónico. Chrome observó valores y orden,
+  terminación, 390 px sin overflow y cero errores acotados. ECO-101 sigue **EN
+  CURSO**; ECO-104, ECO-105 y ECO-109 siguen **PENDIENTES**.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 

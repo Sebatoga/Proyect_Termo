@@ -26,6 +26,10 @@
 | ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | PENDIENTE; depende de ECO-108 |
 | ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE; depende de ECO-108/109 |
 
+ECO105-1 añade observabilidad técnica del input simulado aceptado y seis trazas
+canónicas sin efectos. ECO-105 continúa **PENDIENTE**: faltan alertas, causalidad
+de gameplay e integración física.
+
 ## F2 — Calidad de experiencia e integración
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|

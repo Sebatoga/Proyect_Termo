@@ -47,6 +47,20 @@
             <button id="confirm-simulated-round" type="button" disabled>Confirmar ronda simulada</button>
           </div>
         </div>
+        <section class="observation-panel" aria-labelledby="observation-title">
+          <h2 id="observation-title">Observación técnica simulada</h2>
+          <p>
+            Estos valores son simulados y no calibrados; no tienen unidades ni
+            interpretación física. Los eventos son sólo trazas provisionales, sin
+            efectos en el juego ni científicos.
+          </p>
+          <p id="observation-announcement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+          <h3>Entrada aceptada</h3>
+          <p id="accepted-input-summary">Aún no hay una entrada simulada aceptada.</p>
+          <dl id="accepted-input-values" class="accepted-values"></dl>
+          <h3>Traza de rondas confirmadas</h3>
+          <ol id="simulated-trace" class="trace-list"></ol>
+        </section>
       </section>
     </main>
 

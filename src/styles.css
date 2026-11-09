@@ -72,6 +72,39 @@ h1 {
   background: #2a2619;
 }
 
+.observation-panel {
+  max-width: 60rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #8fc9bb;
+  border-radius: 0.75rem;
+  background: #102a2a;
+}
+
+.observation-panel h2,
+.observation-panel h3 {
+  margin-block: 0.5rem;
+}
+
+.accepted-values {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) minmax(0, 2fr);
+  gap: 0.35rem 1rem;
+}
+
+.accepted-values dt {
+  font-weight: 700;
+}
+
+.accepted-values dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.trace-list {
+  padding-inline-start: 1.5rem;
+}
+
 .simulated-controls h2,
 .simulated-controls p {
   margin-block: 0.25rem;
@@ -114,6 +147,14 @@ button:disabled {
 @media (max-width: 42rem) {
   .simulated-controls {
     grid-template-columns: 1fr;
+  }
+
+  .accepted-values {
+    grid-template-columns: 1fr;
+  }
+
+  .accepted-values dd:not(:last-child) {
+    margin-bottom: 0.5rem;
   }
 }
 

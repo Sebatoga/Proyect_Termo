@@ -4,6 +4,8 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
+import { PROVISIONAL_EVENT_KEYS } from "../../../src/application/round-session/provisionalRoundManifest.mjs";
+
 const evidenceDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(evidenceDir, "../../..");
 const screenshotPath = path.join(evidenceDir, "product-browser-smoke.png");
@@ -213,6 +215,14 @@ async function run() {
           transitions.push({ ready, advanced });
         }
         const finalText = document.querySelector('#console-status')?.textContent ?? '';
+        const acceptedRoot = document.querySelector('#accepted-input-values');
+        const acceptedEntries = [...acceptedRoot?.querySelectorAll('dd') ?? []];
+        const acceptedFields = Object.fromEntries(acceptedEntries.map((value) => [value.dataset.field, value.textContent ?? '']));
+        const traceItems = [...document.querySelectorAll('#simulated-trace li')];
+        const traceRows = traceItems.map((row) => row.textContent ?? '');
+        const panel = document.querySelector('.observation-panel');
+        const panelRect = panel?.getBoundingClientRect();
+        const panelStyle = panel ? getComputedStyle(panel) : null;
         return {
           rounds: transitions.length,
           allReady: transitions.every(({ ready }) => ready),
@@ -221,6 +231,13 @@ async function run() {
             && finalText.includes('ronda 6 de 6')
             && finalText.includes('Confirmación disponible: no.'),
           controlsDisabled: load?.disabled === true && confirm?.disabled === true,
+          acceptedFields,
+          acceptedFieldCount: acceptedEntries.length,
+          panelRendered: (panelRect?.width ?? 0) > 0 && (panelRect?.height ?? 0) > 0
+            && panelStyle?.display !== 'none' && panelStyle?.visibility !== 'hidden',
+          traceRendered: traceItems.length === 6
+            && traceItems.every((row) => { const rect = row.getBoundingClientRect(); return rect.width > 0 && rect.height > 0; }),
+          traceRows,
         };
       })()`,
       returnByValue: true,
@@ -232,14 +249,19 @@ async function run() {
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
     await new Promise((resolve) => setTimeout(resolve, 100));
     const mobile = (await cdp.send("Runtime.evaluate", {
-      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: (load?.width ?? 0) > 0 && (confirm?.width ?? 0) > 0, canvasVisible: (canvas?.width ?? 0) > 0 && (canvas?.height ?? 0) > 0 }; })()`,
+      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); const panel = document.querySelector('.observation-panel')?.getBoundingClientRect(); const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect()); return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: (load?.width ?? 0) > 0 && (confirm?.width ?? 0) > 0, canvasVisible: (canvas?.width ?? 0) > 0 && (canvas?.height ?? 0) > 0, observationVisible: (panel?.width ?? 0) > 0 && (panel?.height ?? 0) > 0 && (panel?.width ?? Infinity) <= window.innerWidth && traceRows.length === 6 && traceRows.every((row) => row.width > 0 && row.height > 0) }; })()`,
       returnByValue: true,
     }, sessionId)).result.value;
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.rounds === 6 && interaction.allReady && interaction.allAdvanced && interaction.completed && interaction.controlsDisabled && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.canvasVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+    const expectedAcceptedFields = { sourceMode: 'Simulación local', sequence: '5', calibrationLabel: 'simulated-not-calibrated-v1', lightProxy: '0.5', temperature: '20', hydroSetpoint: '0.4', batteryMode: 'idle', loadPriority: 'balanced', confirm: 'sí' };
+    const acceptedValues = interaction.acceptedFieldCount === Object.keys(expectedAcceptedFields).length
+      && Object.keys(interaction.acceptedFields).length === Object.keys(expectedAcceptedFields).length
+      && Object.entries(expectedAcceptedFields).every(([field, value]) => interaction.acceptedFields[field] === value);
+    const orderedTrace = interaction.traceRows.length === PROVISIONAL_EVENT_KEYS.length && interaction.traceRows.every((row, index) => row.includes('round-' + (index + 1)) && row.includes(PROVISIONAL_EVENT_KEYS[index]) && row.includes('secuencia: ' + index));
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.rounds === 6 && interaction.allReady && interaction.allAdvanced && interaction.completed && interaction.controlsDisabled && acceptedValues && interaction.panelRendered && interaction.traceRendered && orderedTrace && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.canvasVisible && mobile.observationVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
     if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input interaction=six-rounds-completed controls=disabled mobile=390px-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input observation_panel=rendered accepted_values=exact trace_rows=6-ordered interaction=six-rounds-completed controls=disabled mobile=390px-panel-visible-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {

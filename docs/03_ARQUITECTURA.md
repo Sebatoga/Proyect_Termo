@@ -80,6 +80,11 @@ autorizada y etiquetada. Los botones cargan una entrada fija no calibrada y la
 confirman por separado; el resolver sólo registra trazabilidad. No representa
 USB, sensores, física, energía, score, balance o una partida completa.
 
+ECO105-1 deriva una observación profundamente inmutable del snapshot del adaptador
+y del historial lifecycle canónicos. La presentación usa nodos de texto para los
+valores normalizados aceptados y la traza técnica; no mantiene otro log mutable ni
+asigna unidades, interpretación física o efectos a los eventos provisionales.
+
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`
 - **Entrada:** estado de instalaciones y batería, entradas físicas validadas, carta de ronda e intervalo simulado declarado.

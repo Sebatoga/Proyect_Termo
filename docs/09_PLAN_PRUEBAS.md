@@ -118,6 +118,10 @@ overflow horizontal; no valida efectos de juego, ciencia, serial o hardware.
 BOOTSTRAP-010 amplía ese smoke a las seis transiciones ready/avance y exige
 `completed` con ambos controles deshabilitados, preservando los checks móvil y de
 errores acotados. Sigue siendo evidencia técnica, no una validación de gameplay.
+ECO105-1 añade aserciones sobre observación inicial vacía, valores normalizados
+aceptados, inmutabilidad profunda, replay determinista y una sola traza por
+confirmación. Chrome exige los seis valores visibles y seis filas ordenadas; no
+valida calibración, unidades, efectos, accesibilidad asistida ni hardware.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94
