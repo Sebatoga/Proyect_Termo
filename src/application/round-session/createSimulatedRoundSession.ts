@@ -30,6 +30,7 @@ export interface SimulatedSessionObservation {
 
 export interface SimulatedRoundSession extends RoundSessionPort {
   readonly loadInput: () => RoundSessionSnapshot;
+  readonly runMalformedInputDiagnostic: () => RoundSessionSnapshot;
   readonly confirm: () => RoundSessionSnapshot;
   readonly reset: () => RoundSessionSnapshot;
   readonly observe: () => SimulatedSessionObservation;
@@ -120,6 +121,12 @@ export function createSimulatedRoundSession(): SimulatedRoundSession {
       if (current.status !== "waiting-input") return current;
       integration.ingest(simulatedInputLine(nextSequence));
       nextSequence += 1;
+      return snapshot();
+    },
+    runMalformedInputDiagnostic() {
+      const current = snapshot();
+      if (current.status !== "waiting-input") return current;
+      integration.ingest("{");
       return snapshot();
     },
     confirm() {

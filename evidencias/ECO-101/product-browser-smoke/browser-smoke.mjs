@@ -199,6 +199,9 @@ async function run() {
         const load = document.querySelector('#load-simulated-input');
         const confirm = document.querySelector('#confirm-simulated-round');
         const reset = document.querySelector('#reset-simulated-session');
+        const diagnostic = document.querySelector('#run-malformed-input-diagnostic');
+        const diagnosticDetails = document.querySelector('.simulation-diagnostic');
+        const diagnosticSummary = diagnosticDetails?.querySelector('summary');
         const originalCanvas = document.querySelector('#game-container canvas');
         const readOutput = () => {
           const acceptedEntries = [...document.querySelectorAll('#accepted-input-values dd')];
@@ -208,11 +211,12 @@ async function run() {
             traceRows: [...document.querySelectorAll('#simulated-trace li')].map((row) => row.textContent ?? ''),
           };
         };
-        const run = () => {
+        const run = (firstInputAlreadyLoaded = false, diagnoseAfterFirstConfirmation = false) => {
           const snapshots = [];
           const transitions = [];
+          let midSessionDiagnostic = !diagnoseAfterFirstConfirmation;
           for (let round = 0; round < 6; round += 1) {
-            load?.click();
+            if (!firstInputAlreadyLoaded || round > 0) load?.click();
             const readyText = document.querySelector('#console-status')?.textContent ?? '';
             snapshots.push(readyText);
             const ready = readyText.includes('Entrada validada lista para confirmar.')
@@ -227,11 +231,44 @@ async function run() {
               : advancedText.includes('ronda ' + (round + 2) + ' de 6')
                 && advancedText.includes('NEW_INPUT_REQUIRED') && reset?.disabled === true;
             transitions.push({ ready, advanced });
+            if (diagnoseAfterFirstConfirmation && round === 0) {
+              diagnostic?.click();
+              const diagnosticText = document.querySelector('#console-status')?.textContent ?? '';
+              const diagnosticOutput = readOutput();
+              midSessionDiagnostic = diagnosticText.includes('MALFORMED_JSON')
+                && diagnosticText.includes('ronda 2 de 6')
+                && diagnosticOutput.acceptedFieldCount === 0
+                && diagnosticOutput.traceRows.length === 1
+                && (document.querySelector('#observation-announcement')?.textContent ?? '')
+                  === 'Sin entrada simulada aceptada. Rondas confirmadas: 1.';
+            }
           }
-          return { snapshots, transitions, output: readOutput() };
+          return { snapshots, transitions, midSessionDiagnostic, output: readOutput() };
         };
         const resetDisabledInitially = reset?.disabled === true;
-        const first = run();
+        diagnosticSummary?.click();
+        const detailsOpened = diagnosticDetails?.open === true;
+        const traceBeforeDiagnostic = readOutput().traceRows;
+        const diagnosticEnabledInitially = diagnostic?.disabled === false;
+        diagnostic?.click();
+        const diagnosticText = document.querySelector('#console-status')?.textContent ?? '';
+        const diagnosticOutput = readOutput();
+        const diagnosticAnnouncement = document.querySelector('#observation-announcement')?.textContent ?? '';
+        const malformedRejected = diagnosticText.includes('Esperando una entrada validada.')
+          && diagnosticText.includes('ronda 1 de 6') && diagnosticText.includes('MALFORMED_JSON')
+          && diagnosticText.includes('Confirmación disponible: no.')
+          && diagnosticOutput.acceptedFieldCount === 0
+          && JSON.stringify(diagnosticOutput.traceRows) === JSON.stringify(traceBeforeDiagnostic)
+          && load?.disabled === false && confirm?.disabled === true && reset?.disabled === true
+          && diagnostic?.disabled === false
+          && diagnosticAnnouncement === 'Sin entrada simulada aceptada. Rondas confirmadas: 0.';
+        load?.click();
+        const recoveredReadyText = document.querySelector('#console-status')?.textContent ?? '';
+        const recoveredReady = recoveredReadyText.includes('Entrada validada lista para confirmar.')
+          && recoveredReadyText.includes('ronda 1 de 6')
+          && load?.disabled === true && confirm?.disabled === false && reset?.disabled === true
+          && diagnostic?.disabled === true;
+        const first = run(true, true);
         const resetEnabledAfterCompletion = reset?.disabled === false;
         reset?.click();
         const freshText = document.querySelector('#console-status')?.textContent ?? '';
@@ -251,12 +288,19 @@ async function run() {
         const panelStyle = panel ? getComputedStyle(panel) : null;
         const controlCopyRect = document.querySelector('.simulated-controls > div:first-child')?.getBoundingClientRect();
         const controlRects = [load, confirm, reset].map((control) => control?.getBoundingClientRect());
+        const diagnosticRects = [diagnosticSummary, diagnostic].map((control) => control?.getBoundingClientRect());
+        const interactiveRects = [...controlRects, ...diagnosticRects];
         const controlsContained = controlRects.every((rect) => (rect?.width ?? 0) > 0
           && (rect?.height ?? 0) > 0 && (rect?.left ?? -1) >= 0 && (rect?.right ?? Infinity) <= window.innerWidth);
         const controlsDoNotOverlap = controlRects.every((rect, index) => controlRects.slice(index + 1)
           .every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left || rect.bottom <= other.top || other.bottom <= rect.top));
         return {
           roundsPerRun: first.transitions.length,
+          detailsOpened,
+          diagnosticEnabledInitially,
+          malformedRejected,
+          recoveredReady,
+          midSessionDiagnostic: first.midSessionDiagnostic,
           allReady: [...first.transitions, ...second.transitions].every(({ ready }) => ready),
           allAdvanced: [...first.transitions, ...second.transitions].every(({ advanced }) => advanced),
           resetDisabledInitially,
@@ -277,6 +321,10 @@ async function run() {
             && (panelRect?.left ?? -1) >= 0 && (panelRect?.right ?? Infinity) <= window.innerWidth
             && panelStyle?.display !== 'none' && panelStyle?.visibility !== 'hidden',
           controlsReadable: (controlCopyRect?.width ?? 0) >= 240 && controlsContained && controlsDoNotOverlap,
+          diagnosticGeometry: diagnosticRects.every((rect) => (rect?.width ?? 0) > 0
+             && (rect?.height ?? 0) > 0 && (rect?.left ?? -1) >= 0 && (rect?.right ?? Infinity) <= window.innerWidth)
+             && interactiveRects.every((rect, index) => interactiveRects.slice(index + 1)
+               .every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left || rect.bottom <= other.top || other.bottom <= rect.top)),
           traceRendered: traceItems.length === 6
             && traceItems.every((row) => { const rect = row.getBoundingClientRect(); return rect.width > 0 && rect.height > 0 && rect.left >= 0 && rect.right <= window.innerWidth; }),
           traceRows: second.output.traceRows,
@@ -291,7 +339,7 @@ async function run() {
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
     await new Promise((resolve) => setTimeout(resolve, 100));
     const mobile = (await cdp.send("Runtime.evaluate", {
-      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const reset = document.querySelector('#reset-simulated-session')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); const panel = document.querySelector('.observation-panel')?.getBoundingClientRect(); const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect()); const contained = (rect) => (rect?.width ?? 0) > 0 && (rect?.height ?? 0) > 0 && rect.left >= 0 && rect.right <= window.innerWidth; return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: [load, confirm, reset].every(contained), canvasVisible: contained(canvas), observationVisible: contained(panel) && traceRows.length === 6 && traceRows.every(contained) }; })()`,
+      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const reset = document.querySelector('#reset-simulated-session')?.getBoundingClientRect(); const diagnosticSummary = document.querySelector('.simulation-diagnostic summary')?.getBoundingClientRect(); const diagnostic = document.querySelector('#run-malformed-input-diagnostic')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); const panel = document.querySelector('.observation-panel')?.getBoundingClientRect(); const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect()); const contained = (rect) => (rect?.width ?? 0) > 0 && (rect?.height ?? 0) > 0 && rect.left >= 0 && rect.right <= window.innerWidth; const interactive = [load, confirm, reset, diagnosticSummary, diagnostic]; const separate = interactive.every((rect, index) => interactive.slice(index + 1).every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left || rect.bottom <= other.top || other.bottom <= rect.top)); return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: [load, confirm, reset].every(contained), diagnosticVisible: [diagnosticSummary, diagnostic].every(contained) && separate, canvasVisible: contained(canvas), observationVisible: contained(panel) && traceRows.length === 6 && traceRows.every(contained) }; })()`,
       returnByValue: true,
     }, sessionId)).result.value;
     const expectedAcceptedFields = { sourceMode: 'Simulación local', sequence: '5', calibrationLabel: 'simulated-not-calibrated-v1', lightProxy: '0.5', temperature: '20', hydroSetpoint: '0.4', batteryMode: 'idle', loadPriority: 'balanced', confirm: 'sí' };
@@ -300,11 +348,11 @@ async function run() {
       && Object.entries(expectedAcceptedFields).every(([field, value]) => interaction.acceptedFields[field] === value);
     const expectedTrace = PROVISIONAL_EVENT_KEYS.map((eventKey, index) => `round-${index + 1} · evento provisional: ${eventKey} · secuencia: ${index}`);
     const orderedTrace = JSON.stringify(interaction.traceRows) === JSON.stringify(expectedTrace);
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.roundsPerRun === 6 && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && interaction.panelRendered && interaction.controlsReadable && interaction.traceRendered && orderedTrace && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.canvasVisible && mobile.observationVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.roundsPerRun === 6 && interaction.detailsOpened && interaction.diagnosticEnabledInitially && interaction.malformedRejected && interaction.recoveredReady && interaction.midSessionDiagnostic && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && interaction.panelRendered && interaction.controlsReadable && interaction.diagnosticGeometry && interaction.traceRendered && orderedTrace && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.diagnosticVisible && mobile.canvasVisible && mobile.observationVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
     if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input observation_panel=rendered accepted_values=exact trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled mobile=390px-panel-visible-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input diagnostic=malformed-rejected-recovered-counts-0-and-1 observation_panel=rendered accepted_values=exact trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled mobile=390px-diagnostic-panel-visible-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {

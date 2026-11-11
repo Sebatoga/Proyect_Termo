@@ -41,6 +41,17 @@
               Usa valores fijos no calibrados y un resolver sin efectos de energía,
               puntuación ni ciencia. Cada acción es manual y determinista.
             </p>
+            <details class="simulation-diagnostic">
+              <summary>Diagnóstico de entrada simulada</summary>
+              <p>
+                Genera localmente un mensaje simulado malformado para verificar su
+                rechazo y la recuperación posterior. No prueba sensores, conexión ni
+                hardware.
+              </p>
+              <button id="run-malformed-input-diagnostic" type="button" disabled>
+                Probar rechazo local
+              </button>
+            </details>
           </div>
           <div class="simulation-actions">
             <button id="load-simulated-input" type="button">Cargar entrada simulada</button>

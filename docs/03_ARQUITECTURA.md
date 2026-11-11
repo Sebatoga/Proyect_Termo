@@ -88,6 +88,10 @@ ECO105-2 limita el reinicio al adaptador de sesión simulada y sólo tras comple
 seis rondas. Sustituye internamente la composición por otra con el mismo manifiesto,
 semilla, versión y resolver, y reinicia secuencia/tokens; no amplía el puerto
 genérico ni cambia protocolo, lifecycle, manifiesto o construcción de Phaser.
+ECO105-3 añade a esa sesión una acción diagnóstica local que ingresa únicamente
+`{` mediante la composición canónica cuando espera input. El rechazo conserva
+ronda, secuencia y traza; la carga válida posterior y su confirmación siguen
+separadas. No cambia parser, adaptador, lifecycle, transporte ni hardware.
 
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`

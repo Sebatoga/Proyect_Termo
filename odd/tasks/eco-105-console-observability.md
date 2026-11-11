@@ -69,10 +69,31 @@ scientific effects or completed gameplay.
   - Rollback: revert ECO105-2 to remove reset/replay while preserving ECO105-1,
     the existing six-round loop and all canonical modules.
 
+- [x] **ECO105-3 — Diagnose and recover from malformed simulated input**
+  - Route: `delegated`; trigger evidence: simulated-session behavior, accessible
+    diagnostic UI, tests, browser recovery evidence and records span multiple files.
+  - Scenario: one fixed local malformed JSON line (`{`) exercises canonical
+    `MALFORMED_JSON`; no arbitrary editor or new parser semantics are allowed.
+  - Acceptance: only `waiting-input` accepts the diagnostic; it clears exposed
+    accepted values, preserves round/trace, disables confirmation and does not
+    consume sequence or advance lifecycle. The next normal load succeeds with the
+    expected sequence and confirmation remains a separate action.
+  - UX: place the action inside collapsed native `<details>` with explicit copy
+    that it proves only local simulated rejection/recovery, not sensors, connection
+    or hardware. Announcements must report the actual confirmed-round count.
+  - Boundaries: no protocol/adapter/integration/lifecycle/manifest changes; no
+    serial, timeout, reconnect, retry scheduling, firmware, units or gameplay.
+  - Verification: focused/full Vitest, typecheck, build, Node references, Chrome
+    diagnostic/recovery plus both replays, port/offline regressions, scans and diff.
+  - Delivery: `ask-on-risk`; one cohesive work unit forecast at 240–330 authored
+    lines, with hard stop before commit above 400.
+  - Rollback: revert ECO105-3 while preserving ECO105-1/2 and canonical modules.
+
 ## Progress and evidence
 
 - Branch: `feat/eco-105-simulated-observability` from `4ddbecf`.
 - ECO105-2 branch: `feat/eco-105-simulated-restart` from `9bed727`.
+- ECO105-3 branch: `feat/eco-105-malformed-diagnostic` from `78dfeb8`.
 - Required UX review: project-specific `@revisor-ux` is not available in the
   current agent registry; use a read-only UX/readability review and record that
   this is not equivalent to the missing specialist review.
@@ -127,6 +148,28 @@ scientific effects or completed gameplay.
 - Rollback: remove `reset()` and its tests, the reset button/wiring, replay smoke
   assertions/evidence and these ECO105-2 entries; ECO105-1 and canonical modules
   remain intact. Human and `@revisor-ux` review remain pending.
+- ECO105-3 result: `runMalformedInputDiagnostic()` ingests only `{` and only from
+  `waiting-input`; it preserves sequence, round and trace while canonical state
+  reports `MALFORMED_JSON` with no accepted values or confirmation. Valid load and
+  confirmation remain subsequent separate actions.
+- Observed checks: focused Vitest 7/7, full Vitest 67/67, typecheck, build, Node
+  references 165/165, Chrome smoke, port impostor 1/1, offline smoke and negatives
+  2/2, layer/network/entropy/boundary scans and whitespace passed. Chrome 156
+  observed the collapsed diagnostic opening, rejection, zero accepted rows,
+  unchanged trace, live counts 0/1, ready recovery, two identical six-round runs,
+  one canvas, desktop/mobile containment and zero bounded JavaScript errors.
+- Runtime limits: only local malformed simulated-message rejection/recovery was
+  exercised. It does not test sensors, connection, hardware, serial, timeout,
+  firmware, accessibility with assistive technology, gameplay or science.
+- Authored size: 252 lines (`228` additions and `24` deletions) across 15 text
+  paths, excluding the generated PNG; below the 400-line hard stop. Planned
+  identity: `feat(console): add simulated malformed-input diagnostic`.
+- Fallback review found no code or UX defects after the strengthened count-0/1,
+  exact-trace and geometry evidence; its only blocker was the stale authored-size
+  record corrected above. This does not replace unavailable `@revisor-ux` approval.
+- ECO105-3 rollback: remove the session method/test cases, native diagnostic UI and
+  wiring, browser assertions/evidence and these records; ECO105-1/2 and all
+  canonical modules remain. Human and `@revisor-ux` review remain pending.
 
 ## Next step
 

@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-11 (ECO105-2 añadió reinicio y replay técnico local; ECO-105 sigue pendiente).
+**Última actualización:** 2026-11-11 (ECO105-3 añadió diagnóstico malformado simulado local; ECO-105 sigue pendiente).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -200,6 +200,11 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   observó estado fresco, foco seguro, un único canvas y un segundo ciclo idéntico
   de seis rondas; 64/64 Vitest, 165/165 referencias, typecheck, build y smokes
   pasaron. Es replay técnico local, no reconexión, gameplay, ciencia o hardware.
+- **ECO105-3:** sólo `waiting-input` admite el diagnóstico fijo `{`. Chrome observó
+  `MALFORMED_JSON`, cero valores aceptados, traza intacta, anuncio con conteo real,
+  recuperación y confirmación separada; luego preservó dos ciclos idénticos y un
+  canvas. Vitest 67/67, referencias 165/165, typecheck, build, smokes, negativas y
+  scans pasaron. Es rechazo/recuperación simulada local, no sensores ni hardware.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 

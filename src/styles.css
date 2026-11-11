@@ -122,6 +122,19 @@ h1 {
   gap: 0.75rem;
 }
 
+.simulation-diagnostic {
+  margin-top: 1rem;
+}
+
+.simulation-diagnostic summary {
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.simulation-diagnostic p {
+  margin-block: 0.75rem;
+}
+
 button {
   min-height: 2.75rem;
   padding: 0.65rem 0.9rem;

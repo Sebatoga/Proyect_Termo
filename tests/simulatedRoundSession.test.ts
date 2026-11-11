@@ -54,6 +54,60 @@ describe("local simulated round session", () => {
     expect(session.observe().trace).toHaveLength(1);
   });
 
+  it("rejects an initial malformed diagnostic without consuming sequence zero", () => {
+    const session = createSimulatedRoundSession();
+
+    expect(session.runMalformedInputDiagnostic()).toMatchObject({
+      status: "waiting-input",
+      roundIndex: 0,
+      reasonCode: "MALFORMED_JSON",
+      confirmationAllowed: false,
+    });
+    expect(session.observe()).toEqual({ acceptedInput: null, trace: [] });
+    expect(session.loadInput()).toMatchObject({ status: "ready", roundIndex: 0 });
+    expect(session.observe().acceptedInput?.sequence).toBe(0);
+  });
+
+  it("preserves a confirmed round and the next sequence across malformed recovery", () => {
+    const session = createSimulatedRoundSession();
+    session.loadInput();
+    session.confirm();
+    const trace = session.observe().trace;
+
+    expect(session.runMalformedInputDiagnostic()).toMatchObject({
+      status: "waiting-input",
+      roundIndex: 1,
+      reasonCode: "MALFORMED_JSON",
+      confirmationAllowed: false,
+    });
+    expect(session.observe()).toEqual({ acceptedInput: null, trace });
+    expect(session.loadInput()).toMatchObject({ status: "ready", roundIndex: 1 });
+    expect(session.observe().acceptedInput?.sequence).toBe(1);
+    expect(session.snapshot().roundIndex).toBe(1);
+    expect(session.confirm()).toMatchObject({ status: "waiting-input", roundIndex: 2 });
+    expect(session.observe().trace).toHaveLength(2);
+  });
+
+  it("ignores malformed diagnostics while ready or completed", () => {
+    const session = createSimulatedRoundSession();
+    session.loadInput();
+    const readySnapshot = session.snapshot();
+    const readyObservation = session.observe();
+
+    expect(session.runMalformedInputDiagnostic()).toEqual(readySnapshot);
+    expect(session.observe()).toEqual(readyObservation);
+    session.confirm();
+    for (let round = 1; round < 6; round += 1) {
+      session.loadInput();
+      session.confirm();
+    }
+    const completedSnapshot = session.snapshot();
+    const completedObservation = session.observe();
+
+    expect(session.runMalformedInputDiagnostic()).toEqual(completedSnapshot);
+    expect(session.observe()).toEqual(completedObservation);
+  });
+
   it("completes exactly six simulated rounds without ambient entropy", () => {
     const run = () => {
       const session = createSimulatedRoundSession();

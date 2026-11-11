@@ -25,7 +25,7 @@ export function renderSimulatedObservation(
 
   if (observation.acceptedInput === null) {
     targets.acceptedSummary.textContent = "Aún no hay una entrada simulada aceptada.";
-    targets.announcement.textContent = "Sin entrada simulada aceptada. Traza vacía.";
+    targets.announcement.textContent = `Sin entrada simulada aceptada. Rondas confirmadas: ${observation.trace.length}.`;
   } else {
     const input = observation.acceptedInput;
     targets.acceptedSummary.textContent = "Última entrada simulada aceptada:";

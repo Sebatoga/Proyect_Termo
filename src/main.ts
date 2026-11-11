@@ -13,7 +13,8 @@ if (statusTarget === null) throw new Error("Missing console status target.");
 const loadInputButton = document.querySelector<HTMLButtonElement>("#load-simulated-input");
 const confirmButton = document.querySelector<HTMLButtonElement>("#confirm-simulated-round");
 const resetButton = document.querySelector<HTMLButtonElement>("#reset-simulated-session");
-if (loadInputButton === null || confirmButton === null || resetButton === null) {
+const diagnosticButton = document.querySelector<HTMLButtonElement>("#run-malformed-input-diagnostic");
+if (loadInputButton === null || confirmButton === null || resetButton === null || diagnosticButton === null) {
   throw new Error("Missing simulated controls.");
 }
 const announcement = document.querySelector<HTMLElement>("#observation-announcement");
@@ -35,6 +36,7 @@ const renderSession = (): void => {
   loadInputButton.disabled = snapshot.status !== "waiting-input";
   confirmButton.disabled = !snapshot.confirmationAllowed;
   resetButton.disabled = snapshot.status !== "completed";
+  diagnosticButton.disabled = snapshot.status !== "waiting-input";
 };
 
 loadInputButton.addEventListener("click", () => {
@@ -49,6 +51,10 @@ resetButton.addEventListener("click", () => {
   session.reset();
   renderSession();
   loadInputButton.focus();
+});
+diagnosticButton.addEventListener("click", () => {
+  session.runMalformedInputDiagnostic();
+  renderSession();
 });
 renderSession();
 

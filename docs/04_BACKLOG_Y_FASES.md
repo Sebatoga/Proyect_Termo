@@ -28,7 +28,9 @@
 
 ECO105-1 añade observabilidad técnica del input simulado aceptado y seis trazas
 canónicas sin efectos. ECO105-2 permite reiniciar sólo esa prueba después de seis
-rondas y reproducirla sin recargar ni recrear Phaser. ECO-105 continúa
+rondas y reproducirla sin recargar ni recrear Phaser. ECO105-3 permite comprobar
+rechazo `MALFORMED_JSON` y recuperación sólo con un mensaje simulado local fijo.
+ECO-105 continúa
 **PENDIENTE**: faltan alertas, causalidad de gameplay e integración física.
 
 ## F2 — Calidad de experiencia e integración

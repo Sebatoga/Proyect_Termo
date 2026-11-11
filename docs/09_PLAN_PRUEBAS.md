@@ -126,6 +126,10 @@ ECO105-2 rechaza reset en estados inicial, listo y entre rondas sin alterar snap
 u observación; tras completar exige estado fresco, salida vacía e inmutable y un
 segundo replay idéntico. Chrome verifica además foco en carga, controles, geometría
 desktop/móvil, un único canvas y cero errores JavaScript acotados.
+ECO105-3 cubre diagnóstico malformado inicial y tras una confirmación, secuencia
+no consumida, traza/ronda preservadas y no-op en listo/completado. Chrome abre el
+`details`, observa `MALFORMED_JSON`, conteo anunciado real, recuperación antes de
+confirmar y conserva ambos replays, geometría desktop/móvil y canvas único.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94
