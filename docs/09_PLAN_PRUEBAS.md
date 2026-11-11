@@ -122,6 +122,10 @@ ECO105-1 añade aserciones sobre observación inicial vacía, valores normalizad
 aceptados, inmutabilidad profunda, replay determinista y una sola traza por
 confirmación. Chrome exige los seis valores visibles y seis filas ordenadas; no
 valida calibración, unidades, efectos, accesibilidad asistida ni hardware.
+ECO105-2 rechaza reset en estados inicial, listo y entre rondas sin alterar snapshot
+u observación; tras completar exige estado fresco, salida vacía e inmutable y un
+segundo replay idéntico. Chrome verifica además foco en carga, controles, geometría
+desktop/móvil, un único canvas y cero errores JavaScript acotados.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

@@ -49,9 +49,30 @@ scientific effects or completed gameplay.
   - Rollback: revert this work unit to remove observability while preserving the
     canonical protocol, adapter, lifecycle, manifest and simulated session loop.
 
+- [x] **ECO105-2 — Restart a completed simulated technical session**
+  - Route: `delegated`; trigger evidence: session behavior, UI focus/state, tests,
+    Chrome replay evidence and traceability span more than four non-trivial files.
+  - Acceptance: reset is rejected without mutation before completion; completion
+    enables reset; reset creates a fresh simulated integration at round 1, clears
+    accepted values/trace, restores load-only availability and focuses load.
+  - Replay: a second six-round execution must reproduce the first snapshots,
+    accepted fields, event order and sequences without reloading the page or
+    creating another Phaser instance.
+  - Boundaries: reset belongs only to `SimulatedRoundSession`; do not modify the
+    generic port, canonical protocol/adapter/integration/lifecycle or manifest.
+  - Claims excluded: no hardware reconnection, serial recovery, resynchronization,
+    gameplay replay, scientific reproducibility or accessibility approval.
+  - Verification: focused/full Vitest, typecheck, build, 165 Node references,
+    browser reset/replay, port regression, offline smoke, scans and whitespace.
+  - Delivery: `ask-on-risk`; one cohesive work unit forecast at 230–320 authored
+    lines, with a hard stop before commit above 400.
+  - Rollback: revert ECO105-2 to remove reset/replay while preserving ECO105-1,
+    the existing six-round loop and all canonical modules.
+
 ## Progress and evidence
 
 - Branch: `feat/eco-105-simulated-observability` from `4ddbecf`.
+- ECO105-2 branch: `feat/eco-105-simulated-restart` from `9bed727`.
 - Required UX review: project-specific `@revisor-ux` is not available in the
   current agent registry; use a read-only UX/readability review and record that
   this is not equivalent to the missing specialist review.
@@ -79,6 +100,33 @@ scientific effects or completed gameplay.
   missing live announcements and insufficient geometry/exact-value smoke checks;
   both were corrected before final verification. The final fallback pass found no
   remaining code findings and considered the implementation safe to commit.
+- ECO105-2 result: `SimulatedRoundSession.reset()` accepts only `completed`, then
+  creates the same deterministic integration anew and resets sequence/token
+  derivation. The native reset control is disabled otherwise and returns focus to
+  load after rendering the fresh waiting state.
+- Observed replay: Chrome 156 completed two six-round runs without reload; visible
+  snapshots, nine accepted fields, six event rows and sequences were deeply equal.
+  Reset exposed round 1/6, `DEVICE_DISCONNECTED`, zero accepted `dd`/trace rows,
+  load enabled, confirm/reset disabled, load focus and the same sole Phaser canvas.
+- Verification: focused Vitest 4/4, full Vitest 64/64, typecheck, build, Node
+  references 165/165, browser and offline smokes, smoke negatives 2/2, port
+  impostor 1/1, layer/network/entropy/boundary scans and whitespace PASS. Offline
+  observed eight local/data requests and static scan `41+3`; bounded browser
+  JavaScript errors were zero at desktop and 390 px had no horizontal overflow.
+- ECO105-2 changed paths: simulated session/test, root markup/wiring, browser
+  harness/PNG/report, generated offline report, architecture, backlog, state, test
+  plan, AI log and this task. Authored size: `288` additions+deletions, excluding
+  generated PNG. Planned identity: `feat(console): restart completed simulated session`.
+- Fallback review: la primera versión quedó bloqueada por texto comprimido y
+  aserciones geométricas/trazas insuficientes. Se equilibró el layout y el smoke
+  ahora exige trazas exactas, dimensiones, contención y ausencia de solapamientos.
+  El pase final no encontró hallazgos; no sustituye aprobación de `@revisor-ux`.
+- Runtime limits: local Chrome simulated technical replay only; no hardware
+  reconnection, serial recovery/resynchronization, gameplay replay, scientific
+  reproducibility, assistive-technology/accessibility approval or physical proof.
+- Rollback: remove `reset()` and its tests, the reset button/wiring, replay smoke
+  assertions/evidence and these ECO105-2 entries; ECO105-1 and canonical modules
+  remain intact. Human and `@revisor-ux` review remain pending.
 
 ## Next step
 

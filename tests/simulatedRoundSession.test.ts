@@ -86,4 +86,54 @@ describe("local simulated round session", () => {
     expect(Object.isFrozen(first.observation.acceptedInput)).toBe(true);
     expect(Object.isFrozen(first.observation.acceptedInput?.values)).toBe(true);
   });
+
+  it("rejects reset before completion without changing snapshots or observations", () => {
+    const session = createSimulatedRoundSession();
+    const assertPreservedReset = () => {
+      const snapshot = session.snapshot();
+      const observation = session.observe();
+
+      expect(session.reset()).toEqual(snapshot);
+      expect(session.snapshot()).toEqual(snapshot);
+      expect(session.observe()).toEqual(observation);
+    };
+
+    assertPreservedReset();
+    session.loadInput();
+    assertPreservedReset();
+    session.confirm();
+    assertPreservedReset();
+    session.loadInput();
+    assertPreservedReset();
+  });
+
+  it("resets only a completed session and replays the same six rounds", () => {
+    const session = createSimulatedRoundSession();
+    const run = () => {
+      const snapshots = [];
+      for (let round = 0; round < 6; round += 1) {
+        snapshots.push(session.loadInput());
+        snapshots.push(session.confirm());
+      }
+      return { snapshots, observation: session.observe() };
+    };
+
+    const first = run();
+    const resetSnapshot = session.reset();
+
+    expect(resetSnapshot).toEqual({
+      status: "waiting-input",
+      roundIndex: 0,
+      roundCount: 6,
+      currentRoundId: "round-1",
+      reasonCode: "DEVICE_DISCONNECTED",
+      confirmationAllowed: false,
+    });
+    expect(session.observe()).toEqual({ acceptedInput: null, trace: [] });
+    expect(Object.isFrozen(resetSnapshot)).toBe(true);
+    expect(Object.isFrozen(session.observe())).toBe(true);
+    expect(Object.isFrozen(session.observe().trace)).toBe(true);
+
+    expect(run()).toEqual(first);
+  });
 });

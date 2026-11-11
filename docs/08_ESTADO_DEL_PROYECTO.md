@@ -1,10 +1,10 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-08 (ECO105-1 añadió observabilidad técnica simulada; ECO-105 sigue pendiente).
+**Última actualización:** 2026-11-11 (ECO105-2 añadió reinicio y replay técnico local; ECO-105 sigue pendiente).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
-**Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó el canvas del spike histórico, no el bootstrap productivo.
+**Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó tanto el spike histórico como el bootstrap productivo local, con los límites registrados en ECO-101/ECO-105.
 
 ## Lo que está decidido
 - EcoGrid: Ciudad al Límite; Liga 4; juego cooperativo de mesa con electrónica y consola local secundaria.
@@ -196,6 +196,10 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   seis filas de traza derivadas del estado canónico. Chrome observó valores y orden,
   terminación, 390 px sin overflow y cero errores acotados. ECO-101 sigue **EN
   CURSO**; ECO-104, ECO-105 y ECO-109 siguen **PENDIENTES**.
+- **ECO105-2:** sólo una sesión simulada completada puede reiniciarse. Chrome
+  observó estado fresco, foco seguro, un único canvas y un segundo ciclo idéntico
+  de seis rondas; 64/64 Vitest, 165/165 referencias, typecheck, build y smokes
+  pasaron. Es replay técnico local, no reconexión, gameplay, ciencia o hardware.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 

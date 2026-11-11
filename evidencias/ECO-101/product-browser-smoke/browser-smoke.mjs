@@ -198,46 +198,88 @@ async function run() {
       expression: `(() => {
         const load = document.querySelector('#load-simulated-input');
         const confirm = document.querySelector('#confirm-simulated-round');
-        const transitions = [];
-        for (let round = 0; round < 6; round += 1) {
-          load?.click();
-          const readyText = document.querySelector('#console-status')?.textContent ?? '';
-          const ready = readyText.includes('Entrada validada lista para confirmar.')
-            && readyText.includes('ronda ' + (round + 1) + ' de 6')
-            && readyText.includes('Confirmación disponible: sí.')
-            && load?.disabled === true && confirm?.disabled === false;
-          confirm?.click();
-          const advancedText = document.querySelector('#console-status')?.textContent ?? '';
-          const advanced = round === 5
-            ? advancedText.includes('Sesión completada.')
-            : advancedText.includes('ronda ' + (round + 2) + ' de 6')
-              && advancedText.includes('NEW_INPUT_REQUIRED');
-          transitions.push({ ready, advanced });
-        }
+        const reset = document.querySelector('#reset-simulated-session');
+        const originalCanvas = document.querySelector('#game-container canvas');
+        const readOutput = () => {
+          const acceptedEntries = [...document.querySelectorAll('#accepted-input-values dd')];
+          return {
+            acceptedFields: Object.fromEntries(acceptedEntries.map((value) => [value.dataset.field, value.textContent ?? ''])),
+            acceptedFieldCount: acceptedEntries.length,
+            traceRows: [...document.querySelectorAll('#simulated-trace li')].map((row) => row.textContent ?? ''),
+          };
+        };
+        const run = () => {
+          const snapshots = [];
+          const transitions = [];
+          for (let round = 0; round < 6; round += 1) {
+            load?.click();
+            const readyText = document.querySelector('#console-status')?.textContent ?? '';
+            snapshots.push(readyText);
+            const ready = readyText.includes('Entrada validada lista para confirmar.')
+              && readyText.includes('ronda ' + (round + 1) + ' de 6')
+              && readyText.includes('Confirmación disponible: sí.')
+              && load?.disabled === true && confirm?.disabled === false && reset?.disabled === true;
+            confirm?.click();
+            const advancedText = document.querySelector('#console-status')?.textContent ?? '';
+            snapshots.push(advancedText);
+            const advanced = round === 5
+              ? advancedText.includes('Sesión completada.') && reset?.disabled === false
+              : advancedText.includes('ronda ' + (round + 2) + ' de 6')
+                && advancedText.includes('NEW_INPUT_REQUIRED') && reset?.disabled === true;
+            transitions.push({ ready, advanced });
+          }
+          return { snapshots, transitions, output: readOutput() };
+        };
+        const resetDisabledInitially = reset?.disabled === true;
+        const first = run();
+        const resetEnabledAfterCompletion = reset?.disabled === false;
+        reset?.click();
+        const freshText = document.querySelector('#console-status')?.textContent ?? '';
+        const freshOutput = readOutput();
+        const fresh = freshText.includes('Esperando una entrada validada.')
+          && freshText.includes('ronda 1 de 6')
+          && freshText.includes('DEVICE_DISCONNECTED')
+          && freshText.includes('Confirmación disponible: no.')
+          && freshOutput.acceptedFieldCount === 0 && freshOutput.traceRows.length === 0
+          && load?.disabled === false && confirm?.disabled === true && reset?.disabled === true
+          && document.activeElement === load;
+        const second = run();
         const finalText = document.querySelector('#console-status')?.textContent ?? '';
-        const acceptedRoot = document.querySelector('#accepted-input-values');
-        const acceptedEntries = [...acceptedRoot?.querySelectorAll('dd') ?? []];
-        const acceptedFields = Object.fromEntries(acceptedEntries.map((value) => [value.dataset.field, value.textContent ?? '']));
         const traceItems = [...document.querySelectorAll('#simulated-trace li')];
-        const traceRows = traceItems.map((row) => row.textContent ?? '');
         const panel = document.querySelector('.observation-panel');
         const panelRect = panel?.getBoundingClientRect();
         const panelStyle = panel ? getComputedStyle(panel) : null;
+        const controlCopyRect = document.querySelector('.simulated-controls > div:first-child')?.getBoundingClientRect();
+        const controlRects = [load, confirm, reset].map((control) => control?.getBoundingClientRect());
+        const controlsContained = controlRects.every((rect) => (rect?.width ?? 0) > 0
+          && (rect?.height ?? 0) > 0 && (rect?.left ?? -1) >= 0 && (rect?.right ?? Infinity) <= window.innerWidth);
+        const controlsDoNotOverlap = controlRects.every((rect, index) => controlRects.slice(index + 1)
+          .every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left || rect.bottom <= other.top || other.bottom <= rect.top));
         return {
-          rounds: transitions.length,
-          allReady: transitions.every(({ ready }) => ready),
-          allAdvanced: transitions.every(({ advanced }) => advanced),
+          roundsPerRun: first.transitions.length,
+          allReady: [...first.transitions, ...second.transitions].every(({ ready }) => ready),
+          allAdvanced: [...first.transitions, ...second.transitions].every(({ advanced }) => advanced),
+          resetDisabledInitially,
+          resetEnabledAfterCompletion,
+          fresh,
+          replaySnapshotsEqual: JSON.stringify(second.snapshots) === JSON.stringify(first.snapshots),
+          replayAcceptedFieldsEqual: JSON.stringify(second.output.acceptedFields) === JSON.stringify(first.output.acceptedFields),
+          replayTraceEqual: JSON.stringify(second.output.traceRows) === JSON.stringify(first.output.traceRows),
+          sameCanvas: document.querySelectorAll('#game-container canvas').length === 1
+            && document.querySelector('#game-container canvas') === originalCanvas,
           completed: finalText.includes('Sesión completada.')
             && finalText.includes('ronda 6 de 6')
             && finalText.includes('Confirmación disponible: no.'),
-          controlsDisabled: load?.disabled === true && confirm?.disabled === true,
-          acceptedFields,
-          acceptedFieldCount: acceptedEntries.length,
+          terminalControls: load?.disabled === true && confirm?.disabled === true && reset?.disabled === false,
+          acceptedFields: second.output.acceptedFields,
+          acceptedFieldCount: second.output.acceptedFieldCount,
           panelRendered: (panelRect?.width ?? 0) > 0 && (panelRect?.height ?? 0) > 0
+            && (panelRect?.left ?? -1) >= 0 && (panelRect?.right ?? Infinity) <= window.innerWidth
             && panelStyle?.display !== 'none' && panelStyle?.visibility !== 'hidden',
+          controlsReadable: (controlCopyRect?.width ?? 0) >= 240 && controlsContained && controlsDoNotOverlap,
           traceRendered: traceItems.length === 6
-            && traceItems.every((row) => { const rect = row.getBoundingClientRect(); return rect.width > 0 && rect.height > 0; }),
-          traceRows,
+            && traceItems.every((row) => { const rect = row.getBoundingClientRect(); return rect.width > 0 && rect.height > 0 && rect.left >= 0 && rect.right <= window.innerWidth; }),
+          traceRows: second.output.traceRows,
         };
       })()`,
       returnByValue: true,
@@ -249,19 +291,20 @@ async function run() {
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
     await new Promise((resolve) => setTimeout(resolve, 100));
     const mobile = (await cdp.send("Runtime.evaluate", {
-      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); const panel = document.querySelector('.observation-panel')?.getBoundingClientRect(); const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect()); return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: (load?.width ?? 0) > 0 && (confirm?.width ?? 0) > 0, canvasVisible: (canvas?.width ?? 0) > 0 && (canvas?.height ?? 0) > 0, observationVisible: (panel?.width ?? 0) > 0 && (panel?.height ?? 0) > 0 && (panel?.width ?? Infinity) <= window.innerWidth && traceRows.length === 6 && traceRows.every((row) => row.width > 0 && row.height > 0) }; })()`,
+      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const reset = document.querySelector('#reset-simulated-session')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); const panel = document.querySelector('.observation-panel')?.getBoundingClientRect(); const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect()); const contained = (rect) => (rect?.width ?? 0) > 0 && (rect?.height ?? 0) > 0 && rect.left >= 0 && rect.right <= window.innerWidth; return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: [load, confirm, reset].every(contained), canvasVisible: contained(canvas), observationVisible: contained(panel) && traceRows.length === 6 && traceRows.every(contained) }; })()`,
       returnByValue: true,
     }, sessionId)).result.value;
     const expectedAcceptedFields = { sourceMode: 'Simulación local', sequence: '5', calibrationLabel: 'simulated-not-calibrated-v1', lightProxy: '0.5', temperature: '20', hydroSetpoint: '0.4', batteryMode: 'idle', loadPriority: 'balanced', confirm: 'sí' };
     const acceptedValues = interaction.acceptedFieldCount === Object.keys(expectedAcceptedFields).length
       && Object.keys(interaction.acceptedFields).length === Object.keys(expectedAcceptedFields).length
       && Object.entries(expectedAcceptedFields).every(([field, value]) => interaction.acceptedFields[field] === value);
-    const orderedTrace = interaction.traceRows.length === PROVISIONAL_EVENT_KEYS.length && interaction.traceRows.every((row, index) => row.includes('round-' + (index + 1)) && row.includes(PROVISIONAL_EVENT_KEYS[index]) && row.includes('secuencia: ' + index));
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.rounds === 6 && interaction.allReady && interaction.allAdvanced && interaction.completed && interaction.controlsDisabled && acceptedValues && interaction.panelRendered && interaction.traceRendered && orderedTrace && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.canvasVisible && mobile.observationVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+    const expectedTrace = PROVISIONAL_EVENT_KEYS.map((eventKey, index) => `round-${index + 1} · evento provisional: ${eventKey} · secuencia: ${index}`);
+    const orderedTrace = JSON.stringify(interaction.traceRows) === JSON.stringify(expectedTrace);
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.roundsPerRun === 6 && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && interaction.panelRendered && interaction.controlsReadable && interaction.traceRendered && orderedTrace && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.canvasVisible && mobile.observationVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
     if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input observation_panel=rendered accepted_values=exact trace_rows=6-ordered interaction=six-rounds-completed controls=disabled mobile=390px-panel-visible-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input observation_panel=rendered accepted_values=exact trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled mobile=390px-panel-visible-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {

@@ -84,6 +84,10 @@ ECO105-1 deriva una observación profundamente inmutable del snapshot del adapta
 y del historial lifecycle canónicos. La presentación usa nodos de texto para los
 valores normalizados aceptados y la traza técnica; no mantiene otro log mutable ni
 asigna unidades, interpretación física o efectos a los eventos provisionales.
+ECO105-2 limita el reinicio al adaptador de sesión simulada y sólo tras completar
+seis rondas. Sustituye internamente la composición por otra con el mismo manifiesto,
+semilla, versión y resolver, y reinicia secuencia/tokens; no amplía el puerto
+genérico ni cambia protocolo, lifecycle, manifiesto o construcción de Phaser.
 
 ## Contrato de resolución (esquema lógico, aún no implementado)
 `resolveRound(state, validatedInputs, roundCard): RoundResult`

@@ -12,7 +12,10 @@ const statusTarget = document.querySelector<HTMLElement>("#console-status");
 if (statusTarget === null) throw new Error("Missing console status target.");
 const loadInputButton = document.querySelector<HTMLButtonElement>("#load-simulated-input");
 const confirmButton = document.querySelector<HTMLButtonElement>("#confirm-simulated-round");
-if (loadInputButton === null || confirmButton === null) throw new Error("Missing simulated controls.");
+const resetButton = document.querySelector<HTMLButtonElement>("#reset-simulated-session");
+if (loadInputButton === null || confirmButton === null || resetButton === null) {
+  throw new Error("Missing simulated controls.");
+}
 const announcement = document.querySelector<HTMLElement>("#observation-announcement");
 const acceptedSummary = document.querySelector<HTMLElement>("#accepted-input-summary");
 const acceptedValues = document.querySelector<HTMLElement>("#accepted-input-values");
@@ -31,6 +34,7 @@ const renderSession = (): void => {
   );
   loadInputButton.disabled = snapshot.status !== "waiting-input";
   confirmButton.disabled = !snapshot.confirmationAllowed;
+  resetButton.disabled = snapshot.status !== "completed";
 };
 
 loadInputButton.addEventListener("click", () => {
@@ -40,6 +44,11 @@ loadInputButton.addEventListener("click", () => {
 confirmButton.addEventListener("click", () => {
   session.confirm();
   renderSession();
+});
+resetButton.addEventListener("click", () => {
+  session.reset();
+  renderSession();
+  loadInputButton.focus();
 });
 renderSession();
 

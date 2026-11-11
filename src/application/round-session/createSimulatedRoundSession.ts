@@ -31,6 +31,7 @@ export interface SimulatedSessionObservation {
 export interface SimulatedRoundSession extends RoundSessionPort {
   readonly loadInput: () => RoundSessionSnapshot;
   readonly confirm: () => RoundSessionSnapshot;
+  readonly reset: () => RoundSessionSnapshot;
   readonly observe: () => SimulatedSessionObservation;
 }
 
@@ -52,7 +53,7 @@ const simulatedInputLine = (sequence: number): string => JSON.stringify({
 });
 
 export function createSimulatedRoundSession(): SimulatedRoundSession {
-  const integration = createRoundHostIntegration({
+  const createIntegration = () => createRoundHostIntegration({
     manifest: PROVISIONAL_ROUND_MANIFEST,
     seed: "local-simulated-session-v1",
     resolverVersion: "trace-only-simulated-v1",
@@ -62,6 +63,7 @@ export function createSimulatedRoundSession(): SimulatedRoundSession {
       inputSequence: input.sequence,
     }),
   });
+  let integration = createIntegration();
   let nextSequence = 0;
 
   const snapshot = (): RoundSessionSnapshot => createRoundSessionSnapshot(integration.snapshot());
@@ -124,6 +126,13 @@ export function createSimulatedRoundSession(): SimulatedRoundSession {
       const current = snapshot();
       if (!current.confirmationAllowed) return current;
       integration.confirm(`simulated-token-${nextSequence - 1}`);
+      return snapshot();
+    },
+    reset() {
+      const current = snapshot();
+      if (current.status !== "completed") return current;
+      integration = createIntegration();
+      nextSequence = 0;
       return snapshot();
     },
   });
