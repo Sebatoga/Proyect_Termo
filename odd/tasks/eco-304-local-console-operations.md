@@ -104,6 +104,8 @@ secondary console over loopback without depending on hardware or Internet.
   (`e0ff990`), excluding `.codegraph/`; this excludes committed ECO304-1.
 - Implementation commit: `d73406a test(ops): reuse local server in offline smoke`.
 - Review guard: the 400-authored-line hard stop remains in force.
+- RDD assessment for `e0ff990..b497638`: medium, `under_budget`; no new review
+  started, so `e0ff990` remains the last reviewed boundary for the pending slice.
 - Rollback: restore the private smoke server/tests and remove only the ECO304-2
   operator/documentation integration; the committed ECO304-1 server remains.
 
