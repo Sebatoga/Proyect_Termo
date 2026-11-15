@@ -1,6 +1,6 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-11 (ECO105-3 añadió diagnóstico malformado simulado local; ECO-105 sigue pendiente).
+**Última actualización:** 2026-11-14 (ECO304-1 finalizó evidencia local; ECO-304 sigue pendiente).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
 **Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
 **Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
@@ -34,6 +34,16 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas actuales del bootstrap cubren sólo metadata y configuración pura, además de las referencias aisladas existentes.
+
+### ECO304-1 — operación local estricta
+
+- Un servidor Node sin dependencias comparte preflight, identidad SHA-256, health y
+  entrega loopback entre el comando operador y el smoke offline.
+- Los commits `7e8dc7e` y `e0ff990` registran la implementación y su evidencia:
+  suite focalizada 19/19 y suite Node combinada 195/195 PASS. El snapshot inmutable
+  limita la build a 256 archivos, 64 MB totales y 32 MB por archivo.
+- La build sigue siendo explícita y ECO-304 continúa **PENDIENTE**: falta el
+  recorrido humano en el equipo objetivo y el ensayo de stand.
 
 ### ECO-104 — referencia parcial del ciclo de rondas
 

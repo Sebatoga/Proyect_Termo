@@ -51,6 +51,10 @@ ECO-105 continúa
 | ECO-304 | Ensayo offline de stand y contingencia híbrida | equipo objetivo, repuestos y modo seguro documentados | PENDIENTE |
 | ECO-305 | Auditoría final contra matriz de requisitos y gate docente | todas las obligaciones evidenciadas o brechas declaradas | PENDIENTE |
 
+ECO304-1 aporta el servidor loopback estricto compartido y su preflight; ECO304-2
+reutiliza esa ruta en la evidencia offline y documenta la operación. ECO-304
+permanece **PENDIENTE** hasta ejecutar el recorrido humano en el equipo objetivo.
+
 ## Reglas de secuenciación
 1. Resolver F0 científico antes de balancear gameplay, pero se permite crear prototipos aislados para explorar.
 2. F1 solo se da por terminada cuando hay partida jugable de principio a fin.

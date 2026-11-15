@@ -44,7 +44,7 @@ secondary console over loopback without depending on hardware or Internet.
   - Runtime boundary: local loopback operation on this development machine only.
   - Rollback: remove the server/tests/script and ECO304-1 task evidence.
 
-- [ ] **ECO304-2 — Reuse the operator server in offline evidence**
+- [x] **ECO304-2 — Reuse the operator server in offline evidence**
   - Route: `delegated`; starts only after ECO304-1 is committed and verified.
   - Acceptance: offline smoke and its negative regressions exercise the exact
     exported server/preflight path used by operators while preserving request
@@ -90,7 +90,23 @@ secondary console over loopback without depending on hardware or Internet.
 - Rollback: remove both server files, `serve:offline` and ECO304-1 task evidence;
   README/operator integration remains owned by ECO304-2.
 
+### ECO304-2 observed verification — 2026-11-14
+
+- `node --test evidencias/ECO-101/offline-static-smoke/offline-smoke-negative.test.mjs`:
+  2/2 PASS in 752.322387 ms; traversal used the shared server, and the fixed-port
+  collision exited non-zero without PASS/Chrome, exposed `EADDRINUSE`, and rebound.
+- `npm run test:offline-smoke`: PASS with Chrome `156.0.8078.47`, 8 local
+  requests, canvas 960 × 540, 0 JavaScript errors, 1,000 ms post-shutdown
+  observation and static scan 41+3.
+- `git diff --check`: PASS with no output.
+- Authored worktree diff: `217` additions + deletions against `HEAD`
+  (`e0ff990`), excluding `.codegraph/`; this excludes committed ECO304-1.
+- Implementation commit: **PENDING**; the parent will fill the hash.
+- Review guard: the 400-authored-line hard stop remains in force.
+- Rollback: restore the private smoke server/tests and remove only the ECO304-2
+  operator/documentation integration; the committed ECO304-1 server remains.
+
 ## Next step
 
-Keep ECO304-2 separate: integrate this server with offline evidence only in that
-work unit. ECO-304 stays pending until a real target-computer rehearsal.
+Run the human target-computer walkthrough and stand rehearsal. ECO-304 stays
+pending until that evidence exists.

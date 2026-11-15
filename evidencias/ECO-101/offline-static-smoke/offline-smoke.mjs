@@ -1,10 +1,10 @@
 import { spawn, spawnSync } from "node:child_process";
-import { createReadStream } from "node:fs";
 import { mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
-import { createServer } from "node:http";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+
+import { startLocalConsole } from "../../../tools/local-console-server.mjs";
 
 const evidenceDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(evidenceDir, "../../..");
@@ -13,51 +13,6 @@ const host = "127.0.0.1";
 const port = 4174;
 const productUrl = `http://${host}:${port}/`;
 const marker = "EcoGrid | Consola local";
-const types = new Map([
-  [".css", "text/css; charset=utf-8"], [".html", "text/html; charset=utf-8"],
-  [".ico", "image/x-icon"], [".js", "text/javascript; charset=utf-8"],
-  [".json", "application/json; charset=utf-8"], [".map", "application/json; charset=utf-8"],
-  [".png", "image/png"], [".svg", "image/svg+xml; charset=utf-8"], [".txt", "text/plain; charset=utf-8"],
-]);
-
-function safeFile(rawUrl) {
-  const rawPath = rawUrl.split("?", 1)[0];
-  let decoded;
-  try { decoded = decodeURIComponent(rawPath); } catch { return null; }
-  if (decoded.includes("\0") || decoded.includes("\\") || decoded.split("/").includes("..")) return null;
-  const relative = decoded === "/" ? "index.html" : decoded.replace(/^\/+/, "");
-  const target = path.resolve(dist, relative);
-  return target.startsWith(`${dist}${path.sep}`) ? target : null;
-}
-
-export function createStaticServer() {
-  return createServer(async (request, response) => {
-    const target = safeFile(request.url ?? "/");
-    if (!target) { response.writeHead(400).end("Bad request"); return; }
-    try {
-      const info = await stat(target);
-      const contentType = types.get(path.extname(target).toLowerCase());
-      if (!info.isFile() || !contentType) throw new Error("Not a supported static file");
-      response.writeHead(200, { "content-length": info.size, "content-type": contentType, "x-content-type-options": "nosniff" });
-      createReadStream(target).pipe(response);
-    } catch { response.writeHead(404, { "content-type": "text/plain; charset=utf-8" }).end("Not found"); }
-  });
-}
-
-export function listen(server) {
-  return new Promise((resolve, reject) => {
-    server.once("error", reject);
-    server.listen(port, host, () => { server.off("error", reject); resolve(); });
-  });
-}
-
-export function closeServer(server) {
-  return new Promise((resolve, reject) => {
-    server.close((error) => error ? reject(error) : resolve());
-    server.closeAllConnections?.();
-  });
-}
-
 function run(command, args) {
   const result = spawnSync(command, args, { cwd: root, encoding: "utf8", timeout: 30_000 });
   if (result.status !== 0) throw new Error(`${command} ${args.join(" ")} failed:\n${result.stdout}${result.stderr}`);
@@ -165,13 +120,13 @@ async function main() {
   run("npm", ["run", "build"]);
   const scan = await staticScan();
   const browser = browserCommand();
-  const server = createStaticServer();
+  let server;
   let chrome;
   let cdp;
   let profile;
   let cleanupError;
   try {
-    await listen(server);
+    server = await startLocalConsole({ buildRoot: dist, host, port });
     const owner = await fetch(productUrl, { signal: AbortSignal.timeout(3_000) });
     if (owner.status !== 200 || !(await owner.text()).includes(marker)) throw new Error("Static server ownership marker failed");
     profile = await mkdtemp("/tmp/opencode/ecogrid-offline-");
@@ -198,7 +153,7 @@ async function main() {
     const badUrl = inventory.find(({ url }) => /^https?:/i.test(url) && new URL(url).origin !== new URL(productUrl).origin);
     const badLocal = inventory.find(({ url, status }) => /^https?:/i.test(url) && (status === null || status >= 400));
     if (badUrl || badLocal || failures.length || errors.length) throw new Error(`Network/runtime failure: ${JSON.stringify({ badUrl, badLocal, failures: failures.length, errors: errors.length })}`);
-    await closeServer(server);
+    await server.close();
     await new Promise((resolve) => setTimeout(resolve, 1_000));
     const offline = await observe(cdp, sessionId);
     const finalInventory = [...requests.values()];
@@ -211,7 +166,7 @@ async function main() {
     console.log(`OFFLINE_STATIC_SMOKE=PASS requests=${finalInventory.length} canvas=${loaded.canvasWidth}x${loaded.canvasHeight} displayed=${loaded.rectWidth}x${loaded.rectHeight} javascript_errors=${errors.length} post_shutdown_ms=1000 static_scan=${scan.tracked}+${scan.built}`);
   } finally {
     cdp?.close();
-    if (server.listening) try { await closeServer(server); } catch (error) { cleanupError = error; }
+    if (server) try { await server.close(); } catch (error) { if (error.code !== "ERR_SERVER_NOT_RUNNING") cleanupError = error; }
     try { await stopChrome(chrome); } catch (error) { cleanupError ??= error; }
     if (profile) try { await rm(profile, { recursive: true, force: true }); } catch (error) { cleanupError ??= error; }
   }

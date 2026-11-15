@@ -1,6 +1,6 @@
-# EcoGrid: Ciudad al Límite — Kit maestro para OpenCode
+# EcoGrid: Ciudad al Límite
 
-**Estado:** planificación rebaselinada; **no existen aún producto híbrido, hardware, firmware ni calibración**. Solo hay documentación y un spike descartable de consola.
+**Estado:** existe un bootstrap productivo de la consola secundaria; **no existen aún producto híbrido, hardware, firmware ni calibración**.
 **Enfoque vigente:** juego cooperativo de mesa con electrónica; luz, temperatura y controles físicos deben cambiar una partida de seis rondas. La consola local es secundaria.
 **Fuente académica:** `referencias/Proyecto Termodinamica y MF 2026-2.pdf` (4 páginas, documento de la asignatura).
 **Idioma:** español (documentos, menú, tutorial, pruebas explicadas); código TypeScript con nombres consistentes.
@@ -29,6 +29,32 @@
 
 ## Manuales operativos provisionales
 
+### Consola local desde una build estática
+
+1. Genera la build explícitamente: `npm run build`.
+2. Inicia el servidor fijo en loopback: `npm run serve:offline`. Conserva esa
+   terminal; debe mostrar `ECOGRID_LOCAL_READY url=http://127.0.0.1:4174/ build=<sha256>`.
+3. Consulta `http://127.0.0.1:4174/.well-known/ecogrid-health`. Debe responder
+   `{"schema":"ecogrid-health/v1","product":"ecogrid-local-console","buildId":"<sha256>"}`
+   y `buildId` debe coincidir con el valor `build` del marcador de arranque.
+4. Abre la consola en `http://127.0.0.1:4174/`.
+5. En la terminal del servidor, pulsa `Ctrl+C` para detener sólo esa instancia.
+6. Comprueba el cierre con
+   `curl --fail --max-time 2 http://127.0.0.1:4174/`; debe fallar por conexión.
+
+Si el puerto está ocupado, el comando termina sin elegir otro. No mates un proceso
+desconocido: detén únicamente una instancia que controles o selecciona, por ejemplo,
+el puerto alternativo `4180`:
+
+```bash
+node tools/local-console-server.mjs --root dist --host 127.0.0.1 --port 4180
+```
+
+En ese caso, usa `http://127.0.0.1:4180/.well-known/ecogrid-health` para salud y
+`http://127.0.0.1:4180/` para la consola; ambos URL deben usar el mismo puerto.
+El servidor no construye, no publica en red, no aporta TLS/autenticación y no
+permite recargar después de apagarlo; la prueba en el equipo objetivo sigue pendiente.
+
 - [`docs/17_COMO_JUGAR.md`](docs/17_COMO_JUGAR.md): preparación, flujo de ronda,
   errores y referencia rápida para una partida todavía sujeta a gates.
 - [`docs/18_MANUAL_HARDWARE.md`](docs/18_MANUAL_HARDWARE.md): BOM funcional,
@@ -39,11 +65,11 @@
 - [`tools/host-adapter/`](tools/host-adapter/): consumidor Node.js de referencia
   que normaliza snapshots fail-closed sin puerto serial ni hardware.
 
-## Fronteras técnicas propuestas (revisar componentes y versiones antes de elegir)
+## Fronteras técnicas vigentes
 
 - Núcleo físico independiente del renderizador: TypeScript puro.
 - Firmware y protocolo USB serial por definir después del inventario y spike de banco.
-- Consola local offline para variables, alertas y explicaciones; el spike web existente no ratifica el stack productivo.
+- Consola local secundaria con TypeScript, Phaser 3, Vite y Vitest ratificados por ADR-005; todavía no acredita integración híbrida.
 - Tablero, controles, LEDs, carcasa y cableado fijo de baja tensión; sin agua real, calor peligroso ni baterías de potencia.
 
 **Motivo:** cumplir la exigencia específica de Liga 4 con causalidad observable entre entradas reales, modelos científicos y decisiones sobre el tablero.

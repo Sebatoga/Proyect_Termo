@@ -54,6 +54,13 @@ no acredita aprobación.
 
 Vitest cubre metadata determinista y la fábrica pura de `GameConfig` sin requerir DOM ni navegador. TypeScript valida la configuración productiva y Vite genera el bundle local. El smoke productivo inicia Vite en `127.0.0.1:4173` con `--strictPort` y observa por CDP shell/canvas. El smoke offline reconstruye, sirve sólo `dist/` en loopback, inventaría solicitudes, bloquea referencias externas, verifica errores y conserva shell/canvas durante 1.000 ms tras apagar el servidor. Regresiones separadas cubren traversal codificado y puerto impostor. No prueba `file://`, refresh sin servidor, PWA, otros navegadores, interacción, accesibilidad asistida ni rendimiento prolongado.
 
+La suite canónica `tools/local-console-server.test.mjs` contiene 19 pruebas y cubre
+preflight/identidad, activos ausentes o externos, symlinks, límites del snapshot,
+tipos MIME, health, traversal codificado, puerto ocupado estricto y liberación al
+cerrar. Separadamente, las dos regresiones específicas del smoke comprueban que el
+harness usa ese servidor para rechazar traversal codificado y que su puerto fijo
+ocupado produce salida no-cero, sin PASS/Chrome y con limpieza verificable.
+
 BOOTSTRAP-004 agrega casos Vitest para los cinco estados de sesión, límites e invariantes inválidos, confirmación fail-closed, determinismo, inmutabilidad profunda, semántica textual y restricciones de importación. Los smokes existentes preservan shell y canvas; esta cobertura no ejecuta transiciones, protocolo, hardware, ciencia ni gameplay.
 BOOTSTRAP-005 amplía esa matriz con getters no invocados, proxies cambiantes/throwing/revocados, campos heredados/ocultos/símbolo/extra, prototipos no admitidos, strings mayores a 64, `NaN`/infinito/enteros inseguros, todas las combinaciones estado-confirmación, ausencia de errores nativos, texto hostil literal e inmutabilidad determinista. El smoke de navegador exige además los marcadores iniciales de sesión no disponible y confirmación deshabilitada.
 BOOTSTRAP-006 fija el conteo de producto en seis y cubre conteos 5, 7 y `Number.MAX_SAFE_INTEGER`, índices activos límite 0/5 y rechazos en −1/6, además de terminación exclusiva `6/6/null` y bootstrap explícito `0/0/null`.
