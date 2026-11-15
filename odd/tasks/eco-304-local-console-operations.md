@@ -59,12 +59,13 @@ secondary console over loopback without depending on hardware or Internet.
 - Branch: `feat/eco-304-local-console-operations` from `65a4184`.
 - Engram mirror topic: `odd/eco-304-local-console-operations/tasks`.
 - Work-unit commit: `7e8dc7e feat(ops): add strict local console server`.
+- ECO304-2 work-unit commit: `d73406a test(ops): reuse local server in offline smoke`.
 - Human operator walkthrough remains pending and is required before claiming stand
   readiness or ECO-304 completion.
 - Implementation: `tools/local-console-server.mjs` is used by `serve:offline`.
   It snapshots bounded regular files, validates direct and nested local runtime
   dependencies, rejects symlinks/external references, and exposes path-free
-  `ecogrid-health/v1` JSON. ECO304-2 integration remains a separate work unit.
+  `ecogrid-health/v1` JSON. ECO304-2 integration is recorded below separately.
 - Runtime limits: `127.0.0.1:4174` by default; explicit `::1`/alternate port only;
   1,000,000-byte index, 128 direct runtime references, 256 snapshotted files,
   32,000,000 bytes per file and 64,000,000 bytes total; fixed MIME allowlist; no
@@ -101,7 +102,7 @@ secondary console over loopback without depending on hardware or Internet.
 - `git diff --check`: PASS with no output.
 - Authored worktree diff: `217` additions + deletions against `HEAD`
   (`e0ff990`), excluding `.codegraph/`; this excludes committed ECO304-1.
-- Implementation commit: **PENDING**; the parent will fill the hash.
+- Implementation commit: `d73406a test(ops): reuse local server in offline smoke`.
 - Review guard: the 400-authored-line hard stop remains in force.
 - Rollback: restore the private smoke server/tests and remove only the ECO304-2
   operator/documentation integration; the committed ECO304-1 server remains.
