@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>EcoGrid — Fichas recortables</title>
+  <style>
+    :root { --ink:#10272c; --muted:#526f74; --cyan:#0891b2; --green:#65a30d; --blue:#0284c7; --amber:#d97706; --red:#e11d48; }
+    * { box-sizing: border-box; }
+    @page { size: A4 portrait; margin: 0; }
+    html, body { margin:0; background:#dbe5e5; color:var(--ink); font-family:"Noto Sans","DejaVu Sans",Arial,sans-serif; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+    .page { width:210mm; height:297mm; padding:11mm; background:#fff; page-break-after:always; position:relative; overflow:hidden; }
+    .page:last-child { page-break-after:auto; }
+    h1 { margin:0 0 2mm; font-size:22pt; }
+    .note { margin:0 0 5mm; color:var(--muted); font-size:8.5pt; }
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:4mm; }
+    .token {
+      height:36mm; border:1.5px dashed #647b80; border-radius:4mm; padding:4mm;
+      display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
+    }
+    .token b { font-size:12pt; }
+    .token span { font-size:8pt; color:var(--muted); margin-top:2mm; }
+    .energy { background:#ecfeff; border-color:var(--cyan); }
+    .reserve { background:#f7fee7; border-color:var(--green); }
+    .load { background:#fff7ed; border-color:var(--amber); }
+    .alert { background:#fff1f2; border-color:var(--red); }
+    .control-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:5mm; }
+    .control {
+      height:48mm; border:2px dashed #647b80; border-radius:4mm; padding:5mm;
+      display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .control .type { font-size:8pt; color:var(--muted); font-weight:800; text-transform:uppercase; letter-spacing:.6px; }
+    .control b { font-size:16pt; }
+    .control p { margin:0; font-size:8.5pt; color:var(--muted); }
+    .footer { position:absolute; left:11mm; right:11mm; bottom:5mm; display:flex; justify-content:space-between; font-size:7pt; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <h1>Fichas recortables</h1>
+    <p class="note">Prototipo de flujo sin valores energéticos. Una ficha representa una unidad visual, NO una cantidad física validada.</p>
+    <div class="grid">
+      <div class="token energy"><b>ENERGÍA PV</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA PV</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA PV</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA PV</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA HIDRO</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA HIDRO</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA HIDRO</b><span>aporte visible</span></div>
+      <div class="token energy"><b>ENERGÍA HIDRO</b><span>aporte visible</span></div>
+      <div class="token reserve"><b>RESERVA</b><span>batería</span></div>
+      <div class="token reserve"><b>RESERVA</b><span>batería</span></div>
+      <div class="token reserve"><b>RESERVA</b><span>batería</span></div>
+      <div class="token reserve"><b>RESERVA</b><span>batería</span></div>
+      <div class="token load"><b>HOSPITAL</b><span>carga crítica</span></div>
+      <div class="token load"><b>AGUA</b><span>carga crítica</span></div>
+      <div class="token load"><b>COMUNICACIONES</b><span>carga crítica</span></div>
+      <div class="token load"><b>OTRAS CARGAS</b><span>no críticas</span></div>
+      <div class="token alert"><b>DÉFICIT</b><span>demanda no atendida</span></div>
+      <div class="token alert"><b>ALERTA</b><span>requiere explicación</span></div>
+      <div class="token alert"><b>INVÁLIDA</b><span>pausar ronda</span></div>
+      <div class="token alert"><b>DESCONECTADA</b><span>pausar ronda</span></div>
+      <div class="token energy"><b>BYPASS</b><span>agua no derivada</span></div>
+      <div class="token energy"><b>BYPASS</b><span>agua no derivada</span></div>
+      <div class="token reserve"><b>VERTIMIENTO</b><span>excedente visible</span></div>
+      <div class="token alert"><b>REVISAR</b><span>no confirmar</span></div>
+    </div>
+    <div class="footer"><span>Recortar por líneas punteadas · conservar texto y color</span><span>1 / 2</span></div>
+  </section>
+
+  <section class="page">
+    <h1>Marcadores de decisión</h1>
+    <p class="note">Sustituyen controles únicamente durante ensayos en papel. No acreditan electrónica ni calibración.</p>
+    <div class="control-grid">
+      <div class="control"><span class="type">Prioridad</span><b>CARGAS CRÍTICAS</b><p>Hospital, agua y comunicaciones primero.</p></div>
+      <div class="control"><span class="type">Prioridad</span><b>REPARTO GENERAL</b><p>Distribuir sin ocultar déficits.</p></div>
+      <div class="control"><span class="type">Batería</span><b>CONSERVAR RESERVA</b><p>No descargar salvo regla explícita.</p></div>
+      <div class="control"><span class="type">Batería</span><b>DESCARGAR</b><p>Usar reserva con límites y pérdidas.</p></div>
+      <div class="control"><span class="type">Batería</span><b>CARGAR EXCEDENTE</b><p>Solo si existe excedente válido.</p></div>
+      <div class="control"><span class="type">Batería</span><b>NEUTRA</b><p>No cargar ni descargar.</p></div>
+      <div class="control"><span class="type">Consigna hidro simulada</span><b>BAJA</b><p>Valor numérico pendiente.</p></div>
+      <div class="control"><span class="type">Consigna hidro simulada</span><b>MEDIA</b><p>Valor numérico pendiente.</p></div>
+      <div class="control"><span class="type">Consigna hidro simulada</span><b>ALTA</b><p>Sigue limitada por agua y caudal ecológico.</p></div>
+      <div class="control"><span class="type">Acción</span><b>CONFIRMAR</b><p>Congelar una decisión válida una sola vez.</p></div>
+    </div>
+    <div class="footer"><span>No asignar kW, kWh, m³/s o porcentajes por intuición</span><span>2 / 2</span></div>
+  </section>
+</body>
+</html>

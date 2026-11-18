@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EcoGrid — Pitch</title>
+  <style>
+    :root {
+      --ink: #ecfeff;
+      --muted: #a8c8cc;
+      --navy: #071c22;
+      --panel: #0d2a31;
+      --panel-2: #123941;
+      --cyan: #2dd4bf;
+      --blue: #38bdf8;
+      --green: #84cc16;
+      --amber: #fbbf24;
+      --red: #fb7185;
+      --line: rgba(148, 210, 218, 0.24);
+    }
+
+    * { box-sizing: border-box; }
+
+    @page {
+      size: 13.333in 7.5in;
+      margin: 0;
+    }
+
+    html, body {
+      margin: 0;
+      background: #020b0e;
+      color: var(--ink);
+      font-family: Inter, "Noto Sans", "DejaVu Sans", Arial, sans-serif;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .slide {
+      width: 13.333in;
+      height: 7.5in;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      padding: 0.55in 0.68in 0.45in;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(45, 212, 191, 0.16), transparent 26%),
+        radial-gradient(circle at 4% 96%, rgba(56, 189, 248, 0.12), transparent 28%),
+        linear-gradient(145deg, #06171d, var(--navy) 55%, #08242a);
+    }
+
+    .slide:last-child { page-break-after: auto; }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 42pt; line-height: 1.02; letter-spacing: -1.6px; margin-bottom: 0.18in; }
+    h2 { font-size: 27pt; line-height: 1.08; letter-spacing: -0.7px; margin-bottom: 0.24in; }
+    h3 { font-size: 15pt; margin-bottom: 0.09in; }
+    p, li { font-size: 14.3pt; line-height: 1.32; }
+    ul { margin: 0.08in 0 0; padding-left: 0.24in; }
+    li { margin: 0.08in 0; }
+    strong { color: white; }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 10.5pt;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+      margin-bottom: 0.13in;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 18pt;
+      max-width: 7.2in;
+      line-height: 1.3;
+    }
+
+    .accent { color: var(--cyan); }
+    .blue { color: var(--blue); }
+    .green { color: var(--green); }
+    .amber { color: var(--amber); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.28in;
+      align-items: stretch;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.2in;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      padding: 0.2in 0.22in;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(150deg, rgba(18, 57, 65, 0.92), rgba(9, 35, 41, 0.92));
+      box-shadow: 0 12px 35px rgba(0,0,0,0.16);
+    }
+
+    .card p, .card li { font-size: 12.8pt; }
+    .card h3 { color: var(--cyan); }
+
+    .tag {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.045in 0.11in;
+      margin: 0 0.06in 0.06in 0;
+      font-size: 9.4pt;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      border: 1px solid transparent;
+    }
+
+    .tag.done { color: #d9f99d; background: rgba(132,204,22,.13); border-color: rgba(132,204,22,.4); }
+    .tag.progress { color: #fde68a; background: rgba(251,191,36,.12); border-color: rgba(251,191,36,.4); }
+    .tag.pending { color: #fecdd3; background: rgba(251,113,133,.12); border-color: rgba(251,113,133,.4); }
+
+    .footer {
+      position: absolute;
+      z-index: 2;
+      left: 0.68in;
+      right: 0.68in;
+      bottom: 0.19in;
+      display: flex;
+      justify-content: space-between;
+      color: #729ca2;
+      font-size: 8.5pt;
+      letter-spacing: 0.4px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 0.5in;
+      align-items: center;
+      height: 5.7in;
+    }
+
+    .hero-art {
+      position: relative;
+      z-index: 1;
+      height: 4.65in;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      overflow: hidden;
+      background: linear-gradient(165deg, #0e3840 0%, #09262c 58%, #06181d 100%);
+    }
+
+    .hero-art svg { width: 100%; height: 100%; display: block; }
+
+    .big-stat {
+      font-size: 30pt;
+      font-weight: 900;
+      line-height: 1;
+      color: white;
+      margin-bottom: 0.07in;
+    }
+
+    .metric-label { color: var(--muted); font-size: 10.5pt; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.13in;
+      margin-top: 0.25in;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      position: relative;
+      z-index: 1;
+      min-height: 1.38in;
+      padding: 0.16in 0.14in;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(13,42,49,.9);
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -0.14in;
+      top: 0.48in;
+      z-index: 3;
+      color: var(--cyan);
+      font-size: 18pt;
+      font-weight: 900;
+    }
+
+    .flow-step .number {
+      color: var(--cyan);
+      font-size: 10pt;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .flow-step p { margin: 0.07in 0 0; font-size: 11.3pt; line-height: 1.23; }
+
+    .equation {
+      color: #d9f8fb;
+      background: rgba(3, 20, 25, 0.72);
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      padding: 0.12in 0.15in;
+      margin: 0.12in 0;
+      font-family: "DejaVu Sans Mono", Consolas, monospace;
+      font-size: 11.4pt;
+      line-height: 1.35;
+    }
+
+    .architecture {
+      display: flex;
+      align-items: center;
+      gap: 0.08in;
+      margin-top: 0.26in;
+    }
+
+    .arch-node {
+      flex: 1;
+      min-height: 1.25in;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.13in;
+      text-align: center;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(13,42,49,.94);
+    }
+
+    .arch-node b { font-size: 12.2pt; }
+    .arch-node span { color: var(--muted); font-size: 9.5pt; margin-top: 0.05in; }
+    .arrow { color: var(--cyan); font-size: 20pt; font-weight: 900; }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.15in;
+      margin-top: 0.24in;
+    }
+
+    .phase {
+      border-top: 5px solid var(--cyan);
+      border-radius: 8px 8px 13px 13px;
+      padding: 0.16in 0.17in;
+      background: rgba(13,42,49,.92);
+      min-height: 2.25in;
+    }
+
+    .phase:nth-child(2) { border-color: var(--blue); }
+    .phase:nth-child(3) { border-color: var(--green); }
+    .phase:nth-child(4) { border-color: var(--amber); }
+    .phase .days { font-weight: 900; color: white; font-size: 14pt; }
+    .phase p { color: var(--muted); font-size: 11.5pt; margin-top: 0.1in; }
+
+    .callout {
+      margin-top: 0.18in;
+      padding: 0.12in 0.17in;
+      border-radius: 10px;
+      background: rgba(45, 212, 191, 0.11);
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      color: #ccfbf1;
+      font-size: 11.5pt;
+    }
+
+    .small { font-size: 10.8pt; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Liga 4 · Mundo renovable</div>
+        <h1>EcoGrid:<br><span class="accent">Ciudad al Límite</span></h1>
+        <p class="subtitle">Un juego cooperativo de mesa donde las condiciones reales cambian cómo una ciudad produce, distribuye y conserva su energía.</p>
+        <div style="margin-top:.3in">
+          <span class="tag progress">MVP híbrido en desarrollo</span>
+          <span class="tag done">Consola local verificada</span>
+          <span class="tag pending">Integración física pendiente</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Arte conceptual del tablero EcoGrid">
+        <svg viewBox="0 0 620 480" role="img" aria-label="Ciudad, panel solar, río, turbina y red energética">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#15515d"/>
+              <stop offset="1" stop-color="#0b2e36"/>
+            </linearGradient>
+            <linearGradient id="river" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#0ea5e9"/>
+              <stop offset="1" stop-color="#2dd4bf"/>
+            </linearGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <rect width="620" height="480" fill="url(#sky)"/>
+          <circle cx="505" cy="76" r="42" fill="#fbbf24" opacity=".95" filter="url(#glow)"/>
+          <path d="M0 300 L90 228 170 288 260 190 355 285 455 215 620 300 620 480 0 480Z" fill="#123c3b"/>
+          <path d="M0 358 C130 315 195 430 340 375 C445 335 505 360 620 320 L620 480 L0 480Z" fill="url(#river)" opacity=".87"/>
+          <path d="M0 372 C125 328 205 444 348 390 C452 350 520 373 620 337" fill="none" stroke="#d7fbff" stroke-width="5" opacity=".65"/>
+          <g transform="translate(72 245)">
+            <polygon points="0,48 110,24 143,87 30,112" fill="#082c45" stroke="#38bdf8" stroke-width="4"/>
+            <path d="M26 42 L56 104 M57 36 L88 97 M88 30 L119 91 M13 66 L127 43 M22 89 L136 66" stroke="#38bdf8" stroke-width="2" opacity=".75"/>
+            <path d="M72 105 L72 134 M42 134 L102 134" stroke="#d7fbff" stroke-width="5"/>
+          </g>
+          <g transform="translate(355 278)">
+            <rect x="0" y="35" width="92" height="90" rx="8" fill="#163e47" stroke="#84cc16" stroke-width="4"/>
+            <circle cx="46" cy="79" r="25" fill="none" stroke="#84cc16" stroke-width="7"/>
+            <path d="M46 54 L53 77 73 88 M70 65 L52 78 35 100 M21 79 L45 80 39 55" fill="none" stroke="#d9f99d" stroke-width="5" stroke-linecap="round"/>
+            <path d="M46 35 V0 M46 0 H132" stroke="#fbbf24" stroke-width="6" filter="url(#glow)"/>
+          </g>
+          <g transform="translate(455 175)" fill="#102f37" stroke="#d7fbff" stroke-width="3">
+            <rect x="0" y="54" width="38" height="92"/><rect x="48" y="18" width="46" height="128"/>
+            <rect x="104" y="68" width="32" height="78"/><rect x="146" y="38" width="50" height="108"/>
+          </g>
+          <g fill="#2dd4bf" filter="url(#glow)">
+            <circle cx="443" cy="278" r="6"/><circle cx="493" cy="239" r="6"/><circle cx="551" cy="215" r="6"/>
+          </g>
+          <path d="M443 278 L493 239 L551 215" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-dasharray="8 7"/>
+          <text x="28" y="45" fill="#ccfbf1" font-family="Arial" font-weight="700" font-size="18">ENERGÍA · DECISIONES · EQUILIBRIO</text>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>Equipo EcoGrid · UNAL Manizales · 2026-2</span><span>1 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">El reto</div>
+    <h2>La energía renovable cambia; las necesidades de la ciudad no esperan</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Problema</h3>
+        <p>Una ciudad debe sostener hospital, agua y comunicaciones con recursos variables, una batería limitada y una restricción ambiental real.</p>
+        <div class="grid-3" style="margin-top:.2in">
+          <div><div class="big-stat blue">Luz</div><div class="metric-label">producción PV variable</div></div>
+          <div><div class="big-stat accent">Caudal</div><div class="metric-label">agua disponible limitada</div></div>
+          <div><div class="big-stat green">SOC</div><div class="metric-label">reserva finita</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Propuesta</h3>
+        <p>De 2 a 4 jugadores cooperan durante seis rondas. Leen sensores, acuerdan prioridades y operan controles antes de confirmar cada decisión.</p>
+        <ul>
+          <li><strong>No es trivia:</strong> las ecuaciones cambian el resultado.</li>
+          <li><strong>No es solo pantalla:</strong> el tablero y la electrónica son parte de la partida.</li>
+          <li><strong>No existe energía gratis:</strong> toda decisión tiene límites y pérdidas.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><span class="number">01</span><p>Revelar demanda o evento</p></div>
+      <div class="flow-step"><span class="number">02</span><p>Leer luz, temperatura y tablero</p></div>
+      <div class="flow-step"><span class="number">03</span><p>Acordar hidro, batería y prioridades</p></div>
+      <div class="flow-step"><span class="number">04</span><p>Confirmar y resolver modelos</p></div>
+      <div class="flow-step"><span class="number">05</span><p>Mover fichas y explicar consecuencias</p></div>
+    </div>
+    <div class="footer"><span>Experiencia cooperativa · 6 rondas · objetivo 8–12 min</span><span>2 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Ciencia que determina la partida</div>
+    <h2>Termodinámica y fluidos se convierten en decisiones visibles</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>☀ Panel solar con efecto térmico</h3>
+        <p>La temperatura ambiente validada y una condición de luz calibrada para gameplay alimentan un balance térmico simplificado.</p>
+        <div class="equation">Cₜₕ · dT/dt = αAG − hA(T−Tₐᵢᵣ) − Pₑₗₑc</div>
+        <div class="equation">Pₚᵥ = A·G·ηᵣₑf·max(0, 1−β(T−25 °C))</div>
+        <p class="small"><strong>Límite:</strong> el sensor de luz no se presenta como irradiancia W/m² sin calibración trazable.</p>
+      </div>
+      <div class="card">
+        <h3>💧 Hidro de pasada y caudal ecológico</h3>
+        <p>La consigna del jugador nunca puede extraer más agua que la disponible después de proteger el bypass ecológico.</p>
+        <div class="equation">Qₜᵤᵣb ≤ max(0, Qᵣᵢᵥₑᵣ − Qₑcₒ)</div>
+        <div class="equation">Pₕ = η·ρ·g·Qₜᵤᵣb·(H − K·Qₜᵤᵣb²)</div>
+        <p class="small"><strong>Regla:</strong> si el río trae menos que el mínimo ecológico, no se deriva agua ni se penaliza al jugador.</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Integración ambiental:</strong> conservar el caudal no agrega “puntos verdes” decorativos; restringe físicamente la potencia disponible y obliga a priorizar cargas.</div>
+    <div class="footer"><span>Modelos propuestos en SI · ECO-002 continúa en validación</span><span>3 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Sistema híbrido</div>
+    <h2>Las variables reales atraviesan una cadena verificable antes de afectar el juego</h2>
+    <div class="architecture">
+      <div class="arch-node"><b>Sensores y controles</b><span>luz · temperatura · hidro · confirmar</span></div>
+      <div class="arrow">→</div>
+      <div class="arch-node"><b>ESP32-C6</b><span>adquisición · rangos · estado</span></div>
+      <div class="arrow">→</div>
+      <div class="arch-node"><b>USB serial</b><span>mensajes versionados</span></div>
+      <div class="arrow">→</div>
+      <div class="arch-node"><b>Dominio científico</b><span>PV · hidro · batería/bus</span></div>
+      <div class="arrow">→</div>
+      <div class="arch-node"><b>Tablero y consola</b><span>fichas · alertas · explicación</span></div>
+    </div>
+    <div class="grid-3" style="margin-top:.33in">
+      <div class="card">
+        <h3>Electrónica</h3>
+        <p>La placa valida entradas y transmite su estado. Una lectura inválida o desconectada no se reemplaza silenciosamente.</p>
+      </div>
+      <div class="card">
+        <h3>Software</h3>
+        <p>La física permanece separada de Phaser y de la interfaz. La consola explica consecuencias, pero no reemplaza el tablero.</p>
+      </div>
+      <div class="card">
+        <h3>Seguridad</h3>
+        <p>USB de baja tensión, cableado fijo y montaje protegido. Sin agua real, bombas, calor peligroso ni batería de potencia.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Entrada física → validación → modelo → consecuencia observable</span><span>4 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">MVP reducido</div>
+    <h2>Una rebanada completa vale más que diez funciones inconexas</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3 class="green">Incluido en las dos semanas</h3>
+        <ul>
+          <li>Tablero físico sencillo, cartas y fichas.</li>
+          <li>Seis rondas fijas y reproducibles.</li>
+          <li>Luz, temperatura y control hidro.</li>
+          <li>Modelos PV térmico e hidro de pasada.</li>
+          <li>Batería/bus con estados discretos y pérdidas.</li>
+          <li>USB serial, consola local y feedback seguro.</li>
+          <li>Pruebas normal, límite y desconexión.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="amber">Fuera del MVP</h3>
+        <ul>
+          <li>Eólica, campaña, mapa y multijugador.</li>
+          <li>Eventos aleatorios complejos.</li>
+          <li>Score ponderado y economía avanzada.</li>
+          <li>Aplicación móvil, backend y servicios web.</li>
+          <li>Arte final o carcasa industrial.</li>
+          <li>Calibración metrológica de irradiancia.</li>
+        </ul>
+        <div class="callout"><strong>Criterio:</strong> si una función no prueba ciencia, causalidad híbrida o seguridad, se pospone.</div>
+      </div>
+    </div>
+    <div class="footer"><span>Objetivo: demostrar el ciclo completo, no simular una planta industrial</span><span>5 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Evidencia y honestidad técnica</div>
+    <h2>Ya existe una base funcional; la integración física es la frontera pendiente</h2>
+    <div class="grid-3">
+      <div class="card">
+        <span class="tag done">VERIFICADO</span>
+        <h3>Consola local</h3>
+        <p>Build offline, canvas en Chrome y ciclo técnico de seis rondas completado con controles accesibles.</p>
+      </div>
+      <div class="card">
+        <span class="tag done">VERIFICADO</span>
+        <h3>Protocolos seguros</h3>
+        <p>Parser/adaptador fail-closed y núcleo C++ host-testable para mensajes seguros sin atribuir hardware todavía.</p>
+      </div>
+      <div class="card">
+        <span class="tag progress">EN DESARROLLO</span>
+        <h3>Inventario físico</h3>
+        <p>Placa ESP32-C6, LDR y sonda de temperatura reportadas; falta autenticar pinout, calibrar e integrar.</p>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:.22in">
+      <div class="card">
+        <span class="tag pending">PENDIENTE CRÍTICO</span>
+        <h3>Validación científica y HIL</h3>
+        <p>ECO-002 no tiene línea base aceptada. Faltan revisión independiente, sensores reales, USB, tablero y prueba hardware-in-the-loop.</p>
+      </div>
+      <div class="card">
+        <h3>Uso responsable de IA</h3>
+        <p>La IA apoya arquitectura, documentación, código y pruebas. El equipo conserva autoría, revisa resultados y registra límites y correcciones.</p>
+        <p class="small">La IA no reemplaza mediciones, revisión científica ni evidencia física.</p>
+      </div>
+    </div>
+    <div class="footer"><span>No mostramos como construido lo que solo está planeado</span><span>6 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Plan de choque · 14 días</div>
+    <h2>Priorizar la ruta crítica: ciencia, hardware, integración y evidencia</h2>
+    <div class="timeline">
+      <div class="phase">
+        <div class="days">Días 1–2</div>
+        <h3>Congelar alcance</h3>
+        <p>Pitch, pinout, responsables, modelos mínimos y revisión de las ecuaciones que entrarán al MVP.</p>
+      </div>
+      <div class="phase">
+        <div class="days">Días 3–5</div>
+        <h3>Banco y firmware</h3>
+        <p>Luz, temperatura, control hidro, estados de error y mensajes USB reproducibles.</p>
+      </div>
+      <div class="phase">
+        <div class="days">Días 6–10</div>
+        <h3>Integración vertical</h3>
+        <p>Modelos puros, reglas de ronda, tablero, fichas y consola conectados de extremo a extremo.</p>
+      </div>
+      <div class="phase">
+        <div class="days">Días 11–14</div>
+        <h3>Validar y entregar</h3>
+        <p>Casos límite, HIL, partida completa, seguridad, correcciones, manual, póster y ensayo.</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Resultado esperado:</strong> cambiar una variable física modifica una decisión energética observable, respeta el caudal ecológico y deja evidencia reproducible.</div>
+    <p style="font-size:20pt; margin-top:.24in; font-weight:800">EcoGrid convierte ecuaciones en una conversación: <span class="accent">¿cómo mantenemos viva la ciudad sin agotar sus recursos?</span></p>
+    <div class="footer"><span>EcoGrid: Ciudad al Límite</span><span>7 / 7</span></div>
+  </section>
+</body>
+</html>
