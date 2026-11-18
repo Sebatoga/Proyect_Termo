@@ -7,6 +7,7 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:contrast": "node --test tests/consoleContrast.test.mjs",
     "test:browser-smoke": "node evidencias/ECO-101/product-browser-smoke/browser-smoke.mjs",
     "test:offline-smoke": "node evidencias/ECO-101/offline-static-smoke/offline-smoke.mjs",
     "serve:offline": "node tools/local-console-server.mjs --root dist --host 127.0.0.1 --port 4174",

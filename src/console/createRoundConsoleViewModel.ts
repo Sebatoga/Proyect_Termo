@@ -3,6 +3,7 @@ import {
   type RoundSessionSnapshot,
   type RoundSessionStatus,
 } from "../application/round-session/roundSessionPort";
+import { getProvisionalRoundCopy } from "./provisionalRoundCopy";
 
 export interface RoundConsoleViewModel {
   readonly status: Readonly<{
@@ -17,10 +18,22 @@ export interface RoundConsoleViewModel {
     currentRoundId: string | null;
     text: string;
   }>;
+  readonly scenario: Readonly<{
+    eventKey: string;
+    title: string;
+    question: string;
+    text: string;
+  }> | null;
   readonly confirmation: Readonly<{
     allowed: boolean;
     text: string;
   }>;
+  readonly notice: Readonly<{
+    level: "attention" | "blocking";
+    label: string;
+    title: string;
+    message: string;
+  }> | null;
 }
 
 const statusText: Readonly<Record<RoundSessionStatus, string>> = Object.freeze({
@@ -45,6 +58,51 @@ const snapshotKeySet = new Set<PropertyKey>(snapshotKeys);
 export const MAX_CURRENT_ROUND_ID_LENGTH = 64;
 export const MAX_REASON_CODE_LENGTH = 64;
 
+function createNotice(
+  code: RoundSessionStatus,
+  reasonCode: string,
+): RoundConsoleViewModel["notice"] {
+  if (code === "unavailable") {
+    return Object.freeze({
+      level: "blocking",
+      label: "Acción requerida",
+      title: "Entrada no disponible",
+      message: "No confirmes la ronda. Revisa la fuente de entrada antes de continuar.",
+    });
+  }
+  if (code === "reset-required") {
+    return Object.freeze({
+      level: "blocking",
+      label: "Acción requerida",
+      title: "Reinicio requerido",
+      message: "La sesión no puede continuar. Reiníciala antes de cargar otra entrada.",
+    });
+  }
+  if (code !== "waiting-input") return null;
+  if (reasonCode === "DEVICE_DISCONNECTED") {
+    return Object.freeze({
+      level: "attention",
+      label: "Atención",
+      title: "Entrada desconectada",
+      message: "La ronda permanece detenida hasta recibir una entrada validada.",
+    });
+  }
+  if (reasonCode === "NEW_INPUT_REQUIRED") {
+    return Object.freeze({
+      level: "attention",
+      label: "Siguiente paso",
+      title: "Nueva entrada requerida",
+      message: "Carga una entrada validada para preparar la siguiente ronda.",
+    });
+  }
+  return Object.freeze({
+    level: "attention",
+    label: "Atención",
+    title: "Entrada rechazada o pendiente",
+    message: "Corrige o reemplaza la entrada antes de confirmar la ronda.",
+  });
+}
+
 function isStatus(value: unknown): value is RoundSessionStatus {
   return statuses.has(value as RoundSessionStatus);
 }
@@ -65,7 +123,8 @@ function hasActiveRound(snapshot: RoundSessionSnapshot): boolean {
     && snapshot.roundIndex < EXPECTED_ROUND_COUNT
     && typeof snapshot.currentRoundId === "string"
     && snapshot.currentRoundId.length > 0
-    && snapshot.currentRoundId.length <= MAX_CURRENT_ROUND_ID_LENGTH;
+    && snapshot.currentRoundId.length <= MAX_CURRENT_ROUND_ID_LENGTH
+    && getProvisionalRoundCopy(snapshot.roundIndex, snapshot.currentRoundId) !== null;
 }
 
 function hasCompletedRounds(snapshot: RoundSessionSnapshot): boolean {
@@ -127,6 +186,9 @@ export function createRoundConsoleViewModel(value: unknown): RoundConsoleViewMod
   const reasonCode = snapshot?.reasonCode ?? "SNAPSHOT_INVALIDO";
   const hasProgress = snapshot !== null && (hasActiveRound(snapshot) || hasCompletedRounds(snapshot));
   const allowed = snapshot?.status === "ready" && snapshot.confirmationAllowed && hasActiveRound(snapshot);
+  const scenarioCopy = snapshot !== null && hasActiveRound(snapshot)
+    ? getProvisionalRoundCopy(snapshot.roundIndex, snapshot.currentRoundId as string)
+    : null;
 
   const status = Object.freeze({
     code,
@@ -146,6 +208,13 @@ export function createRoundConsoleViewModel(value: unknown): RoundConsoleViewMod
     allowed,
     text: `Confirmación disponible: ${allowed ? "sí" : "no"}.`,
   });
+  const scenario = scenarioCopy === null ? null : Object.freeze({
+    eventKey: scenarioCopy.eventKey,
+    title: scenarioCopy.title,
+    question: scenarioCopy.question,
+    text: `Escenario provisional: ${scenarioCopy.title}. Pregunta guía: ${scenarioCopy.question}`,
+  });
+  const notice = createNotice(code, reasonCode);
 
-  return Object.freeze({ status, progress, confirmation });
+  return Object.freeze({ status, progress, scenario, confirmation, notice });
 }

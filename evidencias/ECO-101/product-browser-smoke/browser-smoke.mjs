@@ -12,6 +12,38 @@ const screenshotPath = path.join(evidenceDir, "product-browser-smoke.png");
 const url = "http://127.0.0.1:4173/";
 const marker = "<title>EcoGrid | Consola local</title>";
 const children = new Set();
+const EXPECTED_ROUND_GUIDES = Object.freeze([
+  Object.freeze({
+    eventKey: "base-demand",
+    title: "Condición base",
+    question: "¿Entendemos el tablero y qué cargas debemos priorizar?",
+  }),
+  Object.freeze({
+    eventKey: "high-temperature",
+    title: "Temperatura alta",
+    question: "¿Cómo cambia la estrategia cuando el panel trabaja más caliente?",
+  }),
+  Object.freeze({
+    eventKey: "low-river",
+    title: "Río bajo",
+    question: "¿Qué consigna hidro es posible sin vulnerar el caudal ecológico?",
+  }),
+  Object.freeze({
+    eventKey: "demand-peak",
+    title: "Pico de demanda",
+    question: "¿Qué cargas protegemos y cuándo usamos la batería?",
+  }),
+  Object.freeze({
+    eventKey: "reduced-light",
+    title: "Luz reducida",
+    question: "¿Cómo administramos la reserva sin inventar generación?",
+  }),
+  Object.freeze({
+    eventKey: "seeded-combination",
+    title: "Combinación final",
+    question: "¿Podemos sostener la ciudad y justificar todas las decisiones?",
+  }),
+]);
 
 function start(command, args, options = {}) {
   const child = spawn(command, args, {
@@ -185,7 +217,7 @@ async function run() {
     while (!observed?.ready && Date.now() < deadline) {
       try {
         const evaluation = await cdp.send("Runtime.evaluate", {
-          expression: `(() => { const host = document.querySelector('#game-container'); const canvas = host?.querySelector('canvas'); const text = document.body?.innerText ?? ''; return { ready: document.readyState === 'complete' && Boolean(canvas), shell: text.includes('EcoGrid: Ciudad al Límite'), secondary: text.includes('Consola local secundaria'), simulated: text.toLowerCase().includes('modo simulado'), waiting: text.includes('Esperando una entrada validada.'), confirmationUnavailable: text.includes('Confirmación disponible: no.'), canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0, rectWidth: canvas?.getBoundingClientRect().width ?? 0, rectHeight: canvas?.getBoundingClientRect().height ?? 0 }; })()`,
+          expression: `(() => { const host = document.querySelector('#game-container'); const canvas = host?.querySelector('canvas'); const text = document.body?.innerText ?? ''; const guide = document.querySelector('#round-guide'); const notice = document.querySelector('#session-notice'); return { ready: document.readyState === 'complete' && Boolean(canvas), shell: text.includes('EcoGrid: Ciudad al Límite'), secondary: text.includes('Consola local secundaria'), simulated: text.toLowerCase().includes('modo simulado'), waiting: text.includes('Esperando una entrada validada.'), confirmationUnavailable: text.includes('Confirmación disponible: no.'), initialGuide: guide?.hidden === false && guide?.dataset.eventKey === 'base-demand' && document.querySelector('#round-guide-title')?.textContent === 'Condición base' && document.querySelector('#round-guide-question')?.textContent?.trim() === '¿Entendemos el tablero y qué cargas debemos priorizar?', initialNotice: notice?.hidden === false && notice?.dataset.level === 'attention' && document.querySelector('#session-notice-label')?.textContent === 'Atención' && document.querySelector('#session-notice-title')?.textContent === 'Entrada desconectada', canvasWidth: canvas?.width ?? 0, canvasHeight: canvas?.height ?? 0, rectWidth: canvas?.getBoundingClientRect().width ?? 0, rectHeight: canvas?.getBoundingClientRect().height ?? 0 }; })()`,
           returnByValue: true,
         }, sessionId);
         observed = evaluation.result.value;
@@ -202,6 +234,11 @@ async function run() {
         const diagnostic = document.querySelector('#run-malformed-input-diagnostic');
         const diagnosticDetails = document.querySelector('.simulation-diagnostic');
         const diagnosticSummary = diagnosticDetails?.querySelector('summary');
+        const actionGroup = document.querySelector('.simulation-actions');
+        const actionLegend = actionGroup?.querySelector('legend');
+        const actionHelp = document.querySelector('#simulation-actions-help');
+        const skipLink = document.querySelector('.skip-link');
+        const mainContent = document.querySelector('#main-content');
         const originalCanvas = document.querySelector('#game-container canvas');
         const readOutput = () => {
           const acceptedEntries = [...document.querySelectorAll('#accepted-input-values dd')];
@@ -211,40 +248,101 @@ async function run() {
             traceRows: [...document.querySelectorAll('#simulated-trace li')].map((row) => row.textContent ?? ''),
           };
         };
+        const readNotice = () => {
+          const container = document.querySelector('#session-notice');
+          const rect = container?.getBoundingClientRect();
+          return {
+            hidden: container?.hidden !== false,
+            level: container?.dataset.level ?? '',
+            label: document.querySelector('#session-notice-label')?.textContent ?? '',
+            title: document.querySelector('#session-notice-title')?.textContent ?? '',
+            message: document.querySelector('#session-notice-message')?.textContent ?? '',
+            visible: container?.hidden === false
+              && (rect?.width ?? 0) > 0
+              && (rect?.height ?? 0) > 0
+              && (rect?.left ?? -1) >= 0
+              && (rect?.right ?? Infinity) <= window.innerWidth,
+          };
+        };
+        const expectedRoundGuides = ${JSON.stringify(EXPECTED_ROUND_GUIDES)};
         const run = (firstInputAlreadyLoaded = false, diagnoseAfterFirstConfirmation = false) => {
           const snapshots = [];
           const transitions = [];
+          const roundGuides = [];
           let midSessionDiagnostic = !diagnoseAfterFirstConfirmation;
           for (let round = 0; round < 6; round += 1) {
             if (!firstInputAlreadyLoaded || round > 0) load?.click();
             const readyText = document.querySelector('#console-status')?.textContent ?? '';
+            const expectedGuide = expectedRoundGuides[round];
+            const guideContainer = document.querySelector('#round-guide');
+            const guideTitle = document.querySelector('#round-guide-title')?.textContent ?? '';
+            const guideQuestion = document.querySelector('#round-guide-question')?.textContent ?? '';
+            const guideRect = guideContainer?.getBoundingClientRect();
             snapshots.push(readyText);
+            roundGuides.push({
+              eventKey: guideContainer?.dataset.eventKey ?? '',
+              title: guideTitle,
+              question: guideQuestion,
+              visible: guideContainer?.hidden === false
+                && (guideRect?.width ?? 0) > 0
+                && (guideRect?.height ?? 0) > 0
+                && (guideRect?.left ?? -1) >= 0
+                && (guideRect?.right ?? Infinity) <= window.innerWidth,
+            });
             const ready = readyText.includes('Entrada validada lista para confirmar.')
               && readyText.includes('ronda ' + (round + 1) + ' de 6')
+              && roundGuides[round].visible
+              && readNotice().hidden
               && readyText.includes('Confirmación disponible: sí.')
-              && load?.disabled === true && confirm?.disabled === false && reset?.disabled === true;
+              && load?.disabled === true && confirm?.disabled === false && reset?.disabled === true
+              && document.activeElement === confirm;
             confirm?.click();
             const advancedText = document.querySelector('#console-status')?.textContent ?? '';
+            const advancedNotice = readNotice();
             snapshots.push(advancedText);
             const advanced = round === 5
-              ? advancedText.includes('Sesión completada.') && reset?.disabled === false
+              ? advancedText.includes('Sesión completada.')
+                && advancedNotice.hidden
+                && reset?.disabled === false
+                && document.activeElement === reset
               : advancedText.includes('ronda ' + (round + 2) + ' de 6')
-                && advancedText.includes('NEW_INPUT_REQUIRED') && reset?.disabled === true;
+                && advancedText.includes('NEW_INPUT_REQUIRED')
+                && advancedNotice.visible
+                && advancedNotice.label === 'Siguiente paso'
+                && advancedNotice.title === 'Nueva entrada requerida'
+                && reset?.disabled === true
+                && document.activeElement === load;
             transitions.push({ ready, advanced });
             if (diagnoseAfterFirstConfirmation && round === 0) {
               diagnostic?.click();
               const diagnosticText = document.querySelector('#console-status')?.textContent ?? '';
               const diagnosticOutput = readOutput();
+              const diagnosticNotice = readNotice();
               midSessionDiagnostic = diagnosticText.includes('MALFORMED_JSON')
+                && diagnosticNotice.visible
+                && diagnosticNotice.title === 'Entrada rechazada o pendiente'
                 && diagnosticText.includes('ronda 2 de 6')
+                && document.activeElement === load
                 && diagnosticOutput.acceptedFieldCount === 0
                 && diagnosticOutput.traceRows.length === 1
                 && (document.querySelector('#observation-announcement')?.textContent ?? '')
                   === 'Sin entrada simulada aceptada. Rondas confirmadas: 1.';
             }
           }
-          return { snapshots, transitions, midSessionDiagnostic, output: readOutput() };
+          return { snapshots, transitions, roundGuides, midSessionDiagnostic, output: readOutput() };
         };
+        skipLink?.focus();
+        const skipRect = skipLink?.getBoundingClientRect();
+        const skipVisibleOnFocus = document.activeElement === skipLink
+          && (skipRect?.width ?? 0) > 0
+          && (skipRect?.height ?? 0) > 0
+          && (skipRect?.top ?? -1) >= 0
+          && (skipRect?.left ?? -1) >= 0
+          && (skipRect?.right ?? Infinity) <= window.innerWidth;
+        skipLink?.click();
+        const skipNavigation = skipVisibleOnFocus
+          && location.hash === '#main-content'
+          && document.activeElement === mainContent;
         const resetDisabledInitially = reset?.disabled === true;
         diagnosticSummary?.click();
         const detailsOpened = diagnosticDetails?.open === true;
@@ -253,10 +351,16 @@ async function run() {
         diagnostic?.click();
         const diagnosticText = document.querySelector('#console-status')?.textContent ?? '';
         const diagnosticOutput = readOutput();
+        const diagnosticNotice = readNotice();
         const diagnosticAnnouncement = document.querySelector('#observation-announcement')?.textContent ?? '';
         const malformedRejected = diagnosticText.includes('Esperando una entrada validada.')
           && diagnosticText.includes('ronda 1 de 6') && diagnosticText.includes('MALFORMED_JSON')
           && diagnosticText.includes('Confirmación disponible: no.')
+          && diagnosticNotice.visible
+          && diagnosticNotice.level === 'attention'
+          && diagnosticNotice.label === 'Atención'
+          && diagnosticNotice.title === 'Entrada rechazada o pendiente'
+          && document.activeElement === load
           && diagnosticOutput.acceptedFieldCount === 0
           && JSON.stringify(diagnosticOutput.traceRows) === JSON.stringify(traceBeforeDiagnostic)
           && load?.disabled === false && confirm?.disabled === true && reset?.disabled === true
@@ -266,6 +370,8 @@ async function run() {
         const recoveredReadyText = document.querySelector('#console-status')?.textContent ?? '';
         const recoveredReady = recoveredReadyText.includes('Entrada validada lista para confirmar.')
           && recoveredReadyText.includes('ronda 1 de 6')
+          && readNotice().hidden
+          && document.activeElement === confirm
           && load?.disabled === true && confirm?.disabled === false && reset?.disabled === true
           && diagnostic?.disabled === true;
         const first = run(true, true);
@@ -273,10 +379,14 @@ async function run() {
         reset?.click();
         const freshText = document.querySelector('#console-status')?.textContent ?? '';
         const freshOutput = readOutput();
+        const freshNotice = readNotice();
         const fresh = freshText.includes('Esperando una entrada validada.')
           && freshText.includes('ronda 1 de 6')
           && freshText.includes('DEVICE_DISCONNECTED')
           && freshText.includes('Confirmación disponible: no.')
+          && freshNotice.visible
+          && freshNotice.level === 'attention'
+          && freshNotice.title === 'Entrada desconectada'
           && freshOutput.acceptedFieldCount === 0 && freshOutput.traceRows.length === 0
           && load?.disabled === false && confirm?.disabled === true && reset?.disabled === true
           && document.activeElement === load;
@@ -296,6 +406,13 @@ async function run() {
           .every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left || rect.bottom <= other.top || other.bottom <= rect.top));
         return {
           roundsPerRun: first.transitions.length,
+          skipNavigation,
+          actionSemantics: actionGroup instanceof HTMLFieldSetElement
+            && actionGroup.getAttribute('aria-describedby') === 'simulation-actions-help'
+            && actionLegend?.textContent?.trim() === 'Acciones de la prueba simulada'
+            && (actionHelp?.textContent ?? '').includes('el foco avanzará al siguiente paso')
+            && [load, confirm, reset].every((control) => control instanceof HTMLButtonElement
+              && control.type === 'button'),
           detailsOpened,
           diagnosticEnabledInitially,
           malformedRejected,
@@ -307,14 +424,18 @@ async function run() {
           resetEnabledAfterCompletion,
           fresh,
           replaySnapshotsEqual: JSON.stringify(second.snapshots) === JSON.stringify(first.snapshots),
+          replayRoundGuidesEqual: JSON.stringify(second.roundGuides) === JSON.stringify(first.roundGuides),
+          roundGuides: second.roundGuides,
           replayAcceptedFieldsEqual: JSON.stringify(second.output.acceptedFields) === JSON.stringify(first.output.acceptedFields),
           replayTraceEqual: JSON.stringify(second.output.traceRows) === JSON.stringify(first.output.traceRows),
           sameCanvas: document.querySelectorAll('#game-container canvas').length === 1
             && document.querySelector('#game-container canvas') === originalCanvas,
           completed: finalText.includes('Sesión completada.')
             && finalText.includes('ronda 6 de 6')
-            && finalText.includes('Confirmación disponible: no.'),
-          terminalControls: load?.disabled === true && confirm?.disabled === true && reset?.disabled === false,
+            && finalText.includes('Confirmación disponible: no.')
+            && readNotice().hidden,
+          terminalControls: load?.disabled === true && confirm?.disabled === true && reset?.disabled === false
+            && document.activeElement === reset,
           acceptedFields: second.output.acceptedFields,
           acceptedFieldCount: second.output.acceptedFieldCount,
           panelRendered: (panelRect?.width ?? 0) > 0 && (panelRect?.height ?? 0) > 0
@@ -336,10 +457,45 @@ async function run() {
     const capture = await cdp.send("Page.captureScreenshot", { format: "png" }, sessionId);
     const screenshot = Buffer.from(capture.data, "base64");
     const dimensions = pngDimensions(screenshot);
+    const responsiveExpression = `(() => {
+      const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect();
+      const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect();
+      const reset = document.querySelector('#reset-simulated-session')?.getBoundingClientRect();
+      const diagnosticSummary = document.querySelector('.simulation-diagnostic summary')?.getBoundingClientRect();
+      const diagnostic = document.querySelector('#run-malformed-input-diagnostic')?.getBoundingClientRect();
+      const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect();
+      const status = document.querySelector('#console-status')?.getBoundingClientRect();
+      const actions = document.querySelector('.simulation-actions')?.getBoundingClientRect();
+      const actionHelp = document.querySelector('#simulation-actions-help')?.getBoundingClientRect();
+      const panel = document.querySelector('.observation-panel')?.getBoundingClientRect();
+      const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect());
+      const contained = (rect) => (rect?.width ?? 0) > 0 && (rect?.height ?? 0) > 0
+        && rect.left >= 0 && rect.right <= window.innerWidth;
+      const interactive = [load, confirm, reset, diagnosticSummary, diagnostic];
+      const separate = interactive.every((rect, index) => interactive.slice(index + 1)
+        .every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left
+          || rect.bottom <= other.top || other.bottom <= rect.top));
+      return {
+        width: window.innerWidth,
+        noOverflow: document.documentElement.scrollWidth <= window.innerWidth,
+        controlsVisible: [load, confirm, reset].every(contained),
+        diagnosticVisible: [diagnosticSummary, diagnostic].every(contained) && separate,
+        canvasVisible: contained(canvas),
+        statusVisible: contained(status),
+        actionsVisible: contained(actions) && contained(actionHelp),
+        observationVisible: contained(panel) && traceRows.length === 6 && traceRows.every(contained),
+      };
+    })()`;
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
     await new Promise((resolve) => setTimeout(resolve, 100));
     const mobile = (await cdp.send("Runtime.evaluate", {
-      expression: `(() => { const load = document.querySelector('#load-simulated-input')?.getBoundingClientRect(); const confirm = document.querySelector('#confirm-simulated-round')?.getBoundingClientRect(); const reset = document.querySelector('#reset-simulated-session')?.getBoundingClientRect(); const diagnosticSummary = document.querySelector('.simulation-diagnostic summary')?.getBoundingClientRect(); const diagnostic = document.querySelector('#run-malformed-input-diagnostic')?.getBoundingClientRect(); const canvas = document.querySelector('#game-container canvas')?.getBoundingClientRect(); const panel = document.querySelector('.observation-panel')?.getBoundingClientRect(); const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect()); const contained = (rect) => (rect?.width ?? 0) > 0 && (rect?.height ?? 0) > 0 && rect.left >= 0 && rect.right <= window.innerWidth; const interactive = [load, confirm, reset, diagnosticSummary, diagnostic]; const separate = interactive.every((rect, index) => interactive.slice(index + 1).every((other) => !rect || !other || rect.right <= other.left || other.right <= rect.left || rect.bottom <= other.top || other.bottom <= rect.top)); return { viewport: window.innerWidth === 390, noOverflow: document.documentElement.scrollWidth <= window.innerWidth, controlsVisible: [load, confirm, reset].every(contained), diagnosticVisible: [diagnosticSummary, diagnostic].every(contained) && separate, canvasVisible: contained(canvas), observationVisible: contained(panel) && traceRows.length === 6 && traceRows.every(contained) }; })()`,
+      expression: responsiveExpression,
+      returnByValue: true,
+    }, sessionId)).result.value;
+    await cdp.send("Emulation.setDeviceMetricsOverride", { width: 320, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const narrow = (await cdp.send("Runtime.evaluate", {
+      expression: responsiveExpression,
       returnByValue: true,
     }, sessionId)).result.value;
     const expectedAcceptedFields = { sourceMode: 'Simulación local', sequence: '5', calibrationLabel: 'simulated-not-calibrated-v1', lightProxy: '0.5', temperature: '20', hydroSetpoint: '0.4', batteryMode: 'idle', loadPriority: 'balanced', confirm: 'sí' };
@@ -348,11 +504,20 @@ async function run() {
       && Object.entries(expectedAcceptedFields).every(([field, value]) => interaction.acceptedFields[field] === value);
     const expectedTrace = PROVISIONAL_EVENT_KEYS.map((eventKey, index) => `round-${index + 1} · evento provisional: ${eventKey} · secuencia: ${index}`);
     const orderedTrace = JSON.stringify(interaction.traceRows) === JSON.stringify(expectedTrace);
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && interaction.roundsPerRun === 6 && interaction.detailsOpened && interaction.diagnosticEnabledInitially && interaction.malformedRejected && interaction.recoveredReady && interaction.midSessionDiagnostic && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && interaction.panelRendered && interaction.controlsReadable && interaction.diagnosticGeometry && interaction.traceRendered && orderedTrace && mobile.viewport && mobile.noOverflow && mobile.controlsVisible && mobile.diagnosticVisible && mobile.canvasVisible && mobile.observationVisible && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
-    if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
+    const orderedRoundGuides = interaction.roundGuides.length === EXPECTED_ROUND_GUIDES.length
+      && interaction.roundGuides.every((guide, index) => guide.visible
+        && guide.eventKey === EXPECTED_ROUND_GUIDES[index].eventKey
+        && guide.title === EXPECTED_ROUND_GUIDES[index].title
+        && guide.question === EXPECTED_ROUND_GUIDES[index].question);
+    const responsivePass = (result, expectedWidth) => result.width === expectedWidth
+      && result.noOverflow && result.controlsVisible && result.diagnosticVisible
+      && result.canvasVisible && result.statusVisible && result.actionsVisible
+      && result.observationVisible;
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && observed.initialGuide && observed.initialNotice && interaction.roundsPerRun === 6 && interaction.skipNavigation && interaction.actionSemantics && interaction.detailsOpened && interaction.diagnosticEnabledInitially && interaction.malformedRejected && interaction.recoveredReady && interaction.midSessionDiagnostic && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayRoundGuidesEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && orderedRoundGuides && interaction.panelRendered && interaction.controlsReadable && interaction.diagnosticGeometry && interaction.traceRendered && orderedTrace && responsivePass(mobile, 390) && responsivePass(narrow, 320) && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+    if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, narrow, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input diagnostic=malformed-rejected-recovered-counts-0-and-1 observation_panel=rendered accepted_values=exact trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled mobile=390px-diagnostic-panel-visible-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input skip_navigation=focus-visible-target-main notices=disconnected-invalid-next-step-visible-ready-completed-hidden keyboard_focus=load-confirm-load-reset-cycle action_semantics=fieldset-legend-help-native-buttons diagnostic=malformed-rejected-recovered-counts-0-and-1 observation_panel=rendered accepted_values=exact round_guides=6-ordered-visible-replayed trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled reflow=390px-and-320px-contained-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {

@@ -9,7 +9,10 @@ import {
   MAX_CURRENT_ROUND_ID_LENGTH,
   MAX_REASON_CODE_LENGTH,
 } from "../src/console/createRoundConsoleViewModel";
+import { focusNextSimulatedAction } from "../src/console/focusNextSimulatedAction";
+import { renderProvisionalRoundGuide } from "../src/console/renderProvisionalRoundGuide";
 import { renderRoundConsoleStatus } from "../src/console/renderRoundConsoleStatus";
+import { renderSessionNotice } from "../src/console/renderSessionNotice";
 
 const activeSnapshot = (overrides: Partial<RoundSessionSnapshot> = {}): RoundSessionSnapshot => ({
   status: "waiting-input",
@@ -67,6 +70,8 @@ describe("round console view model", () => {
     activeSnapshot({ status: "ready", roundCount: 0, confirmationAllowed: true }),
     activeSnapshot({ status: "ready", currentRoundId: "", confirmationAllowed: true }),
     activeSnapshot({ status: "ready", currentRoundId: null, confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", currentRoundId: "round-1", confirmationAllowed: true }),
+    activeSnapshot({ status: "ready", currentRoundId: "round-unknown", confirmationAllowed: true }),
     activeSnapshot({ status: "completed", roundIndex: 6, currentRoundId: "round-6" }),
     activeSnapshot({ status: "completed", roundIndex: 5, currentRoundId: null }),
     activeSnapshot({ status: "completed", roundIndex: 7, currentRoundId: null }),
@@ -91,11 +96,30 @@ describe("round console view model", () => {
   });
 
   it.each([0, EXPECTED_ROUND_COUNT - 1])("accepts active boundary index %s", (roundIndex) => {
-    const viewModel = createRoundConsoleViewModel(activeSnapshot({ roundIndex }));
+    const viewModel = createRoundConsoleViewModel(activeSnapshot({
+      roundIndex,
+      currentRoundId: `round-${roundIndex + 1}`,
+    }));
 
     expect(viewModel.status.reasonCode).toBe("ENTRADA_PENDIENTE");
     expect(viewModel.progress.index).toBe(roundIndex);
     expect(viewModel.progress.count).toBe(EXPECTED_ROUND_COUNT);
+  });
+
+  it.each([
+    [0, "Condición base", "¿Entendemos el tablero y qué cargas debemos priorizar?"],
+    [1, "Temperatura alta", "¿Cómo cambia la estrategia cuando el panel trabaja más caliente?"],
+    [2, "Río bajo", "¿Qué consigna hidro es posible sin vulnerar el caudal ecológico?"],
+    [3, "Pico de demanda", "¿Qué cargas protegemos y cuándo usamos la batería?"],
+    [4, "Luz reducida", "¿Cómo administramos la reserva sin inventar generación?"],
+    [5, "Combinación final", "¿Podemos sostener la ciudad y justificar todas las decisiones?"],
+  ] as const)("maps round %s to canonical provisional copy", (roundIndex, title, question) => {
+    const viewModel = createRoundConsoleViewModel(activeSnapshot({
+      roundIndex,
+      currentRoundId: `round-${roundIndex + 1}`,
+    }));
+
+    expect(viewModel.scenario).toMatchObject({ title, question });
   });
 
   it.each([
@@ -163,10 +187,48 @@ describe("round console view model", () => {
     expect(Object.isFrozen(first)).toBe(true);
     expect(Object.isFrozen(first.status)).toBe(true);
     expect(Object.isFrozen(first.progress)).toBe(true);
+    expect(Object.isFrozen(first.scenario)).toBe(true);
     expect(Object.isFrozen(first.confirmation)).toBe(true);
+    expect(Object.isFrozen(first.notice)).toBe(true);
   });
 
-  it("renders status, progress, reason, and non-color confirmation semantics", () => {
+  it.each([
+    ["unavailable", "SNAPSHOT_INVALIDO", "blocking", "Entrada no disponible"],
+    ["reset-required", "SESSION_RESET_REQUIRED", "blocking", "Reinicio requerido"],
+    ["waiting-input", "DEVICE_DISCONNECTED", "attention", "Entrada desconectada"],
+    ["waiting-input", "NEW_INPUT_REQUIRED", "attention", "Nueva entrada requerida"],
+    ["waiting-input", "MALFORMED_JSON", "attention", "Entrada rechazada o pendiente"],
+  ] as const)("maps %s/%s to a redundant visible notice", (
+    status,
+    reasonCode,
+    level,
+    title,
+  ) => {
+    const shape = status === "unavailable"
+      ? { roundIndex: 0, roundCount: 0, currentRoundId: null }
+      : {};
+    const viewModel = createRoundConsoleViewModel(activeSnapshot({
+      status,
+      reasonCode,
+      ...shape,
+    }));
+
+    expect(viewModel.notice).toMatchObject({ level, title });
+  });
+
+  it.each([
+    activeSnapshot({ status: "ready", reasonCode: "SNAPSHOT_READY", confirmationAllowed: true }),
+    activeSnapshot({
+      status: "completed",
+      reasonCode: "LIFECYCLE_COMPLETED",
+      roundIndex: 6,
+      currentRoundId: null,
+    }),
+  ])("does not show an alert when no action is required", (snapshot) => {
+    expect(createRoundConsoleViewModel(snapshot).notice).toBeNull();
+  });
+
+  it("renders operational status without duplicating the round guide", () => {
     const target = { textContent: null, dataset: {} } as unknown as HTMLElement;
     const viewModel = createRoundConsoleViewModel(activeSnapshot({
       status: "ready",
@@ -176,9 +238,83 @@ describe("round console view model", () => {
     renderRoundConsoleStatus(target, viewModel);
 
     expect(target.textContent).toContain("ronda 2 de 6");
+    expect(target.textContent).not.toContain("Temperatura alta");
+    expect(target.textContent).not.toContain("Pregunta guía:");
     expect(target.textContent).toContain("Motivo: ENTRADA_PENDIENTE");
     expect(target.textContent).toContain("Confirmación disponible: sí");
     expect(target.dataset.confirmationAvailable).toBe("true");
+  });
+
+  it("renders the provisional round guide in dedicated semantic targets", () => {
+    const container = { hidden: true, dataset: {} } as unknown as HTMLElement;
+    const title = { textContent: null } as unknown as HTMLElement;
+    const question = { textContent: null } as unknown as HTMLElement;
+
+    renderProvisionalRoundGuide(
+      { container, title, question },
+      createRoundConsoleViewModel(activeSnapshot()),
+    );
+
+    expect(container.hidden).toBe(false);
+    expect(container.dataset.eventKey).toBe("high-temperature");
+    expect(title.textContent).toBe("Temperatura alta");
+    expect(question.textContent).toBe(
+      "¿Cómo cambia la estrategia cuando el panel trabaja más caliente?",
+    );
+  });
+
+  it("hides and clears the guide when no active round is available", () => {
+    const container = {
+      hidden: false,
+      dataset: { eventKey: "stale" },
+    } as unknown as HTMLElement;
+    const title = { textContent: "stale" } as unknown as HTMLElement;
+    const question = { textContent: "stale" } as unknown as HTMLElement;
+
+    renderProvisionalRoundGuide(
+      { container, title, question },
+      createRoundConsoleViewModel(null),
+    );
+
+    expect(container.hidden).toBe(true);
+    expect(container.dataset.eventKey).toBeUndefined();
+    expect(title.textContent).toBe("");
+    expect(question.textContent).toBe("");
+  });
+
+  it("renders and clears session notices without relying on color", () => {
+    const container = {
+      hidden: true,
+      dataset: {},
+    } as unknown as HTMLElement;
+    const label = { textContent: null } as unknown as HTMLElement;
+    const title = { textContent: null } as unknown as HTMLElement;
+    const message = { textContent: null } as unknown as HTMLElement;
+    const targets = { container, label, title, message };
+
+    renderSessionNotice(
+      targets,
+      createRoundConsoleViewModel(activeSnapshot({ reasonCode: "MALFORMED_JSON" })),
+    );
+    expect(container.hidden).toBe(false);
+    expect(container.dataset.level).toBe("attention");
+    expect(label.textContent).toBe("Atención");
+    expect(title.textContent).toBe("Entrada rechazada o pendiente");
+    expect(message.textContent).toContain("antes de confirmar");
+
+    renderSessionNotice(
+      targets,
+      createRoundConsoleViewModel(activeSnapshot({
+        status: "ready",
+        reasonCode: "SNAPSHOT_READY",
+        confirmationAllowed: true,
+      })),
+    );
+    expect(container.hidden).toBe(true);
+    expect(container.dataset.level).toBeUndefined();
+    expect(label.textContent).toBe("");
+    expect(title.textContent).toBe("");
+    expect(message.textContent).toBe("");
   });
 
   it("renders untrusted-looking bounded text literally through textContent", () => {
@@ -224,5 +360,105 @@ describe("product layer constraints", () => {
       "resolveRound",
     ].join("|"));
     expect(allSources).not.toMatch(excludedBehavior);
+  });
+});
+
+describe("simulated action focus", () => {
+  const button = (disabled: boolean, name: string, calls: string[]): HTMLButtonElement => ({
+    disabled,
+    focus: () => calls.push(name),
+  }) as unknown as HTMLButtonElement;
+
+  it.each([
+    [false, true, true, "load"],
+    [true, false, true, "confirm"],
+    [true, true, false, "reset"],
+  ] as const)("focuses the single enabled next action", (
+    loadDisabled,
+    confirmDisabled,
+    resetDisabled,
+    expected,
+  ) => {
+    const calls: string[] = [];
+
+    focusNextSimulatedAction({
+      load: button(loadDisabled, "load", calls),
+      confirm: button(confirmDisabled, "confirm", calls),
+      reset: button(resetDisabled, "reset", calls),
+    });
+
+    expect(calls).toEqual([expected]);
+  });
+
+  it("uses confirmation, load, then reset as a deterministic priority", () => {
+    const calls: string[] = [];
+
+    focusNextSimulatedAction({
+      load: button(false, "load", calls),
+      confirm: button(false, "confirm", calls),
+      reset: button(false, "reset", calls),
+    });
+
+    expect(calls).toEqual(["confirm"]);
+  });
+
+  it("does not move focus when every action is disabled", () => {
+    const calls: string[] = [];
+
+    focusNextSimulatedAction({
+      load: button(true, "load", calls),
+      confirm: button(true, "confirm", calls),
+      reset: button(true, "reset", calls),
+    });
+
+    expect(calls).toEqual([]);
+  });
+});
+
+describe("simulated action markup", () => {
+  const html = import.meta.glob("../index.html", {
+    eager: true,
+    query: "?raw",
+    import: "default",
+  })["../index.html"] as string;
+
+  it("groups native actions with an explicit legend and help relation", () => {
+    expect(html).toMatch(
+      /<fieldset[\s\S]*class="simulation-actions"[\s\S]*aria-describedby="simulation-actions-help"[\s\S]*>/,
+    );
+    expect(html).toContain("<legend>Acciones de la prueba simulada</legend>");
+    expect(html).toContain('id="simulation-actions-help"');
+  });
+
+  it.each([
+    "load-simulated-input",
+    "confirm-simulated-round",
+    "reset-simulated-session",
+  ])("keeps %s as a native non-submit button", (id) => {
+    expect(html).toMatch(new RegExp(`<button id="${id}" type="button"`));
+  });
+});
+
+describe("skip navigation markup", () => {
+  const html = import.meta.glob("../index.html", {
+    eager: true,
+    query: "?raw",
+    import: "default",
+  })["../index.html"] as string;
+
+  it("places a descriptive skip link before the main landmark", () => {
+    const skipIndex = html.indexOf(
+      '<a class="skip-link" href="#main-content">Saltar al contenido principal</a>',
+    );
+    const mainIndex = html.indexOf('<main');
+
+    expect(skipIndex).toBeGreaterThan(-1);
+    expect(mainIndex).toBeGreaterThan(skipIndex);
+  });
+
+  it("provides a programmatically focusable main target", () => {
+    expect(html).toMatch(
+      /<main[\s\S]*id="main-content"[\s\S]*aria-labelledby="console-title"[\s\S]*tabindex="-1"/,
+    );
   });
 });

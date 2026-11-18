@@ -11,7 +11,13 @@
     <title>EcoGrid | Consola local</title>
   </head>
   <body>
-    <main class="console-shell" aria-labelledby="console-title">
+    <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+    <main
+      id="main-content"
+      class="console-shell"
+      aria-labelledby="console-title"
+      tabindex="-1"
+    >
       <header class="console-header">
         <p class="console-label">Consola local secundaria</p>
         <h1 id="console-title">EcoGrid: Ciudad al Límite</h1>
@@ -33,6 +39,27 @@
           Esperando una entrada validada. Progreso: ronda 1 de 6. Motivo:
           DEVICE_DISCONNECTED. Confirmación disponible: no.
         </p>
+        <section id="round-guide" class="round-guide" aria-labelledby="round-guide-title">
+          <p class="round-guide-label">Ronda provisional</p>
+          <h2 id="round-guide-title">Condición base</h2>
+          <p id="round-guide-question">
+            ¿Entendemos el tablero y qué cargas debemos priorizar?
+          </p>
+        </section>
+        <aside
+          id="session-notice"
+          class="session-notice"
+          aria-labelledby="session-notice-title"
+          aria-live="polite"
+          aria-atomic="true"
+          data-level="attention"
+        >
+          <p id="session-notice-label" class="session-notice-label">Atención</p>
+          <h2 id="session-notice-title">Entrada desconectada</h2>
+          <p id="session-notice-message">
+            La ronda permanece detenida hasta recibir una entrada validada.
+          </p>
+        </aside>
         <div class="simulated-controls" aria-labelledby="simulated-mode-title">
           <div>
             <p class="simulation-label">Modo simulado</p>
@@ -53,11 +80,18 @@
               </button>
             </details>
           </div>
-          <div class="simulation-actions">
+          <fieldset
+            class="simulation-actions"
+            aria-describedby="simulation-actions-help"
+          >
+            <legend>Acciones de la prueba simulada</legend>
+            <p id="simulation-actions-help">
+              Completa la acción habilitada; el foco avanzará al siguiente paso.
+            </p>
             <button id="load-simulated-input" type="button">Cargar entrada simulada</button>
             <button id="confirm-simulated-round" type="button" disabled>Confirmar ronda simulada</button>
             <button id="reset-simulated-session" type="button" disabled>Reiniciar prueba simulada</button>
-          </div>
+          </fieldset>
         </div>
         <section class="observation-panel" aria-labelledby="observation-title">
           <h2 id="observation-title">Observación técnica simulada</h2>
