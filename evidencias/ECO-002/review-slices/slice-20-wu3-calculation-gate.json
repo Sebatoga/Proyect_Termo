@@ -1,0 +1,17 @@
+{
+  "id": "ECO-002-WU3-S20",
+  "order": 20,
+  "purpose": "Review the immutable calculation gate and its exact checksum ledger.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU3-S19",
+  "review_units": [
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-02/manifest.yaml", "records": ["complete file"], "review_lines": 236},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-02/report.md", "records": ["complete file"], "review_lines": 41},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261022-02/checksums.sha256", "records": ["complete file"], "review_lines": 19},
+    {"path": "evidencias/ECO-002/review-slices/slice-20-wu3-calculation-gate.json", "records": ["complete file"], "review_lines": 17}
+  ],
+  "total_review_lines": 313,
+  "non_overlap_key": "ECO-002-GATE-20261022-02"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "ECO-002-WU1-S06",
+  "order": 6,
+  "purpose": "Keep the corrected gate with its executable structural and hash checks.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S05",
+  "files": [
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-02/manifest.yaml", "review_lines": 162},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-02/report.md", "review_lines": 33},
+    {"path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-02/checksums.sha256", "review_lines": 11},
+    {"path": "evidencias/ECO-002/validation/validate_work_unit_1.py", "review_lines": 160},
+    {"path": "evidencias/ECO-002/review-slices/slice-06-corrected-gate.json", "review_lines": 17}
+  ],
+  "total_review_lines": 383
+}

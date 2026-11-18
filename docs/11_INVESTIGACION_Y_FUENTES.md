@@ -6,7 +6,7 @@ No declarar que estos libros/páginas fueron consultados por el equipo hasta rev
 - Çengel y Boles, *Thermodynamics: An Engineering Approach*: balances energéticos, transferencia, hipótesis básicas.
 - Çengel y Cimbala, *Fluid Mechanics: Fundamentals and Applications*: caudal, conservación, carga, pérdidas.
 - Duffie y Beckman, *Solar Engineering of Thermal Processes*: solar térmica, irradiancia y balances.
-- Manuales y hojas de datos de módulos FV, turbinas, reguladores y baterías **de modelos definidos**: factores de temperatura, capacidad, eficiencia.
+- Datasheets de sensores, microcontrolador, controles, LEDs y alimentación **solo después de identificar componentes reales**: rango, precisión, tensión, corriente y límites.
 - Betz y teoría de potencia eólica en material técnico de referencia verificable.
 - Documentación técnica del organismo ambiental competente para justificación del caudal ecológico, si se utiliza un caso geográfico real (sin asumir cifras normativas universales).
 
@@ -18,6 +18,8 @@ No declarar que estos libros/páginas fueron consultados por el equipo hasta rev
 | Cp eólica | PENDIENTE | 0.40 ejemplo | supuesto | pendiente | pendiente |
 | K_loss hidráulico | PENDIENTE | 0.1 s²/m⁵ ejemplo | supuesto | pendiente | pendiente |
 | Qeco | PENDIENTE | 1 m³/s ejemplo | decisión de escenario, no norma | pendiente | pendiente |
+| Sensor de luz/temperatura | PENDIENTE tras ECO-108 | no adoptar aún | inventario + datasheet + calibración | pendiente | pendiente |
+| Microcontrolador/USB | PENDIENTE tras ECO-108 | no adoptar aún | inventario + datasheet + banco | pendiente | pendiente |
 
 ## Criterios
-Usar bibliografía de ingeniería de calidad; no usar materiales sin atribución. Si la física simplificada no corresponde al texto exacto, citar qué es derivación y qué es supuesto. No confundir validación contra otro código idéntico con validación independiente.
+Usar bibliografía de ingeniería de calidad; no usar materiales sin atribución. Si la física simplificada no corresponde al texto exacto, citar qué es derivación y qué es supuesto. No confundir validación contra otro código idéntico con validación independiente. La BOM enlaza cada modelo exacto con datasheet archivado, proveedor, costo observado y fecha; una fuente candidata no prueba disponibilidad.

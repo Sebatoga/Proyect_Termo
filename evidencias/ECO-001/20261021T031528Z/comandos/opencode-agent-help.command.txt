@@ -1,0 +1,5 @@
+command: opencode agent --help
+cwd: /home/sebato/Escritorio/Proyecto_termo/Proyect_Termo
+exit_code: 0
+stdout_ref: comandos/opencode-agent-help.stdout.txt
+stderr_ref: comandos/opencode-agent-help.stderr.txt

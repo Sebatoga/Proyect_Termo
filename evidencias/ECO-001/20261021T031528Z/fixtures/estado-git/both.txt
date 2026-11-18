@@ -1,0 +1,1 @@
+both fixture staged plus unstaged modification

@@ -1,0 +1,17 @@
+{
+  "schema": "ecogrid.eco-001.recovery/v1",
+  "run_id": "20261021T031528Z",
+  "authorization_ref": null,
+  "source_locator": null,
+  "preflight": "blocked",
+  "postcheck": "not_run",
+  "discovery": "not_run",
+  "operational_substate": "none",
+  "final_state": "blocked",
+  "cause": "No original kit source was provided or explicitly authorized in the observed checkout.",
+  "dependency": "Team-provided or explicitly authorized local access to the original kit source.",
+  "responsible": "Project team",
+  "next_action": "Provide or authorize a local original source; then start Work Unit 2 and verify every .opencode path, byte count, and SHA-256 before any target write.",
+  "target_writes": [],
+  "journal": []
+}

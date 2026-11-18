@@ -1,0 +1,563 @@
+{
+  "schema": "ecogrid.eco-001.evidence/v1",
+  "run_id": "20261021T031528Z",
+  "self_hash_excluded": true,
+  "started_at": "2026-10-21T03:15:28Z",
+  "finished_at": "2026-10-21T14:27:03Z",
+  "repository": {
+    "root": "/home/sebato/Escritorio/Proyecto_termo/Proyect_Termo",
+    "head": "a69703444311cde5348565126a9f55b540f21fdc",
+    "git_status_before_ref": "comandos/git-status-t0.txt",
+    "git_status_after_ref": "comandos/git-status-t1.txt"
+  },
+  "steps": [
+    {
+      "id": "WU1-FOCUSED-VALIDATION",
+      "command": "python3 evidencias/ECO-001/20261021T031528Z/comandos/focused-validation.py",
+      "cwd": "/home/sebato/Escritorio/Proyecto_termo/Proyect_Termo",
+      "exit_code": 0,
+      "stdout_ref": "comandos/focused-validation.stdout.txt",
+      "stderr_ref": "comandos/focused-validation.stderr.txt",
+      "status": "observed"
+    },
+    {
+      "id": "G3-OPENCODE-DISCOVERY",
+      "command": "See comandos/opencode-*.command.txt for six exact commands",
+      "cwd": "/home/sebato/Escritorio/Proyecto_termo/Proyect_Termo",
+      "exit_code": 0,
+      "stdout_ref": "comandos/opencode-inventory.txt",
+      "stderr_ref": null,
+      "status": "observed"
+    },
+    {
+      "id": "G9-T1",
+      "command": "git rev-parse HEAD && git status --porcelain=v2 --branch --untracked-files=all && git diff --cached --name-status && git diff --name-status && git ls-files --others --exclude-standard",
+      "cwd": "/home/sebato/Escritorio/Proyecto_termo/Proyect_Termo",
+      "exit_code": 0,
+      "stdout_ref": "comandos/git-status-t1.txt",
+      "stderr_ref": null,
+      "status": "observed"
+    },
+    {
+      "id": "G9-FINAL-ACCEPTANCE",
+      "command": "See comandos/verification-final.txt for exact commands and observed outputs",
+      "cwd": "/home/sebato/Escritorio/Proyecto_termo/Proyect_Termo",
+      "exit_code": 0,
+      "stdout_ref": "comandos/verification-final.txt",
+      "stderr_ref": null,
+      "status": "observed"
+    }
+  ],
+  "recovery": {
+    "schema": "ecogrid.eco-001.recovery/v1",
+    "run_id": "20261021T031528Z",
+    "authorization_ref": null,
+    "source_locator": null,
+    "preflight": "blocked",
+    "postcheck": "not_run",
+    "discovery": "not_run",
+    "operational_substate": "none",
+    "final_state": "blocked",
+    "cause": "No original kit source was provided or explicitly authorized in the observed checkout.",
+    "dependency": "Team-provided or explicitly authorized local access to the original kit source.",
+    "responsible": "Project team",
+    "next_action": "Provide or authorize a local original source; then start Work Unit 2 and verify every .opencode path, byte count, and SHA-256 before any target write.",
+    "target_writes": [],
+    "journal": []
+  },
+  "gaps_ref": "brechas.csv",
+  "files": [
+    {
+      "path": "brechas.csv",
+      "type": "regular_file",
+      "bytes": 1402,
+      "sha256": "eb9ad594f45d53c0a47ffe918ff4f9a70086b35796845546e7640213bfe62823"
+    },
+    {
+      "path": "comandos/candidate-line-count.command.txt",
+      "type": "regular_file",
+      "bytes": 86,
+      "sha256": "7583630f3018e073072c3c8ca1c8b77ebc1a5442e6dd6aba706b604119c22d7d"
+    },
+    {
+      "path": "comandos/candidate-line-count.exit-code.txt",
+      "type": "regular_file",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "comandos/candidate-line-count.py",
+      "type": "regular_file",
+      "bytes": 8921,
+      "sha256": "3da89fbc81599e2793af70d083bdb704c59771ad3e73cd7714ff88ebcf1c13c8"
+    },
+    {
+      "path": "comandos/candidate-line-count.stderr.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/candidate-line-count.stdout.txt",
+      "type": "regular_file",
+      "bytes": 1577,
+      "sha256": "762981d84a239e8ae5082c45f6da86ca0cd4aa9fefd6225ea753b0c8d0026b18"
+    },
+    {
+      "path": "comandos/capture-opencode-evidence.py",
+      "type": "regular_file",
+      "bytes": 1709,
+      "sha256": "2efce9bf4179018b36ea873c89476b93355815cf16ca5900224101375e7b237b"
+    },
+    {
+      "path": "comandos/fixture-validations.txt",
+      "type": "regular_file",
+      "bytes": 700,
+      "sha256": "f526c35845085626622a87ff2aa8ef93da9dcab797cb6ef97f065da3859a3080"
+    },
+    {
+      "path": "comandos/focused-validation.command.txt",
+      "type": "regular_file",
+      "bytes": 301,
+      "sha256": "24d1a8637f2ebb3af3d6a37aef5c00803943a140599fa535a51577f2b0988a71"
+    },
+    {
+      "path": "comandos/focused-validation.py",
+      "type": "regular_file",
+      "bytes": 13062,
+      "sha256": "8e55e6f9ae525b545212346cf9b07b2ed2a7433e6c9f03beffa30f53d9e75312"
+    },
+    {
+      "path": "comandos/focused-validation.stderr.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/focused-validation.stdout.txt",
+      "type": "regular_file",
+      "bytes": 1472,
+      "sha256": "19c035e0516c640cca788a5944a4d8b6bc104aa1785dd5d7137126a26b0723bb"
+    },
+    {
+      "path": "comandos/git-root.txt",
+      "type": "regular_file",
+      "bytes": 219,
+      "sha256": "7be8535e60170b92e276efea2847245bbb80020ab522165bd2997b06ba60bfb6"
+    },
+    {
+      "path": "comandos/git-status-t0.txt",
+      "type": "regular_file",
+      "bytes": 519,
+      "sha256": "a3e984fd0773772ad5ea5d0d97c55eb9d0a2bc71b9cc540c7b0f72864777abf5"
+    },
+    {
+      "path": "comandos/git-status-t1.txt",
+      "type": "regular_file",
+      "bytes": 1374,
+      "sha256": "93934649d994fd3016b1a5c229e613801df77eb7d86bdd666776c1ff5f6753ca"
+    },
+    {
+      "path": "comandos/opencode-agent-help.command.txt",
+      "type": "regular_file",
+      "bytes": 206,
+      "sha256": "d411263b8ef8d4b166f4a0cf2a561625562d92ce05a0411a3e450a8020ebd50d"
+    },
+    {
+      "path": "comandos/opencode-agent-help.stderr.txt",
+      "type": "regular_file",
+      "bytes": 650,
+      "sha256": "11f69820945b3f33d7c6e68111ed3485a61ae09af334a9f67d746cad3c6454b3"
+    },
+    {
+      "path": "comandos/opencode-agent-help.stdout.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/opencode-agent-list.command.txt",
+      "type": "regular_file",
+      "bytes": 204,
+      "sha256": "8dabd7add1526b06aa6c346a3c06ce3f615e5f7edb2f79c7d228712741803b91"
+    },
+    {
+      "path": "comandos/opencode-agent-list.stderr.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/opencode-agent-list.stdout.txt",
+      "type": "regular_file",
+      "bytes": 296203,
+      "sha256": "1372893c9aafecd5d913272f6cbc16bfb07e83f86829511b93ac87f43c0848f5"
+    },
+    {
+      "path": "comandos/opencode-debug-config.command.txt",
+      "type": "regular_file",
+      "bytes": 210,
+      "sha256": "1ffbce6a7f3d311f1064f97942debfbee1f4579d453552219d5b679bad0db369"
+    },
+    {
+      "path": "comandos/opencode-debug-config.stderr.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/opencode-debug-config.stdout.txt",
+      "type": "regular_file",
+      "bytes": 347888,
+      "sha256": "bd060c211a95f04e20d72004229e0651ebbf8cc717d512003a29d86c2ec56017"
+    },
+    {
+      "path": "comandos/opencode-debug-help.command.txt",
+      "type": "regular_file",
+      "bytes": 206,
+      "sha256": "3838734a9865ed4a728a8c9efd7549713e7d700746fdb3b19d03d3f8add64a3b"
+    },
+    {
+      "path": "comandos/opencode-debug-help.stderr.txt",
+      "type": "regular_file",
+      "bytes": 1367,
+      "sha256": "31f44ac3c7677fbc3a558e8507b4af554b49d2285bc2626e2d8419145c22d071"
+    },
+    {
+      "path": "comandos/opencode-debug-help.stdout.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/opencode-debug-skill.command.txt",
+      "type": "regular_file",
+      "bytes": 207,
+      "sha256": "8b4e7d7d21fbf48100817e0861296ecc80ad7a12d14b343a13a2954ecd4698a0"
+    },
+    {
+      "path": "comandos/opencode-debug-skill.stderr.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/opencode-debug-skill.stdout.txt",
+      "type": "regular_file",
+      "bytes": 148504,
+      "sha256": "b4eb0896cc18c1c70a444171f2d4b0d5d2a73759dc0300b6d417ecdeb1682754"
+    },
+    {
+      "path": "comandos/opencode-help.command.txt",
+      "type": "regular_file",
+      "bytes": 188,
+      "sha256": "785d1752d8f2c97af46902b3417dc68507d9e8b4a3078e1926c34585d36aa28f"
+    },
+    {
+      "path": "comandos/opencode-help.stderr.txt",
+      "type": "regular_file",
+      "bytes": 4278,
+      "sha256": "d529c6eee9c6e1a91f5432c00c99cb68875c9f72863fa530864aacfb427bef8d"
+    },
+    {
+      "path": "comandos/opencode-help.stdout.txt",
+      "type": "regular_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "comandos/opencode-help.txt",
+      "type": "regular_file",
+      "bytes": 913,
+      "sha256": "0b8a22a92bda9057510aed2e1e8650708d764339991e64a1807cf64c5cd9d78d"
+    },
+    {
+      "path": "comandos/opencode-inventory.txt",
+      "type": "regular_file",
+      "bytes": 1238,
+      "sha256": "a7b9c1ab06437eca1cd2e397b69515edbff88b54c2eec88746b5cb77b553bc3e"
+    },
+    {
+      "path": "comandos/regenerate-evidence-index.py",
+      "type": "regular_file",
+      "bytes": 4021,
+      "sha256": "e9bbc5e28e0bdf3d8856a187f357ea98961eecfd25496b0fa9f514f187aab42e"
+    },
+    {
+      "path": "comandos/verification-final.txt",
+      "type": "regular_file",
+      "bytes": 4804,
+      "sha256": "114f27195bdda1b0d9fa0eb720356a032e3f0205f6bb9c2b2c4265abc78ea1a7"
+    },
+    {
+      "path": "comandos/versiones.txt",
+      "type": "regular_file",
+      "bytes": 301,
+      "sha256": "5b8ec8bea2e93a3e4acfc5945cf6f0c16159713357ff5e4501b235c151d4b016"
+    },
+    {
+      "path": "fixtures/estado-git/both.txt",
+      "type": "regular_file",
+      "bytes": 47,
+      "sha256": "e3ad941eab29feb31ef6d1f8864be830651d3443c09dd686cfe75901449a57b0"
+    },
+    {
+      "path": "fixtures/estado-git/cases.json",
+      "type": "regular_file",
+      "bytes": 136,
+      "sha256": "8ddc6fd345f32eae0bee825048d24835197203c65ff4a1fce36e5c2b811eda76"
+    },
+    {
+      "path": "fixtures/estado-git/empty-index/untracked.txt",
+      "type": "regular_file",
+      "bytes": 20,
+      "sha256": "93986a32775ecdd95ec2819d823191f9fd715eed64f21ff996416c946f713306"
+    },
+    {
+      "path": "fixtures/estado-git/staged.txt",
+      "type": "regular_file",
+      "bytes": 24,
+      "sha256": "311e6441627c38a5744a3d10338f32c19440c6a4aa0c94630bd5a397409f533c"
+    },
+    {
+      "path": "fixtures/estado-git/unstaged.txt",
+      "type": "regular_file",
+      "bytes": 41,
+      "sha256": "1de89f0fb2ee0210ad27e8619397a28ed6134a2a32c2aee8461b84ec6b73225a"
+    },
+    {
+      "path": "fixtures/estado-git/untracked.txt",
+      "type": "regular_file",
+      "bytes": 18,
+      "sha256": "5c63bc45c6af00c91437289c7ba77420eb28c25ad5b734806d054edc79f197b8"
+    },
+    {
+      "path": "fixtures/fuente/cases.json",
+      "type": "regular_file",
+      "bytes": 135,
+      "sha256": "56d4f60543535205265fd8b0775020404b7d6ec277bc278f29a19dc3683f378a"
+    },
+    {
+      "path": "fixtures/manifiesto/cases.json",
+      "type": "regular_file",
+      "bytes": 225,
+      "sha256": "61776937e00574b082d0e7bf9cbd20d30adc368f6513880f89df503bc840fbf3"
+    },
+    {
+      "path": "fixtures/manifiesto/invalid.json",
+      "type": "regular_file",
+      "bytes": 12,
+      "sha256": "b4987ab4d999953cfda42248f394b9e73bbe996128ecbb029154de12536e6256"
+    },
+    {
+      "path": "fixtures/opencode/cases.json",
+      "type": "regular_file",
+      "bytes": 145,
+      "sha256": "f6e6cf80ce400ff2df0bfabf5debc531cef5d67e63765fa10157f39f8a87ee25"
+    },
+    {
+      "path": "fixtures/pdf/missing-category.csv",
+      "type": "regular_file",
+      "bytes": 119,
+      "sha256": "3235e42062aaef37972b2c63ed0190cf7bb16fcf6c1f6e4b9f54bbbf6952c6ba"
+    },
+    {
+      "path": "fixtures/raiz-git/authorized/child/marker.txt",
+      "type": "regular_file",
+      "bytes": 14,
+      "sha256": "a33d59e7979e12b2982084f7cd1654af208a7b360619c2a6368bff96fe773ba8"
+    },
+    {
+      "path": "fixtures/raiz-git/authorized/marker.txt",
+      "type": "regular_file",
+      "bytes": 19,
+      "sha256": "c9c7a15faa43ee7d3218084991e466d66d721428bb41e39f2d48937b3b7100f8"
+    },
+    {
+      "path": "fixtures/raiz-git/cases.json",
+      "type": "regular_file",
+      "bytes": 209,
+      "sha256": "5b905d38eb17b6dc7ad9a7400aadbd42cf2e2e83c915b13cf3e3c6430abdb903"
+    },
+    {
+      "path": "fixtures/raiz-git/other/marker.txt",
+      "type": "regular_file",
+      "bytes": 14,
+      "sha256": "853ef7d0fad966fafd27b7e9f38cc231007931ee0341fd8a155ac87d7c605d23"
+    },
+    {
+      "path": "fixtures/rutas-documentales/CMakeLists.txt",
+      "type": "regular_file",
+      "bytes": 46,
+      "sha256": "78d75a006baf26688161b33cedb4221c7303a2efea2759abe64536a09f0ad0cf"
+    },
+    {
+      "path": "fixtures/rutas-documentales/README.sh",
+      "type": "regular_file",
+      "bytes": 18,
+      "sha256": "0a5fb2d3a9e42d8cd0cd06a68ffdbc8cdd3e26ad2ec801c47867e457e7433e1a"
+    },
+    {
+      "path": "fixtures/rutas-documentales/example.md",
+      "type": "regular_file",
+      "bytes": 18,
+      "sha256": "6e326b779fb0f128b85c345530e3077770e730f3fcce5d57d0fcfaaefab502b0"
+    },
+    {
+      "path": "fixtures/rutas-documentales/example.mdx",
+      "type": "regular_file",
+      "bytes": 52,
+      "sha256": "fefe99dc8441bd31ecd5788dbf299a7c6c0b937f9ad634e0db19e055267e7eb5"
+    },
+    {
+      "path": "fixtures/rutas-documentales/requirements.txt",
+      "type": "regular_file",
+      "bytes": 42,
+      "sha256": "45ed094932200a108a9e3c4cb74dcbc1897306d04288acfce5044c94128813a0"
+    },
+    {
+      "path": "fixtures/transaccion/cases.json",
+      "type": "regular_file",
+      "bytes": 194,
+      "sha256": "890209dc33f628b6e3b59a2d49b1ee6dddedcbf037cdb9a24ad0003dd6f236f1"
+    },
+    {
+      "path": "informe.md",
+      "type": "regular_file",
+      "bytes": 7106,
+      "sha256": "4830058f0c950ecfab47034110363847c6ea6c37f921d03d0532892658294ac6"
+    },
+    {
+      "path": "manifiesto.csv",
+      "type": "regular_file",
+      "bytes": 9974,
+      "sha256": "dc953bf81674833d69a206f6578c30b7e6fd7b39e1a91a7713f4880816da18cd"
+    },
+    {
+      "path": "obligaciones-pdf.csv",
+      "type": "regular_file",
+      "bytes": 2903,
+      "sha256": "59db9ec1bade01796a9babc283e962b4d59c0cac89aeeb251387051fbee3465c"
+    },
+    {
+      "path": "opencode.csv",
+      "type": "regular_file",
+      "bytes": 2098,
+      "sha256": "f1de2516e6a24af1be85f028e55df00aa3f2631f30b6cdc09ab68b5be049234e"
+    },
+    {
+      "path": "recuperacion.json",
+      "type": "regular_file",
+      "bytes": 717,
+      "sha256": "388d347fb90c214dfa5ec6be09cb9d6c8a1e2a7a0af8a3d607e034a921396728"
+    }
+  ],
+  "special_entries": [
+    {
+      "path": "fixtures/manifiesto/symlink",
+      "type": "symlink",
+      "bytes": 10,
+      "sha256": "15cb97e16622b7883ab3c733d4cda682ac89ab41a22ff94bd6d98079971f611c"
+    },
+    {
+      "path": "fixtures/rutas-documentales/example-link",
+      "type": "symlink",
+      "bytes": 10,
+      "sha256": "812adf881bb029e57953653f71d54ffc5eac7de19829aa4cbcbbec8f7065a047"
+    }
+  ],
+  "exclusions": [
+    {
+      "selector": "fixtures/**/.git/**",
+      "reason": "Nested Git administration is local fixture state, cannot be versioned by the project repository, and is replaced by temporary repositories in the harness.",
+      "observed_entries": 85,
+      "paths": [
+        "fixtures/estado-git/.git/COMMIT_EDITMSG",
+        "fixtures/estado-git/.git/HEAD",
+        "fixtures/estado-git/.git/config",
+        "fixtures/estado-git/.git/description",
+        "fixtures/estado-git/.git/hooks/applypatch-msg.sample",
+        "fixtures/estado-git/.git/hooks/commit-msg.sample",
+        "fixtures/estado-git/.git/hooks/fsmonitor-watchman.sample",
+        "fixtures/estado-git/.git/hooks/post-update.sample",
+        "fixtures/estado-git/.git/hooks/pre-applypatch.sample",
+        "fixtures/estado-git/.git/hooks/pre-commit.sample",
+        "fixtures/estado-git/.git/hooks/pre-merge-commit.sample",
+        "fixtures/estado-git/.git/hooks/pre-push.sample",
+        "fixtures/estado-git/.git/hooks/pre-rebase.sample",
+        "fixtures/estado-git/.git/hooks/pre-receive.sample",
+        "fixtures/estado-git/.git/hooks/prepare-commit-msg.sample",
+        "fixtures/estado-git/.git/hooks/push-to-checkout.sample",
+        "fixtures/estado-git/.git/hooks/sendemail-validate.sample",
+        "fixtures/estado-git/.git/hooks/update.sample",
+        "fixtures/estado-git/.git/index",
+        "fixtures/estado-git/.git/info/exclude",
+        "fixtures/estado-git/.git/logs/HEAD",
+        "fixtures/estado-git/.git/logs/refs/heads/master",
+        "fixtures/estado-git/.git/objects/10/0bb7e9939c4215f51bff03155e6e93a0017311",
+        "fixtures/estado-git/.git/objects/3b/116e2a5e730d2889a4c6021860cd27f79915af",
+        "fixtures/estado-git/.git/objects/43/b36aa5f627bc33463e9bf87ebfd430d504e569",
+        "fixtures/estado-git/.git/objects/57/851e74b890e11870c0c96f05054abaef57ad9a",
+        "fixtures/estado-git/.git/objects/6f/d63977f0d06a3bf98976c662f65c9106efef8c",
+        "fixtures/estado-git/.git/objects/cc/09bcc9f8c17d1a2ae24793579b7535eeb4166c",
+        "fixtures/estado-git/.git/objects/db/9313d89af079dbdf66d45021392c568bc50327",
+        "fixtures/estado-git/.git/objects/ea/622daae3a71d294cfc16791a63b02c4c5a0772",
+        "fixtures/estado-git/.git/refs/heads/master",
+        "fixtures/estado-git/empty-index/.git/HEAD",
+        "fixtures/estado-git/empty-index/.git/config",
+        "fixtures/estado-git/empty-index/.git/description",
+        "fixtures/estado-git/empty-index/.git/hooks/applypatch-msg.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/commit-msg.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/fsmonitor-watchman.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/post-update.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/pre-applypatch.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/pre-commit.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/pre-merge-commit.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/pre-push.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/pre-rebase.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/pre-receive.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/prepare-commit-msg.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/push-to-checkout.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/sendemail-validate.sample",
+        "fixtures/estado-git/empty-index/.git/hooks/update.sample",
+        "fixtures/estado-git/empty-index/.git/info/exclude",
+        "fixtures/raiz-git/authorized/.git/HEAD",
+        "fixtures/raiz-git/authorized/.git/config",
+        "fixtures/raiz-git/authorized/.git/description",
+        "fixtures/raiz-git/authorized/.git/hooks/applypatch-msg.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/commit-msg.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/fsmonitor-watchman.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/post-update.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/pre-applypatch.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/pre-commit.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/pre-merge-commit.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/pre-push.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/pre-rebase.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/pre-receive.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/prepare-commit-msg.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/push-to-checkout.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/sendemail-validate.sample",
+        "fixtures/raiz-git/authorized/.git/hooks/update.sample",
+        "fixtures/raiz-git/authorized/.git/info/exclude",
+        "fixtures/raiz-git/other/.git/HEAD",
+        "fixtures/raiz-git/other/.git/config",
+        "fixtures/raiz-git/other/.git/description",
+        "fixtures/raiz-git/other/.git/hooks/applypatch-msg.sample",
+        "fixtures/raiz-git/other/.git/hooks/commit-msg.sample",
+        "fixtures/raiz-git/other/.git/hooks/fsmonitor-watchman.sample",
+        "fixtures/raiz-git/other/.git/hooks/post-update.sample",
+        "fixtures/raiz-git/other/.git/hooks/pre-applypatch.sample",
+        "fixtures/raiz-git/other/.git/hooks/pre-commit.sample",
+        "fixtures/raiz-git/other/.git/hooks/pre-merge-commit.sample",
+        "fixtures/raiz-git/other/.git/hooks/pre-push.sample",
+        "fixtures/raiz-git/other/.git/hooks/pre-rebase.sample",
+        "fixtures/raiz-git/other/.git/hooks/pre-receive.sample",
+        "fixtures/raiz-git/other/.git/hooks/prepare-commit-msg.sample",
+        "fixtures/raiz-git/other/.git/hooks/push-to-checkout.sample",
+        "fixtures/raiz-git/other/.git/hooks/sendemail-validate.sample",
+        "fixtures/raiz-git/other/.git/hooks/update.sample",
+        "fixtures/raiz-git/other/.git/info/exclude"
+      ]
+    }
+  ]
+}

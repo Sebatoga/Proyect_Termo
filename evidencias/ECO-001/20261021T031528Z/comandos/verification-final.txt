@@ -1,0 +1,43 @@
+ECO-001 final acceptance — run_id 20261021T031528Z
+
+1. command: git diff --check
+exit_code: 0
+stdout: (empty)
+stderr: (empty)
+
+2. command: python3 evidencias/ECO-001/20261021T031528Z/comandos/focused-validation.py
+exit_code: 0
+result: 11 evidence checks passed; 5 fixture contracts matched (not runtime tests)
+stdout_summary: manifest 45/45; 3 independent hashes; 28 global agents; 20 global skills; 13 global commands; 19 project gaps; 22 PDF rows; 10 owned gaps; recovery blocked with zero target writes
+stderr: (empty)
+
+3. command: python3 -c "import hashlib,json,os,pathlib; base=pathlib.Path('evidencias/ECO-001/20261021T031528Z'); idx=json.loads((base/'registro-evidencias.json').read_text()); regular=idx['files']; links=idx.get('special_entries',[]); assert idx.get('self_hash_excluded') is True; assert not [e['path'] for e in regular+links if '.git' in pathlib.PurePosixPath(e['path']).parts]; assert all(e['type']=='regular_file' and not (base/e['path']).is_symlink() and (base/e['path']).is_file() and len((base/e['path']).read_bytes())==e['bytes'] and hashlib.sha256((base/e['path']).read_bytes()).hexdigest()==e['sha256'] for e in regular); assert all(e['type']=='symlink' and (base/e['path']).is_symlink() and len(os.readlink(base/e['path']).encode())==e['bytes'] and hashlib.sha256(os.readlink(base/e['path']).encode()).hexdigest()==e['sha256'] for e in links); print(f'{len(regular)} indexed regular files and {len(links)} symlinks verified; no .git path components')"
+exit_code: 0
+result: 64 indexed regular files and 2 symlinks verified; no .git path components
+note: observed after the final self-excluding index regeneration; the index itself and unversionable nested fixture `.git/**` administration are intentionally not indexed. Exclusion metadata is recorded in `exclusions`.
+
+4. command: python3 -c "from pathlib import Path; rid='20261021T031528Z'; paths=[Path('evidencias/ECO-001')/rid/'informe.md',Path('docs/08_ESTADO_DEL_PROYECTO.md'),Path('docs/04_BACKLOG_Y_FASES.md'),Path('docs/00_DECISIONES_Y_RIESGOS.md')]; missing=[str(p) for p in paths if not p.is_file() or rid not in p.read_text(encoding='utf-8')]; assert not missing,missing; print('run_id cross-reference verified')"
+exit_code: 0
+stdout: run_id cross-reference verified
+stderr: (empty)
+
+5a. command: python3 -c "from pathlib import Path; import subprocess,hashlib; allowed_tracked={'docs/08_ESTADO_DEL_PROYECTO.md','docs/04_BACKLOG_Y_FASES.md','docs/00_DECISIONES_Y_RIESGOS.md'}; changed=set(subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()); assert changed <= allowed_tracked,sorted(changed-allowed_tracked); untracked=subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines(); bad=[p for p in untracked if p!='.gitignore' and not p.startswith('evidencias/ECO-001/20261021T031528Z/') and not p.startswith('openspec/changes/eco-001/')]; assert not bad,bad; assert hashlib.sha256(Path('.gitignore').read_bytes()).hexdigest()=='f4f3cbf46e58c16ca3618df5462f592880a934bbc2e74b757a5367c85a886da4'; assert not Path('.opencode').exists(); forbidden=['package.json','package-lock.json','npm-shrinkwrap.json','yarn.lock','pnpm-lock.yaml','src','tests','node_modules']; assert not [p for p in forbidden if Path(p).exists()],[p for p in forbidden if Path(p).exists()]; print(f'no scope drift: {len(changed)} tracked closure files; {len(untracked)} preserved/authorized untracked paths; .opencode absent')"
+exit_code: 0
+stdout: no scope drift: 3 tracked closure files; 63 preserved/authorized untracked paths; .opencode absent
+stderr: (empty)
+
+5b. command: python3 evidencias/ECO-001/20261021T031528Z/comandos/candidate-line-count.py --record
+exit_code: 0
+stdout_ref: comandos/candidate-line-count.stdout.txt
+stderr_ref: comandos/candidate-line-count.stderr.txt
+exit_code_ref: comandos/candidate-line-count.exit-code.txt
+result: 15916 additions plus deletions across 69 included candidate files
+per_area: tracked closure 35; evidence core 189; commands/raw outputs 15664; text fixtures 28
+exclusions: the self-excluding generated evidence index is omitted from the authored count; unversionable nested fixture `.git/**` administration is ignored by policy and replaced by temporary repositories
+baseline: tracked closure files against the pre-ECO-001 revision; every present file under the exact candidate roots against empty
+threshold: 400 changed lines, additions plus deletions
+threshold_result: exceeded
+review_boundary: auto-chain, stacked-to-main; proposed slices are G0-G5, conditional G6-G8, and G9 closure/correction
+claim_boundary: no commit or PR is claimed to exist
+
+Acceptance: PASS for the allowed blocked final branch. Tasks 4.2–4.8 remain blocked/not applicable because no authorized original source exists. No product runtime exists.

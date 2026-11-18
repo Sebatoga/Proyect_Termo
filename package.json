@@ -1,0 +1,25 @@
+{
+  "name": "ecogrid-local-console",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:contrast": "node --test tests/consoleContrast.test.mjs",
+    "test:browser-smoke": "node evidencias/ECO-101/product-browser-smoke/browser-smoke.mjs",
+    "test:offline-smoke": "node evidencias/ECO-101/offline-static-smoke/offline-smoke.mjs",
+    "serve:offline": "node tools/local-console-server.mjs --root dist --host 127.0.0.1 --port 4174",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
+  }
+}

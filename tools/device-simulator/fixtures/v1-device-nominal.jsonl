@@ -1,0 +1,2 @@
+{"type":"hello","protocolVersion":1,"sequence":0,"uptimeMs":0,"calibrationVersion":"sim-v1","status":"valid","capabilities":["inputs","output"]}
+{"type":"inputs","protocolVersion":1,"sequence":1,"uptimeMs":100,"calibrationVersion":"sim-v1","status":"valid","values":{"lightProxy":{"value":0.72,"status":"valid"},"temperature":{"value":24.5,"status":"valid"},"hydroSetpoint":{"value":0.4,"status":"valid"},"batteryMode":{"value":"idle","status":"valid"},"loadPriority":{"value":"balanced","status":"valid"},"confirm":{"value":false,"status":"valid"}}}

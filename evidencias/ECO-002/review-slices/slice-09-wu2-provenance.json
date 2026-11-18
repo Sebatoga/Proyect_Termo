@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU2-S09",
+  "order": 9,
+  "purpose": "Link narrow source claims while preserving model and parameter limitations.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S08",
+  "files": [
+    {"path": "evidencias/ECO-002/working/provenance.yaml", "review_lines": 136},
+    {"path": "evidencias/ECO-002/working/scientific-inventory.yaml", "review_lines": 96},
+    {"path": "evidencias/ECO-002/review-slices/slice-09-wu2-provenance.json", "review_lines": 15}
+  ],
+  "total_review_lines": 247
+}

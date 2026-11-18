@@ -1,0 +1,147 @@
+schema_version: 1
+change: ECO-002
+purpose: Canonical documentary contracts for the scientific provenance dossier.
+
+negative_integrity_cases:
+  - id: RED-001
+    condition: candidate bibliography has no recorded consultation
+    expected: create_gap_and_block_promotion
+  - id: RED-002
+    condition: source lacks an exact page, section, or stable URL
+    expected: create_gap_and_block_promotion
+  - id: RED-003
+    condition: source access is absent or unauthorized
+    expected: create_gap_and_block_promotion
+  - id: RED-004
+    condition: a retained copy lacks a current retention permission
+    expected: create_gap_and_block_promotion
+  - id: RED-005
+    condition: equipment-dependent parameter has no selected equipment or scenario
+    expected: create_gap_and_block_freezing
+  - id: RED-006
+    condition: equation terms have incompatible dimensions
+    expected: create_gap_and_block_element
+  - id: RED-007
+    condition: calculation repeats or rearranges the candidate formula and inputs
+    expected: create_gap_and_reject_as_circular
+  - id: RED-008
+    condition: boundary lacks a declared tolerance
+    expected: create_gap_and_block_element
+  - id: RED-009
+    condition: a required reviewer is not an identified qualified person
+    expected: create_gap_and_block_freezing
+  - id: RED-010
+    condition: a critical review finding remains open
+    expected: create_gap_and_block_element
+  - id: RED-011
+    condition: an evaluated artifact hash does not match its manifest
+    expected: invalidate_evaluation_and_block_freezing
+  - id: RED-012
+    condition: a supporting source is invalidated after promotion
+    expected: create_new_revision_degrade_class_and_block_dependents
+
+closed_vocabularies:
+  area: [PV, HYD, WIND, BAT, BUS, NUM, ENV, CROSS]
+  scientific_kind: [claim, equation, variable, parameter, assumption]
+  evidence_class:
+    - authoritative_academic_requirement
+    - verified_technical_source
+    - internal_derivation
+    - gameplay_estimate
+    - pending_calibration
+    - placeholder_without_support
+  review_state: [pending, reviewed, blocked]
+  baseline_disposition: [pending, included, excluded]
+  source_kind:
+    - official_pdf
+    - book
+    - journal_article
+    - standard
+    - institutional_publication
+    - datasheet
+    - technical_report
+    - web_resource
+    - other
+  source_status: [candidate_unconsulted, consulted_unverified, consulted_verified, inaccessible]
+  support_type: [direct_source, internal_derivation, academic_requirement]
+  dimensional_status: [consistent, inconsistent, pending]
+  boundary_category: [zero, saturation, invalid_domain, conservation, discontinuity, physical_availability]
+  gap_criticality: [blocking, non_blocking]
+  gap_status: [open, resolved, superseded]
+  gate_result: [accepted_frozen, blocked_with_traceability]
+
+id_formats:
+  academic_requirement: '^ACA-REQ-[0-9]{3}$'
+  scientific_claim: '^SCI-CLM-(PV|HYD|WIND|BAT|BUS|NUM|ENV|CROSS)-[0-9]{3}$'
+  scientific_equation: '^SCI-EQ-(PV|HYD|WIND|BAT|BUS|NUM|ENV|CROSS)-[0-9]{3}$'
+  scientific_parameter: '^SCI-PAR-(PV|HYD|WIND|BAT|BUS|NUM|ENV|CROSS)-[0-9]{3}$'
+  source: '^SRC-[0-9]{3}$'
+  access: '^ACCESS-[0-9]{3}$'
+  retention: '^RET-[0-9]{3}$'
+  provenance: '^PROV-[0-9]{3}$'
+  dimension: '^DIM-(PV|HYD|WIND|BAT|BUS|NUM|ENV|CROSS)-[0-9]{3}$'
+  conversion: '^DIM-CONV-[0-9]{3}$'
+  calculation: '^CALC-(PV|HYD|WIND|BAT|BUS|NUM|ENV|CROSS)-[0-9]{3}$'
+  boundary: '^BND-(PV|HYD|WIND|BAT|BUS|NUM|ENV|CROSS)-[0-9]{3}$'
+  review: '^REV-(PHYS|CTRL|ENV|QUAL)-[0-9]{3}$'
+  finding: '^FND-REV-(PHYS|CTRL|ENV|QUAL)-[0-9]{3}-[0-9]{3}$'
+  gap: '^GAP-[0-9]{3}$'
+  reviewer: '^REVIEWER-[0-9]{3}$'
+  reviewer_evidence: '^RVE-[0-9]{3}$'
+  gate_evaluation: '^ECO-002-GATE-[0-9]{8}-[0-9]{2}$'
+  baseline: '^ECO-002-BL-[0-9]{8}-[0-9]{2}$'
+
+mutable_reference_contract:
+  required_shape: {id: string, revision: positive_integer}
+  applies_to: all relationships to mutable records, including list items and manifest entries
+  rejects: [bare_id, missing_revision, nonexistent_revision, silently_substituted_revision]
+
+revision_contract:
+  revision: positive_integer
+  initial_supersedes_revision: null
+  next_revision_rule: revision equals previous revision plus one
+  supersession_rule: supersedes_revision equals the immediately previous revision
+  preservation_rule: previous revisions are never overwritten or deleted
+  change_event_required_after_initial: true
+  change_event_fields: [actor, timestamp, reason, evidence_refs, previous_revision, reviewer_id, supersedes_revision]
+
+mutability_contract:
+  mutable_entities:
+    - academic_requirement
+    - scientific_record
+    - source
+    - access_authorization
+    - retention_permission
+    - provenance_link
+    - dimension_analysis
+    - conversion
+    - calculation
+    - boundary
+    - review
+    - finding
+    - gap
+    - reviewer_evidence
+  immutable_entities: [reviewer_identity, gate_evaluation, baseline_snapshot]
+  immutable_rule: corrections create a new ID; existing bytes are not edited
+  baseline_rule: a baseline and snapshot may exist only for accepted_frozen
+
+required_fields:
+  academic_requirement: [id, revision, supersedes_revision, source_ref, page, section, exact_excerpt, interpretation, requires_evidence_for]
+  scientific_record: [id, revision, supersedes_revision, kind, area, title, statement, inputs, outputs, symbols, assumptions, si_unit, conversions, domain, limits, scenario_or_equipment, sensitivity, critical_for_eco003, evidence_class, provenance_links, owner, review_state, baseline_disposition, change_reason]
+  source: [id, revision, supersedes_revision, source_kind, author_or_institution, title, edition_or_version, locator, consulted_at, consulted_by, applicable_excerpt, applicability_domain, access_authorization_ref, retention_mode, retention_permission_ref, local_copy_path, content_sha256, status]
+  provenance_link: [id, revision, supersedes_revision, element_ref, support_type, source_refs, derivation_steps, interpretation, applicable_scope, reviewer_id, status_effect]
+  dimension_analysis: [id, revision, supersedes_revision, equation_ref, terms, lhs_dimension, rhs_dimension, result_unit, conversions, status, gap_refs]
+  boundary: [id, revision, supersedes_revision, element_refs, category, precondition, inputs, expected_behavior, expected_unit, tolerance, justification_refs, calculation_refs, gap_refs, disposition_if_failed]
+  gap: [id, revision, supersedes_revision, affected_refs, criticality, reason, owner, dependency, next_action, target_change, status]
+
+integrity_rules:
+  - IDs are globally unique within their complete prefix and are never reused.
+  - Mutable records use monotonic revisions without gaps.
+  - Every mutable relationship uses the full id-and-revision object.
+  - Every reference resolves to an existing exact revision.
+  - Values outside closed vocabularies are rejected.
+  - Academic requirements never promote technical equations or values.
+  - Candidate or inaccessible sources never produce verified_technical_source.
+  - authorized_copy requires a current retention permission and a canonical source-copies path.
+  - Missing tolerance, inconsistent dimensions, circular calculations, absent reviewers, critical findings, or hash mismatches block affected elements.
+  - A blocked gate creates neither a baseline directory nor a snapshot directory.

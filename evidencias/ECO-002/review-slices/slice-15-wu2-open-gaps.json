@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU2-S15",
+  "order": 15,
+  "purpose": "Preserve hydro SI/net-head, PV validity, equipment-selection, and independent-review blockers.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S14",
+  "review_units": [
+    {"path": "evidencias/ECO-002/working/gaps.yaml", "records": ["GAP-001-r2", "GAP-002-r2", "GAP-013-r2", "GAP-014-r2", "GAP-015-r1"], "review_lines": 126},
+    {"path": "evidencias/ECO-002/review-slices/slice-15-wu2-open-gaps.json", "records": ["complete file"], "review_lines": 15}
+  ],
+  "total_review_lines": 141,
+  "non_overlap_key": "GAP-001-r2|GAP-002-r2|GAP-013-r2|GAP-014-r2|GAP-015-r1"
+}

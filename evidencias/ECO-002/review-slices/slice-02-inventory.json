@@ -1,0 +1,16 @@
+{
+  "id": "ECO-002-WU1-S02",
+  "order": 2,
+  "purpose": "Record scientific inventory, candidate sources, and provenance without promotion.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S01",
+  "files": [
+    {"path": "evidencias/ECO-002/working/scientific-inventory.yaml", "review_lines": 93},
+    {"path": "evidencias/ECO-002/working/sources.yaml", "review_lines": 133},
+    {"path": "evidencias/ECO-002/working/provenance.yaml", "review_lines": 81},
+    {"path": "evidencias/ECO-002/review-slices/slice-02-inventory.json", "review_lines": 16}
+  ],
+  "total_review_lines": 323
+}

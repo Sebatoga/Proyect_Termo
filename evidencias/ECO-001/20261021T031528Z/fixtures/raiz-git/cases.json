@@ -1,0 +1,1 @@
+{"expected":{"root_correct":"continue","cwd_child":"continue only after resolving same authorized root","cwd_parent":"stop","relative_ambiguous":"stop","absolute_other_repo":"stop","git_C_other_repo":"stop"}}

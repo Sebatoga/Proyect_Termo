@@ -1,12 +1,15 @@
 # Dirección de arte e interfaz — EcoGrid v0.1
 
-## Principio del producto
-No debe parecer un dashboard corporativo ni un trivial. Se busca una **ciudad viva** que reacciona a las decisiones del jugador. El panel de control acompaña el paisaje, no lo reemplaza. Cada indicador tiene un correlato visible en escena.
+## Principio del MVP híbrido
+El tablero físico y su señalización conducen la partida; la consola local es secundaria, sobria y explicativa. Cada indicador vincula entrada física, consecuencia científica y decisión sin depender solo del color.
 
-## Referencias estéticas (descripción, no activos obtenidos)
-- Estrategia 2D isométrica ligera, bordes limpios, escenarios coloridos, microanimaciones de plantas y edificios.
-- Dirección *eco-futurista urbana*: arquitectura compacta, árboles, red visible, central de pasada con río continuo, cielo y clima dinámicos.
-- Evitar contaminación «malvada» y tonos sombríos permanentes: la crisis surge de restricciones ingenieriles realistas, no de estereotipos.
+## Prioridad de diseño
+1. Zonas legibles para PV, río/hidro, batería/bus y cargas.
+2. Controles rotulados con acción, rango y estado; LEDs acompañados por texto/icono.
+3. Fichas y cartas distinguibles a 1–2 m, con seis rondas visibles.
+4. Consola con ronda, lecturas válidas/erróneas, suministro, reserva y explicación breve.
+
+Mapa isométrico, campaña, móvil, audio, animación y arte elaborado están fuera del MVP. No consumir tiempo de tablero, carcasa, seguridad o pruebas para producirlos.
 
 ## Tokens visuales propuestos (no inmutables)
 | Significado | Hex | Uso y advertencia |
@@ -22,21 +25,20 @@ No debe parecer un dashboard corporativo ni un trivial. Se busca una **ciudad vi
 
 No codificar semántica solo por color: usar icono, texto y patrón. Validar contraste con comprobación real (objetivo AA WCAG: 4.5:1 texto normal y 3:1 gráficos relevantes cuando proceda).
 
-## Jerarquía de pantalla (escritorio 1366×768 como caso de prueba)
+## Jerarquía de consola secundaria
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
-│  EC O G R I D   |  TIEMPO SIM |  ESTADO CIUDAD |  DEMANDA / POTENCIA │
+│  EC O G R I D   | RONDA 2/6 | CONEXIÓN/ENTRADAS | DEMANDA / POTENCIA │
 ├───────────────────────┬───────────────────────────────────────────────┤
-│ CLIMA / PRONÓSTICO    │                                               │
-│ Sol | viento | río    │  MAPA VIVO: ciudad, plantas, cauce, batería    │
-│ Temperatura celda     │  animación de actividad, cables y alertas      │
-│ Alertas explicables   │                                               │
+│ LUZ (PROXY) / TEMP.   │ PV | HIDRO | BATERÍA | CARGAS                 │
+│ rangos y validez      │ valores con unidades y límites                │
+│ alerta + causa        │ consecuencia de la decisión confirmada        │
 ├───────────────────────┴───────────────────────────────────────────────┤
-│ TURBINA Q      | MODO BATERÍA | CARGAS NO CRÍTICAS | PAUSA  AYUDA    │
+│ CONSIGNA LEÍDA | MODO BATERÍA | RESULTADO / EXPLICACIÓN               │
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
-**Prioridad:** primera fila clara, mapa dominante (al menos 50% área útil), acciones a un clic. No tapar las plantas con paneles. Ajustar a tamaño real, no solo mockup.
+La consola no duplica controles físicos ni reemplaza fichas/tablero. Opera offline y muestra desconexión, dato inválido y timeout sin conservar silenciosamente el último valor.
 
 ## Reglas de HUD
 - Unidades siempre: `kW` potencia instantánea, `kWh` energía acumulada, `m³/s` caudal, `°C` temperatura, `%` SOC.
@@ -44,7 +46,7 @@ No codificar semántica solo por color: usar icono, texto y patrón. Validar con
 - Mostrar **potencia producida** (renovables), **potencia entregada** a ciudad y **potencia no atendida** por separado; evitar sumar batería dos veces.
 - Batería: barra SOC, potencia de carga/descarga con signo o texto, límite de potencia visible.
 - Caudal: bypass vs turbina en dos canales del río; avisar explícitamente si compuerta se limita por Qeco.
-- Solar: al hacer hover/tap explicación «temperatura elevada reduce rendimiento del panel» con valor °C y kW; no fingir calor ambiental como irradiancia.
+- Solar: rotular **proxy de luz calibrado para gameplay** hasta validación metrológica; mostrar cómo la temperatura afecta el rendimiento.
 - Pronóstico: indicar si es incertidumbre o información perfecta según escenario; no cambiar cifras que el motor ya determinó sin actualizar origen.
 
 ## Estados visuales (obligatorios)
@@ -54,18 +56,17 @@ No codificar semántica solo por color: usar icono, texto y patrón. Validar con
 - **Recuperación:** texto positivo y transición suave, no explosionar partículas.
 - **Pausa:** overlay «SIMULACIÓN EN PAUSA»; sin avance físico ni temporizador simulado.
 
-## Animación, sonido y feedback
-- Generación eólica: rotación representativa proporcional a viento dentro del margen de operación; detener con viento por debajo cut-in o por seguridad cut-out. Evitar prometer RPM física si no modelada.
-- Hidro: río fluye siempre que Qriver>0; intensidad representativa. Animación de turbina en función de caudal derivado.
-- PV: variación visual sol/nubes; temperatura no se comunica solo con resplandor rojo.
-- Batería: transferencia de energía dirigida cargando vs descargando (no dibujar flujo en ambas direcciones).
-- Eventos: un sonido discreto por cambio, con cooldown; opción silencio y reducir movimiento.
+## Feedback mínimo
+- Confirmación física: LED más etiqueta/leyenda; normal, atención y error distinguibles sin color.
+- Hidro: tablero diferencia caudal ecológico, derivado y bypass mediante canales/fichas.
+- PV y batería: flechas/fichas muestran generación y carga/descarga sin flujo imposible.
+- Consola: explicación breve y foco visible; evitar animaciones no esenciales.
 
 ## Accesibilidad y feria
-- Ratón/trackpad primero, teclado en controles críticos; objetivos táctiles sugeridos ≥44 CSS px, texto base ≥16 px cuando sea posible.
+- Controles físicos operables y rotulados; consola con teclado/foco si incluye acciones, texto base ≥16 px cuando sea posible.
 - Phaser Canvas puede ser poco accesible: exponer controles y texto esencial mediante elementos HTML semánticos encima/fuera del canvas.
 - Estado visible al enfocar controles y acciones con teclado. No animaciones parpadeantes. Opción reducir movimiento.
-- En feria probar a resolución 1366×768, 1920×1080 y móvil si se anuncia soporte. Objetivo de legibilidad a 1–2 m con monitor del stand.
+- En feria probar tablero y consola a la distancia real de uso y en el computador objetivo. No se anuncia soporte móvil.
 
 ## Checklist antes de afirmar UI «final»
-Mapa reconocible, interacción feedback <1 tick, idioma natural, cifras con unidades, fuentes legibles, no solapamientos, controles no tapan alertas, transición a resultados, reiniciar misma semilla, sonido mute, contraste, FPS probado y capturas reales.
+Zonas y seis rondas reconocibles, controles/LEDs rotulados, unidades, proxy de luz bien nombrado, errores visibles, contraste, legibilidad a distancia, misma semilla, carcasa segura y evidencia real.

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Bootstrap de la consola local secundaria de EcoGrid"
+    />
+    <title>EcoGrid | Consola local</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+    <main
+      id="main-content"
+      class="console-shell"
+      aria-labelledby="console-title"
+      tabindex="-1"
+    >
+      <header class="console-header">
+        <p class="console-label">Consola local secundaria</p>
+        <h1 id="console-title">EcoGrid: Ciudad al Límite</h1>
+        <p>
+          Este modo simulado no reemplaza el tablero físico ni representa una
+          partida completa o científicamente validada.
+        </p>
+      </header>
+
+      <section aria-labelledby="canvas-title">
+        <h2 id="canvas-title" class="visually-hidden">Estado visual</h2>
+        <div
+          id="game-container"
+          class="game-container"
+          role="img"
+          aria-label="Área visual del bootstrap de la consola local EcoGrid"
+        ></div>
+        <p id="console-status" class="console-status" role="status">
+          Esperando una entrada validada. Progreso: ronda 1 de 6. Motivo:
+          DEVICE_DISCONNECTED. Confirmación disponible: no.
+        </p>
+        <section id="round-guide" class="round-guide" aria-labelledby="round-guide-title">
+          <p class="round-guide-label">Ronda provisional</p>
+          <h2 id="round-guide-title">Condición base</h2>
+          <p id="round-guide-question">
+            ¿Entendemos el tablero y qué cargas debemos priorizar?
+          </p>
+        </section>
+        <aside
+          id="session-notice"
+          class="session-notice"
+          aria-labelledby="session-notice-title"
+          aria-live="polite"
+          aria-atomic="true"
+          data-level="attention"
+        >
+          <p id="session-notice-label" class="session-notice-label">Atención</p>
+          <h2 id="session-notice-title">Entrada desconectada</h2>
+          <p id="session-notice-message">
+            La ronda permanece detenida hasta recibir una entrada validada.
+          </p>
+        </aside>
+        <div class="simulated-controls" aria-labelledby="simulated-mode-title">
+          <div>
+            <p class="simulation-label">Modo simulado</p>
+            <h2 id="simulated-mode-title">Prueba técnica local</h2>
+            <p>
+              Usa valores fijos no calibrados y un resolver sin efectos de energía,
+              puntuación ni ciencia. Cada acción es manual y determinista.
+            </p>
+            <details class="simulation-diagnostic">
+              <summary>Diagnóstico de entrada simulada</summary>
+              <p>
+                Genera localmente un mensaje simulado malformado para verificar su
+                rechazo y la recuperación posterior. No prueba sensores, conexión ni
+                hardware.
+              </p>
+              <button id="run-malformed-input-diagnostic" type="button" disabled>
+                Probar rechazo local
+              </button>
+            </details>
+          </div>
+          <fieldset
+            class="simulation-actions"
+            aria-describedby="simulation-actions-help"
+          >
+            <legend>Acciones de la prueba simulada</legend>
+            <p id="simulation-actions-help">
+              Completa la acción habilitada; el foco avanzará al siguiente paso.
+            </p>
+            <button id="load-simulated-input" type="button">Cargar entrada simulada</button>
+            <button id="confirm-simulated-round" type="button" disabled>Confirmar ronda simulada</button>
+            <button id="reset-simulated-session" type="button" disabled>Reiniciar prueba simulada</button>
+          </fieldset>
+        </div>
+        <section class="observation-panel" aria-labelledby="observation-title">
+          <h2 id="observation-title">Observación técnica simulada</h2>
+          <p>
+            Estos valores son simulados y no calibrados; no tienen unidades ni
+            interpretación física. Los eventos son sólo trazas provisionales, sin
+            efectos en el juego ni científicos.
+          </p>
+          <p id="observation-announcement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+          <h3>Entrada aceptada</h3>
+          <p id="accepted-input-summary">Aún no hay una entrada simulada aceptada.</p>
+          <dl id="accepted-input-values" class="accepted-values"></dl>
+          <h3>Traza de rondas confirmadas</h3>
+          <ol id="simulated-trace" class="trace-list"></ol>
+        </section>
+      </section>
+    </main>
+
+    <noscript>Esta consola local requiere JavaScript habilitado.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

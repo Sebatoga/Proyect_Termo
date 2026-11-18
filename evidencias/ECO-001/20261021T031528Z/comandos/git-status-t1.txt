@@ -1,0 +1,16 @@
+command: git rev-parse HEAD && git status --porcelain=v2 --branch --untracked-files=all && git diff --cached --name-status && git diff --name-status && git ls-files --others --exclude-standard
+cwd: /home/sebato/Escritorio/Proyecto_termo/Proyect_Termo
+captured_at: 2026-10-21T03:43:31Z
+exit_code: 0
+HEAD: a69703444311cde5348565126a9f55b540f21fdc
+branch: main; upstream origin/main; ahead 0; behind 0
+staged: none
+unstaged_closure: docs/00_DECISIONES_Y_RIESGOS.md; docs/04_BACKLOG_Y_FASES.md; docs/08_ESTADO_DEL_PROYECTO.md
+untracked_preserved: .gitignore
+untracked_evidence: evidencias/ECO-001/20261021T031528Z/
+untracked_planning: openspec/changes/eco-001/
+recovery_target: .opencode/ absent
+classification: all observed changes are pre-existing .gitignore, ECO-001 evidence, ECO-001 planning/apply artifacts, or the three authorized closure documents
+scope_drift: none observed; no package.json, lockfile, src/, tests/, node_modules/, game/scientific/UI code, remote operation, commit, or authorization/ratification was introduced
+comparison_to_t0: HEAD, branch, index state, .gitignore, and absence of .opencode/ are preserved; T1 adds the ECO-001 dossier, planning/apply artifacts, and authorized closure-document edits
+preservation: no add, commit, stash, clean, reset, checkout, restore, push, remote access, package installation, or target recovery write was executed

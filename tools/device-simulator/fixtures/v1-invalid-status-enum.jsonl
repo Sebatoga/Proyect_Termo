@@ -1,0 +1,2 @@
+{"type":"inputs","protocolVersion":1,"sequence":0,"uptimeMs":0,"calibrationVersion":"pending","status":"stale","values":{}}
+{"type":"inputs","protocolVersion":1,"sequence":0,"uptimeMs":0,"calibrationVersion":"pending","status":"valid","values":{"lightProxy":{"value":1,"status":"valid"},"temperature":{"value":20,"status":"valid"},"hydroSetpoint":{"value":0.5,"status":"valid"},"batteryMode":{"value":"automatic","status":"valid"},"loadPriority":{"value":"balanced","status":"valid"},"confirm":{"value":false,"status":"valid"}}}

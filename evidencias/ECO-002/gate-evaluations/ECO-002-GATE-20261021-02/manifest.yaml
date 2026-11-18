@@ -1,0 +1,162 @@
+gate_evaluation_id: ECO-002-GATE-20261021-02
+created_at: '2026-10-21'
+immutable: true
+supersedes_gate_evaluation_id: ECO-002-GATE-20261021-01
+correction_scope: Reissue Work Unit 1 gate evidence with reproducible validation and bounded review slices.
+result: blocked_with_traceability
+evaluated_refs:
+  - {id: SCI-CLM-CROSS-001, revision: 1}
+  - {id: SCI-CLM-CROSS-002, revision: 1}
+  - {id: SCI-CLM-CROSS-003, revision: 1}
+  - {id: SCI-CLM-CROSS-004, revision: 1}
+  - {id: SCI-EQ-PV-001, revision: 1}
+  - {id: SCI-EQ-PV-002, revision: 1}
+  - {id: SCI-EQ-PV-003, revision: 1}
+  - {id: SCI-CLM-PV-001, revision: 1}
+  - {id: SCI-PAR-PV-001, revision: 1}
+  - {id: SCI-PAR-PV-002, revision: 1}
+  - {id: SCI-PAR-PV-003, revision: 1}
+  - {id: SCI-PAR-PV-004, revision: 1}
+  - {id: SCI-PAR-PV-005, revision: 1}
+  - {id: SCI-PAR-PV-006, revision: 1}
+  - {id: SCI-PAR-PV-007, revision: 1}
+  - {id: SCI-PAR-PV-008, revision: 1}
+  - {id: SCI-PAR-PV-009, revision: 1}
+  - {id: SCI-PAR-PV-010, revision: 1}
+  - {id: SCI-PAR-PV-011, revision: 1}
+  - {id: SCI-EQ-HYD-001, revision: 1}
+  - {id: SCI-EQ-HYD-002, revision: 1}
+  - {id: SCI-EQ-HYD-003, revision: 1}
+  - {id: SCI-EQ-HYD-004, revision: 1}
+  - {id: SCI-CLM-HYD-001, revision: 1}
+  - {id: SCI-PAR-HYD-001, revision: 1}
+  - {id: SCI-PAR-HYD-002, revision: 1}
+  - {id: SCI-PAR-HYD-003, revision: 1}
+  - {id: SCI-PAR-HYD-004, revision: 1}
+  - {id: SCI-PAR-HYD-005, revision: 1}
+  - {id: SCI-PAR-HYD-006, revision: 1}
+  - {id: SCI-PAR-HYD-007, revision: 1}
+  - {id: SCI-PAR-HYD-008, revision: 1}
+  - {id: SCI-PAR-HYD-009, revision: 1}
+  - {id: SCI-PAR-HYD-010, revision: 1}
+  - {id: SCI-PAR-HYD-011, revision: 1}
+  - {id: SCI-PAR-HYD-012, revision: 1}
+  - {id: SCI-EQ-WIND-001, revision: 1}
+  - {id: SCI-EQ-WIND-002, revision: 1}
+  - {id: SCI-CLM-WIND-001, revision: 1}
+  - {id: SCI-PAR-WIND-001, revision: 1}
+  - {id: SCI-PAR-WIND-002, revision: 1}
+  - {id: SCI-PAR-WIND-003, revision: 1}
+  - {id: SCI-PAR-WIND-004, revision: 1}
+  - {id: SCI-PAR-WIND-005, revision: 1}
+  - {id: SCI-PAR-WIND-006, revision: 1}
+  - {id: SCI-PAR-WIND-007, revision: 1}
+  - {id: SCI-PAR-WIND-008, revision: 1}
+  - {id: SCI-PAR-WIND-009, revision: 1}
+  - {id: SCI-PAR-WIND-010, revision: 1}
+  - {id: SCI-EQ-BAT-001, revision: 1}
+  - {id: SCI-EQ-BAT-002, revision: 1}
+  - {id: SCI-CLM-BAT-001, revision: 1}
+  - {id: SCI-PAR-BAT-001, revision: 1}
+  - {id: SCI-PAR-BAT-002, revision: 1}
+  - {id: SCI-PAR-BAT-003, revision: 1}
+  - {id: SCI-PAR-BAT-004, revision: 1}
+  - {id: SCI-PAR-BAT-005, revision: 1}
+  - {id: SCI-PAR-BAT-006, revision: 1}
+  - {id: SCI-PAR-BAT-007, revision: 1}
+  - {id: SCI-PAR-BAT-008, revision: 1}
+  - {id: SCI-EQ-BUS-001, revision: 1}
+  - {id: SCI-EQ-BUS-002, revision: 1}
+  - {id: SCI-CLM-BUS-001, revision: 1}
+  - {id: SCI-PAR-BUS-001, revision: 1}
+  - {id: SCI-PAR-BUS-002, revision: 1}
+  - {id: SCI-PAR-BUS-003, revision: 1}
+  - {id: SCI-PAR-BUS-004, revision: 1}
+  - {id: SCI-PAR-BUS-005, revision: 1}
+  - {id: SCI-PAR-BUS-006, revision: 1}
+  - {id: SCI-EQ-NUM-001, revision: 1}
+  - {id: SCI-CLM-NUM-001, revision: 1}
+  - {id: SCI-PAR-NUM-001, revision: 1}
+  - {id: SCI-PAR-NUM-002, revision: 1}
+  - {id: SCI-PAR-NUM-003, revision: 1}
+  - {id: SCI-PAR-ENV-001, revision: 1}
+  - {id: SCI-CLM-ENV-001, revision: 1}
+source_refs:
+  - {id: SRC-001, revision: 1}
+  - {id: SRC-002, revision: 1}
+  - {id: SRC-003, revision: 1}
+  - {id: SRC-004, revision: 1}
+  - {id: SRC-005, revision: 1}
+  - {id: SRC-006, revision: 1}
+  - {id: SRC-007, revision: 1}
+dimension_refs:
+  - {id: DIM-CONV-001, revision: 1}
+  - {id: DIM-CONV-002, revision: 1}
+  - {id: DIM-CONV-003, revision: 1}
+  - {id: DIM-CONV-004, revision: 1}
+  - {id: DIM-CONV-005, revision: 1}
+  - {id: DIM-PV-001, revision: 1}
+  - {id: DIM-PV-002, revision: 1}
+  - {id: DIM-PV-003, revision: 1}
+  - {id: DIM-HYD-001, revision: 1}
+  - {id: DIM-HYD-002, revision: 1}
+  - {id: DIM-HYD-003, revision: 1}
+  - {id: DIM-WIND-001, revision: 1}
+  - {id: DIM-WIND-002, revision: 1}
+  - {id: DIM-BAT-001, revision: 1}
+  - {id: DIM-BAT-002, revision: 1}
+  - {id: DIM-BUS-001, revision: 1}
+  - {id: DIM-BUS-002, revision: 1}
+  - {id: DIM-NUM-001, revision: 1}
+boundary_refs:
+  - {id: BND-PV-001, revision: 1}
+  - {id: BND-PV-002, revision: 1}
+  - {id: BND-PV-003, revision: 1}
+  - {id: BND-PV-004, revision: 1}
+  - {id: BND-PV-005, revision: 1}
+  - {id: BND-HYD-001, revision: 1}
+  - {id: BND-HYD-002, revision: 1}
+  - {id: BND-HYD-003, revision: 1}
+  - {id: BND-HYD-004, revision: 1}
+  - {id: BND-ENV-001, revision: 1}
+  - {id: BND-WIND-001, revision: 1}
+  - {id: BND-WIND-002, revision: 1}
+  - {id: BND-WIND-003, revision: 1}
+  - {id: BND-WIND-004, revision: 1}
+  - {id: BND-WIND-005, revision: 1}
+  - {id: BND-BAT-001, revision: 1}
+  - {id: BND-BAT-002, revision: 1}
+  - {id: BND-BAT-003, revision: 1}
+  - {id: BND-BAT-004, revision: 1}
+  - {id: BND-BAT-005, revision: 1}
+  - {id: BND-BUS-001, revision: 1}
+  - {id: BND-BUS-002, revision: 1}
+  - {id: BND-NUM-001, revision: 1}
+  - {id: BND-NUM-002, revision: 1}
+calculation_refs: []
+review_refs: []
+gap_refs:
+  - {id: GAP-001, revision: 1}
+  - {id: GAP-002, revision: 1}
+  - {id: GAP-003, revision: 1}
+  - {id: GAP-004, revision: 1}
+  - {id: GAP-005, revision: 1}
+  - {id: GAP-006, revision: 1}
+  - {id: GAP-007, revision: 1}
+  - {id: GAP-008, revision: 1}
+  - {id: GAP-009, revision: 1}
+  - {id: GAP-010, revision: 1}
+  - {id: GAP-011, revision: 1}
+  - {id: GAP-012, revision: 1}
+artifact_hash_command: 'sha256sum -c evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-02/checksums.sha256'
+checksums_file: evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261021-02/checksums.sha256
+artifact_hashes:
+  - {path: evidencias/ECO-002/registry.yaml, sha256: e9f9f2e60671e0e418d6bee3eee785489c29bdb5f28e52699bcd246b3c9ed4d2}
+  - {path: evidencias/ECO-002/working/academic-requirements.yaml, sha256: aadaa08fb9d673fd4ce5b02f19bb38bcc54cdfa3168449e76b1d5cb9374dfca5}
+  - {path: evidencias/ECO-002/working/boundaries.yaml, sha256: 4f513c1cfd15a2e7e9d658da31f24263733a7e304e49a2b29b3d38f971283750}
+  - {path: evidencias/ECO-002/working/dimensions.yaml, sha256: bd134d794995d4959958c39e373d221368a75ae216c7cb302c0b7a5a33f4265f}
+  - {path: evidencias/ECO-002/working/gaps.yaml, sha256: 36c651ead0982c6f69e086ec4946739b2963004963dc21dac263f75ad6903955}
+  - {path: evidencias/ECO-002/working/provenance.yaml, sha256: 5a0eda7bb68464201d6deb3b1a08a6afc1ba845fce3b3ba18dcba5528c4e311f}
+  - {path: evidencias/ECO-002/working/schemas.yaml, sha256: 61a499029a42a7deacc62f486f0afdeb2392c6e6ab29a74d8a560d182cf2c181}
+  - {path: evidencias/ECO-002/working/scientific-inventory.yaml, sha256: d60ba811e0bbb875518920ecc4cbf2ab6002de834a2c6492cbaef33fbb97c5d3}
+  - {path: evidencias/ECO-002/working/sources.yaml, sha256: 0af0611b2aa5965f28c14c485248786c4e05d919adbdaaf72160528e4ac453e6}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "eco004-experiment-manifest/v1",
+  "packageVersion": "eco004-playtest-package/v1",
+  "policySchemaVersion": "eco004-policies/v1",
+  "recordSchemaVersion": "eco004-playtest-record/v1",
+  "status": "NOT_RUN",
+  "roundSlots": [
+    { "id": "round-1" },
+    { "id": "round-2" },
+    { "id": "round-3" },
+    { "id": "round-4" },
+    { "id": "round-5" },
+    { "id": "round-6" }
+  ],
+  "policyIds": [
+    "do-nothing",
+    "critical-only",
+    "maximum-hydro-request",
+    "environment-first",
+    "resource-aware-balanced"
+  ],
+  "repetitions": [
+    { "id": "rep-1", "order": "registered" },
+    { "id": "rep-2", "order": "reverse" }
+  ],
+  "resolverVersion": null,
+  "thresholdCandidates": {
+    "criticalCoverage": [],
+    "totalCoverage": []
+  },
+  "blockerCodes": [
+    "EXECUTION_NOT_RUN",
+    "RESOLVER_VERSION_MISSING",
+    "THRESHOLD_CANDIDATES_EMPTY",
+    "ENVIRONMENTAL_REVIEW_PENDING"
+  ]
+}

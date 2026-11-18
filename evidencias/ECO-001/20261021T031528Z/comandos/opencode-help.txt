@@ -1,0 +1,7 @@
+Interpretation only; raw output is preserved separately.
+
+- `opencode --help`: exit 0; exact command and references in `opencode-help.command.txt`; raw help was emitted to `opencode-help.stderr.txt`; raw stdout is `opencode-help.stdout.txt`.
+- `opencode agent --help`: exit 0; exact command and references in `opencode-agent-help.command.txt`; raw help was emitted to `opencode-agent-help.stderr.txt`; raw stdout is `opencode-agent-help.stdout.txt`.
+- `opencode debug --help`: exit 0; exact command and references in `opencode-debug-help.command.txt`; raw help was emitted to `opencode-debug-help.stderr.txt`; raw stdout is `opencode-debug-help.stdout.txt`.
+
+Observed interpretation: local help documents `opencode agent list`, `opencode debug skill`, and `opencode debug config`. No dedicated command-list subcommand is documented, so resolved commands are read only from the raw `opencode debug config` result.

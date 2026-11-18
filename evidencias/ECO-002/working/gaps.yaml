@@ -1,0 +1,479 @@
+schema_version: 1
+propagation_policy: A blocking gap excludes only its affected exact revisions and their dependents; every critical excluded revision contributes to the global blocked gate.
+gaps:
+  - id: GAP-001
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SRC-002, revision: 1}
+      - {id: SRC-003, revision: 1}
+      - {id: SRC-004, revision: 1}
+      - {id: SRC-005, revision: 1}
+      - {id: SRC-006, revision: 1}
+      - {id: SRC-007, revision: 1}
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-EQ-WIND-001, revision: 1}
+      - {id: SCI-EQ-WIND-002, revision: 1}
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BAT-002, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+    criticality: blocking
+    reason: No technical source was consulted or verified; all locally named technical references remain candidates.
+    owner: unassigned
+    dependency: Team-provided or explicitly authorized access to exact legal sources, with localizers and applicable excerpts.
+    next_action: Execute Phase 4 only after access is authorized and record consultation without inferring retention permission.
+    target_change: ECO-002
+    status: open
+  - id: GAP-002
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-PAR-PV-002, revision: 1}
+      - {id: SCI-PAR-PV-003, revision: 1}
+      - {id: SCI-PAR-PV-005, revision: 1}
+      - {id: SCI-PAR-PV-006, revision: 1}
+      - {id: SCI-PAR-PV-009, revision: 1}
+      - {id: SCI-PAR-PV-010, revision: 1}
+      - {id: SCI-PAR-PV-011, revision: 1}
+      - {id: SCI-PAR-HYD-003, revision: 1}
+      - {id: SCI-PAR-HYD-006, revision: 1}
+      - {id: SCI-PAR-HYD-007, revision: 1}
+      - {id: SCI-PAR-HYD-009, revision: 1}
+      - {id: SCI-PAR-WIND-002, revision: 1}
+      - {id: SCI-PAR-WIND-003, revision: 1}
+      - {id: SCI-PAR-WIND-004, revision: 1}
+      - {id: SCI-PAR-WIND-005, revision: 1}
+      - {id: SCI-PAR-WIND-006, revision: 1}
+      - {id: SCI-PAR-WIND-009, revision: 1}
+      - {id: SCI-PAR-WIND-010, revision: 1}
+      - {id: SCI-PAR-BAT-002, revision: 1}
+      - {id: SCI-PAR-BAT-005, revision: 1}
+      - {id: SCI-PAR-BAT-006, revision: 1}
+      - {id: SCI-PAR-BAT-007, revision: 1}
+      - {id: SCI-PAR-BAT-008, revision: 1}
+    criticality: blocking
+    reason: Equipment, site, weather range, and operating scenario are not selected; provisional values cannot be universalized.
+    owner: unassigned
+    dependency: Team selection of identifiable equipment/scenarios plus applicable datasheets and operating domains.
+    next_action: Select scope and keep each parameter pending_calibration or placeholder_without_support until evidence is recorded.
+    target_change: ECO-002
+    status: open
+  - id: GAP-003
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SRC-007, revision: 1}
+      - {id: SCI-PAR-ENV-001, revision: 1}
+      - {id: SCI-CLM-ENV-001, revision: 1}
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+    criticality: blocking
+    reason: Qeco has neither a selected geography nor an applicable institutional source; the local value is only a provisional scenario value.
+    owner: unassigned
+    dependency: Selected scenario and applicable environmental authority, or explicit classification as a fictional gameplay scenario.
+    next_action: Obtain environmental provenance and review without designing ECO-004 score.
+    target_change: ECO-002
+    status: open
+  - id: GAP-004
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BAT-002, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+      - {id: SCI-EQ-BUS-002, revision: 1}
+      - {id: SCI-CLM-BAT-001, revision: 1}
+      - {id: SCI-CLM-BUS-001, revision: 1}
+    criticality: blocking
+    reason: The conversion and network boundary, sign convention, dispatch order, equipment limits, and single-count treatment of efficiencies/losses are not independently reviewed.
+    owner: unassigned
+    dependency: Selected battery/controller architecture, verified data, independent calculations, and qualified control review.
+    next_action: Define exact boundaries and demonstrate tick conservation without double counting in Phase 5.
+    target_change: ECO-002
+    status: open
+  - id: GAP-005
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-PV-003, revision: 1}
+      - {id: SCI-CLM-NUM-001, revision: 1}
+      - {id: SCI-PAR-NUM-001, revision: 1}
+    criticality: blocking
+    reason: The proposed 60-second simulation step has no approved stability range, convergence study, or verified thermal time constants.
+    owner: unassigned
+    dependency: Verified PV parameters and a non-circular step-comparison calculation.
+    next_action: Perform and reproduce the stability study in Phase 5; do not treat it as physical validation.
+    target_change: ECO-002
+    status: open
+  - id: GAP-006
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-PV-003, revision: 1}
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-EQ-WIND-001, revision: 1}
+      - {id: SCI-EQ-WIND-002, revision: 1}
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BAT-002, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+      - {id: SCI-EQ-BUS-002, revision: 1}
+      - {id: SCI-EQ-NUM-001, revision: 1}
+    criticality: blocking
+    reason: No independent nominal or boundary calculations exist; the inherited vectors are documentary arithmetic examples and cannot serve as an independent oracle.
+    owner: unassigned
+    dependency: Verified evidence and an independent benchmark, distinct first-principles derivation, or qualified external reproduction.
+    next_action: Produce Phase 5 calculations and justified tolerances; reject simple formula repetition as circular.
+    target_change: ECO-002
+    status: open
+  - id: GAP-007
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-PV-003, revision: 1}
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-EQ-WIND-001, revision: 1}
+      - {id: SCI-EQ-WIND-002, revision: 1}
+    criticality: blocking
+    reason: No identified person with evidenced physics competence has performed the required review; absent project agents are not reviewers.
+    owner: unassigned
+    dependency: Identified qualified physics reviewer and competence evidence.
+    next_action: Register immutable reviewer identity and a real scoped review in Phase 5.
+    target_change: ECO-002
+    status: open
+  - id: GAP-008
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BAT-002, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+      - {id: SCI-EQ-BUS-002, revision: 1}
+    criticality: blocking
+    reason: No identified person with evidenced control competence has reviewed signs, saturation, SOC, losses, or conservation.
+    owner: unassigned
+    dependency: Identified qualified control reviewer and competence evidence.
+    next_action: Register immutable reviewer identity and a real scoped review in Phase 5.
+    target_change: ECO-002
+    status: open
+  - id: GAP-009
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-PAR-ENV-001, revision: 1}
+      - {id: SCI-CLM-ENV-001, revision: 1}
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+    criticality: blocking
+    reason: No identified person with evidenced environmental competence has reviewed Qeco provenance and scope.
+    owner: unassigned
+    dependency: Identified qualified environmental reviewer and competence evidence.
+    next_action: Register immutable reviewer identity and a real scoped review in Phase 5.
+    target_change: ECO-002
+    status: open
+  - id: GAP-010
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-CLM-CROSS-001, revision: 1}
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-EQ-WIND-001, revision: 1}
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+    criticality: blocking
+    reason: No identified quality auditor has reviewed traceability, non-circular independence, boundaries, licenses, exact references, or hashes.
+    owner: unassigned
+    dependency: Identified qualified quality reviewer and competence evidence.
+    next_action: Register immutable reviewer identity and a real scoped audit in Phase 5.
+    target_change: ECO-002
+    status: open
+  - id: GAP-011
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-CLM-CROSS-001, revision: 1}
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-EQ-WIND-001, revision: 1}
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+    criticality: blocking
+    reason: Responsible team members have not been assigned to acquire evidence, select scenarios, resolve findings, or own scientific revisions.
+    owner: unassigned
+    dependency: Team assignment with identified people and dates.
+    next_action: Assign accountable owners before any promotion or review resolution.
+    target_change: ECO-002
+    status: open
+  - id: GAP-012
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SRC-002, revision: 1}
+      - {id: SRC-003, revision: 1}
+      - {id: SRC-004, revision: 1}
+      - {id: SRC-005, revision: 1}
+      - {id: SRC-006, revision: 1}
+      - {id: SRC-007, revision: 1}
+    criticality: blocking
+    reason: The prior research worker had no web-retrieval capability and verified zero sources; this is retained as an immutable blocking fact for this evaluation.
+    owner: unassigned
+    dependency: A future separately authorized research phase with lawful source access.
+    next_action: Do not retry external research in Work Unit 1; preserve candidate_unconsulted statuses.
+    target_change: ECO-002
+    status: open
+  - id: GAP-013
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-PAR-ENV-001, revision: 1}
+    criticality: blocking
+    reason: The supplied environmental-flow metadata constrains legal interpretation but does not provide the unresolved primary hydraulic citation or an applicable Qeco value for a selected EcoGrid watershed.
+    owner: unassigned
+    dependency: Primary hydraulic source plus a selected watershed and applicable environmental-flow authority.
+    next_action: Obtain a localizable primary hydro citation and scenario-specific environmental evidence without generalizing proposal or Río Bogotá records.
+    target_change: ECO-002
+    status: open
+  - id: GAP-014
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SRC-008, revision: 1}
+      - {id: SRC-009, revision: 1}
+      - {id: SRC-010, revision: 1}
+      - {id: SRC-011, revision: 1}
+      - {id: SRC-012, revision: 1}
+      - {id: SRC-013, revision: 1}
+      - {id: PROV-008, revision: 1}
+      - {id: PROV-009, revision: 1}
+      - {id: PROV-010, revision: 1}
+      - {id: PROV-011, revision: 1}
+      - {id: PROV-012, revision: 1}
+    criticality: blocking
+    reason: No independent identified human has yet localized each cited passage and confirmed the metadata-only retention condition; task 4.7 remains blocked.
+    owner: unassigned
+    dependency: Independent human reviewer with access to the public sources and the recorded authorization constraints.
+    next_action: Complete task 4.7, record discrepancies as new revisions, and preserve all prior records.
+    target_change: ECO-002
+    status: open
+  - id: GAP-001
+    revision: 2
+    supersedes_revision: 1
+    affected_refs:
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-EQ-WIND-002, revision: 1}
+      - {id: SCI-EQ-BAT-001, revision: 1}
+      - {id: SCI-EQ-BAT-002, revision: 1}
+      - {id: SCI-EQ-BUS-001, revision: 1}
+    criticality: blocking
+    reason: Newly verified public sources support bounded hydro, PV, and wind claims, but they do not establish the exact EcoGrid hydro SI/net-head formulation, select the PV model, validate battery/bus equations, or provide equipment-specific evidence.
+    owner: unassigned
+    dependency: Exact localizable support for the selected model formulations plus selected equipment/scenarios and applicable datasheets.
+    next_action: Keep unsupported equations excluded; resolve selection and exact citations without treating contextual sources as interchangeable model versions.
+    target_change: ECO-002
+    status: open
+  - id: GAP-002
+    revision: 2
+    supersedes_revision: 1
+    affected_refs:
+      - {id: SCI-PAR-PV-002, revision: 1}
+      - {id: SCI-PAR-PV-003, revision: 1}
+      - {id: SCI-PAR-PV-005, revision: 1}
+      - {id: SCI-PAR-PV-006, revision: 1}
+      - {id: SCI-PAR-PV-009, revision: 1}
+      - {id: SCI-PAR-PV-010, revision: 1}
+      - {id: SCI-PAR-PV-011, revision: 1}
+      - {id: SCI-PAR-HYD-003, revision: 1}
+      - {id: SCI-PAR-HYD-006, revision: 1}
+      - {id: SCI-PAR-HYD-007, revision: 1}
+      - {id: SCI-PAR-HYD-009, revision: 1}
+      - {id: SCI-PAR-WIND-002, revision: 1}
+      - {id: SCI-PAR-WIND-003, revision: 1}
+      - {id: SCI-PAR-WIND-004, revision: 1}
+      - {id: SCI-PAR-WIND-005, revision: 1}
+      - {id: SCI-PAR-WIND-006, revision: 1}
+      - {id: SCI-PAR-WIND-009, revision: 1}
+      - {id: SCI-PAR-WIND-010, revision: 1}
+      - {id: SCI-PAR-BAT-002, revision: 1}
+      - {id: SCI-PAR-BAT-005, revision: 1}
+      - {id: SCI-PAR-BAT-006, revision: 1}
+      - {id: SCI-PAR-BAT-007, revision: 1}
+      - {id: SCI-PAR-BAT-008, revision: 1}
+    criticality: blocking
+    reason: Public sources confirm that PV coefficients, wind density/output/thresholds, hydraulic losses/efficiency, and battery values depend on technology, configuration, equipment, site, or operating conditions; no universal values are selected.
+    owner: unassigned
+    dependency: Team selection of identifiable equipment/scenarios plus applicable datasheets and operating domains.
+    next_action: Keep all equipment-specific values pending_calibration, gameplay_estimate, or placeholder_without_support until task 4.6 can be completed.
+    target_change: ECO-002
+    status: open
+  - id: GAP-013
+    revision: 2
+    supersedes_revision: 1
+    affected_refs:
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-PAR-ENV-001, revision: 1}
+      - {id: SCI-CLM-HYD-002, revision: 1}
+    criticality: blocking
+    reason: USBR and DOE now support bounded flow/head/loss dependence, but the exact SI rho*g*Q*H_net*eta citation and net-head definition remain open; no applicable Qeco value or watershed is selected.
+    owner: unassigned
+    dependency: Exact SI/net-head source plus a selected watershed and applicable environmental-flow authority.
+    next_action: Obtain localizable primary support for the exact selected hydro formulation and scenario-specific environmental evidence.
+    target_change: ECO-002
+    status: open
+  - id: GAP-014
+    revision: 2
+    supersedes_revision: 1
+    affected_refs:
+      - {id: SRC-008, revision: 1}
+      - {id: SRC-009, revision: 1}
+      - {id: SRC-010, revision: 1}
+      - {id: SRC-011, revision: 1}
+      - {id: SRC-012, revision: 1}
+      - {id: SRC-013, revision: 1}
+      - {id: SRC-014, revision: 1}
+      - {id: SRC-015, revision: 1}
+      - {id: SRC-016, revision: 1}
+      - {id: SRC-017, revision: 1}
+      - {id: SRC-018, revision: 1}
+      - {id: SRC-019, revision: 1}
+      - {id: SRC-020, revision: 1}
+      - {id: PROV-008, revision: 1}
+      - {id: PROV-009, revision: 1}
+      - {id: PROV-010, revision: 1}
+      - {id: PROV-011, revision: 1}
+      - {id: PROV-012, revision: 1}
+      - {id: PROV-013, revision: 1}
+      - {id: PROV-014, revision: 1}
+      - {id: PROV-015, revision: 1}
+      - {id: PROV-016, revision: 1}
+      - {id: PROV-017, revision: 1}
+    criticality: blocking
+    reason: The user supplied a dated source recheck, but task 4.7 still requires a distinct identified human to localize every citation, confirm metadata-only retention, and record discrepancies without overwriting revisions.
+    owner: unassigned
+    dependency: Independent identified human reviewer with access to the public sources and the recorded authorization constraints.
+    next_action: Complete task 4.7 as a separate review and preserve every prior source and provenance revision.
+    target_change: ECO-002
+    status: open
+  - id: GAP-015
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-PV-004, revision: 1}
+      - {id: SCI-EQ-PV-005, revision: 1}
+      - {id: SCI-EQ-PV-006, revision: 1}
+      - {id: SCI-PAR-PV-010, revision: 1}
+      - {id: SRC-016, revision: 1}
+      - {id: SRC-017, revision: 1}
+      - {id: SRC-018, revision: 1}
+      - {id: SRC-019, revision: 1}
+    criticality: blocking
+    reason: The Sandia empirical temperature relations and PVWatts representative power estimate have configuration-specific coefficients and do not establish one universal validity range or justify mixing historical PVPMC branches.
+    owner: unassigned
+    dependency: Selected PV model/version, module technology and mounting, wind-measurement convention, coefficient set, and independently reviewed applicability range.
+    next_action: Select one traceable model/version and equipment context; keep the EcoGrid transient balance, beta, efficiency, and universal validity range unresolved until then.
+    target_change: ECO-002
+    status: open
+  - id: GAP-002
+    revision: 3
+    supersedes_revision: 2
+    affected_refs:
+      - {id: SCI-PAR-PV-012, revision: 1}
+      - {id: SCI-PAR-PV-013, revision: 1}
+      - {id: SCI-PAR-PV-014, revision: 1}
+      - {id: SCI-PAR-PV-018, revision: 1}
+      - {id: SCI-PAR-PV-019, revision: 1}
+      - {id: SCI-PAR-PV-020, revision: 1}
+      - {id: SCI-PAR-HYD-014, revision: 1}
+      - {id: SCI-PAR-HYD-016, revision: 1}
+      - {id: SCI-PAR-HYD-017, revision: 1}
+      - {id: SCI-PAR-WIND-011, revision: 1}
+      - {id: SCI-PAR-WIND-012, revision: 1}
+      - {id: SCI-PAR-WIND-013, revision: 1}
+      - {id: SCI-PAR-WIND-014, revision: 1}
+      - {id: SCI-PAR-WIND-015, revision: 1}
+      - {id: SCI-PAR-WIND-016, revision: 1}
+      - {id: SCI-PAR-WIND-017, revision: 1}
+      - {id: SCI-PAR-BAT-009, revision: 1}
+      - {id: SCI-PAR-BAT-010, revision: 1}
+      - {id: SCI-PAR-BAT-011, revision: 1}
+      - {id: SCI-PAR-BAT-012, revision: 1}
+      - {id: SCI-PAR-BAT-013, revision: 1}
+    criticality: blocking
+    reason: EDU-FIC-001 now gives the calculations an explicit fictional scope, but all device, mounting, site, curve, efficiency, capacity, and loss values remain pending calibration rather than equipment facts.
+    owner: project_user
+    dependency: Future identifiable equipment/site selection and applicable datasheets if these values are to leave fictional gameplay scope.
+    next_action: Preserve gameplay_estimate and pending_calibration labels; do not promote the fictional values during implementation.
+    target_change: ECO-002
+    status: open
+  - id: GAP-006
+    revision: 2
+    supersedes_revision: 1
+    affected_refs:
+      - {id: CALC-PV-001, revision: 1}
+      - {id: CALC-HYD-001, revision: 1}
+      - {id: CALC-WIND-001, revision: 1}
+      - {id: CALC-BUS-001, revision: 1}
+    criticality: non_blocking
+    reason: Independent documentary nominal and boundary calculations now exist for the assigned scope and reject circularity, superseding the prior absence; scientific acceptance remains blocked by pending calibration and required reviews.
+    owner: project_user
+    dependency: Tasks 5.5-5.10 for identified reproduction, competency evidence, and review of methods and tolerances.
+    next_action: Keep calculations out of any baseline until qualified reviewers reproduce and accept them.
+    target_change: ECO-002
+    status: resolved
+  - id: GAP-015
+    revision: 2
+    supersedes_revision: 1
+    affected_refs:
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-PV-004, revision: 1}
+      - {id: SCI-EQ-PV-005, revision: 1}
+      - {id: SCI-EQ-PV-006, revision: 1}
+      - {id: CALC-PV-001, revision: 1}
+    criticality: blocking
+    reason: EDU-FIC-001 uses the Sandia empirical relations only as an independent contrast to the candidate transient balance; it does not select the production model, mix PVPMC branches, or establish a universal validity range.
+    owner: project_user
+    dependency: Tasks 4.7 and 5.5-5.10 plus a future explicit model/version and equipment decision.
+    next_action: Preserve the contrast result as documentary evidence and keep all PV candidate models excluded from a baseline.
+    target_change: ECO-002
+    status: open
+  - id: GAP-016
+    revision: 1
+    supersedes_revision: null
+    affected_refs:
+      - {id: CALC-PV-001, revision: 1}
+      - {id: CALC-HYD-001, revision: 1}
+      - {id: CALC-WIND-001, revision: 1}
+      - {id: CALC-BUS-001, revision: 1}
+    criticality: blocking
+    reason: The calculations are non-circular documentary contrasts using gameplay estimates and pending calibrations, but no identified qualified person has reproduced or reviewed their arithmetic, independence basis, inputs, or tolerances.
+    owner: unassigned
+    dependency: Identified reviewer records and scoped physics/control/quality reviews under tasks 5.5-5.10.
+    next_action: Reproduce each calculation from its CSV and source basis; record findings without changing these revision-1 notebooks.
+    target_change: ECO-002
+    status: open

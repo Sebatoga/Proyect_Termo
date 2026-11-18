@@ -1,0 +1,3 @@
+case,E_POA_W_m2,WS_m_s,Ta_degC,a,b_s_m,E0_W_m2,DeltaT_K,expected_Tm_degC,expected_Tc_degC,tolerance_degC,evidence_class
+nominal,800,2,25,-3.47,-0.0594,1000,3,47.1052,49.5052,0.01,mixed_gameplay_estimate_pending_calibration
+zero_irradiance,0,2,25,-3.47,-0.0594,1000,3,25,25,0,mixed_gameplay_estimate_pending_calibration

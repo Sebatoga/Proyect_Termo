@@ -1,0 +1,15 @@
+{
+  "id": "ECO-002-WU4-S22",
+  "order": 22,
+  "purpose": "Review the reconciliation validation receipt and close cumulative slice coverage.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S21",
+  "review_units": [
+    {"path": "evidencias/ECO-002/validation/work-unit-4-reconciliation.md", "records": ["complete file"], "review_lines": 61},
+    {"path": "evidencias/ECO-002/review-slices/slice-22-wu4-validation-receipt.json", "records": ["complete file"], "review_lines": 15}
+  ],
+  "total_review_lines": 76,
+  "non_overlap_key": "work-unit-4-reconciliation-validation"
+}

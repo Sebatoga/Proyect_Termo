@@ -1,0 +1,14 @@
+{
+  "id": "ECO-002-WU1-S07",
+  "order": 7,
+  "purpose": "Preserve cumulative apply progress and exact validation receipts.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S06",
+  "files": [
+    {"path": "openspec/changes/eco-002/apply-progress.md", "review_lines": 153},
+    {"path": "evidencias/ECO-002/review-slices/slice-07-apply-receipt.json", "review_lines": 14}
+  ],
+  "total_review_lines": 167
+}

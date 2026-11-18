@@ -1,14 +1,15 @@
-# Contrato científico verificable v0.1 — SI obligatorio
+# Contrato científico verificable v0.2 — SI obligatorio
 
-**Carácter:** modelo simplificado propuesto, aún no calibrado experimentalmente. No reemplaza cálculos de diseño real. Para cada ecuación se mantendrán: bibliografía técnica, derivación o referencia, supuestos, rangos, test vector y análisis de sensibilidad. Ningún parámetro inventado se presenta como medición.
+**Carácter:** contrato propuesto, aún bloqueado por ECO-002 y no aceptado como baseline. No reemplaza cálculos de diseño real. Para cada ecuación se mantendrán bibliografía, supuestos, rangos, test vector y validación. Ningún parámetro inventado se presenta como medición.
 
 ## A. Tiempo y unidades
-- Paso de integración: `dt_sim_s = 60 s` por 1 s de reloj de juego (propuesta); simulación en segundos, temperatura °C para diferencias; energía almacenada kWh; potencia mostrada kW.
+- El MVP resuelve seis rondas; cada ronda usa un intervalo simulado declarado y pendiente de calibración, separado de sus 8–12 minutos de tiempo real.
 - `dt_h = dt_sim_s/3600` para pasar potencia kW a energía kWh.
 - La simulación usa ticks de paso fijo con acumulador, independiente de FPS; no acelerar la física si caen frames. En pausa, `dt_sim_s=0`.
 - Aleatoriedad: generador sembrado reproducible; pronóstico determinista de escenario o incertidumbre documentada.
 
 ## B. Termodinámica — panel solar con capacidad térmica
+Entradas híbridas: sensor de temperatura validado y `proxy de luz calibrado para gameplay`. El proxy no es irradiancia física. Solo una calibración trazable podría convertirlo a `G [W/m²]`; mientras tanto selecciona una condición de escenario rotulada como estimación de gameplay.
 Temperatura dinámica de módulo (modelo concentrado / lumped):
 
 `C_th [J/K] * dT_cell/dt [K/s] = alpha*A*G [W] - h*A*(T_cell-T_air) [W] - P_elec_W [W]`
@@ -20,6 +21,7 @@ Temperatura dinámica de módulo (modelo concentrado / lumped):
 - Limitar entradas físicamente válidas y no esconder inestabilidades mediante clamp masivo. Si PV supera capacidad del inversor, aplicar limitador de salida y usar la potencia realmente retirada en balance térmico solo si se modela esa interacción explícitamente.
 - De noche G=0 → P_pv=0, pero hay intercambio térmico con ambiente; temperatura puede bajar.
 - Hipótesis: panel homogéneo, coeficientes constantes por escenario, sin sombreados finos ni MPPT detallado. Representar potencia neta en barra tras pérdidas definidas.
+- Una entrada ausente, fuera de rango o no finita produce estado inválido/desconectado y la ronda no se resuelve con un valor silenciosamente sustituido.
 
 **Vector de referencia eléctrico (sin dinámica térmica):** A=100 m², G=1000 W/m², eta_ref=0.20, beta=0.004/K, T=25 °C → P=20.0 kW; si T=35 °C → P=19.2 kW. Deben cumplirse con tolerancia <=1e-9 en pruebas unitarias puras (la tolerancia computacional podrá revisarse de forma explícita).
 
@@ -34,7 +36,8 @@ Temperatura dinámica de módulo (modelo concentrado / lumped):
 
 **Vector referencia:** Qriver=4 m³/s; Qeco=1; Qsol=2; Hgross=20 m; K_loss=0.1 s²/m⁵; η=0.8; ρ=1000 kg/m³; g=9.81 → Hnet=19.6 m, P=307.6416 kW, bypass=2 m³/s.
 
-## D. Eólica — flujo y extracción mecánica
+## D. Eólica — fuera del MVP
+El siguiente modelo se conserva como trabajo posterior y no integra el producto HYBRID-001:
 `P_wind_aero_W = 0.5 * rho_air * A_swept * Cp * v^3`; `P_wind_elec_W = min(P_rated_W, P_wind_aero_W * eta_elec)` solo si `cut_in <= v < cut_out`; fuera, P=0.
 - `rho_air` kg/m³, `A_swept` m², `v` m/s, `Cp` (0<Cp<=0.593 teórico Betz), `eta_elec` fracción; límites explícitos cut-in / cut-out. Se omite curva detallada de potencia, pitch y transitorios mecánicos. Ratificar transición a potencia nominal en pruebas.
 - Viento cero y viento de desconexión deben dar cero; no crear electricidad durante calma.
@@ -51,16 +54,22 @@ Temperatura dinámica de módulo (modelo concentrado / lumped):
 - Balance obligatorio por tick del bus, todas en kW: `P_ren + P_dis_out = P_load_served + P_ch_in + P_curtail + P_net_losses`. Si hay déficit, `P_demand = P_load_served + P_unserved` (mismo intervalo y unidades).
 - Balance energético batería: las diferencias de E deben coincidir con carga/descarga + pérdidas; no permitir SOC fuera de rango.
 - La ingeniería electrónica **tiene decisiones funcionales**: lógica de controlador, selección de cargas, límites de corriente/potencia, BMS simplificado, protección ante consignas inválidas, sensores virtuales explícitos con estados, no solamente decorativos.
+- El selector físico de batería y la prioridad de cargas cambian el despacho de ronda. El potenciómetro/slider hidro cambia `Q_turb_req`; el botón confirmar congela una consigna válida.
+
+## F. Frontera de medición y control
+- Firmware adquiere luz, temperatura y controles; aplica calibración identificada, rango, marca temporal y estado `valid`, `invalid` o `disconnected`.
+- El protocolo USB serial transporta datos, no reglas físicas. El adaptador host valida esquema/unidades antes de crear entradas del dominio TypeScript puro.
+- Modelos exactos de componentes, curvas de calibración, tolerancias y presupuesto están pendientes de inventario y ensayo; no se presuponen en este contrato.
 
 **Vectores:** con dt=60 s, entrada de carga 120kW ηch=.95 → +1.9kWh. Salida de descarga 120kW ηdis=.9 → −2.222222222...kWh. Si una batería está vacía no puede entregar potencia.
 
-## F. Ingeniería ambiental — proteger recurso y explicar decisiones
+## G. Ingeniería ambiental — proteger recurso y explicar decisiones
 - En MVP el impacto ambiental verificable gira en torno a **Q_bypass >= Qeco mínimo** y a calidad de servicio sostenible. La penalización ecológica no puede sustituir la prohibición física en el modelo; si se permite modo experimental de incumplimiento, que sea un escenario didáctico separado y explicitado.
 - Evitar confundir «caudal ecológico mínimo» con «calidad ecológica completa»: no simula hábitat, temperatura del río, estacionalidad biológica ni calidad química.
 - Mostrar aviso si `Qriver<Qeco`: no hay agua derivable, restricción natural; no sancionar al jugador por ello.
 - Otros indicadores (emisiones evitadas, huella hídrica) deben permanecer fuera de la puntuación hasta definir línea base, factores verificables y alcances.
 
-## G. Score (propuesta, debe quedar definido antes de programar)
+## H. Score (fuera del MVP; propuesta histórica)
 - `S_crit = 100 * E_crit_servida/E_crit_requerida` (si denominador 0: establecer caso y prueba de diseño).
 - `S_total = 100 * E_servida/E_demandada`.
 - `S_eco`: 100 mientras se respete caudal ecológico en todas las extracciones; reducir solo si existe un modo explícito de sobreexplotación y una métrica definida. **Ojo**: si todo incumplimiento queda bloqueado, `S_eco` sería constante y no discrimina. Antes de implementar, rediseñar componente ambiental en términos de *margen de conservación* o *beneficios ambientales verificables*, sin premiar por apagar toda la ciudad. Registrar decisión en ADR.
@@ -68,8 +77,8 @@ Temperatura dinámica de módulo (modelo concentrado / lumped):
 - `S_final = 0.50*Scrit + 0.20*Stotal + 0.20*Seco + 0.10*Srecursos`, todos 0–100, **solo tras resolver problemas de incentivos y denominadores**.
 - Los pesos son decisión jugable **no una ley física**, sujetos a validación con usuarios.
 
-## H. Casos límite obligatorios
+## I. Casos límite obligatorios
 G=0; G extrema dentro del rango; panel caliente; PV comienza frío; v=0 / justo cut-in / justo cut-out / sobre cut-out; río Q=0 y Q<Qeco; compuerta totalmente cerrada; pérdida neta de carga alta; batería 0/100%; eficiencia =1 y <1; demanda 0; Δt=0 y tick repetido; datos negativos/NaN rechazados; clima extremo con apagón; pausa y reanudación; semilla repetida → resultados idénticos.
 
-## I. Verificación independiente
+## J. Verificación independiente
 Cada módulo tendrá al menos: ecuación documentada, ejemplo manual/calc. independiente, test automatizado, prueba de límite, análisis dimensional, comparación simulador↔referencia, revisión del especialista, gráfico para el póster. Ver `docs/09_PLAN_PRUEBAS.md` y `datos/casos_referencia.json`.

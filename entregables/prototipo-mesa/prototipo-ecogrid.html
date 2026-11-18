@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>EcoGrid — Prototipo imprimible</title>
+  <style>
+    :root {
+      --ink: #10272c;
+      --muted: #45666c;
+      --cyan: #0891b2;
+      --green: #4d7c0f;
+      --blue: #0369a1;
+      --amber: #b45309;
+      --red: #be123c;
+      --paper: #f8faf7;
+      --line: #9bb5b8;
+    }
+    * { box-sizing: border-box; }
+    @page { size: A4 landscape; margin: 0; }
+    html, body {
+      margin: 0;
+      background: #d7e1e1;
+      color: var(--ink);
+      font-family: "Noto Sans", "DejaVu Sans", Arial, sans-serif;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .page {
+      width: 297mm;
+      height: 210mm;
+      padding: 12mm 14mm 10mm;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      background: var(--paper);
+    }
+    .page:last-child { page-break-after: auto; }
+    .prototype {
+      position: absolute;
+      top: 7mm;
+      right: 12mm;
+      padding: 2.3mm 4mm;
+      border: 1px solid var(--red);
+      border-radius: 999px;
+      color: var(--red);
+      font-size: 8pt;
+      font-weight: 900;
+      letter-spacing: .7px;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 28pt; line-height: 1.05; margin-bottom: 3mm; }
+    h2 { font-size: 22pt; line-height: 1.08; margin-bottom: 4mm; }
+    h3 { font-size: 13pt; margin-bottom: 2mm; }
+    p, li { font-size: 10.5pt; line-height: 1.32; }
+    .eyebrow {
+      color: var(--cyan);
+      font-weight: 900;
+      font-size: 9pt;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 2mm;
+    }
+    .footer {
+      position: absolute;
+      left: 14mm;
+      right: 14mm;
+      bottom: 4mm;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 7.5pt;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr 1fr;
+      grid-template-rows: 58mm 58mm;
+      gap: 5mm;
+      margin-top: 5mm;
+    }
+    .zone {
+      border: 2px solid var(--line);
+      border-radius: 5mm;
+      padding: 5mm;
+      background: white;
+      position: relative;
+    }
+    .zone h3 { font-size: 16pt; }
+    .zone p { color: var(--muted); }
+    .zone.pv { border-color: #eab308; background: #fffbea; }
+    .zone.river { border-color: #0ea5e9; background: #effaff; }
+    .zone.bus { border-color: var(--cyan); background: #edfcfb; grid-row: 1 / 3; grid-column: 2; }
+    .zone.battery { border-color: #84cc16; background: #f7fee7; }
+    .zone.loads { border-color: #f97316; background: #fff7ed; }
+    .slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3mm;
+      margin-top: 4mm;
+    }
+    .slot {
+      height: 14mm;
+      border: 1.5px dashed currentColor;
+      border-radius: 3mm;
+      display: grid;
+      place-items: center;
+      font-size: 8pt;
+      color: var(--muted);
+    }
+    .bus-path {
+      height: 94mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .bus-node {
+      width: 82%;
+      min-height: 19mm;
+      padding: 3mm;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 2px solid var(--cyan);
+      border-radius: 4mm;
+      background: white;
+      font-weight: 800;
+    }
+    .arrow { color: var(--cyan); font-size: 18pt; font-weight: 900; }
+    .round-card {
+      height: 166mm;
+      border: 3px solid var(--cyan);
+      border-radius: 7mm;
+      padding: 10mm;
+      background: white;
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 10mm;
+    }
+    .round-card.hot { border-color: var(--amber); }
+    .round-card.low-river { border-color: var(--blue); }
+    .round-card.peak { border-color: var(--red); }
+    .round-card.low-light { border-color: #6366f1; }
+    .round-card.final { border-color: var(--green); }
+    .round-number {
+      font-size: 75pt;
+      line-height: .85;
+      font-weight: 950;
+      color: var(--cyan);
+      margin: 9mm 0 5mm;
+    }
+    .hot .round-number { color: var(--amber); }
+    .low-river .round-number { color: var(--blue); }
+    .peak .round-number { color: var(--red); }
+    .low-light .round-number { color: #6366f1; }
+    .final .round-number { color: var(--green); }
+    .tag {
+      display: inline-block;
+      padding: 2mm 4mm;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 8pt;
+      font-weight: 800;
+    }
+    .prompt {
+      margin: 6mm 0;
+      padding: 6mm;
+      border-left: 5px solid var(--cyan);
+      background: #ecfeff;
+      font-size: 17pt;
+      line-height: 1.25;
+      font-weight: 850;
+    }
+    .hot .prompt { border-color: var(--amber); background: #fffbeb; }
+    .low-river .prompt { border-color: var(--blue); background: #eff6ff; }
+    .peak .prompt { border-color: var(--red); background: #fff1f2; }
+    .low-light .prompt { border-color: #6366f1; background: #eef2ff; }
+    .final .prompt { border-color: var(--green); background: #f7fee7; }
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm 8mm;
+      margin-top: 6mm;
+    }
+    .check {
+      min-height: 14mm;
+      padding: 3mm 4mm;
+      border: 1px solid var(--line);
+      border-radius: 3mm;
+      font-size: 10pt;
+    }
+    .check::before { content: "□ "; font-size: 13pt; font-weight: 900; }
+    .warning {
+      padding: 4mm 5mm;
+      border: 1px solid #d97706;
+      border-radius: 3mm;
+      background: #fffbeb;
+      color: #78350f;
+      font-size: 9pt;
+    }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 7mm;
+      margin-top: 5mm;
+    }
+    .panel {
+      border: 1.5px solid var(--line);
+      border-radius: 4mm;
+      padding: 5mm;
+      background: white;
+    }
+    .sequence {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm 6mm;
+    }
+    .sequence li {
+      counter-increment: step;
+      padding: 3mm;
+      border-bottom: 1px solid #d5e0e1;
+    }
+    .sequence li::before {
+      content: counter(step, decimal-leading-zero) " ";
+      color: var(--cyan);
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="prototype">PROTOTIPO DE FLUJO · SIN BALANCE DEFINITIVO</div>
+    <div class="eyebrow">EcoGrid: Ciudad al Límite</div>
+    <h1>Tablero provisional de la ciudad</h1>
+    <div class="board">
+      <div class="zone pv">
+        <h3>☀ Zona solar PV</h3>
+        <p>Coloque aquí fichas de aporte solar y el marcador de condición de luz/temperatura.</p>
+        <div class="slots"><div class="slot">PV</div><div class="slot">PV</div><div class="slot">PV</div><div class="slot">ALERTA</div></div>
+      </div>
+      <div class="zone bus">
+        <h3>Red energética</h3>
+        <div class="bus-path">
+          <div class="bus-node">APORTES RENOVABLES</div><div class="arrow">↓</div>
+          <div class="bus-node">BATERÍA / RESERVA</div><div class="arrow">↓</div>
+          <div class="bus-node">PRIORIDAD DEL EQUIPO</div><div class="arrow">↓</div>
+          <div class="bus-node">CARGAS ATENDIDAS</div>
+        </div>
+      </div>
+      <div class="zone river">
+        <h3>≈ Río e hidro de pasada</h3>
+        <p>Separe visualmente agua derivada y bypass ecológico. No use agua real.</p>
+        <div class="slots"><div class="slot">RÍO</div><div class="slot">HIDRO</div><div class="slot">BYPASS</div><div class="slot">ALERTA</div></div>
+      </div>
+      <div class="zone battery">
+        <h3>▣ Batería y reserva</h3>
+        <p>Las fichas aquí representan reserva disponible. Cargar y descargar tienen pérdidas.</p>
+        <div class="slots"><div class="slot">SOC</div><div class="slot">SOC</div><div class="slot">SOC</div><div class="slot">SOC</div></div>
+      </div>
+      <div class="zone loads">
+        <h3>✚ Cargas de la ciudad</h3>
+        <p>Distinga hospital, agua/comunicaciones y cargas no críticas mediante texto y forma.</p>
+        <div class="slots"><div class="slot">HOSPITAL</div><div class="slot">AGUA</div><div class="slot">COM.</div><div class="slot">OTRAS</div></div>
+      </div>
+    </div>
+    <div class="footer"><span>Imprimir en A4 horizontal · usar fichas recortables o elementos disponibles</span><span>1 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">VALORES PENDIENTES DE ECO-002 Y PLAYTESTING</div>
+    <div class="round-card">
+      <div><span class="tag">base-demand</span><div class="round-number">01</div><h2>Condición base</h2><p>La ciudad inicia estable. Esta ronda enseña dónde observar y cómo acordar una decisión.</p></div>
+      <div><div class="eyebrow">Pregunta de la ronda</div><div class="prompt">¿Entendemos el tablero y qué cargas debemos priorizar?</div><div class="checklist"><div class="check">Revelar demanda</div><div class="check">Comprobar entradas</div><div class="check">Acordar prioridad</div><div class="check">Elegir hidro y batería</div><div class="check">Confirmar una vez</div><div class="check">Mover fichas y explicar</div></div><div class="warning">No asigne cifras por intuición. Use esta carta para ensayar el flujo, no para afirmar balance.</div></div>
+    </div>
+    <div class="footer"><span>EcoGrid · Carta 1</span><span>2 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">VALORES PENDIENTES DE ECO-002 Y PLAYTESTING</div>
+    <div class="round-card hot">
+      <div><span class="tag">high-temperature</span><div class="round-number">02</div><h2>Temperatura alta</h2><p>El equipo enfrenta una condición menos favorable para el aporte solar.</p></div>
+      <div><div class="eyebrow">Pregunta de la ronda</div><div class="prompt">¿Cómo cambia nuestra estrategia cuando el panel trabaja más caliente?</div><div class="checklist"><div class="check">Leer temperatura</div><div class="check">Validar estado</div><div class="check">Revisar reserva</div><div class="check">Acordar prioridad</div><div class="check">Confirmar una vez</div><div class="check">Explicar la consecuencia</div></div><div class="warning">La temperatura afecta el modelo propuesto; esta carta no fija un porcentaje de pérdida.</div></div>
+    </div>
+    <div class="footer"><span>EcoGrid · Carta 2</span><span>3 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">VALORES PENDIENTES DE ECO-002 Y PLAYTESTING</div>
+    <div class="round-card low-river">
+      <div><span class="tag">low-river</span><div class="round-number">03</div><h2>Río bajo</h2><p>Hay menos agua disponible y el bypass ecológico continúa siendo obligatorio.</p></div>
+      <div><div class="eyebrow">Pregunta de la ronda</div><div class="prompt">¿Qué consigna hidro es posible sin vulnerar el caudal ecológico?</div><div class="checklist"><div class="check">Observar río</div><div class="check">Proteger bypass</div><div class="check">Ajustar consigna</div><div class="check">Revisar alternativas</div><div class="check">Confirmar una vez</div><div class="check">Mostrar indisponibilidad natural</div></div><div class="warning">Si el río no alcanza el mínimo ecológico, no se deriva agua ni se penaliza al equipo.</div></div>
+    </div>
+    <div class="footer"><span>EcoGrid · Carta 3</span><span>4 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">VALORES PENDIENTES DE ECO-002 Y PLAYTESTING</div>
+    <div class="round-card peak">
+      <div><span class="tag">demand-peak</span><div class="round-number">04</div><h2>Pico de demanda</h2><p>La ciudad exige más energía y atender todo puede no ser posible.</p></div>
+      <div><div class="eyebrow">Pregunta de la ronda</div><div class="prompt">¿Qué cargas protegemos y cuándo usamos la batería?</div><div class="checklist"><div class="check">Revelar demanda</div><div class="check">Contar reserva</div><div class="check">Priorizar cargas</div><div class="check">Elegir modo batería</div><div class="check">Confirmar una vez</div><div class="check">Dejar déficit visible</div></div><div class="warning">No elimine demanda para aparentar éxito. Toda carga no atendida debe permanecer visible.</div></div>
+    </div>
+    <div class="footer"><span>EcoGrid · Carta 4</span><span>5 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">VALORES PENDIENTES DE ECO-002 Y PLAYTESTING</div>
+    <div class="round-card low-light">
+      <div><span class="tag">reduced-light</span><div class="round-number">05</div><h2>Luz reducida</h2><p>El aporte solar disminuye y la reserva acumulada se vuelve decisiva.</p></div>
+      <div><div class="eyebrow">Pregunta de la ronda</div><div class="prompt">¿Cómo administramos la reserva sin inventar generación?</div><div class="checklist"><div class="check">Leer proxy de luz</div><div class="check">Validar rango</div><div class="check">Revisar hidro</div><div class="check">Decidir reserva</div><div class="check">Confirmar una vez</div><div class="check">Explicar el déficit</div></div><div class="warning">El proxy de luz no se presenta como irradiancia física sin calibración trazable.</div></div>
+    </div>
+    <div class="footer"><span>EcoGrid · Carta 5</span><span>6 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">VALORES PENDIENTES DE ECO-002 Y PLAYTESTING</div>
+    <div class="round-card final">
+      <div><span class="tag">seeded-combination</span><div class="round-number">06</div><h2>Combinación final</h2><p>Varias presiones coinciden. El equipo debe aplicar lo aprendido y explicar cada consecuencia.</p></div>
+      <div><div class="eyebrow">Pregunta de la ronda</div><div class="prompt">¿Podemos sostener la ciudad y justificar todas nuestras decisiones?</div><div class="checklist"><div class="check">Comprobar todas las entradas</div><div class="check">Revisar reserva</div><div class="check">Proteger ambiente</div><div class="check">Acordar estrategia final</div><div class="check">Confirmar una vez</div><div class="check">Cerrar registro completo</div></div><div class="warning">La combinación debe ser reproducible y superable; no use una sorpresa oculta imposible de anticipar.</div></div>
+    </div>
+    <div class="footer"><span>EcoGrid · Carta 6</span><span>7 / 8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="prototype">GUÍA PARA ENSAYO EN PAPEL · NO ACREDITA HARDWARE</div>
+    <div class="eyebrow">EcoGrid: Ciudad al Límite</div>
+    <h1>Guía rápida para una prueba de flujo</h1>
+    <div class="quick-grid">
+      <div class="panel">
+        <h2>Una ronda en diez pasos</h2>
+        <ol class="sequence">
+          <li>Revelar la carta.</li><li>Leer tablero y condiciones.</li>
+          <li>Comprobar estados.</li><li>Acordar prioridades.</li>
+          <li>Ajustar controles o marcadores.</li><li>Anunciar la decisión.</li>
+          <li>Confirmar una sola vez.</li><li>Resolver en orden.</li>
+          <li>Mover fichas y explicar.</li><li>Registrar y continuar.</li>
+        </ol>
+      </div>
+      <div>
+        <div class="panel">
+          <h3>Roles opcionales</h3>
+          <p><strong>Coordinación:</strong> lee y confirma el acuerdo.</p>
+          <p><strong>Energía:</strong> sigue aportes, reserva y cargas.</p>
+          <p><strong>Río y ambiente:</strong> observa hidro y bypass.</p>
+          <p><strong>Registro:</strong> mueve fichas y conserva alertas.</p>
+        </div>
+        <div class="warning" style="margin-top:5mm">
+          <strong>Pausa obligatoria:</strong> si una entrada necesaria está
+          inválida o desconectada, la ronda no se resuelve con un valor inventado.
+          En ensayo de papel, una persona facilitadora declara la condición y la
+          rotula como simulada.
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>Basado en docs/17_COMO_JUGAR.md · revisión humana y playtesting pendientes</span><span>8 / 8</span></div>
+  </section>
+</body>
+</html>

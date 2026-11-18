@@ -1,0 +1,14 @@
+{
+  "id": "ECO-002-WU2-S12",
+  "order": 12,
+  "purpose": "Preserve cumulative Work Unit 1 and Work Unit 2 apply progress.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU2-S11",
+  "files": [
+    {"path": "openspec/changes/eco-002/apply-progress.md", "review_lines": 211},
+    {"path": "evidencias/ECO-002/review-slices/slice-12-wu2-apply-receipt.json", "review_lines": 14}
+  ],
+  "total_review_lines": 225
+}

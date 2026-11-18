@@ -1,0 +1,9 @@
+# Local AI runtime state
+.atl/
+
+# Root application dependencies and build output
+/node_modules/
+/dist/
+
+# Local CodeGraph index (machine-specific)
+.codegraph/

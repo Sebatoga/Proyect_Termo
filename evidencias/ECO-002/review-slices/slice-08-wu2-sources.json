@@ -1,0 +1,14 @@
+{
+  "id": "ECO-002-WU2-S08",
+  "order": 8,
+  "purpose": "Record public read-only authorization, metadata-only retention, and exact source locators.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU1-S07",
+  "files": [
+    {"path": "evidencias/ECO-002/working/sources.yaml", "review_lines": 261},
+    {"path": "evidencias/ECO-002/review-slices/slice-08-wu2-sources.json", "review_lines": 14}
+  ],
+  "total_review_lines": 275
+}

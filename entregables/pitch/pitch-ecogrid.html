@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EcoGrid — Pitch de ventas</title>
+  <style>
+    :root {
+      --ink: #effefe;
+      --muted: #a7c7ca;
+      --navy: #06191e;
+      --panel: #0d3037;
+      --cyan: #2dd4bf;
+      --blue: #38bdf8;
+      --green: #84cc16;
+      --amber: #fbbf24;
+      --line: rgba(148, 210, 218, .25);
+    }
+    * { box-sizing: border-box; }
+    @page { size: 13.333in 7.5in; margin: 0; }
+    html, body {
+      margin: 0;
+      background: #020b0e;
+      color: var(--ink);
+      font-family: Inter, "Noto Sans", "DejaVu Sans", Arial, sans-serif;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .slide {
+      width: 13.333in;
+      height: 7.5in;
+      padding: .55in .68in .45in;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      background:
+        radial-gradient(circle at 88% 10%, rgba(45,212,191,.17), transparent 27%),
+        radial-gradient(circle at 4% 95%, rgba(56,189,248,.12), transparent 30%),
+        linear-gradient(145deg, #06171d, var(--navy) 56%, #08242a);
+    }
+    .slide:last-child { page-break-after: auto; }
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 43pt; line-height: 1.02; letter-spacing: -1.8px; margin-bottom: .2in; }
+    h2 { font-size: 29pt; line-height: 1.08; letter-spacing: -.8px; margin-bottom: .25in; }
+    h3 { font-size: 16pt; margin-bottom: .09in; color: var(--cyan); }
+    p, li { font-size: 14.5pt; line-height: 1.34; }
+    strong { color: white; }
+    .accent { color: var(--cyan); }
+    .amber { color: var(--amber); }
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 10.5pt;
+      font-weight: 900;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      margin-bottom: .13in;
+    }
+    .subtitle { color: var(--muted); font-size: 18.5pt; line-height: 1.3; max-width: 7.1in; }
+    .footer {
+      position: absolute;
+      z-index: 3;
+      left: .68in;
+      right: .68in;
+      bottom: .19in;
+      display: flex;
+      justify-content: space-between;
+      color: #729ca2;
+      font-size: 8.5pt;
+      letter-spacing: .4px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: .5in;
+      align-items: center;
+      height: 5.75in;
+    }
+    .hero-art {
+      z-index: 1;
+      height: 4.7in;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      overflow: hidden;
+      background: linear-gradient(165deg, #0e3840, #06181d);
+    }
+    .hero-art svg { width: 100%; height: 100%; display: block; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .28in; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: .2in; }
+    .card {
+      position: relative;
+      z-index: 2;
+      padding: .21in .23in;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(150deg, rgba(18,57,65,.94), rgba(9,35,41,.94));
+    }
+    .card p, .card li { font-size: 12.9pt; }
+    .icon {
+      width: .55in;
+      height: .55in;
+      display: grid;
+      place-items: center;
+      margin-bottom: .1in;
+      border-radius: 14px;
+      background: rgba(45,212,191,.13);
+      color: var(--cyan);
+      font-size: 24pt;
+    }
+    .question {
+      margin: .3in auto;
+      max-width: 10.7in;
+      padding: .27in .35in;
+      text-align: center;
+      font-size: 27pt;
+      line-height: 1.22;
+      font-weight: 850;
+      border: 1px solid rgba(45,212,191,.45);
+      border-radius: 18px;
+      background: rgba(13,48,55,.82);
+    }
+    .choice {
+      min-height: 2.7in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .choice .tradeoff {
+      padding-top: .13in;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11.6pt;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .13in;
+      margin-top: .28in;
+    }
+    .step {
+      position: relative;
+      z-index: 2;
+      min-height: 1.65in;
+      padding: .17in .15in;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(13,48,55,.9);
+    }
+    .step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -.15in;
+      top: .58in;
+      z-index: 4;
+      color: var(--cyan);
+      font-size: 20pt;
+      font-weight: 900;
+    }
+    .step b { display: block; color: var(--cyan); font-size: 10pt; letter-spacing: 1px; }
+    .step p { margin: .08in 0 0; font-size: 11.5pt; line-height: 1.25; }
+    .quote {
+      max-width: 10.8in;
+      margin: .25in auto 0;
+      text-align: center;
+      font-size: 24pt;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+    .tag {
+      display: inline-block;
+      padding: .055in .13in;
+      border: 1px solid rgba(45,212,191,.45);
+      border-radius: 999px;
+      color: #ccfbf1;
+      background: rgba(45,212,191,.1);
+      font-size: 10pt;
+      font-weight: 800;
+      margin: 0 .07in .07in 0;
+    }
+    .big-number { color: white; font-size: 31pt; font-weight: 900; line-height: 1; }
+    .small { color: var(--muted); font-size: 11pt; }
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Una ciudad · seis rondas · decisiones reales</div>
+        <h1>EcoGrid:<br><span class="accent">Ciudad al Límite</span></h1>
+        <p class="subtitle">El juego cooperativo donde mantener las luces encendidas depende de cómo el equipo usa la energía, el agua y sus últimas reservas.</p>
+        <p style="font-size:18pt;font-weight:800;margin-top:.3in">No gana quien produce más.<br><span class="amber">Gana quien decide mejor.</span></p>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 620 480" role="img" aria-label="Arte conceptual de EcoGrid">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15515d"/><stop offset="1" stop-color="#0b2e36"/></linearGradient>
+            <linearGradient id="river" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <rect width="620" height="480" fill="url(#sky)"/>
+          <circle cx="505" cy="76" r="42" fill="#fbbf24" filter="url(#glow)"/>
+          <path d="M0 300 L90 228 170 288 260 190 355 285 455 215 620 300 620 480 0 480Z" fill="#123c3b"/>
+          <path d="M0 358 C130 315 195 430 340 375 C445 335 505 360 620 320 L620 480 L0 480Z" fill="url(#river)" opacity=".87"/>
+          <path d="M0 372 C125 328 205 444 348 390 C452 350 520 373 620 337" fill="none" stroke="#d7fbff" stroke-width="5" opacity=".65"/>
+          <g transform="translate(72 245)"><polygon points="0,48 110,24 143,87 30,112" fill="#082c45" stroke="#38bdf8" stroke-width="4"/><path d="M26 42 L56 104 M57 36 L88 97 M88 30 L119 91 M13 66 L127 43 M22 89 L136 66" stroke="#38bdf8" stroke-width="2"/><path d="M72 105 L72 134 M42 134 L102 134" stroke="#d7fbff" stroke-width="5"/></g>
+          <g transform="translate(355 278)"><rect x="0" y="35" width="92" height="90" rx="8" fill="#163e47" stroke="#84cc16" stroke-width="4"/><circle cx="46" cy="79" r="25" fill="none" stroke="#84cc16" stroke-width="7"/><path d="M46 54 L53 77 73 88 M70 65 L52 78 35 100 M21 79 L45 80 39 55" fill="none" stroke="#d9f99d" stroke-width="5"/><path d="M46 35 V0 M46 0 H132" stroke="#fbbf24" stroke-width="6" filter="url(#glow)"/></g>
+          <g transform="translate(455 175)" fill="#102f37" stroke="#d7fbff" stroke-width="3"><rect x="0" y="54" width="38" height="92"/><rect x="48" y="18" width="46" height="128"/><rect x="104" y="68" width="32" height="78"/><rect x="146" y="38" width="50" height="108"/></g>
+          <path d="M443 278 L493 239 L551 215" fill="none" stroke="#2dd4bf" stroke-width="4" stroke-dasharray="8 7"/>
+          <text x="28" y="45" fill="#ccfbf1" font-family="Arial" font-weight="700" font-size="18">ENERGÍA · EQUIPO · SUPERVIVENCIA</text>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>EcoGrid · Pitch conceptual</span><span>1 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">La pregunta que inicia la partida</div>
+    <h2>La ciudad necesita energía. El ambiente acaba de cambiar.</h2>
+    <div class="question">¿A quién abastecerías primero si no alcanza para todos?</div>
+    <div class="grid-3">
+      <div class="card"><div class="icon">✚</div><h3>Hospital</h3><p>Es crítico, pero consume gran parte de la energía disponible.</p></div>
+      <div class="card"><div class="icon">◉</div><h3>Agua y comunicaciones</h3><p>Mantienen la ciudad operando y conectada durante la crisis.</p></div>
+      <div class="card"><div class="icon">⌁</div><h3>Reserva</h3><p>Guardar energía hoy puede salvar la siguiente ronda… o dejar cargas sin atender ahora.</p></div>
+    </div>
+    <p class="quote">EcoGrid transforma ese dilema en una experiencia de <span class="accent">cooperación, tensión y consecuencias visibles.</span></p>
+    <div class="footer"><span>Un problema fácil de entender · decisiones difíciles de dominar</span><span>2 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">La fantasía del jugador</div>
+    <h2>Somos el equipo que mantiene viva la ciudad</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Una mesa que cuenta una historia</h3>
+        <p>El tablero representa una ciudad conectada a paneles solares, una central hidroeléctrica de pasada y una batería.</p>
+        <p>Cada ronda trae una nueva presión: más demanda, menos luz, un río limitado o una reserva que se agota.</p>
+        <div style="margin-top:.2in">
+          <span class="tag">2–4 jugadores</span>
+          <span class="tag">cooperativo</span>
+          <span class="tag">6 rondas</span>
+          <span class="tag">8–12 minutos</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Todos ganan o todos pierden</h3>
+        <p>No hay un jugador eliminado ni una única persona que controle todo. El grupo debe compartir información, negociar prioridades y asumir juntos el resultado.</p>
+        <p><strong>La victoria:</strong> terminar la crisis manteniendo las cargas esenciales y respetando los límites ambientales.</p>
+        <p><strong>La derrota:</strong> agotar reservas, dejar caer servicios críticos o tomar decisiones insostenibles.</p>
+      </div>
+    </div>
+    <p class="quote">La emoción no está en saber una fórmula: está en <span class="amber">tomar la decisión correcta bajo presión.</span></p>
+    <div class="footer"><span>Una misión compartida alrededor del tablero</span><span>3 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Cómo se juega</div>
+    <h2>Cada ronda cuenta una pequeña crisis energética</h2>
+    <div class="flow">
+      <div class="step"><b>01 · REVELAR</b><p>Aparece una demanda o un evento que cambia la ciudad.</p></div>
+      <div class="step"><b>02 · OBSERVAR</b><p>El equipo consulta luz, temperatura, río y reserva.</p></div>
+      <div class="step"><b>03 · DEBATIR</b><p>Los jugadores acuerdan qué proteger y qué sacrificar.</p></div>
+      <div class="step"><b>04 · OPERAR</b><p>Ajustan hidro y batería, y confirman su decisión.</p></div>
+      <div class="step"><b>05 · RESOLVER</b><p>El tablero y la consola muestran la consecuencia.</p></div>
+    </div>
+    <div class="grid-3" style="margin-top:.3in">
+      <div class="card"><h3>Se ve</h3><p>Fichas, luces y estados muestran qué parte de la ciudad sigue funcionando.</p></div>
+      <div class="card"><h3>Se discute</h3><p>Cada elección obliga al equipo a justificar prioridades y anticipar la siguiente ronda.</p></div>
+      <div class="card"><h3>Se recuerda</h3><p>Las consecuencias permanecen: la reserva baja y las decisiones anteriores importan.</p></div>
+    </div>
+    <div class="footer"><span>Aprender haciendo, decidiendo y viendo consecuencias</span><span>4 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Decisiones con tensión real</div>
+    <h2>No existe una opción perfecta: cada beneficio tiene un costo</h2>
+    <div class="grid-3">
+      <div class="card choice">
+        <div><div class="icon">≈</div><h3>Abrir la hidro</h3><p>Genera energía inmediata para cubrir una crisis.</p></div>
+        <div class="tradeoff"><strong>Costo:</strong> el agua disponible y el caudal ecológico limitan cuánto puede extraerse.</div>
+      </div>
+      <div class="card choice">
+        <div><div class="icon">▣</div><h3>Descargar la batería</h3><p>Salva cargas esenciales cuando las renovables no alcanzan.</p></div>
+        <div class="tradeoff"><strong>Costo:</strong> reduce la reserva que podría necesitarse en la siguiente ronda.</div>
+      </div>
+      <div class="card choice">
+        <div><div class="icon">↯</div><h3>Recortar consumo</h3><p>Protege hospital, agua y comunicaciones.</p></div>
+        <div class="tradeoff"><strong>Costo:</strong> otras zonas de la ciudad quedan sin servicio.</div>
+      </div>
+    </div>
+    <p class="quote">El juego no pregunta “¿cuál es la respuesta correcta?”. Pregunta: <span class="accent">“¿qué consecuencia estamos dispuestos a asumir?”</span></p>
+    <div class="footer"><span>Gestión de recursos · negociación · riesgo</span><span>5 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">Por qué EcoGrid es diferente</div>
+    <h2>Una experiencia educativa que se siente como un juego</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>El mundo real entra a la mesa</h3>
+        <p>La luz y la temperatura del entorno, junto con controles físicos, modifican las condiciones de la partida. Cada sesión puede sentirse distinta.</p>
+        <p>La electrónica no es un adorno: conecta lo que sucede alrededor de los jugadores con lo que ocurre en la ciudad.</p>
+      </div>
+      <div class="card">
+        <h3>La ciencia trabaja detrás de la experiencia</h3>
+        <p>El juego traduce energía solar, agua, almacenamiento y límites ambientales en decisiones comprensibles sin exigir formación universitaria.</p>
+        <p>Quien quiera profundizar puede descubrir por qué ocurrió cada resultado; quien solo quiera jugar puede decidir mediante señales claras.</p>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:.25in">
+      <div class="card"><div class="big-number">01</div><p><strong>Fácil de explicar:</strong> mantener viva una ciudad.</p></div>
+      <div class="card"><div class="big-number">02</div><p><strong>Difícil de dominar:</strong> recursos cambiantes y memoria entre rondas.</p></div>
+      <div class="card"><div class="big-number">03</div><p><strong>Significativo:</strong> cooperación y sostenibilidad sin sermones.</p></div>
+    </div>
+    <div class="footer"><span>Público abierto · lectura clara · profundidad opcional</span><span>6 / 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">La promesa de EcoGrid</div>
+    <h2>Una partida breve. Una ciudad al límite. Una decisión que cambia todo.</h2>
+    <div class="grid-3" style="margin-top:.35in">
+      <div class="card"><div class="icon">♟</div><h3>Jugar</h3><p>Mover fichas, operar controles y reaccionar a una crisis compartida.</p></div>
+      <div class="card"><div class="icon">☍</div><h3>Cooperar</h3><p>Escuchar, negociar y construir una estrategia como equipo.</p></div>
+      <div class="card"><div class="icon">✦</div><h3>Descubrir</h3><p>Comprender que producir energía también significa administrar límites.</p></div>
+    </div>
+    <p class="quote" style="margin-top:.48in">EcoGrid no busca que los jugadores memoricen cómo funciona una ciudad sostenible.<br><span class="accent">Busca que sientan la responsabilidad de mantenerla viva.</span></p>
+    <p style="text-align:center;font-size:22pt;font-weight:900;margin-top:.32in">EcoGrid: Ciudad al Límite</p>
+    <div class="footer"><span>¿Podrá tu equipo superar las seis rondas?</span><span>7 / 7</span></div>
+  </section>
+</body>
+</html>

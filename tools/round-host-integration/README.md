@@ -1,0 +1,47 @@
+# Host-to-round integration harness
+
+The canonical dependency-free composition now lives in
+`src/application/round-session/roundHostIntegration.mjs`. This directory keeps
+its Node tests, operator documentation and compatibility facade; it remains
+isolated integration evidence, not runtime wiring.
+
+## API and behavior
+
+`createRoundHostIntegration(lifecycleOptions)` composes the infrastructure-owned
+host adapter with the application-owned browser-neutral lifecycle and exposes four operations:
+
+- `ingest(line)` sends one device-to-host JSON Line only through the host
+  adapter. It never calls the resolver or advances a round.
+- `confirm(token)` forwards only the adapter's current normalized snapshot to
+  the lifecycle. The snapshot must contain `confirm: true`, and the token must
+  be valid and unused.
+- `disconnect()` clears adapter values and makes the integration session
+  `reset-required`.
+- `snapshot()` returns an immutable integration view containing the adapter and
+  lifecycle snapshots.
+
+`ingest`, `confirm`, and `disconnect` share one synchronous transaction guard.
+Reentrant mutation returns `INTEGRATION_BUSY` without changing adapter,
+lifecycle, or reset state. `ingest` rejects non-string input as
+`INPUT_LINE_INVALID` before adapter parsing. Once reset is required, all three
+mutations return `SESSION_RESET_REQUIRED` without touching the cleared adapter;
+only a new harness instance starts another session epoch. The guard is cleared
+in `finally` after every success or rejection so ordinary retry remains safe.
+
+Malformed, unsupported, invalid-direction, invalid-sequence, disconnected,
+null-control, stale, unconfirmed, or replayed input remains fail-closed. After a
+disconnect, create a new harness instance before accepting a reset sequence;
+the prior lifecycle is never silently reused across connection epochs.
+
+## Verify
+
+```bash
+node --test tools/round-host-integration/*.test.mjs
+```
+
+## Limits and rollback
+
+This harness contains no serial I/O, retry policy, timing behavior, UI, product
+stack, physical model, scoring, event balance, gameplay, or hardware claim.
+Remove `tools/round-host-integration/` and its documentation links to roll it
+back; the adapter and application-owned lifecycle remain independent.

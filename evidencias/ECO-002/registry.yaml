@@ -1,0 +1,61 @@
+schema_version: 1
+change: ECO-002
+created_at: '2026-10-21'
+scope: Documentary scientific provenance and fictional-scenario calculation dossier only; no further web work, code, packages, source copies, identified human review, baseline, or snapshot.
+delivery:
+  strategy: auto-chain
+  chain_strategy: stacked-to-main
+  pr_base: main
+  pr_target: main
+  sequencing_field: depends_on
+  work_unit: 4
+initial_state:
+  git_status_observed_before_edit:
+    - ' M docs/00_DECISIONES_Y_RIESGOS.md'
+    - ' M docs/04_BACKLOG_Y_FASES.md'
+    - ' M docs/08_ESTADO_DEL_PROYECTO.md'
+    - '?? .gitignore'
+    - '?? evidencias/'
+    - '?? openspec/'
+  preservation_statement: All pre-existing modifications were preserved without cleaning, discarding, or attribution to ECO-002 Work Unit 1.
+  inherited_material:
+    - docs/02_MODELOS_FISICOS.md
+    - docs/11_INVESTIGACION_Y_FUENTES.md
+    - docs/09_PLAN_PRUEBAS.md
+    - docs/06_MATRIZ_TRAZABILIDAD.md
+    - datos/casos_referencia.json
+    - referencias/Proyecto Termodinamica y MF 2026-2.pdf
+research_dependency:
+  state: partially_satisfied
+  consulted_metadata_sources: 13
+  consulted_verified_sources: 8
+  verified_bounded_provenance_links: 5
+  latest_rechecked_at: '2026-10-22'
+  fact: Seven verified public sources support bounded hydro, empirical PV, PVWatts, and wind claims; four non-circular documentary calculations now exist, while exact hydro SI/net-head support, universal PV validity, equipment calibration, reproduction, and identified human review remain unresolved.
+scenario_decision:
+  id: EDU-FIC-001
+  selected_at: '2026-10-22'
+  selected_by: project_user
+  classification: gameplay_estimate
+  limitation: Fictional educational scenario only; equipment-dependent values remain pending_calibration and no value is a field measurement, datasheet fact, or universal constant.
+documentary_calculations:
+  count: 4
+  case_count: 10
+  ids: [CALC-PV-001, CALC-HYD-001, CALC-WIND-001, CALC-BUS-001]
+  reproduction_state: pending_identified_reviewers
+current_gate_evaluation_id: ECO-002-GATE-20261022-03
+current_gate_result: blocked_with_traceability
+supersedes_gate_evaluation_id: ECO-002-GATE-20261022-02
+correction_reason: Reconcile stale apply progress and validation coverage against the immutable calculation gate; required independent human reviews remain absent, so the result stays blocked.
+baseline_id: null
+baseline_exists: false
+snapshot_exists: false
+working_records:
+  - academic-requirements.yaml
+  - boundaries.yaml
+  - dimensions.yaml
+  - gaps.yaml
+  - provenance.yaml
+  - schemas.yaml
+  - scientific-inventory.yaml
+  - sources.yaml
