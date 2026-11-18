@@ -142,11 +142,12 @@ TABLERO + CARTA ← FEEDBACK/CONSOLA ← REGLAS ← DOMINIO TS PURO
 
 ## Frontera provisional del controlador ECO-108
 
-El candidato documental es un ESP32 genérico de 30 pines. La arquitectura sólo
-asigna roles lógicos: ninguna capa fija números de GPIO ni presume placa,
-módulo/SoC, revisión, pinout, puente USB, conector o regulador. Hasta autenticar
-la documentación y verificar la unidad, señales y ADC se diseñan dentro del
-rango candidato de 3,3 V; la alimentación de entrada USB se trata por separado.
+El usuario reportó una `Nano ESP32-C6 V1.0`, marca `V1711`, con SoC ESP32-C6.
+La arquitectura sólo asigna roles lógicos: ninguna capa fija números de GPIO ni
+presume fabricante, revisión eléctrica, pinout, función de cada USB, conector o
+regulador. Hasta autenticar documentación aplicable y verificar la unidad,
+señales y ADC se diseñan dentro del rango declarado de 3,3 V; la alimentación de
+entrada USB se trata por separado.
 El pinout versionado nace después de identidad, matriz de compatibilidad, revisión
 del esquema desenergizado y banco incremental.
 

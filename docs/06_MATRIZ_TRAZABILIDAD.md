@@ -12,7 +12,7 @@
 | R06 | p.2, Regla II | acabado, identidad, historia y hardware integrado/protegido | GDD, arquitectura, montaje | demo acabada y checklist | PENDIENTE |
 | R07 | p.2, Regla III | IA documentada, autoría/verificación | `docs/07_PROCESO_IA.md` | bitácora revisable | PENDIENTE |
 | R08 | p.1, §2 | máximo 3 integrantes | `docs/10_ENTREGABLES_ACADEMICOS.md` | roles y firmas | PENDIENTE |
-| R09 | p.2–3, Entregable 1 | pitch <=7 minutos, concepto, principio, integración, diagrama bloques, IA | `docs/10_ENTREGABLES_ACADEMICOS.md` | diapositivas y guion | PENDIENTE |
+| R09 | p.2–3, Entregable 1 | pitch <=7 minutos, concepto, principio, integración, diagrama bloques, IA | `docs/10_ENTREGABLES_ACADEMICOS.md`, `entregables/pitch/` | PDF de 7 páginas y guion cronometrado; ensayo humano pendiente | EN REVISIÓN |
 | R10 | p.3, Entregable 2 | modelo, comparación esperado/real, casos límite, código, manual, IA, aportes | `docs/09_PLAN_PRUEBAS.md`, `docs/10_ENTREGABLES_ACADEMICOS.md` | anexos y pruebas | PENDIENTE |
 | R11 | p.3, Entregable 2 | feria, stand y póster | `docs/10_ENTREGABLES_ACADEMICOS.md` | póster + ensayo | PENDIENTE |
 | R12 | p.4, §5, Liga 4 | termo aplicada a energía alternativa | PV con proxy de luz y efecto térmico; batería/bus | modelo, pruebas y comparación | PENDIENTE / ECO-002 BLOQUEADA |

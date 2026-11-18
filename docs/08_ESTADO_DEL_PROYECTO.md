@@ -1,9 +1,12 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-14 (ECO304-1 finalizó evidencia local; ECO-304 sigue pendiente).
+**Última actualización:** 2026-11-18 (pitch verificable y rebaseline de 14 días).
 **Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** ECO-101 establece en paralelo el bootstrap técnico de la consola local secundaria. ECO-108 y G1 siguen abiertos; ECO-002 continúa BLOQUEADA y el bootstrap no consume sus modelos.
-**Producto físico/hardware:** NO EXISTE AÚN. Hay un bootstrap técnico de consola, pero no tablero, componentes confirmados, firmware, calibración, protocolo integrado, carcasa ni pruebas HIL.
+**Tarea vigente:** ECO-006/ECO-301 están EN REVISIÓN con PDF y guion; el plan
+operativo se redujo a 14 días. ECO-108 y G1 siguen abiertos, ECO-109 continúa en
+curso y ECO-002 permanece BLOQUEADA; el pitch no presenta esos pendientes como
+terminados.
+**Producto físico/hardware:** el usuario reporta una placa `Nano ESP32-C6 V1.0`/`V1711` y el inventario listado en la BOM. No hay todavía inspección independiente, pinout autenticado, firmware cargado, calibración, protocolo USB integrado, tablero, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó tanto el spike histórico como el bootstrap productivo local, con los límites registrados en ECO-101/ECO-105.
 
 ## Lo que está decidido
@@ -17,6 +20,9 @@
 - El 2026-11-08 se sustituyó el candidato Uno por un ESP32 genérico de 30 pines.
   Es una decisión documental: identidad exacta, pinout, USB, costo y evidencia
   física siguen pendientes.
+- El 2026-11-15 el usuario identificó la unidad disponible como `Nano ESP32-C6
+  V1.0`, marca `V1711`, y reportó componentes físicos. La publicación comercial
+  no expuso ficha sin login; pinout, revisión eléctrica y USB siguen pendientes.
 
 ## Lo que sigue pendiente
 - Inventario real, datasheets aplicables, presupuesto final y componentes disponibles; existe una [BOM candidata](19_BOM_ECO_108.md), no una selección física.
@@ -30,10 +36,73 @@
 
 ## Gate humano inmediato — G1
 
-El equipo debe registrar inventario real y decidir componentes, presupuesto, roles y fechas. ECO108-1 preparó una BOM candidata, ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md), ECO108-3 separó [hechos visibles y pendientes](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md), ECO108-4 registró la elección humana de 1 m y ECO108-5 adoptó el ESP32 genérico de 30 pines como candidato documental. El próximo gate exacto es identificar placa, módulo/SoC y revisión, autenticar documentación aplicable, revalidar variante, precios, stock, envío y total, y obtener autorización humana de compra. Solo después se completan recepción, esquema desenergizado, pinout versionado y banco incremental con evidencia observada. G1 no está cerrado. Luego dependen ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
+El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1711` y una sonda DS18B20 de 2 m. ECO108-1 preparó una BOM candidata, ECO108-2 dejó [formularios vacíos](../evidencias/ECO-108/README.md), ECO108-3 separó [hechos visibles y pendientes](../evidencias/ECO-108/preparacion-referencias-2026-11-03.md), ECO108-4 registró la antigua elección de 1 m y ECO108-5 adoptó el ESP32 genérico previo. El próximo gate exacto es inspeccionar referencias/cantidades, autenticar documentación de placa y sonda, identificar funciones USB y pinout, y decidir host, responsables y fechas. Luego se completa esquema desenergizado, pinout versionado y banco incremental con evidencia observada. G1 no está cerrado. ECO-109 avanzó sólo en C++ host; ECO-110 sigue pendiente.
 
 ## Últimos cambios y pruebas
 - El kit declaró documentación, agentes, skills, comandos y datos de referencia, pero `.opencode/` continúa ausente. No se han ejecutado tests del producto híbrido; las pruebas actuales del bootstrap cubren sólo metadata y configuración pura, además de las referencias aisladas existentes.
+
+### ECO-006/ECO-301 — pitch comercial y rebaseline de 14 días
+
+- `entregables/pitch/pitch-ecogrid.pdf` contiene siete páginas 16:9 centradas en
+  vender la idea: problema, fantasía, flujo, decisiones, diferenciadores y
+  promesa. No incluye ecuaciones, estado técnico ni cronograma.
+- `entregables/pitch/guion-pitch.md` tiene 626 palabras y respuestas comerciales;
+  falta ensayo y revisión humana, por lo que ambas tareas quedan **EN REVISIÓN**.
+- La primera versión académica/técnica se conserva con sufijo `-tecnico` como
+  respaldo, no como presentación recomendada.
+- Chrome headless generó el PDF comercial de 2.407.416 bytes; `pdfinfo` observó siete
+  páginas de 960 × 540 puntos, PDF 1.4, sin cifrado, formularios ni JavaScript.
+  La inspección visual y `pdftotext -layout` no mostraron páginas extra ni
+  contenido cortado.
+- `docs/20_PLAN_MVP_14_DIAS.md` sustituye operativamente el plan de cuatro
+  semanas y fija D0–D14, gates, alcance excluido y evidencia diaria.
+- Este corte no desbloquea ECO-002 ni acredita firmware en placa, sensores,
+  serial real, tablero, HIL, seguridad física o playtesting.
+
+### ECO110-1 — prototipo imprimible de flujo
+
+- `entregables/prototipo-mesa/prototipo-ecogrid.pdf` contiene ocho páginas A4
+  horizontales: tablero provisional, seis cartas en el orden canónico y guía
+  rápida de diez pasos.
+- Las cartas usan las claves `base-demand`, `high-temperature`, `low-river`,
+  `demand-peak`, `reduced-light` y `seeded-combination`, sin inventar efectos
+  numéricos, umbrales o balance.
+- Todas las páginas rotulan que son un prototipo sin balance definitivo; la guía
+  permite ensayo en papel, no acredita modelos, hardware, calibración o HIL.
+- Chrome headless generó un PDF de 220.280 bytes; `pdfinfo` observó ocho páginas
+  A4 horizontales, PDF 1.4 y sin JavaScript. La inspección visual no mostró
+  contenido cortado.
+- `entregables/prototipo-mesa/fichas-ecogrid.pdf` añade 24 fichas visuales y
+  diez marcadores de decisión para ensayos en papel, sin atribuirles kW, kWh,
+  m³/s o porcentajes.
+- ECO-110 permanece **PENDIENTE**: faltan prueba cronometrada y estructurada,
+  dimensiones finales, montaje, controles reales, LEDs, carcasa, cableado fijo
+  y seguridad observada.
+
+### ECO110-PT-20261118-01 — primera prueba reportada en papel
+
+- El usuario reportó dos participantes y finalización de las seis rondas con
+  “buenos resultados”.
+- No se registraron duración, dificultades, experiencia previa, pausas,
+  comprensión en 90 segundos, resultado por ronda ni hash del material usado.
+- La evidencia queda en
+  `evidencias/ECO-110/playtest-papel-2026-11-18.md` como `REPORTED_PARTIAL`, no
+  como PASS independiente.
+- El reporte permite afirmar únicamente que dos personas recorrieron el flujo
+  completo. No acredita balance, duración de 8–12 minutos, ciencia, hardware,
+  HIL, seguridad o cierre de ECO-110.
+
+### ECO109-1 — núcleo C++ del protocolo seguro
+
+- `firmware/esp32-c6/` implementa serialización C++17 sin dependencias para
+  `hello` y un snapshot `disconnected` que elimina los seis valores.
+- Usa buffers del llamador, limita `calibrationVersion` y falla cerrado si el
+  buffer o identificador no son válidos.
+- Compilación host con `-Wall -Wextra -Werror -pedantic`: 4/4 PASS; el stream
+  C++ coincide byte a byte con el fixture versionado y el parser/adaptador Node
+  conserva 27/27 PASS.
+- No configura Arduino, GPIO, USB, baud, ADC, OneWire, LEDs o SW761. ECO-109
+  queda **EN CURSO** y requiere documentación de placa y banco antes del wiring.
 
 ### ECO304-1 — operación local estricta
 
@@ -88,6 +157,8 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   posesión, compra, recepción, calibración, tiempo de respuesta, USB ni HIL.
 - **Gate:** autorización de compra y G1 permanecen abiertos; primero se revalidan
   la variante de 1 m, el total y los datos comerciales aplicables.
+- **Estado posterior:** el inventario del 2026-11-15 reporta una sonda disponible
+  de 2 m; esta unidad sustituye la variante documental de 1 m para el banco futuro.
 
 ### ECO108-5 — candidato ESP32 provisional
 
@@ -98,6 +169,8 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Gate:** identificar placa/módulo/revisión y documentación aplicable, revisar
   esquema desenergizado, revalidar costos y autorizar compra. Sin firmware, banco,
   calibración o HIL; ECO-108/G1 abiertos y ECO-109 pendiente.
+- **Estado posterior:** el usuario reportó `Nano ESP32-C6 V1.0`/`V1711`; todavía
+  faltan autenticación documental, pinout, funciones USB e inspección eléctrica.
 
 ### ECO108-3 — referencias comerciales preparadas
 
@@ -215,6 +288,49 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
   recuperación y confirmación separada; luego preservó dos ciclos idénticos y un
   canvas. Vitest 67/67, referencias 165/165, typecheck, build, smokes, negativas y
   scans pasaron. Es rechazo/recuperación simulada local, no sensores ni hardware.
+- **ECO105-4:** la consola muestra título y pregunta guía de cada una de las seis
+  rondas canónicas; snapshots con `roundIndex` e ID desalineados fallan cerrados.
+  Pruebas focalizadas 56/56, Vitest 75/75, typecheck, build, navegador y offline
+  pasaron; Chrome conservó dos ciclos de seis rondas, móvil 390 px y cero errores
+  JavaScript. El smoke ahora exige además los seis títulos y preguntas exactos,
+  ordenados, visibles y reproducidos después del reset. La revisión humana fue
+  omitida por instrucción del usuario y sigue pendiente; no se añadieron efectos,
+  ciencia, balance, serial o hardware.
+- **ECO105-5:** título y pregunta pasan a un panel semántico independiente del
+  estado operativo. El panel conserva la clave de evento, se oculta y limpia sin
+  ronda activa y evita duplicar la guía en una línea técnica extensa. Pruebas
+  focalizadas 58/58, Vitest 77/77, typecheck, build, Chrome, offline y regresión
+  de puerto pasaron. Chrome observó las seis guías exactas, visibles, ordenadas y
+  repetidas; la evaluación humana y asistiva sigue pendiente.
+- **ECO105-6:** la consola muestra avisos con etiqueta, título y acción para
+  snapshot inválido, reinicio, desconexión, nueva entrada y entrada rechazada.
+  El texto no depende del color y se limpia en estados listo/completado. Pruebas
+  focalizadas 66/66, Vitest 85/85, typecheck, build, Chrome, offline y puerto
+  pasaron; Chrome observó avisos visibles y ausencia de instrucciones obsoletas.
+  No son alertas de gameplay ni acreditan accesibilidad humana o asistiva.
+- **ECO204-1:** los controles simulados transfieren foco al siguiente paso:
+  cargar→confirmar, confirmación intermedia→cargar, sexta confirmación→reiniciar,
+  diagnóstico inválido→cargar y reinicio→cargar. Focalizadas 71/71, Vitest 90/90,
+  typecheck, build, Chrome, offline y puerto pasaron; la captura termina con foco
+  visible sobre reinicio. ECO-204 sigue pendiente de evaluación humana, lector de
+  pantalla, otros navegadores y prueba de legibilidad a distancia.
+- **ECO204-2:** cargar, confirmar y reiniciar permanecen como botones nativos
+  dentro de un `fieldset` con leyenda visible y ayuda asociada. Focalizadas 75/75,
+  Vitest 94/94, typecheck, build, Chrome, offline y puerto pasaron; Chrome
+  confirmó estructura, relaciones y conservación del flujo de foco. ECO-204
+  sigue pendiente de evaluación humana, árbol asistivo externo y otros navegadores.
+- **ECO204-3:** un test Node sin dependencias lee el CSS y verifica seis
+  combinaciones de texto contra 4.5:1 y el foco contra 3:1. Las relaciones
+  observadas van de 10.04:1 a 16.71:1; contraste 7/7 y Vitest 94/94 pasaron,
+  junto con typecheck, build, offline, puerto y browser aislado. El primer browser
+  smoke colisionó con la regresión de puerto ejecutada en paralelo; repetido
+  aisladamente pasó. No constituye conformidad WCAG ni evaluación visual humana.
+- **ECO204-4:** el browser smoke evalúa después del recorrido completo anchos de
+  390 y 320 px. En ambos observó estado, acciones/ayuda, controles, diagnóstico,
+  canvas, observación y seis trazas contenidos, sin overflow horizontal ni
+  solapamiento interactivo. Vitest 94/94, contraste 7/7, typecheck, build,
+  browser, offline, puerto y diff-check pasaron. Es reflow por viewport, no zoom,
+  dispositivo real, otros navegadores o aprobación WCAG.
 - **Límites:** la evidencia offline prueba recursos productivos locales bajo HTTP loopback y persistencia sin refresh tras apagar el servidor; no comprueba `file://`, PWA, interacción, accesibilidad asistida, otros navegadores/equipos, rendimiento prolongado, gameplay o integración física. No consume ECO-002 ni implementa ciencia, control o score.
 - **Rollback:** revertir el work unit productivo retira entrada raíz, dependencias, pruebas y vistas asociadas; el spike histórico permanece aislado y ninguna ruta científica lo importa.
 
@@ -237,7 +353,11 @@ El equipo debe registrar inventario real y decidir componentes, presupuesto, rol
 - **Riesgos abiertos registrados entonces:** recuperación de `.opencode/` dependía de una fuente original autorizada; ADR-005 seguía propuesta. El `G-ACA-01` que estaba pendiente en ECO-005 fue cerrado después por ADR-010 y corrección de alcance, no por permiso docente.
 
 ## Próxima instrucción para agente
-Solicitar identidad exacta y documentación aplicable del ESP32 de 30 pines, además de evidencia humana de G1: inventario, cotización total, roles y fechas. No asignar GPIO ni energizar antes de revisar el esquema. No promover ECO-002 ni presentar su expediente como baseline; su revisión independiente continúa en paralelo. No convertir el spike ECO-101 en producto por inferencia.
+Ensayar el pitch con cronómetro y corregir únicamente hallazgos observados.
+Después, inspeccionar la unidad reportada `Nano ESP32-C6 V1.0`/`V1711`,
+autenticar pinout y funciones USB, identificar SW761 y registrar host,
+responsables y fechas de G1. No asignar GPIO ni energizar antes de revisar el
+esquema. No promover ECO-002 ni presentar su expediente como baseline.
 
 ## Plantilla a actualizar tras cada tarea
 Fecha/hora, tarea ECO-###, objetivo, archivos, decisiones, resultados de pruebas (comando, salida), capturas/evidencia, riesgos, git status/commit, próximos tres pasos y bloqueos.

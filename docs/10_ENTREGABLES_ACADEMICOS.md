@@ -5,6 +5,13 @@ El documento oficial exige: (1) nombre/concepto/historia con arte conceptual; (2
 
 **Guion provisional ≤7 min:** 0:00–0:45 problema; 0:45–1:45 partida/tablero; 1:45–3:30 modelos; 3:30–4:45 electrónica y causalidad ambiental; 4:45–5:40 arquitectura/evidencia; 5:40–6:20 IA/contribuciones; 6:20–7:00 límites. No mostrar como construido lo que solo esté planeado.
 
+**Corte de entrega 2026-11-18:** el PDF principal y su guion, disponibles en
+[`entregables/pitch/`](../entregables/pitch/), presentan la idea del juego en
+formato comercial: promesa, fantasía, flujo, decisiones y diferenciadores. La
+primera versión académica/técnica se conserva allí como respaldo con sufijo
+`-tecnico`; no es la presentación recomendada. Ambos cortes requieren ensayo y
+revisión humana.
+
 ## Feria final (fecha sugerida diciembre; confirmar)
 - Tablero y fichas; módulo protegido con controles, sensores, LEDs, carcasa y cableado fijo.
 - Firmware versionado, protocolo USB serial y consola local offline secundaria.

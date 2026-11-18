@@ -20,10 +20,12 @@
   oficiales ni valida balance, ciencia, hardware o producto. Los umbrales por
   misión y la semántica de indisponibilidad natural siguen provisionales hasta
   playtesting reproducible y revisión ambiental.
-- **ADR-012 (provisional, 2026-11-08)**: Para ECO-108 se sustituye el candidato
-  Arduino Uno por un ESP32 genérico de 30 pines. La decisión autoriza diseño
-  documental a 3,3 V y roles sin pines, no identifica placa/módulo/revisión ni
-  acredita compra, compatibilidad, firmware o banco.
+- **ADR-012 (provisional, reconciliada 2026-11-15)**: Para ECO-108 se sustituye
+  el candidato Arduino Uno por la unidad reportada `Nano ESP32-C6 V1.0`, marcada
+  `V1711`, con SoC ESP32-C6 y lógica declarada de 3,3 V. La identidad procede del
+  usuario y una publicación comercial inaccesible sin login; todavía no autentica
+  fabricante, pinout, revisión eléctrica, memoria, LED integrado ni funciones de
+  sus dos conectores USB. Autoriza código C++ neutral y roles sin pines, no banco.
 
 ## Gate académico G-ACA-01 — CERRADO por corrección de alcance
 **Problema:** página 4, numeral 5, Liga 4: *«Sistema híbrido (juego de mesa + electrónica) donde variables reales (luz, calor ambiental, etc.) afecten el juego»*. El documento en página 1 admite juego físico, digital o híbrido en términos generales. NO presuponer que ese enunciado general deroga la exigencia específica.
@@ -49,7 +51,7 @@
 | R15 | Confundir proxy de luz con irradiancia medida | alto | rotularlo como `proxy de luz calibrado para gameplay` hasta validación metrológica |
 | R16 | Presentar la referencia ECO-004 como score balanceado o regla ambiental validada | alto | mantener umbrales inyectables y provisionales; exigir playtesting reproducible y revisión ambiental antes de cerrar ECO-004 |
 | R17 | Tratar una publicación comercial volátil o con contenido ajeno como fuente técnica confiable | alto | separar hechos visibles de vendedor; revalidar opción/precio/stock al comprar y autenticar datasheet, identidad y pinout antes de energizar |
-| R18 | Inferir pinout, USB o límites eléctricos desde la etiqueta genérica “ESP32 de 30 pines” | crítico | identificar placa, módulo/SoC y revisión; autenticar documentación; revisar esquema desenergizado y verificar por etapas antes de asignar pines o conectar señales |
+| R18 | Inferir pinout, USB o límites eléctricos desde una etiqueta comercial ESP32 | crítico | cotejar `Nano ESP32-C6 V1.0`/`V1711` con documentación aplicable; revisar esquema desenergizado y verificar por etapas antes de asignar pines o conectar señales |
 
 ## Cambios de decisión
 Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física/UX/plazo, responsable y autorización.

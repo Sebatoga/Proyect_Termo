@@ -81,6 +81,12 @@ HOST-004 conserva las regresiones fail-closed y añade Vitest para importar el
 adaptador de infraestructura, observar el arranque desconectado, el borrado ante
 JSON inválido y snapshots estructuralmente desacoplados.
 
+ECO109-1 añade un núcleo C++17 compilable en host, sin Arduino ni GPIO. Sus tests
+exigen bytes exactos para `hello` y `inputs/disconnected`, rechazo de identificador
+de calibración inseguro y fallo cerrado por buffer insuficiente. El stream
+resultante debe coincidir con `v1-device-disconnected.jsonl` y ser aceptado por el
+parser Node. Esta prueba no acredita compilación para ESP32-C6, USB serial ni banco.
+
 La referencia ECO-004 en `tools/game-scorecard/` se ejecuta con `node:test` y
 usa únicamente misiones y ledgers sintéticos versionados. Sus pruebas cubren
 anti-trampa, validación, precedencia `incomplete`, denominador cero, determinismo
@@ -137,6 +143,37 @@ ECO105-3 cubre diagnóstico malformado inicial y tras una confirmación, secuenc
 no consumida, traza/ronda preservadas y no-op en listo/completado. Chrome abre el
 `details`, observa `MALFORMED_JSON`, conteo anunciado real, recuperación antes de
 confirmar y conserva ambos replays, geometría desktop/móvil y canvas único.
+ECO105-4 cubre el copy provisional de las seis rondas, correspondencia estricta
+entre índice e ID canónico, inmutabilidad y render mediante `textContent`.
+Combinaciones desconocidas o desalineadas fallan cerradas. Chrome y el smoke
+offline preservan los dos ciclos, móvil 390 px y cero errores JavaScript. Chrome
+exige además los seis títulos y preguntas exactos en orden y su reproducción
+después del reset. La revisión humana de claridad fue omitida por instrucción
+del usuario, no aprobada.
+ECO105-5 cubre render independiente del panel, clave de evento, contenido
+literal, ocultamiento y limpieza sin ronda activa. Chrome exige geometría visible
+y contenido exacto para las seis guías en ambos ciclos. No sustituye prueba con
+tecnología asistiva ni evaluación humana de legibilidad.
+ECO105-6 cubre clasificación cualitativa de avisos, texto redundante, nivel,
+render literal y limpieza al desaparecer la condición. Chrome exige avisos
+visibles para desconexión, mensaje malformado y nueva entrada, y panel oculto en
+listo/completado. No valida comprensión ni alertas causales del gameplay.
+ECO204-1 cubre la prioridad determinista de foco, ausencia de movimiento sin
+acciones disponibles y el ciclo real cargar→confirmar→cargar/reiniciar. Chrome
+comprueba además recuperación tras diagnóstico y reset. No sustituye navegación
+humana, lector de pantalla, contraste medido ni pruebas a distancia.
+ECO204-2 cubre `fieldset`, leyenda, ayuda asociada y preservación de botones
+nativos no-submit. Chrome comprueba la estructura en ejecución junto con el ciclo
+de foco. No sustituye inspección del árbol asistivo, lector de pantalla ni prueba
+humana.
+ECO204-3 añade `npm run test:contrast`: lee las declaraciones hex vigentes,
+calcula luminancia relativa y exige 4.5:1 para seis combinaciones de texto y 3:1
+para foco. No interpreta toda la cascada, transparencias, antialiasing, controles
+deshabilitados ni condiciones reales de visualización.
+ECO204-4 amplía Chrome de 390 a 320 px y exige ausencia de overflow horizontal,
+geometría contenida para estado, acciones, diagnóstico, canvas, observación y
+seis trazas, además de separación de interactivos. No simula zoom de texto,
+teclado virtual, orientación ni dispositivo físico.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

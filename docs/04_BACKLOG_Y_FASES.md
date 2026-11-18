@@ -10,7 +10,7 @@
 | ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE |
 | ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | EN REVISIÓN — referencia y contrato testeados; “balanceada” requiere playtesting reproducible y revisión ambiental |
 | ECO-005 | Corregir el alcance a sistema híbrido Liga 4 | ADR-010 y contrato trazables, sin atribuir permiso docente | HECHA — corrección documental 2026-10-23 |
-| ECO-006 | Cerrar requisitos para pitch de hasta 7 min | storyboard, principios, diagrama y reporte IA | PENDIENTE |
+| ECO-006 | Cerrar requisitos para pitch de hasta 7 min | storyboard, principios, diagrama y reporte IA | EN REVISIÓN — PDF y guion generados; falta ensayo y revisión humana |
 
 ## F1 — Rebanada vertical jugable
 | ID | Tarea | Criterio de salida | Estado |
@@ -22,16 +22,24 @@
 | ECO-105 | Consola local secundaria: variables, alertas y causalidad | loop legible sin mapa ni arte final | PENDIENTE |
 | ECO-106 | Puntuación, derrota, victoria y resultados explicables | 5 escenarios prueba con resultados comprensibles | PENDIENTE |
 | ECO-107 | Prueba E2E/HIL y jugabilidad híbrida | seis rondas sin pérdida silenciosa de entradas | PENDIENTE |
-| ECO-108 | Inventario/BOM y spike de banco | componentes, costos, datasheets y sensor/control→USB registrados | EN CURSO — ESP32 genérico de 30 pines y sonda DS18B20 de 1 m son elecciones documentales; identidad exacta, compra, recepción, datasheets aplicables, calibración, USB y banco pendientes |
-| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | PENDIENTE; depende de ECO-108 |
-| ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE; depende de ECO-108/109 |
+| ECO-108 | Inventario/BOM y spike de banco | componentes, costos, datasheets y sensor/control→USB registrados | EN CURSO — inventario físico reportado, incluida `Nano ESP32-C6 V1.0`/`V1711` y sonda DS18B20 de 2 m; inspección, documentación aplicable, pinout, USB y banco pendientes |
+| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — núcleo C++17 host-testable emite `hello` y estado seguro `disconnected`; sin Arduino, GPIO, USB, sensores ni calibración |
+| ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE — prototipo A4 recorrió 6 rondas con 2 participantes según reporte; sin tiempo, balance, hardware o seguridad física |
 
 ECO105-1 añade observabilidad técnica del input simulado aceptado y seis trazas
 canónicas sin efectos. ECO105-2 permite reiniciar sólo esa prueba después de seis
 rondas y reproducirla sin recargar ni recrear Phaser. ECO105-3 permite comprobar
 rechazo `MALFORMED_JSON` y recuperación sólo con un mensaje simulado local fijo.
+ECO105-4 muestra título y pregunta guía para cada ronda canónica y falla cerrado
+si índice e identificador no coinciden; la revisión humana fue omitida por
+instrucción del usuario y permanece pendiente. El smoke de navegador exige las
+seis guías exactas, ordenadas y reproducidas después del reset.
+ECO105-5 separa título y pregunta en un panel semántico propio, conserva el
+estado operativo en su región viva y oculta la guía cuando no hay ronda activa.
+ECO105-6 añade avisos textuales redundantes para desconexión, entrada rechazada,
+nueva entrada y reinicio, ocultándolos en estados listo/completado.
 ECO-105 continúa
-**PENDIENTE**: faltan alertas, causalidad de gameplay e integración física.
+**PENDIENTE**: faltan alertas causales de gameplay e integración física.
 
 ## F2 — Calidad de experiencia e integración
 | ID | Tarea | Criterio de salida | Estado |
@@ -39,13 +47,13 @@ ECO-105 continúa
 | ECO-201 | Señalización del tablero y feedback accesible | texto/icono/LED, no solo color | PENDIENTE |
 | ECO-202 | Tutorial no técnico y modo información avanzada | jugador nuevo aprende en ≤90 s en prueba | PENDIENTE |
 | ECO-203 | Afinar demanda, dificultad y clima | curvas jugables, documentado y comprobable | PENDIENTE |
-| ECO-204 | Accesibilidad y legibilidad de tablero/consola | pruebas a distancia y con teclado donde aplique | PENDIENTE |
+| ECO-204 | Accesibilidad y legibilidad de tablero/consola | pruebas a distancia y con teclado donde aplique | PENDIENTE — foco, grupo semántico, 7 contrastes y reflow 390/320 px verificados; faltan pruebas humanas, asistivas y a distancia |
 | ECO-205 | Sensibilidad de parámetros y validación independiente | tablas/gráficas de error y límites | PENDIENTE |
 
 ## F3 — Pitch, feria y cierre
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-301 | Pitch de máximo siete minutos | 5 elementos documento profesor evidenciados | PENDIENTE |
+| ECO-301 | Pitch de máximo siete minutos | 5 elementos documento profesor evidenciados | EN REVISIÓN — 7 diapositivas y guion 6:30–6:50; falta ensayo humano |
 | ECO-302 | Manual, pruebas límite, repositorio y trazabilidad IA | auditable por jurados | PENDIENTE |
 | ECO-303 | Póster científico/técnico y guion de demostración | unidades, hipótesis, fórmulas, resultados y validación | PENDIENTE |
 | ECO-304 | Ensayo offline de stand y contingencia híbrida | equipo objetivo, repuestos y modo seguro documentados | PENDIENTE |
@@ -63,6 +71,11 @@ permanece **PENDIENTE** hasta ejecutar el recorrido humano en el equipo objetivo
 5. Antes de cada hito: revisión de alcance, evaluación de riesgos, respaldo/commit, test suite y relevo.
 
 ## Rebaseline ejecutable de cuatro semanas
+
+> **Sustituido operativamente el 2026-11-18:** el usuario fijó una ventana de dos
+> semanas. El plan vigente es
+> [`docs/20_PLAN_MVP_14_DIAS.md`](20_PLAN_MVP_14_DIAS.md). La tabla histórica de
+> cuatro semanas se conserva como referencia de procedencia.
 
 | Semana | Trabajo principal | Gate observable y evidencia mínima |
 |---|---|---|
