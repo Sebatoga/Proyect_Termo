@@ -4,9 +4,11 @@
 > evidencia futura; no demuestran compra, recepción, compatibilidad, calibración
 > ni prueba física. ECO-108 y G1 permanecen abiertos.
 
-El ESP32 genérico de 30 pines es únicamente el candidato documental vigente. El
-expediente no identifica modelo, revisión, módulo/SoC, pinout, USB, conector,
-regulador, driver, precio, disponibilidad ni posesión; todos siguen `NOT_RUN`.
+El usuario reportó disponibilidad de una placa `Nano ESP32-C6 V1.0` marcada
+`V1711`, una sonda DS18B20 de 2 m y los componentes enumerados en la BOM. Este
+testimonio no sustituye inspección independiente: fabricante, revisión
+eléctrica, pinout, funciones USB, regulador, driver, compatibilidad y banco
+siguen `NOT_RUN`.
 
 ## Uso rápido
 

@@ -1,11 +1,11 @@
 # Manual operativo provisional de hardware
 
-> **BOOT-002 — planificación, no evidencia física.** Este manual define las
+> **BOOT-002 — inventario reportado, banco pendiente.** Este manual define las
 > funciones, interfaces, decisiones y gates necesarios para construir el módulo
 > electrónico de EcoGrid. Su ejecución depende del gate humano G1 y de ECO-108.
-> A la fecha de este documento no se infiere que exista ningún componente,
-> datasheet, montaje, calibración ni prueba física. Toda selección comercial
-> permanece pendiente de inventario e inspección. La
+> El usuario reportó componentes disponibles el 2026-11-15, pero todavía no hay
+> inspección independiente, datasheet aplicable, montaje, calibración ni prueba
+> física registrada. La
 > [BOM candidata ECO-108](19_BOM_ECO_108.md) es un objetivo de preparación
 > aprobado, no una selección física ni una autorización de compra.
 
@@ -22,21 +22,35 @@
 
 ## Estado y límites
 
-- **Estado:** provisional; ECO108-3 reconcilió las referencias comerciales,
-  ECO108-4 registró una sonda DS18B20 de 1 m y ECO108-5 adopta como candidato
-  documental un ESP32 genérico de 30 pines sin identificar. G1/ECO-108
-  mantienen bloqueadas la compra, la recepción, la selección física y las
-  pruebas de banco.
+- **Estado:** provisional; el usuario reportó una `Nano ESP32-C6 V1.0` marcada
+  `V1711`, una sonda DS18B20 de 2 m y los componentes inventariados en la BOM.
+  Esto sustituye como unidad disponible la anterior variante documental de 1 m.
+  G1/ECO-108 mantienen pendientes inspección, documentación aplicable y banco.
 - **Existe hoy:** este contrato documental y la posibilidad de preparar trabajo
   independiente del hardware. BOOT-003 añadió un
   [simulador local JSON Lines v1](../tools/device-simulator/) ejecutable.
-- **No existe por inferencia:** inventario confirmado, BOM autorizada para compra, firmware,
-  protocolo integrado, pinout eléctrico, carcasa, cableado, calibración, banco
-  aprobado ni HIL.
-- **No congela:** modelos convencionales, fabricante/lote, pinout, tensión
-  lógica, números de pin, valores finales de resistencias, rangos, tolerancias,
-  baud rate, timeout ni dimensiones. La elección documental de cable de 1 m no
-  confirma ninguna de esas propiedades ni la disponibilidad de la variante.
+- **No existe por inferencia:** inspección independiente, compatibilidad cerrada,
+  protocolo USB integrado, pinout eléctrico, carcasa, cableado, calibración,
+  banco aprobado ni HIL. Existe sólo un núcleo C++ host-testable sin wiring.
+- **No congela:** fabricante real de placa, revisión eléctrica, pinout, números
+  de pin, función de los dos USB, memoria, LED integrado, valores finales de
+  resistencias, rangos, tolerancias, baud rate, timeout ni dimensiones.
+
+### Inventario reportado el 2026-11-15
+
+La persona usuaria afirma disponibilidad física; cantidades, referencias y
+estado eléctrico aún deben verificarse mediante inspección y banco.
+
+- 1 `Nano ESP32-C6 V1.0`, marca `V1711`, SoC ESP32-C6 declarado.
+- 1 sonda DS18B20 de tres cables y 2 m; 1 potenciómetro de 10 kΩ con perilla.
+- 7 componentes `SW761` sin tipo ni comportamiento identificados: quedan fuera
+  del esquema y firmware hasta conseguir documentación o medición segura.
+- 8 LEDs difusos de 5 mm: 2 amarillos, 2 azules, 2 rojos y 2 verdes.
+- Resistencias: 2 × 120 Ω, 2 × 4,7 kΩ, 5 × 10 kΩ y 5 × 200 Ω.
+- Jumpers: 5 hembra-macho de 20 cm y 5 macho-macho de 18 cm.
+
+Los valores de 120 Ω y 200 Ω no quedan aprobados para LEDs por existir en el
+inventario; primero se verifican Vf, corriente objetivo y límites de la placa.
 - **ECO-002 sigue bloqueada:** las entradas físicas no autorizan a consumir como
   baseline los modelos científicos todavía bajo revisión.
 
@@ -80,9 +94,9 @@ seleccionados ni equivalencias garantizadas.
 
 | Función | Cantidad objetivo | Clase recomendada pendiente | Alternativa admisible pendiente | Gate antes de elegir |
 |---|---:|---|---|---|
-| Control central | 1 | ESP32 genérico de 30 pines, pendiente de identidad exacta | microcontrolador más interfaz USB serial compatible | placa/módulo/revisión, documentación aplicable, tensión lógica, ADC/GPIO, USB, drivers y alimentación verificados |
+| Control central | 1 | `Nano ESP32-C6 V1.0`/`V1711` reportada | microcontrolador más interfaz USB serial compatible | fabricante/revisión, documentación aplicable, tensión lógica, ADC/GPIO, USB, drivers y alimentación verificados |
 | Proxy de luz | 1 | LDR desnuda de 5 mm, variante comercial seleccionada 10–20 kΩ a 10 lux | elemento fotosensible con acondicionamiento documentado | divisor, curva, rango ADC, alimentación y repetibilidad observados |
-| Temperatura | 1 | sonda DS18B20 de tres cables en modo alimentado, variante de 1 m elegida | sensor digital con interfaz documentada | disponibilidad de la variante, identidad, pinout, alimentación y respuesta de banco |
+| Temperatura | 1 | sonda DS18B20 de tres cables y 2 m reportada | sensor digital con interfaz documentada | referencia, pinout, alimentación y respuesta de banco |
 | Consigna hidro | 1 | potenciómetro o slider lineal legible | control rotativo/lineal analógico equivalente | recorrido útil, ADC, ergonomía y fijación |
 | Modo de batería | 1 | selector discreto de posiciones estables | botones o control rotativo con estados inequívocos | cantidad de modos, GPIO, contactos y rotulado |
 | Prioridad de cargas | 1 | selector discreto rotulado | botones mutuamente excluyentes | estados permitidos, GPIO y prevención de ambigüedad |

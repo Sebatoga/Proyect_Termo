@@ -84,6 +84,19 @@ Turn the user-approved separate-component option into an auditable procurement c
   - Próximo gate: identificar placa, módulo/SoC y revisión; autenticar documentación; revisar esquema desenergizado; revalidar costos y autorizar compra antes de pinout o banco.
   - Identidad planificada: `docs(hardware): adopt provisional ESP32 candidate`; el hash final se informa en la entrega.
 
+- [x] **ECO108-6 — Registrar inventario físico reportado y placa ESP32-C6**
+  - Autorización: el usuario reportó disponibilidad de `Nano ESP32-C6 V1.0`
+    marcada `V1711`, sonda DS18B20 de 2 m, potenciómetro, SW761, LEDs,
+    resistencias y jumpers con referencias y cantidades.
+  - Resultado: la variante física reportada de 2 m sustituye la antigua opción
+    documental de 1 m; el inventario se conserva como testimonio humano pendiente
+    de inspección, no como compatibilidad o banco verificados.
+  - Límites: no se asignan GPIO ni funciones USB; SW761 queda excluido hasta ser
+    identificado; resistencias LED requieren cálculo con Vf y límites reales.
+  - Gate: autenticar documentación/pinout, inspeccionar referencias y continuidad,
+    decidir host, responsables y fechas, y revisar esquema antes de energizar.
+  - Delivery: slice documental separado de ECO109-1; sin commit, push, PR o merge.
+
 ## Verification
 
 - Markdown structure and repository-relative links resolve.

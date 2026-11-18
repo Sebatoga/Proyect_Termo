@@ -1,9 +1,8 @@
 # BOM candidata ECO-108 — preparación de compra y banco
 
-> **Estado al 2026-11-08:** objetivo de preparación documental aprobado por
-> decisión humana. Esta BOM no autoriza compra ni demuestra posesión, recepción,
-> calibración, prueba física o compatibilidad cerrada. La selección física sigue
-> pendiente de los gates indicados en este documento.
+> **Estado al 2026-11-15:** el usuario reportó inventario físicamente disponible.
+> Esta BOM registra esa afirmación, pero no demuestra inspección independiente,
+> calibración, prueba física o compatibilidad cerrada.
 
 ## Decisión aprobada y límites
 
@@ -26,6 +25,10 @@
   **ESP32 genérico de 30 pines** para adquisición futura. Es una clase documental:
   modelo, revisión, módulo/SoC, pinout, USB, alimentación y disponibilidad siguen
   pendientes de identificación y verificación.
+- El 2026-11-15 la persona solicitante reportó una unidad `Nano ESP32-C6 V1.0`
+  marcada `V1711`, una sonda DS18B20 de 2 m y el inventario detallado abajo. La
+  variante disponible de 2 m sustituye el candidato documental previo de 1 m.
+  La fuente comercial de la placa no expuso especificaciones sin iniciar sesión.
 
 ## Cómo interpretar la evidencia
 
@@ -39,6 +42,29 @@
 
 ## BOM candidata y aritmética
 
+### Inventario disponible reportado
+
+| Referencia | Componente | Cantidad | Estado verificable actual |
+|---|---|---:|---|
+| Nano ESP32-C6 V1.0 / V1711 | placa con SoC ESP32-C6 declarado | 1 | identidad reportada; pinout, revisión, USB y memoria pendientes |
+| DS18B20-Probe-2m | sonda DS18B20, tres cables, 2 m | 1 | orden de cables y respuesta pendientes |
+| PB-10k | potenciómetro 10 kΩ | 1 | curva, extremos y montaje pendientes |
+| KNOB433-Black/White | perilla para eje estriado de 6 mm | 1 | ajuste mecánico pendiente |
+| SW-761 | componente SW761 no identificado | 7 | bloqueado para conexión y firmware |
+| LED5D-YELL | LED amarillo difuso de 5 mm | 2 | Vf y corriente pendientes |
+| LED5D-BLUE | LED azul difuso de 5 mm | 2 | Vf y corriente pendientes |
+| LED5D-RED | LED rojo difuso de 5 mm | 2 | Vf y corriente pendientes |
+| LED5D-GRN | LED verde difuso de 5 mm | 2 | Vf y corriente pendientes |
+| MF25 120R | resistencia 120 Ω, 1 %, 1/4 W | 2 | función final sujeta a cálculo/esquema |
+| MF25 4K7 | resistencia 4,7 kΩ, 1 %, 1/4 W | 2 | candidata para pull-up DS18B20; banco pendiente |
+| MF1/4DCT52R1002F | resistencia 10 kΩ, 1 %, 1/4 W | 5 | función final sujeta a cálculo/esquema |
+| MF1/4DCT52R2000F | resistencia 200 Ω, 1 %, 1/4 W | 5 | función final sujeta a cálculo/esquema |
+| JRN20-FM-20cm | jumper hembra-macho de 20 cm | 5 | continuidad pendiente |
+| JMM-LV-18cm | jumper macho-macho de 18 cm | 5 | continuidad pendiente |
+
+Este inventario reduce necesidades de compra, pero no cierra G1: faltan host,
+responsables, fechas, documentación aplicable, inspección y banco.
+
 Todos los valores están en COP. Las filas distintas de los dos sensores conservan
 el snapshot histórico de Electronilab del 2026-10-27 como referencia convencional.
 No constituyen una cotización vigente. Las publicaciones seleccionadas de
@@ -48,10 +74,10 @@ variante; por eso el costo y la disponibilidad comprables quedan pendientes.
 
 | # | Cant. | Candidato y dato comercial observado | Unitario | Subtotal | Disponibilidad publicada | Fuente fechada |
 |---:|---:|---|---:|---:|---:|---|
-| 1 | 1 | ESP32 genérico de 30 pines; identidad exacta y características pendientes | PENDIENTE | PENDIENTE | PENDIENTE | decisión documental 2026-11-08; fuente comercial por seleccionar |
+| 1 | 1 | `Nano ESP32-C6 V1.0`/`V1711` reportada como disponible; pinout y características de placa pendientes | ya disponible según usuario | N/A | reportada | inventario humano 2026-11-15; publicación comercial sin ficha accesible |
 | 2 | 1 | Protoboard MB102, 830 puntos | 13.900 | 13.900 | 28 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/protoboard-adhesiva-mb102-830-puntos-16-5cm-x-5-5cm/) |
 | 3 | 1 | Juego de 60 jumpers macho-macho | 7.500 | 7.500 | 8 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/65-cables-conectores-para-protoboard-macho-macho/) |
-| 4 | 1 | Sonda DS18B20 de tres cables; variante de 1 m elegida por una persona. La página mostró COP 14.800 y 3 artículos en stock, sin atribución verificable a la variante de 1 m | PENDIENTE | PENDIENTE | PENDIENTE para la variante | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-temperatura/715-sonda-con-sensor-de-temperatura-ds18b20.html) |
+| 4 | 1 | Sonda DS18B20 de tres cables y 2 m reportada como disponible; sustituye la opción documental previa de 1 m | ya disponible según usuario | N/A | reportada | inventario humano 2026-11-15; referencia/pinout por inspeccionar |
 | 5 | 1 | LDR desnuda de 5 mm; variante seleccionada 10–20 kΩ a 10 lux; sin AO/DO ni LM393. La página mostró COP 605 y 422 artículos en stock, sin atribución verificable a la variante | PENDIENTE | PENDIENTE | PENDIENTE para la variante | [Electrónicos Caldas, consulta 2026-11-03](https://www.electronicoscaldas.com/es/sensores-de-luz-visible/177-serie-de-fotoresistencias-o-ldr-de-nte-con-diametros-5mm-12mm-y-20-mm.html#/993-diametro-5_mm/1294-resistencia_ldr-10000_a_20000_10_k_a_20_k) |
 | 6 | 1 | Potenciómetro lineal B10K, 15 mm | 1.500 | 1.500 | 135 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/potenciometro-lineal-b-10k-ohm-15mm/) |
 | 7 | 1 | Perilla de 15 × 17 mm | 2.800 | 2.800 | 43 | [Electronilab, 2026-10-27](https://electronilab.co/tienda/perilla-metalica-aluminio-para-potenciometro-knob-15x17mm/) |
@@ -74,9 +100,9 @@ partidas.
 
 | Función | Candidato | Evidencia comercial | Gate técnico | Estado |
 |---|---|---|---|---|
-| Control y USB | ESP32 genérico de 30 pines | elección documental; sin modelo, precio ni fuente aplicable | identificar placa/módulo/revisión, conector, alimentación, interfaz USB, ADC/GPIO y enumeración en host real; no asignar pines antes del gate | pendiente de selección e inspección |
+| Control y USB | `Nano ESP32-C6 V1.0`/`V1711` reportada | unidad disponible según usuario; enlace comercial sin ficha accesible | autenticar fabricante/revisión, conectores, alimentación, USB, ADC/GPIO y enumeración en host real; no asignar pines antes del gate | pendiente de inspección y banco |
 | Proxy de luz | una LDR desnuda de 5 mm, variante comercial 10–20 kΩ a 10 lux | publicación del vendedor y opciones visibles; precio/stock generales observados, pero atribución, fabricante y datasheet aplicable a la variante no confirmados | montar divisor candidato, caracterizar ADC y repetibilidad; rotular `proxy de luz calibrado para gameplay`, nunca lux, irradiancia ni W/m² | pendiente de compra, inspección y calibración |
-| Temperatura | una sonda DS18B20 de tres cables, variante de 1 m elegida; alimentación 3–5,5 V y 1-Wire publicados | publicación del vendedor; precio/stock generales y enlace a PDF visibles; costo y disponibilidad de la variante de 1 m, fabricante, aplicabilidad del PDF y pinout sin confirmar | revalidar la variante de 1 m; verificar continuidad/pinout y caracterizar respuesta y estabilización | pendiente de compra e inspección |
+| Temperatura | sonda DS18B20 de tres cables y 2 m reportada | unidad disponible según usuario; referencia exacta, fabricante y pinout sin confirmar | verificar continuidad/pinout y caracterizar respuesta y estabilización | pendiente de inspección y banco |
 | Consigna hidro | B10K + perilla | páginas, dimensiones y precios fechados | comprobar curva real, recorrido, fijación y compatibilidad con ADC | pendiente de inspección |
 | Modos y prioridades | seis pulsadores 12 × 12 | página, cantidad, precio y stock fechados | representar 3 modos de batería + 3 prioridades con exclusión lógica y rotulado; no son reglas científicas finales | pendiente de definición lógica/UX |
 | Confirmación | PBS-110 roscado | página, precio y stock fechados | verificar contactos, montaje y comportamiento; debounce permanece sin valor asignado | pendiente de inspección |
@@ -146,7 +172,7 @@ La compra permanece bloqueada hasta que una persona responsable registre:
 
 - [x] Elección humana registrada: cable DS18B20 de 1 m. No acredita compra ni disponibilidad.
 - [ ] Capturar precio, stock por variante, envío y total en el momento de compra.
-- [ ] Confirmar identidad exacta, revisión y disponibilidad física de la placa ESP32; no inferirlas de “30 pines”.
+- [ ] Inspeccionar `Nano ESP32-C6 V1.0`/`V1711`, autenticar fabricante/revisión y documentar ambos conectores USB y pinout.
 - [ ] Registrar computador host, sistema operativo y permisos para USB serial.
 - [ ] Al recibir, inspeccionar referencia, cantidad, daños y documentación incluida.
 - [ ] Con el montaje desenergizado, comprobar continuidad y pinout de la sonda;
