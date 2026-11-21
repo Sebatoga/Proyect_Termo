@@ -191,6 +191,103 @@ h1 {
   margin-block: 0.25rem;
 }
 
+.device-panel {
+  max-width: 60rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #d5b86b;
+  border-radius: 0.75rem;
+  background: #2a2619;
+}
+
+.device-panel h2,
+.device-panel h3 {
+  margin-block: 0.5rem;
+}
+
+.device-panel p {
+  margin-block: 0.25rem;
+}
+
+.device-label {
+  color: #f2cf74;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.device-panel label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: 700;
+}
+
+.device-panel textarea {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.65rem;
+  border: 2px solid #d5b86b;
+  border-radius: 0.5rem;
+  color: #eef7f4;
+  background: #071817;
+  font-family: ui-monospace, "SFMono-Regular", monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.device-panel textarea:focus-visible {
+  outline: 3px solid #eef7f4;
+  outline-offset: 3px;
+}
+
+.device-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.device-actions legend {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  padding: 0;
+  font-weight: 800;
+}
+
+.device-actions p {
+  flex-basis: 100%;
+  margin: 0 0 0.25rem;
+}
+
+.device-status {
+  margin-top: 0.75rem;
+  font-weight: 800;
+}
+
+.device-status[data-level="valid"] {
+  color: #9ee5d4;
+}
+
+.device-status[data-level="awaiting-input"] {
+  color: #f2cf74;
+}
+
+.device-status[data-level="invalid"],
+.device-status[data-level="disconnected"] {
+  color: #ff9f9f;
+}
+
+.device-issue {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.device-issue[hidden] {
+  display: none;
+}
+
 .simulation-label {
   color: #f2cf74;
   text-transform: uppercase;
