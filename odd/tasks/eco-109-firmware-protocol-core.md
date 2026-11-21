@@ -87,8 +87,10 @@ evidence.
 
 - ECO108-6: reconcile only the user-reported inventory and unresolved gates.
 - ECO109-1: protocol source/tests plus its executable evidence and status hunks.
-- Combined worktree size exceeds the 400-line review guard, so these remain two
-  independent work units; no commit, push, PR, or merge was performed.
+- ECO109-2 through ECO109-6 host runner and serialization boundaries:
+  commit `5207af7` (`test(firmware): verify protocol boundaries on host`).
+- The earlier ECO108-6/ECO109-1 combined worktree exceeded the 400-line review
+  guard and remained separate; that historical note predates the commits above.
 
 ## Rollback
 

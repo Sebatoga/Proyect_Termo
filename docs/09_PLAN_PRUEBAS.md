@@ -86,6 +86,20 @@ exigen bytes exactos para `hello` y `inputs/disconnected`, rechazo de identifica
 de calibración inseguro y fallo cerrado por buffer insuficiente. El stream
 resultante debe coincidir con `v1-device-disconnected.jsonl` y ser aceptado por el
 parser Node. Esta prueba no acredita compilación para ESP32-C6, USB serial ni banco.
+ECO109-2 expone la compilación/fixture/parser anterior como `npm run
+test:firmware`. El runner crea y limpia su propio directorio temporal, falla si
+falta `g++`, y valida el resultado contra el parser Node canónico. No ejecuta un
+toolchain Arduino ni HIL.
+ECO109-3 agrega límites C++ host para ambos serializadores: `uint32_t` máximo en
+secuencia/uptime y capacidad del buffer con y sin espacio para el terminador NUL.
+ECO109-4 usa bytes centinela adyacentes al buffer declarado para detectar
+escrituras fuera de capacidad en los casos de rechazo por tamaño insuficiente.
+ECO109-5 comprueba para ambos encoders longitud (`32` aceptado, `33` rechazado),
+caracteres permitidos (`-_.`), rechazo de salto de línea y salida limpia; no
+valida calibración metrológica.
+ECO109-6 emite los mensajes C++ límite y exige que el parser Node canónico acepte
+ambos con secuencia/uptime máximos y longitud de identificador 32; el fixture
+nominal conserva su comparación byte a byte.
 
 La referencia ECO-004 en `tools/game-scorecard/` se ejecuta con `node:test` y
 usa únicamente misiones y ledgers sintéticos versionados. Sus pruebas cubren
@@ -174,6 +188,24 @@ ECO204-4 amplía Chrome de 390 a 320 px y exige ausencia de overflow horizontal,
 geometría contenida para estado, acciones, diagnóstico, canvas, observación y
 seis trazas, además de separación de interactivos. No simula zoom de texto,
 teclado virtual, orientación ni dispositivo físico.
+
+ECO105-7 prueba en navegador la entrada manual de JSON Lines v1 a través del
+adaptador canónico: snapshot nominal, línea malformada, desconexión explícita,
+limpieza de datos y estado de partida sin cambios. La emulación no implica
+serial, placa, sensor, calibración ni variable física; la revisión humana y
+asistiva permanece pendiente.
+
+ECO105-8 añade a la aceptación del botón de reinicio que tanto el adaptador como
+el textarea vuelven a estado vacío, evitando reprocesar accidentalmente el lote
+descartado antes de pegar una sesión nueva.
+ECO105-9 comprueba después del reset que el foco vuelve al textarea, coincide con
+`:focus-visible` y muestra outline calculado distinto de `none`/`0px`.
+ECO105-10 cubre `hello` válido sin `inputs`: el estado debe ser “entradas
+pendientes”, sin motivo de error y con seis campos vacíos; la regla de contraste
+para esa etiqueta permanece sobre 4.5:1.
+ECO105-11 recorre hello(0) → inputs(1) → JSON malformado → inputs(2): el estado
+intermedio debe limpiar valores; el mensaje de secuencia esperada puede recuperar
+sin reset; y los valores aceptados no deben modificar rondas ni trazas de juego.
 
 Evidencia local final tras `727c36b` el 2026-11-03: scorecard y paquete ejecutaron
 67/67 pruebas PASS y la suite conjunta con simulador/adaptador ejecutó 94/94

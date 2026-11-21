@@ -23,7 +23,7 @@
 | ECO-106 | Puntuación, derrota, victoria y resultados explicables | 5 escenarios prueba con resultados comprensibles | PENDIENTE |
 | ECO-107 | Prueba E2E/HIL y jugabilidad híbrida | seis rondas sin pérdida silenciosa de entradas | PENDIENTE |
 | ECO-108 | Inventario/BOM y spike de banco | componentes, costos, datasheets y sensor/control→USB registrados | EN CURSO — inventario físico reportado, incluida `Nano ESP32-C6 V1.0`/`V1711` y sonda DS18B20 de 2 m; inspección, documentación aplicable, pinout, USB y banco pendientes |
-| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — núcleo C++17 host-testable emite `hello` y estado seguro `disconnected`; sin Arduino, GPIO, USB, sensores ni calibración |
+| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — ECO109-1/2 núcleo y runner host PASS; ECO109-3/4 cubren límites del serializador, ECO109-5 valida el identificador y ECO109-6 valida el parser Node con mensajes C++ límite; sin Arduino, GPIO, USB, sensores ni calibración |
 | ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE — prototipo A4 recorrió 6 rondas con 2 participantes según reporte; sin tiempo, balance, hardware o seguridad física |
 
 ECO105-1 añade observabilidad técnica del input simulado aceptado y seis trazas
@@ -38,8 +38,23 @@ ECO105-5 separa título y pregunta en un panel semántico propio, conserva el
 estado operativo en su región viva y oculta la guía cuando no hay ronda activa.
 ECO105-6 añade avisos textuales redundantes para desconexión, entrada rechazada,
 nueva entrada y reinicio, ocultándolos en estados listo/completado.
-ECO-105 continúa
-**PENDIENTE**: faltan alertas causales de gameplay e integración física.
+ECO105-7 incorpora en la consola una lectura manual de JSON Lines v1 por el
+adaptador canónico: presenta seis valores y estado válido/inválido/desconectado,
+limpia valores al fallar y no modifica la partida. Focalizadas 6/6, Vitest
+102/102, contraste 10/10, typecheck, build, browser 390/320, offline y puerto
+1/1 pasaron. No abre puerto serial ni representa hardware conectado. ECO-105
+continúa **PENDIENTE**: faltan alertas causales de gameplay e integración física.
+ECO105-8 corrige el reinicio: limpia también el búfer de texto para que no se
+reprocese accidentalmente la sesión descartada; Chrome lo aserta.
+ECO105-9 mueve el foco de vuelta al textarea vacío y verifica en Chrome tanto
+`document.activeElement` como `:focus-visible` y el outline visible, para facilitar
+la siguiente entrada por teclado.
+ECO105-10 distingue un `hello` válido sin `inputs` (espera de snapshot) de un
+mensaje rechazado. La vista deja los seis valores vacíos y anuncia entradas
+pendientes; no confunde handshake con error ni con conexión física real.
+ECO105-11 demuestra que, tras rechazar una línea sin secuencia parseable, los
+datos vuelven a aceptarse sin reset si la siguiente línea válida trae exactamente
+la secuencia esperada; los valores rechazados nunca se reutilizan.
 
 ## F2 — Calidad de experiencia e integración
 | ID | Tarea | Criterio de salida | Estado |
