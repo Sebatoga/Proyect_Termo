@@ -231,6 +231,10 @@ async function run() {
         const load = document.querySelector('#load-simulated-input');
         const confirm = document.querySelector('#confirm-simulated-round');
         const reset = document.querySelector('#reset-simulated-session');
+        const deviceLines = document.querySelector('#device-lines');
+        const processDevice = document.querySelector('#process-device-lines');
+        const disconnectDevice = document.querySelector('#disconnect-device');
+        const resetDevice = document.querySelector('#reset-device-reading');
         const diagnostic = document.querySelector('#run-malformed-input-diagnostic');
         const diagnosticDetails = document.querySelector('.simulation-diagnostic');
         const diagnosticSummary = diagnosticDetails?.querySelector('summary');
@@ -392,6 +396,95 @@ async function run() {
           && document.activeElement === load;
         const second = run();
         const finalText = document.querySelector('#console-status')?.textContent ?? '';
+        const terminalControls = load?.disabled === true
+          && confirm?.disabled === true
+          && reset?.disabled === false
+          && document.activeElement === reset;
+        const gameStateBeforeDevice = {
+          status: finalText,
+          traceRows: readOutput().traceRows,
+          acceptedFields: readOutput().acceptedFields,
+        };
+        const nominalDeviceLines = [
+          {
+            type: 'hello', protocolVersion: 1, sequence: 0, uptimeMs: 0,
+            calibrationVersion: 'smoke-v1', status: 'valid', capabilities: ['inputs', 'output'],
+          },
+          {
+            type: 'inputs', protocolVersion: 1, sequence: 1, uptimeMs: 100,
+            calibrationVersion: 'smoke-v1', status: 'valid',
+            values: {
+              lightProxy: { value: 0.72, status: 'valid' },
+              temperature: { value: 24.5, status: 'valid' },
+              hydroSetpoint: { value: 0.4, status: 'valid' },
+              batteryMode: { value: 'idle', status: 'valid' },
+              loadPriority: { value: 'balanced', status: 'valid' },
+              confirm: { value: false, status: 'valid' },
+            },
+          },
+        ].map((line) => JSON.stringify(line)).join(String.fromCharCode(10));
+        deviceLines.value = nominalDeviceLines;
+        processDevice?.click();
+        const deviceValid = document.querySelector('#device-status')?.dataset.level === 'valid'
+          && document.querySelectorAll('#device-values dd').length === 6
+          && document.querySelector('#device-values [data-field="temperature"]')?.textContent === '24.5'
+          && document.querySelector('#device-summary')?.textContent?.includes('no modifican la partida')
+          && disconnectDevice?.disabled === false
+          && resetDevice?.disabled === false;
+        deviceLines.value = '{not json';
+        processDevice?.click();
+        const deviceInvalid = document.querySelector('#device-status')?.dataset.level === 'invalid'
+          && document.querySelector('#device-issue')?.textContent?.includes('MALFORMED_JSON')
+          && [...document.querySelectorAll('#device-values dd')].length === 6
+          && [...document.querySelectorAll('#device-values dd')].every((row) => row.textContent === 'sin valor');
+        const recoveryMessage = JSON.parse(nominalDeviceLines.split(String.fromCharCode(10))[1]);
+        recoveryMessage.sequence = 2;
+        recoveryMessage.uptimeMs = 200;
+        deviceLines.value = JSON.stringify(recoveryMessage);
+        processDevice?.click();
+        const deviceRecoveredWithoutReset = document.querySelector('#device-status')?.dataset.level === 'valid'
+          && document.querySelector('#device-issue')?.hidden === true
+          && document.querySelector('#device-values [data-field="temperature"]')?.textContent === '24.5';
+        resetDevice?.click();
+        const deviceReset = document.querySelector('#device-status')?.dataset.level === 'empty'
+          && document.querySelector('#device-values')?.children.length === 0
+          && disconnectDevice?.disabled === true;
+        const deviceResetClearsInput = deviceLines?.value === ''
+          && document.activeElement === deviceLines
+          && deviceLines.matches(':focus-visible')
+          && getComputedStyle(deviceLines).outlineStyle !== 'none'
+          && getComputedStyle(deviceLines).outlineWidth !== '0px';
+        deviceLines.value = JSON.stringify({
+          type: 'hello',
+          protocolVersion: 1,
+          sequence: 0,
+          uptimeMs: 0,
+          calibrationVersion: 'smoke-v1',
+          status: 'valid',
+          capabilities: ['inputs', 'output'],
+        });
+        processDevice?.click();
+        const deviceAwaitingInput = document.querySelector('#device-status')?.dataset.level === 'awaiting-input'
+          && document.querySelector('#device-status')?.textContent === 'Saludo aceptado; entradas pendientes'
+          && document.querySelector('#device-issue')?.hidden === true
+          && [...document.querySelectorAll('#device-values dd')].length === 6
+          && [...document.querySelectorAll('#device-values dd')].every((row) => row.textContent === 'sin valor');
+        resetDevice?.click();
+        const deviceHelloResetClean = document.querySelector('#device-status')?.dataset.level === 'empty'
+          && deviceLines?.value === ''
+          && document.activeElement === deviceLines;
+        deviceLines.value = nominalDeviceLines;
+        processDevice?.click();
+        disconnectDevice?.click();
+        const deviceDisconnected = document.querySelector('#device-status')?.dataset.level === 'disconnected'
+          && document.querySelector('#device-issue')?.textContent?.includes('DISCONNECTED')
+          && [...document.querySelectorAll('#device-values dd')].length === 6
+          && [...document.querySelectorAll('#device-values dd')].every((row) => row.textContent === 'sin valor');
+        const deviceResetAfterDisconnect = resetDevice?.disabled === false;
+        resetDevice?.click();
+        const gameUnchangedByDevice = document.querySelector('#console-status')?.textContent === gameStateBeforeDevice.status
+          && JSON.stringify(readOutput().traceRows) === JSON.stringify(gameStateBeforeDevice.traceRows)
+          && JSON.stringify(readOutput().acceptedFields) === JSON.stringify(gameStateBeforeDevice.acceptedFields);
         const traceItems = [...document.querySelectorAll('#simulated-trace li')];
         const panel = document.querySelector('.observation-panel');
         const panelRect = panel?.getBoundingClientRect();
@@ -407,6 +500,16 @@ async function run() {
         return {
           roundsPerRun: first.transitions.length,
           skipNavigation,
+          deviceValid,
+          deviceInvalid,
+          deviceRecoveredWithoutReset,
+          deviceReset,
+          deviceResetClearsInput,
+          deviceAwaitingInput,
+          deviceHelloResetClean,
+          deviceDisconnected,
+          deviceResetAfterDisconnect,
+          gameUnchangedByDevice,
           actionSemantics: actionGroup instanceof HTMLFieldSetElement
             && actionGroup.getAttribute('aria-describedby') === 'simulation-actions-help'
             && actionLegend?.textContent?.trim() === 'Acciones de la prueba simulada'
@@ -434,8 +537,7 @@ async function run() {
             && finalText.includes('ronda 6 de 6')
             && finalText.includes('Confirmación disponible: no.')
             && readNotice().hidden,
-          terminalControls: load?.disabled === true && confirm?.disabled === true && reset?.disabled === false
-            && document.activeElement === reset,
+          terminalControls,
           acceptedFields: second.output.acceptedFields,
           acceptedFieldCount: second.output.acceptedFieldCount,
           panelRendered: (panelRect?.width ?? 0) > 0 && (panelRect?.height ?? 0) > 0
@@ -468,6 +570,10 @@ async function run() {
       const actions = document.querySelector('.simulation-actions')?.getBoundingClientRect();
       const actionHelp = document.querySelector('#simulation-actions-help')?.getBoundingClientRect();
       const panel = document.querySelector('.observation-panel')?.getBoundingClientRect();
+      const devicePanel = document.querySelector('.device-panel')?.getBoundingClientRect();
+      const deviceInput = document.querySelector('#device-lines')?.getBoundingClientRect();
+      const deviceActions = document.querySelector('.device-actions')?.getBoundingClientRect();
+      const deviceActionButtons = [...document.querySelectorAll('#process-device-lines, #disconnect-device, #reset-device-reading')].map((element) => element.getBoundingClientRect());
       const traceRows = [...document.querySelectorAll('#simulated-trace li')].map((row) => row.getBoundingClientRect());
       const contained = (rect) => (rect?.width ?? 0) > 0 && (rect?.height ?? 0) > 0
         && rect.left >= 0 && rect.right <= window.innerWidth;
@@ -484,6 +590,8 @@ async function run() {
         statusVisible: contained(status),
         actionsVisible: contained(actions) && contained(actionHelp),
         observationVisible: contained(panel) && traceRows.length === 6 && traceRows.every(contained),
+        devicePanelVisible: contained(devicePanel) && contained(deviceInput) && contained(deviceActions)
+          && deviceActionButtons.length === 3 && deviceActionButtons.every(contained),
       };
     })()`;
     await cdp.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }, sessionId);
@@ -512,12 +620,12 @@ async function run() {
     const responsivePass = (result, expectedWidth) => result.width === expectedWidth
       && result.noOverflow && result.controlsVisible && result.diagnosticVisible
       && result.canvasVisible && result.statusVisible && result.actionsVisible
-      && result.observationVisible;
-    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && observed.initialGuide && observed.initialNotice && interaction.roundsPerRun === 6 && interaction.skipNavigation && interaction.actionSemantics && interaction.detailsOpened && interaction.diagnosticEnabledInitially && interaction.malformedRejected && interaction.recoveredReady && interaction.midSessionDiagnostic && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayRoundGuidesEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && orderedRoundGuides && interaction.panelRendered && interaction.controlsReadable && interaction.diagnosticGeometry && interaction.traceRendered && orderedTrace && responsivePass(mobile, 390) && responsivePass(narrow, 320) && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
+      && result.observationVisible && result.devicePanelVisible;
+    const passed = observed?.ready && observed.shell && observed.secondary && observed.simulated && observed.waiting && observed.confirmationUnavailable && observed.initialGuide && observed.initialNotice && interaction.roundsPerRun === 6 && interaction.skipNavigation && interaction.deviceValid && interaction.deviceInvalid && interaction.deviceRecoveredWithoutReset && interaction.deviceReset && interaction.deviceResetClearsInput && interaction.deviceAwaitingInput && interaction.deviceHelloResetClean && interaction.deviceDisconnected && interaction.deviceResetAfterDisconnect && interaction.gameUnchangedByDevice && interaction.actionSemantics && interaction.detailsOpened && interaction.diagnosticEnabledInitially && interaction.malformedRejected && interaction.recoveredReady && interaction.midSessionDiagnostic && interaction.allReady && interaction.allAdvanced && interaction.resetDisabledInitially && interaction.resetEnabledAfterCompletion && interaction.fresh && interaction.replaySnapshotsEqual && interaction.replayRoundGuidesEqual && interaction.replayAcceptedFieldsEqual && interaction.replayTraceEqual && interaction.sameCanvas && interaction.completed && interaction.terminalControls && acceptedValues && orderedRoundGuides && interaction.panelRendered && interaction.controlsReadable && interaction.diagnosticGeometry && interaction.traceRendered && orderedTrace && responsivePass(mobile, 390) && responsivePass(narrow, 320) && observed.canvasWidth > 0 && observed.canvasHeight > 0 && observed.rectWidth > 0 && observed.rectHeight > 0 && errors.length === 0 && screenshot.length > 0 && dimensions?.width === 800 && dimensions?.height === 450;
     if (!passed) throw new Error(`Browser assertions failed: ${JSON.stringify({ observed, interaction, mobile, narrow, errors: errors.length, screenshotBytes: screenshot.length, dimensions })}`);
     await writeFile(screenshotPath, screenshot);
     console.log(`CHROME_VERSION=${browser.version}`);
-    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated initial_status=waiting-input skip_navigation=focus-visible-target-main notices=disconnected-invalid-next-step-visible-ready-completed-hidden keyboard_focus=load-confirm-load-reset-cycle action_semantics=fieldset-legend-help-native-buttons diagnostic=malformed-rejected-recovered-counts-0-and-1 observation_panel=rendered accepted_values=exact round_guides=6-ordered-visible-replayed trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled reflow=390px-and-320px-contained-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
+    console.log(`PRODUCT_BROWSER_SMOKE=PASS marker=true shell=true secondary=true mode=simulated-device-manual-jsonl initial_status=waiting-input skip_navigation=focus-visible-target-main device_snapshot=hello-awaiting-input-valid-invalid-recovered-without-reset-disconnected-reset-buffer-cleared-focus-returned game_state=unchanged notices=disconnected-invalid-next-step-visible-ready-completed-hidden keyboard_focus=load-confirm-load-reset-cycle action_semantics=fieldset-legend-help-native-buttons diagnostic=malformed-rejected-recovered-counts-0-and-1 observation_panel=rendered accepted_values=exact round_guides=6-ordered-visible-replayed trace_rows=6-ordered interaction=two-six-round-runs-identical reset=fresh-focused-load canvas_instance=preserved terminal_controls=load-confirm-disabled-reset-enabled reflow=390px-and-320px-contained-no-overflow canvas=${observed.canvasWidth}x${observed.canvasHeight} displayed=${observed.rectWidth}x${observed.rectHeight} screenshot=${dimensions.width}x${dimensions.height} screenshot_bytes=${screenshot.length} javascript_errors=${errors.length}`);
   } catch (error) {
     primaryError = error;
   } finally {
