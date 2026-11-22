@@ -107,6 +107,43 @@
           <h3>Traza de rondas confirmadas</h3>
           <ol id="simulated-trace" class="trace-list"></ol>
         </section>
+        <section class="device-panel" aria-labelledby="device-panel-title">
+          <p class="device-label">Modo dispositivo</p>
+          <h2 id="device-panel-title">Lectura de líneas del dispositivo</h2>
+          <p>
+            Procesa mensajes JSON Lines v1 con el adaptador canónico. Son valores de
+            transporte sin unidades ni interpretación física, no provienen de hardware
+            real en esta sesión y no modifican la partida; la ciencia sigue pendiente
+            de aprobación (ECO-002).
+          </p>
+          <label for="device-lines">Líneas JSON del dispositivo, una por línea</label>
+          <textarea
+            id="device-lines"
+            name="device-lines"
+            rows="4"
+            spellcheck="false"
+            aria-describedby="device-actions-help"
+          ></textarea>
+          <fieldset class="device-actions" aria-describedby="device-actions-help">
+            <legend>Acciones de lectura del dispositivo</legend>
+            <p id="device-actions-help">
+              Procesa las líneas en orden; la última línea decide el estado visible.
+              Reiniciar lectura borra el búfer y abre una sesión nueva; la secuencia
+              debe comenzar desde cero.
+            </p>
+            <button id="process-device-lines" type="button">Procesar líneas</button>
+            <button id="disconnect-device" type="button" disabled>Marcar desconexión</button>
+            <button id="reset-device-reading" type="button" disabled>Reiniciar lectura</button>
+          </fieldset>
+          <p id="device-announcement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+          <p id="device-status" class="device-status" data-level="empty">Sin líneas procesadas</p>
+          <p id="device-summary" class="device-summary">
+            Aún no se procesó ninguna línea; los seis valores están vacíos.
+          </p>
+          <p id="device-issue" class="device-issue" hidden></p>
+          <h3>Valores reportados</h3>
+          <dl id="device-values" class="accepted-values"></dl>
+        </section>
       </section>
     </main>
 

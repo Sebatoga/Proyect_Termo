@@ -53,6 +53,21 @@ for (const [name, foreground, background] of [
     declaration(".skip-link", "background"),
   ],
   [
+    "device panel label",
+    declaration(".device-label", "color"),
+    declaration(".device-panel", "background"),
+  ],
+  [
+    "awaiting-input status",
+    declaration('.device-status[data-level="awaiting-input"]', "color"),
+    declaration(".device-panel", "background"),
+  ],
+  [
+    "device input",
+    declaration(".device-panel textarea", "color"),
+    declaration(".device-panel textarea", "background"),
+  ],
+  [
     "simulation label",
     declaration(".simulation-label", "color"),
     declaration(".simulated-controls", "background"),

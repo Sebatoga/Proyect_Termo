@@ -49,9 +49,25 @@ The harness starts root Vite on `127.0.0.1:4173` with `--strictPort`, waits for 
   horizontal overflow. Status, action fieldset/help, all three primary controls,
   diagnostic summary/button, canvas, observation panel and six trace rows had
   non-zero horizontally contained geometry; interactive controls did not overlap.
+- Device transport observation: the browser pasted a valid `hello`/`inputs`
+  fixture, observed six values, rejected malformed JSON and cleared all six,
+  reset the adapter, then processed explicit disconnect and verified all values
+  remained empty. Game status, accepted simulated values, and round trace were
+  unchanged. The panel, input and action buttons remained horizontally contained
+  at 390 px and 320 px. This is manual fixture input, not serial or hardware I/O.
+- After reset the pasted buffer was empty, focus returned to the device textarea,
+  and Chrome observed `:focus-visible` with a nonzero outline. The smoke captures
+  the game-loop terminal focus before running this independent transport flow.
+- A valid `hello` without `inputs` is reported as “Saludo aceptado; entradas
+  pendientes”, with six empty values and no visible issue; it is not mislabeled
+  as a rejected frame or physical connection.
+- After a valid sequence 1 snapshot, a malformed line clears all six values;
+  the next valid sequence 2 snapshot recovers without adapter reset. Sequence
+  gaps remain fail-closed. No game state, accepted simulated input, or trace
+  changes during this transport test.
 - Canvas: backing size 960 × 540; displayed size 764 × 432, both non-zero.
-- Screenshot after the second run: 800 × 450 PNG, 78,844 bytes, SHA-256
-  `da71e19617cb147f2da2376d04ad3863a7e8d88d23a2fef324f3a80ed477f9a4`.
+- Screenshot after the second run: 800 × 450 PNG, 63,378 bytes, SHA-256
+  `f273c39d9d2b92d1f63bd8879d449510334bd367ac479cf22dd83d902d587a68`.
 - Error signal: zero `Runtime.exceptionThrown`, console `error`, or JavaScript `Log.entryAdded` events observed through CDP.
 - Negative regression: an impostor returned HTTP 200 with the exact title/canvas markers; strict-port Vite exited non-zero before Chrome/PASS, then the test rebound port 4173.
 

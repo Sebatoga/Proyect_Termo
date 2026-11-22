@@ -1,6 +1,6 @@
 # ECO105-4 — guía canónica de rondas en consola
 
-**Fecha:** 2026-11-18  
+**Fecha:** 2026-11-18
 **Estado:** verificación automatizada local completada; revisión humana omitida
 por instrucción del usuario y conservada como pendiente.
 

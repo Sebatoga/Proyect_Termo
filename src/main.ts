@@ -2,13 +2,16 @@ import Phaser from "phaser";
 
 import { createSimulatedRoundSession } from "./application/round-session/createSimulatedRoundSession";
 import { ConsoleBootstrapScene } from "./ConsoleBootstrapScene";
+import { createDeviceObservationViewModel } from "./console/createDeviceObservationViewModel";
 import { createRoundConsoleViewModel } from "./console/createRoundConsoleViewModel";
 import { focusNextSimulatedAction } from "./console/focusNextSimulatedAction";
+import { renderDeviceObservation } from "./console/renderDeviceObservation";
 import { renderProvisionalRoundGuide } from "./console/renderProvisionalRoundGuide";
 import { renderRoundConsoleStatus } from "./console/renderRoundConsoleStatus";
 import { renderSessionNotice } from "./console/renderSessionNotice";
 import { renderSimulatedObservation } from "./console/renderSimulatedObservation";
 import { createGameConfig } from "./createGameConfig";
+import { createHostAdapter } from "./infrastructure/host-adapter/hostAdapter.mjs";
 import "./styles.css";
 
 const statusTarget = document.querySelector<HTMLElement>("#console-status");
@@ -39,6 +42,20 @@ const acceptedValues = document.querySelector<HTMLElement>("#accepted-input-valu
 const traceList = document.querySelector<HTMLOListElement>("#simulated-trace");
 if (announcement === null || acceptedSummary === null || acceptedValues === null || traceList === null) {
   throw new Error("Missing simulated observation targets.");
+}
+const deviceLines = document.querySelector<HTMLTextAreaElement>("#device-lines");
+const processDeviceButton = document.querySelector<HTMLButtonElement>("#process-device-lines");
+const disconnectDeviceButton = document.querySelector<HTMLButtonElement>("#disconnect-device");
+const resetDeviceButton = document.querySelector<HTMLButtonElement>("#reset-device-reading");
+const deviceStatus = document.querySelector<HTMLElement>("#device-status");
+const deviceSummary = document.querySelector<HTMLElement>("#device-summary");
+const deviceIssue = document.querySelector<HTMLElement>("#device-issue");
+const deviceValues = document.querySelector<HTMLElement>("#device-values");
+const deviceAnnouncement = document.querySelector<HTMLElement>("#device-announcement");
+if (deviceLines === null || processDeviceButton === null || disconnectDeviceButton === null
+  || resetDeviceButton === null || deviceStatus === null || deviceSummary === null
+  || deviceIssue === null || deviceValues === null || deviceAnnouncement === null) {
+  throw new Error("Missing device observation targets.");
 }
 
 const session = createSimulatedRoundSession();
@@ -93,6 +110,50 @@ diagnosticButton.addEventListener("click", () => {
   focusNextSimulatedAction(actionTargets);
 });
 renderSession();
+
+let deviceAdapter = createHostAdapter();
+let processedDeviceLines = 0;
+const deviceTargets = Object.freeze({
+  status: deviceStatus,
+  summary: deviceSummary,
+  issue: deviceIssue,
+  values: deviceValues,
+  announcement: deviceAnnouncement,
+});
+const renderDevice = (): void => {
+  const snapshot = deviceAdapter.snapshot();
+  renderDeviceObservation(
+    deviceTargets,
+    createDeviceObservationViewModel(snapshot, processedDeviceLines),
+  );
+  processDeviceButton.disabled = false;
+  disconnectDeviceButton.disabled = processedDeviceLines === 0 || snapshot.transport === "disconnected";
+  resetDeviceButton.disabled = processedDeviceLines === 0;
+};
+
+processDeviceButton.addEventListener("click", () => {
+  const lines = deviceLines.value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+  for (const line of lines) {
+    deviceAdapter.ingest(line);
+    processedDeviceLines += 1;
+  }
+  renderDevice();
+});
+disconnectDeviceButton.addEventListener("click", () => {
+  deviceAdapter.disconnect();
+  renderDevice();
+});
+resetDeviceButton.addEventListener("click", () => {
+  deviceAdapter = createHostAdapter();
+  processedDeviceLines = 0;
+  deviceLines.value = "";
+  renderDevice();
+  deviceLines.focus();
+});
+renderDevice();
 
 const gameConfig: Phaser.Types.Core.GameConfig = createGameConfig({
   renderer: Phaser.AUTO,

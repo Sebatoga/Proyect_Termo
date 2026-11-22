@@ -1,6 +1,6 @@
 # ECO105-5 — panel semántico de guía de ronda
 
-**Fecha:** 2026-11-18  
+**Fecha:** 2026-11-18
 **Estado:** verificación automatizada local completada; revisión humana pendiente.
 
 ## Resultado

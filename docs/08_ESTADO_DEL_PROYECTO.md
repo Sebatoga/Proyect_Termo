@@ -1,11 +1,11 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-18 (pitch verificable y rebaseline de 14 días).
-**Fase actual:** F0, contrato híbrido y preparación del gate de inventario.
-**Tarea vigente:** ECO-006/ECO-301 están EN REVISIÓN con PDF y guion; el plan
-operativo se redujo a 14 días. ECO-108 y G1 siguen abiertos, ECO-109 continúa en
-curso y ECO-002 permanece BLOQUEADA; el pitch no presenta esos pendientes como
-terminados.
+**Última actualización:** 2026-11-22 (ECO109-12: enteros JSON seguros).
+**Fase actual:** F1, rebanada vertical local; integración física bloqueada por G1.
+**Tarea vigente:** ECO109-12 hace que el parser rechace números JSON enteros que
+JavaScript no puede representar exactamente y no los repita en mensajes de error.
+No conecta hardware, USB o pines. ECO-109 físico y ECO-108/G1 continúan abiertos;
+ECO-105 sigue PENDIENTE y ECO-002 sigue BLOQUEADA.
 **Producto físico/hardware:** el usuario reporta una placa `Nano ESP32-C6 V1.0`/`V1711` y el inventario listado en la BOM. No hay todavía inspección independiente, pinout autenticado, firmware cargado, calibración, protocolo USB integrado, tablero, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó tanto el spike histórico como el bootstrap productivo local, con los límites registrados en ECO-101/ECO-105.
 
@@ -103,6 +103,106 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
   conserva 27/27 PASS.
 - No configura Arduino, GPIO, USB, baud, ADC, OneWire, LEDs o SW761. ECO-109
   queda **EN CURSO** y requiere documentación de placa y banco antes del wiring.
+
+### ECO109-2 — verificación host reproducible
+
+- `npm run test:firmware` compila el núcleo con `g++ -std=c++17` y warnings como
+  errores, ejecuta 4 checks C++, compara byte a byte el flujo con el fixture y
+  valida ambas líneas con el parser Node canónico.
+- Resultado observado: `ECO109_HOST_VERIFICATION=PASS compiler=g++17
+  unit_tests=4 fixture=byte-identical parser=2/2`; compilador `g++ 13.3.0`.
+- El binario temporal se crea en un directorio único del sistema y se limpia
+  incluso cuando falla el comando. No instala paquetes npm.
+- Esta verificación host no equivale a compilación Arduino, carga a placa, USB,
+  sensores, calibración, banco o HIL. ECO-109 sigue **EN CURSO**, ECO-002
+  **BLOQUEADA** y G1 sin cerrar.
+
+### ECO109-3 — límites del serializador host
+
+- Las pruebas C++ validan que ambos tipos de mensaje representen
+  `uint32_t` máximo (`4294967295`) sin convertirlo en valor negativo.
+- Capacidad igual al largo del texto falla de forma cerrada porque no cabe el
+  terminador NUL; largo + 1 sí funciona, para `hello` e `inputs/disconnected`.
+- `npm run test:firmware`: 5/5 pruebas C++, fixture byte-identical, parser 2/2;
+  compilación C++17 con `-Wall -Wextra -Werror -pedantic`: PASS.
+- Esto no verifica la placa, Arduino, USB/UART, GPIO, calibración o física.
+
+### ECO109-4 — escritura acotada en capacidad insuficiente
+
+- Ambos encoders se prueban con una estructura que contiene bytes centinela
+  antes y después de un buffer de 16 bytes. Al pasar esa capacidad insuficiente,
+  los centinelas permanecen intactos y el primer byte del buffer queda NUL.
+- La prueba es una regresión host de límites de escritura; no reemplaza sanitizers,
+  análisis del compilador de placa ni pruebas físicas.
+
+### ECO109-5 — límite del identificador de calibración
+
+- Ambos encoders aceptan 32 caracteres ASCII permitidos y rechazan 33, limpiando
+  el primer byte del buffer al fallar. Se verifica también puntuación permitida
+  (`-_.`) y rechazo de salto de línea para prevenir inyección de otra línea.
+- Es solo un límite de seguridad del identificador; no define valores, unidades,
+  método ni validez de calibración.
+
+### ECO109-6 — interoperabilidad del parser en límites
+
+- El ejecutable C++ emite `hello` e `inputs/disconnected` con secuencia/uptime
+  `4294967295` y `calibrationVersion` de 32 caracteres.
+- El runner valida esas dos líneas límite con `parseLine` además de las dos líneas
+  nominales/fijadas por fixture; se comprueban tipo, campos límite y aceptación.
+- Resultado local: ver evidencia ECO109-6. Esto no implica serial físico.
+
+### ECO109-7 — limpieza ante falla del compilador
+
+- Pruebas Node aíslan `TMPDIR`/`TMP`/`TEMP` y `PATH`; cubren éxito, `g++` ausente
+  y un compilador stub que sale con código 23. El directorio temporal de
+  compilación queda vacío en las tres rutas.
+
+### ECO109-8 — argumentos nulos y capacidad cero
+
+- Ambos encoders rechazan `calibrationVersion == nullptr` y dejan NUL el primer
+  byte cuando sí hay espacio para limpiar la salida.
+- Con capacidad cero, fallan sin modificar el destino no nulo; también rechazan
+  un destino nulo. La prueba valida el contrato de argumentos en host.
+
+### ECO109-9 — sanitizers host opcionales
+
+- `npm run test:firmware:sanitized` compila con AddressSanitizer y
+  UndefinedBehaviorSanitizer; repite las cinco funciones C++, fixture y cuatro
+  mensajes parseados.
+- El modo normal permanece sin dependencia de runtimes sanitizers. La evidencia
+  solo aplica al compilador/host observado; no es prueba de placa ni de seguridad
+  eléctrica.
+
+### ECO109-10 — argumentos CLI desconocidos
+
+- El ejecutable C++ de host sale con código 2, sin ejecutar las pruebas nominales,
+  y escribe una línea de uso a stderr para argumentos no reconocidos.
+- El runner valida código, stdout vacío y texto exacto de uso. No se agrega ningún
+  comando de dispositivo ni se altera el protocolo JSONL.
+
+### ECO109-11 — barrida numérica determinista
+
+- El ejecutable emite 16 pares de mensajes con secuencias desde transiciones
+  decimales (`9/10`, `99/100`, etc.) hasta `UINT32_MAX`; uptime recorre los mismos
+  valores en orden inverso.
+- El parser Node valida las 32 líneas y el runner contrasta tipo, secuencia,
+  uptime e identificador de cada mensaje. Continúa siendo evidencia host.
+- `npm run test:firmware` y `npm run test:firmware:sanitized` reportaron
+  `parser=36/36 numeric_sweep=16`; runner cleanup 3/3, Vitest 104/104,
+  typecheck y `git diff --check` también pasaron.
+- El test limpia su propio sandbox en `finally`; no depende de instalar paquetes
+  ni ejecutar hardware.
+
+### ECO109-12 — enteros JSON dentro del rango seguro
+
+- `sequence` y `uptimeMs` requieren `Number.isSafeInteger` y valor no negativo;
+  el parser acepta `Number.MAX_SAFE_INTEGER` y rechaza el siguiente entero.
+- Los errores conservan una secuencia solo si es segura y no negativa; para una
+  secuencia fuera de rango o negativa responden con secuencia `0`.
+- Este límite evita pérdida de precisión en JavaScript y no declara un máximo
+  uint32 para el contrato general ni cambia la política de secuencia del equipo.
+- Prueba focalizada 4/4, Vitest total 106/106 y typecheck PASS; firmware host,
+  ASan/UBSan y limpieza del runner también pasan según el último corte.
 
 ### ECO304-1 — operación local estricta
 
@@ -308,6 +408,29 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
   focalizadas 66/66, Vitest 85/85, typecheck, build, Chrome, offline y puerto
   pasaron; Chrome observó avisos visibles y ausencia de instrucciones obsoletas.
   No son alertas de gameplay ni acreditan accesibilidad humana o asistiva.
+- **ECO105-7 (2026-11-21):** la consola procesa líneas JSON Lines v1 pegadas
+  manualmente mediante el adaptador host canónico. Muestra los seis valores y
+  estados válido/inválido/desconectado; errores limpian los valores y la prueba
+  de navegador confirma que la partida no cambia. No accede a USB/serial ni a
+  hardware; `lightProxy` y los otros campos siguen sin interpretación física.
+  Focalizadas 6/6, Vitest 102/102, contraste 10/10, typecheck, build, browser
+  smoke 390/320, offline y regresión de puerto 1/1 pasaron. El build mantiene la
+  advertencia histórica de chunk >500 kB. **ECO105-8** además limpia el búfer
+  al reiniciar; Chrome verifica que no queda el texto viejo. **ECO105-9** devuelve
+  foco a ese textarea y Chrome confirma `:focus-visible` con outline no nulo. El
+  foco terminal del ciclo del juego se captura antes del recorrido de transporte,
+  para no cruzar las dos aserciones. **ECO105-10** diferencia saludo `hello`
+  aceptado y snapshot `inputs` pendiente de un mensaje inválido. Chrome y el test
+  de contraste verifican estado y contraste 10.04:1. Vitest 103/103, contraste
+  11/11, typecheck, build, Chrome, offline, puerto y diff-check pasaron. ECO-105
+  sigue PENDIENTE de alertas causales y entrada física.
+- **ECO105-11:** tras `hello(0)`, `inputs(1)`, línea JSON malformada y
+  `inputs(2)`, el snapshot inválido primero limpia los seis valores y luego
+  recupera el snapshot válido sin reset. La regresión del view-model y Chrome
+  comprueban esta trayectoria y que la partida no cambia. Vitest 104/104,
+  contraste 11/11, typecheck, build, browser 390/320, offline, puerto 1/1 y
+  diff-check pasaron. La recuperación depende de que llegue la secuencia
+  estrictamente esperada; saltos continúan rechazados. No valida transporte físico.
 - **ECO204-1:** los controles simulados transfieren foco al siguiente paso:
   cargar→confirmar, confirmación intermedia→cargar, sexta confirmación→reiniciar,
   diagnóstico inválido→cargar y reinicio→cargar. Focalizadas 71/71, Vitest 90/90,
@@ -353,11 +476,13 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - **Riesgos abiertos registrados entonces:** recuperación de `.opencode/` dependía de una fuente original autorizada; ADR-005 seguía propuesta. El `G-ACA-01` que estaba pendiente en ECO-005 fue cerrado después por ADR-010 y corrección de alcance, no por permiso docente.
 
 ## Próxima instrucción para agente
-Ensayar el pitch con cronómetro y corregir únicamente hallazgos observados.
-Después, inspeccionar la unidad reportada `Nano ESP32-C6 V1.0`/`V1711`,
-autenticar pinout y funciones USB, identificar SW761 y registrar host,
-responsables y fechas de G1. No asignar GPIO ni energizar antes de revisar el
-esquema. No promover ECO-002 ni presentar su expediente como baseline.
+1. Continuar pruebas automatizadas del límite de transporte y su UX, sin asignar
+   rangos físicos ni consumir snapshots en reglas del juego.
+2. Preparar entrada de transporte real solo después de la inspección del equipo y
+   cierre G1: autenticar pinout/USB, identificar SW761, registrar host y
+   responsables, revisar esquema desenergizado. No asignar GPIO ni energizar.
+3. Mantener ECO-002 bloqueada hasta revisión humana competente; después registrar
+   ensayo cronometrado del pitch y playtest con métricas observables.
 
 ## Plantilla a actualizar tras cada tarea
 Fecha/hora, tarea ECO-###, objetivo, archivos, decisiones, resultados de pruebas (comando, salida), capturas/evidencia, riesgos, git status/commit, próximos tres pasos y bloqueos.

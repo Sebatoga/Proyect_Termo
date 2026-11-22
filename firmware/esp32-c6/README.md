@@ -14,6 +14,36 @@ unsafe calibration identifiers, and fail closed on insufficient capacity.
 
 ## Host verification
 
+From the repository root:
+
+```bash
+npm run test:firmware
+npm run test:firmware:sanitized
+npm run test:firmware-runner
+```
+
+From another working directory, use `npm --prefix /path/to/Proyect_Termo run
+test:firmware`.
+
+`test:firmware` compiles in a fresh OS temporary directory, runs the C++ behavior checks,
+compares nominal emitted JSON Lines byte-for-byte with the checked-in fixture,
+and validates both nominal and boundary messages with the canonical Node parser.
+It also checks a deterministic sweep across decimal-width transitions and the
+signed/unsigned 32-bit boundary, and verifies that unsupported executable
+arguments fail with a usage error.
+It removes only the temporary directory it created. It requires a host `g++`
+C++17 compiler; this is not an ESP32-C6/Arduino build or a hardware test.
+
+`test:firmware-runner` checks temporary-directory cleanup after success, when
+`g++` is unavailable, and (on POSIX) when a compiler exits unsuccessfully.
+
+`test:firmware:sanitized` runs the same host checks with AddressSanitizer and
+UndefinedBehaviorSanitizer. It is optional because some host toolchains do not
+ship those runtimes; passing it still says nothing about the ESP32-C6 target or
+electrical safety.
+
+The underlying commands remain available for diagnosis:
+
 ```bash
 g++ -std=c++17 -Wall -Wextra -Werror -pedantic \
   firmware/esp32-c6/protocol_v1.cpp \
