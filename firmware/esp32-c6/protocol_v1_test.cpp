@@ -1,5 +1,6 @@
 #include "protocol_v1.hpp"
 
+#include <array>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
@@ -35,6 +36,7 @@ void encodesDisconnectedInputsExactly() {
 
 void rejectsUnsafeCalibrationVersions() {
   char output[256] = "unchanged";
+  char inputs[768] = "unchanged";
   assert(!ecogrid::firmware::encodeHello(output, sizeof(output), 0, 0, ""));
   assert(output[0] == '\0');
   assert(!ecogrid::firmware::encodeHello(output, sizeof(output), 0, 0, "bad\"value"));
@@ -43,13 +45,17 @@ void rejectsUnsafeCalibrationVersions() {
   assert(output[0] == '\0');
   assert(!ecogrid::firmware::encodeHello(output, sizeof(output), 0, 0, "123456789012345678901234567890123"));
   assert(output[0] == '\0');
+  assert(!ecogrid::firmware::encodeHello(output, sizeof(output), 0, 0, nullptr));
+  assert(output[0] == '\0');
+  assert(!ecogrid::firmware::encodeDisconnectedInputs(
+      inputs, sizeof(inputs), 1, 100, nullptr));
+  assert(inputs[0] == '\0');
 
   const std::string maximumVersion(ecogrid::firmware::kMaxCalibrationVersionLength, 'v');
   assert(ecogrid::firmware::encodeHello(output, sizeof(output), 0, 0, maximumVersion.c_str()));
   assert(std::string(output).find("\"calibrationVersion\":\"" + maximumVersion + "\"")
       != std::string::npos);
 
-  char inputs[768] = "unchanged";
   assert(ecogrid::firmware::encodeDisconnectedInputs(
       inputs, sizeof(inputs), 1, 100, maximumVersion.c_str()));
   assert(std::string(inputs).find("\"calibrationVersion\":\"" + maximumVersion + "\"")
@@ -101,7 +107,16 @@ void failsClosedWhenTheBufferIsTooSmall() {
   assert(guardedHello.before == 0x5A);
   assert(guardedHello.after == 0x5A);
 
+  char zeroCapacityHello[16] = "unchanged";
+  char zeroCapacityInputs[16] = "unchanged";
+  assert(!ecogrid::firmware::encodeHello(
+      zeroCapacityHello, 0, 0, 0, "pending"));
+  assert(zeroCapacityHello[0] == 'u');
+  assert(!ecogrid::firmware::encodeDisconnectedInputs(
+      zeroCapacityInputs, 0, 1, 100, "pending"));
+  assert(zeroCapacityInputs[0] == 'u');
   assert(!ecogrid::firmware::encodeHello(nullptr, 0, 0, 0, "pending"));
+  assert(!ecogrid::firmware::encodeDisconnectedInputs(nullptr, 0, 1, 100, "pending"));
 }
 
 void handlesUint32MaximumAndExactBufferCapacity() {
@@ -152,6 +167,46 @@ int main(int argumentCount, char** arguments) {
     }
     std::cout << hello << inputs;
     return 0;
+  }
+  if (argumentCount == 2 && std::string(arguments[1]) == "--emit-numeric-sweep") {
+    constexpr std::array<std::uint32_t, 16> values = {
+        0,
+        1,
+        9,
+        10,
+        99,
+        100,
+        999,
+        1000,
+        9999,
+        10000,
+        99999,
+        100000,
+        2147483647,
+        2147483648,
+        std::numeric_limits<std::uint32_t>::max() - 1,
+        std::numeric_limits<std::uint32_t>::max(),
+    };
+
+    for (std::size_t index = 0; index < values.size(); ++index) {
+      char hello[256]{};
+      char inputs[768]{};
+      const auto sequence = values[index];
+      const auto uptime = values[values.size() - index - 1];
+      if (!ecogrid::firmware::encodeHello(
+              hello, sizeof(hello), sequence, uptime, "sweep-v1")
+          || !ecogrid::firmware::encodeDisconnectedInputs(
+              inputs, sizeof(inputs), sequence, uptime, "sweep-v1")) {
+        return 1;
+      }
+      std::cout << hello << inputs;
+    }
+    return 0;
+  }
+  if (argumentCount != 1) {
+    std::cerr << "Usage: protocol-test "
+                 "[--emit-disconnected|--emit-boundary|--emit-numeric-sweep]\n";
+    return 2;
   }
 
   encodesHelloExactly();
