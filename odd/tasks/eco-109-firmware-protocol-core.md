@@ -83,6 +83,55 @@ evidence.
   parsed messages; retain the separate byte-identical disconnected fixture test.
 - [ ] This remains host interoperability evidence, not ESP32-C6 transport evidence.
 
+## ECO109-7 — runner cleanup after compiler failure
+
+- [x] Isolate `TMPDIR`/`TMP`/`TEMP` and `PATH`; assert cleanup on runner success,
+  when `g++` cannot be launched, and when a stub compiler exits with status 23.
+- [x] Remove only the test-owned temporary directory in the test's `finally`.
+- [ ] This checks host cleanup behavior only; it does not verify Arduino or hardware.
+
+## ECO109-8 — invalid encoder arguments
+
+- [x] Verify both encoders reject a null calibration identifier and clear a
+  writable output buffer.
+- [x] Verify zero capacity rejects without writing to a non-null destination;
+  null destination is rejected for both encoders.
+- [ ] This is a host API-boundary test, not a board or memory-safety audit.
+
+## ECO109-9 — optional host sanitizers
+
+- [x] Add an opt-in runner mode compiled with AddressSanitizer and
+  UndefinedBehaviorSanitizer, without making those runtimes mandatory for the
+  normal firmware-host command.
+- [x] Run the same C++ behavior, fixture, and parser checks under instrumentation.
+- [ ] Sanitized host execution is not ESP32-C6 validation or electrical safety evidence.
+
+## ECO109-10 — reject unsupported host executable arguments
+
+- [x] Return a nonzero usage error for unrecognized CLI arguments instead of
+  silently running the default behavior checks.
+- [x] Assert status, empty stdout, and exact usage output in the host runner.
+- [ ] This protects the test harness CLI contract only; it does not add a device
+  command or protocol behavior.
+
+## ECO109-11 — deterministic numeric serialization sweep
+
+- [x] Emit `hello`/`inputs` pairs at decimal-width transitions and around the
+  signed/unsigned 32-bit boundary.
+- [x] Parse every emitted line with the canonical Node parser and compare exact
+  sequence/uptime values, message types, and calibration identifier.
+- [ ] This is host interoperability coverage; it does not establish device
+  uptime behavior, sequence policy, or physical transport.
+
+## ECO109-12 — safe JSON integer parsing
+
+- [x] Require `sequence` and `uptimeMs` to be nonnegative safe integers in the
+  JavaScript parser.
+- [x] Verify `Number.MAX_SAFE_INTEGER` acceptance, the next integer rejection,
+  and safe fallback sequence values in parse errors.
+- [ ] This prevents JavaScript precision loss only; it does not choose a general
+  protocol-width maximum or establish device behavior.
+
 ## Delivery slices
 
 - ECO108-6: reconcile only the user-reported inventory and unresolved gates.

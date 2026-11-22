@@ -1,11 +1,11 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-21 (ECO109-6: interoperabilidad de límites).
+**Última actualización:** 2026-11-22 (ECO109-12: enteros JSON seguros).
 **Fase actual:** F1, rebanada vertical local; integración física bloqueada por G1.
-**Tarea vigente:** ECO109-6 comprueba que el parser Node acepta los mensajes C++
-de frontera (`uint32_t` máximo e identificador de 32 caracteres). No conecta
-hardware, USB o pines. ECO-109 físico y ECO-108/G1 continúan abiertos; ECO-105
-sigue PENDIENTE y ECO-002 sigue BLOQUEADA.
+**Tarea vigente:** ECO109-12 hace que el parser rechace números JSON enteros que
+JavaScript no puede representar exactamente y no los repita en mensajes de error.
+No conecta hardware, USB o pines. ECO-109 físico y ECO-108/G1 continúan abiertos;
+ECO-105 sigue PENDIENTE y ECO-002 sigue BLOQUEADA.
 **Producto físico/hardware:** el usuario reporta una placa `Nano ESP32-C6 V1.0`/`V1711` y el inventario listado en la BOM. No hay todavía inspección independiente, pinout autenticado, firmware cargado, calibración, protocolo USB integrado, tablero, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó tanto el spike histórico como el bootstrap productivo local, con los límites registrados en ECO-101/ECO-105.
 
@@ -150,6 +150,59 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - El runner valida esas dos líneas límite con `parseLine` además de las dos líneas
   nominales/fijadas por fixture; se comprueban tipo, campos límite y aceptación.
 - Resultado local: ver evidencia ECO109-6. Esto no implica serial físico.
+
+### ECO109-7 — limpieza ante falla del compilador
+
+- Pruebas Node aíslan `TMPDIR`/`TMP`/`TEMP` y `PATH`; cubren éxito, `g++` ausente
+  y un compilador stub que sale con código 23. El directorio temporal de
+  compilación queda vacío en las tres rutas.
+
+### ECO109-8 — argumentos nulos y capacidad cero
+
+- Ambos encoders rechazan `calibrationVersion == nullptr` y dejan NUL el primer
+  byte cuando sí hay espacio para limpiar la salida.
+- Con capacidad cero, fallan sin modificar el destino no nulo; también rechazan
+  un destino nulo. La prueba valida el contrato de argumentos en host.
+
+### ECO109-9 — sanitizers host opcionales
+
+- `npm run test:firmware:sanitized` compila con AddressSanitizer y
+  UndefinedBehaviorSanitizer; repite las cinco funciones C++, fixture y cuatro
+  mensajes parseados.
+- El modo normal permanece sin dependencia de runtimes sanitizers. La evidencia
+  solo aplica al compilador/host observado; no es prueba de placa ni de seguridad
+  eléctrica.
+
+### ECO109-10 — argumentos CLI desconocidos
+
+- El ejecutable C++ de host sale con código 2, sin ejecutar las pruebas nominales,
+  y escribe una línea de uso a stderr para argumentos no reconocidos.
+- El runner valida código, stdout vacío y texto exacto de uso. No se agrega ningún
+  comando de dispositivo ni se altera el protocolo JSONL.
+
+### ECO109-11 — barrida numérica determinista
+
+- El ejecutable emite 16 pares de mensajes con secuencias desde transiciones
+  decimales (`9/10`, `99/100`, etc.) hasta `UINT32_MAX`; uptime recorre los mismos
+  valores en orden inverso.
+- El parser Node valida las 32 líneas y el runner contrasta tipo, secuencia,
+  uptime e identificador de cada mensaje. Continúa siendo evidencia host.
+- `npm run test:firmware` y `npm run test:firmware:sanitized` reportaron
+  `parser=36/36 numeric_sweep=16`; runner cleanup 3/3, Vitest 104/104,
+  typecheck y `git diff --check` también pasaron.
+- El test limpia su propio sandbox en `finally`; no depende de instalar paquetes
+  ni ejecutar hardware.
+
+### ECO109-12 — enteros JSON dentro del rango seguro
+
+- `sequence` y `uptimeMs` requieren `Number.isSafeInteger` y valor no negativo;
+  el parser acepta `Number.MAX_SAFE_INTEGER` y rechaza el siguiente entero.
+- Los errores conservan una secuencia solo si es segura y no negativa; para una
+  secuencia fuera de rango o negativa responden con secuencia `0`.
+- Este límite evita pérdida de precisión en JavaScript y no declara un máximo
+  uint32 para el contrato general ni cambia la política de secuencia del equipo.
+- Prueba focalizada 4/4, Vitest total 106/106 y typecheck PASS; firmware host,
+  ASan/UBSan y limpieza del runner también pasan según el último corte.
 
 ### ECO304-1 — operación local estricta
 

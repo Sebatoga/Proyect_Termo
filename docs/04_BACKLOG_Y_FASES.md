@@ -23,7 +23,7 @@
 | ECO-106 | Puntuación, derrota, victoria y resultados explicables | 5 escenarios prueba con resultados comprensibles | PENDIENTE |
 | ECO-107 | Prueba E2E/HIL y jugabilidad híbrida | seis rondas sin pérdida silenciosa de entradas | PENDIENTE |
 | ECO-108 | Inventario/BOM y spike de banco | componentes, costos, datasheets y sensor/control→USB registrados | EN CURSO — inventario físico reportado, incluida `Nano ESP32-C6 V1.0`/`V1711` y sonda DS18B20 de 2 m; inspección, documentación aplicable, pinout, USB y banco pendientes |
-| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — ECO109-1/2 núcleo y runner host PASS; ECO109-3/4 cubren límites del serializador, ECO109-5 valida el identificador y ECO109-6 valida el parser Node con mensajes C++ límite; sin Arduino, GPIO, USB, sensores ni calibración |
+| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — ECO109-1/2 núcleo y runner host PASS; ECO109-3/4 cubren límites del serializador, ECO109-5 el identificador, ECO109-6 interoperabilidad, ECO109-7 limpieza temporal, ECO109-8 argumentos inválidos, ECO109-9 sanitizers host opcionales, ECO109-10 argumentos CLI inválidos, ECO109-11 barrida numérica determinista y ECO109-12 enteros JSON seguros; sin Arduino, GPIO, USB, sensores ni calibración |
 | ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE — prototipo A4 recorrió 6 rondas con 2 participantes según reporte; sin tiempo, balance, hardware o seguridad física |
 
 ECO105-1 añade observabilidad técnica del input simulado aceptado y seis trazas

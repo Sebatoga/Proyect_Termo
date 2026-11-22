@@ -100,6 +100,22 @@ valida calibración metrológica.
 ECO109-6 emite los mensajes C++ límite y exige que el parser Node canónico acepte
 ambos con secuencia/uptime máximos y longitud de identificador 32; el fixture
 nominal conserva su comparación byte a byte.
+ECO109-7 ejecuta el runner en sandboxes con variables TMP aisladas y cubre éxito,
+`g++` ausente (fallo de spawn) y un compilador stub con salida 23; el directorio
+de build temporal debe quedar vacío en cada ruta.
+ECO109-8 prueba argumentos nulos en ambos encoders y capacidad cero con destino
+válido: el rechazo no debe modificar memoria cuando no existe capacidad.
+ECO109-9 repite el harness host con `-fsanitize=address,undefined` cuando esos
+runtimes están disponibles; el comando normal no depende de ellos y ambas rutas
+siguen limitadas al host.
+ECO109-10 pasa un argumento no soportado al ejecutable C++ y exige estado 2,
+stdout vacío y mensaje de uso exacto, evitando que un typo parezca una prueba PASS.
+ECO109-11 emite 16 pares de mensajes sobre límites decimales y `uint32_t`; cada
+una de las 32 líneas debe parsear y preservar los valores esperados de secuencia y
+uptime, con `hello` seguido por el snapshot desconectado.
+ECO109-12 comprueba el límite exacto de enteros seguros de JavaScript para ambos
+campos, rechaza valores posteriores sin eco de precisión perdida y acepta el
+máximo seguro; el chequeo no redefine el máximo del protocolo para otros runtimes.
 
 La referencia ECO-004 en `tools/game-scorecard/` se ejecuta con `node:test` y
 usa únicamente misiones y ledgers sintéticos versionados. Sus pruebas cubren

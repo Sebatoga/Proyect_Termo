@@ -32,8 +32,8 @@ function schemaCode(message) {
   if (message.protocolVersion !== PROTOCOL_VERSION) return "UNSUPPORTED_VERSION";
   if (typeof message.type !== "string") return "SCHEMA_INVALID";
   if (!TYPES.includes(message.type)) return "TYPE_UNSUPPORTED";
-  if (!Number.isInteger(message.sequence) || message.sequence < 0
-    || !Number.isInteger(message.uptimeMs) || message.uptimeMs < 0
+  if (!Number.isSafeInteger(message.sequence) || message.sequence < 0
+    || !Number.isSafeInteger(message.uptimeMs) || message.uptimeMs < 0
     || typeof message.calibrationVersion !== "string" || message.calibrationVersion.length === 0
     || !isStatus(message.status)) return "SCHEMA_INVALID";
 
@@ -69,8 +69,11 @@ export function parseLine(line) {
   let message;
   try { message = JSON.parse(line); } catch { return { ok: false, error: errorMessage("MALFORMED_JSON") }; }
   const code = schemaCode(message);
+  const errorSequence = Number.isSafeInteger(message?.sequence) && message.sequence >= 0
+    ? message.sequence
+    : 0;
   return code
-    ? { ok: false, error: errorMessage(code, Number.isInteger(message?.sequence) ? message.sequence : 0) }
+    ? { ok: false, error: errorMessage(code, errorSequence) }
     : { ok: true, message };
 }
 
