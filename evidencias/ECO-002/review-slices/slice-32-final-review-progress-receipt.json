@@ -1,0 +1,27 @@
+{
+  "id": "ECO-002-WU4-S32",
+  "order": 32,
+  "purpose": "Review final review progress receipt without changing or implying acceptance of the scientific gate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S31",
+  "review_units": [
+    {
+      "path": "openspec/changes/eco-002/apply-progress.md",
+      "records": [
+        "current complete file"
+      ],
+      "review_lines": 319
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-32-final-review-progress-receipt.json",
+      "records": [
+        "complete slice manifest"
+      ],
+      "review_lines": 26
+    }
+  ],
+  "total_review_lines": 345,
+  "non_overlap_key": "eco-002-final-review-32-2026-11-22"
+}
