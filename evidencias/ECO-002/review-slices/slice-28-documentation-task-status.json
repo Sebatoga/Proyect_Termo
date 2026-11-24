@@ -1,0 +1,27 @@
+{
+  "id": "ECO-002-WU4-S28",
+  "order": 28,
+  "purpose": "Review current documentation task status changes without changing the blocked scientific gate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S27",
+  "review_units": [
+    {
+      "path": "openspec/changes/eco-002/tasks.md",
+      "records": [
+        "current complete file"
+      ],
+      "review_lines": 109
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-28-documentation-task-status.json",
+      "records": [
+        "complete slice manifest"
+      ],
+      "review_lines": 26
+    }
+  ],
+  "total_review_lines": 135,
+  "non_overlap_key": "eco-002-autonomous-docs-28-2026-11-22"
+}

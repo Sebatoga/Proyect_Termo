@@ -75,9 +75,17 @@ def structural() -> None:
         *(f"5.{task}" for task in range(1, 5)),
         "6.1",
         "6.2",
+        *(f"6.{task}" for task in range(5, 10)),
         "6.11",
+        "6.12",
     }
-    blocked_unchecked = {"4.7", *(f"5.{task}" for task in range(5, 11)), *(f"6.{task}" for task in range(3, 11))}
+    blocked_unchecked = {
+        "4.7",
+        *(f"5.{task}" for task in range(5, 11)),
+        "6.3",
+        "6.4",
+        "6.10",
+    }
     if not required_checked <= checked or blocked_unchecked & checked:
         fail(f"checked={len(checked)} missing={sorted(required_checked - checked)} blocked_checked={sorted(blocked_unchecked & checked)}")
     registry = text(EVIDENCE / "registry.yaml")
