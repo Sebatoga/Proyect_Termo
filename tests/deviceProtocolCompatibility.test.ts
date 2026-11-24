@@ -26,6 +26,28 @@ const helloLineWith = (sequence: number, uptimeMs: number) => JSON.stringify({
   capabilities: ["inputs", "output"],
 });
 
+const inputsLineWithNumericValues = (
+  sequence: number,
+  lightProxy: number,
+  temperature: number,
+  hydroSetpoint: number,
+) => JSON.stringify({
+  type: "inputs",
+  protocolVersion: 1,
+  sequence,
+  uptimeMs: sequence,
+  calibrationVersion: "compatibility-v1",
+  status: "valid",
+  values: {
+    lightProxy: { value: lightProxy, status: "valid" },
+    temperature: { value: temperature, status: "valid" },
+    hydroSetpoint: { value: hydroSetpoint, status: "valid" },
+    batteryMode: { value: "idle", status: "valid" },
+    loadPriority: { value: "balanced", status: "valid" },
+    confirm: { value: false, status: "valid" },
+  },
+});
+
 describe("device protocol infrastructure compatibility", () => {
   it("parses a valid message through the typed infrastructure API", () => {
     const parsed = parseLine(helloLine);
@@ -75,5 +97,17 @@ describe("device protocol infrastructure compatibility", () => {
     if (invalidSequence.ok) throw new Error("Expected a negative sequence to be rejected.");
     expect(invalidSequence.error.code).toBe("SCHEMA_INVALID");
     expect(invalidSequence.error.sequence).toBe(0);
+  });
+
+  it("accepts finite transport numbers without imposing physical-domain ranges", () => {
+    const parsed = parseLine(inputsLineWithNumericValues(1, -1e300, 1e300, -1e100));
+
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) throw new Error("Expected finite transport numbers to parse.");
+    expect(parsed.message.type).toBe("inputs");
+    if (parsed.message.type !== "inputs") throw new Error("Expected an inputs message.");
+    expect(parsed.message.values.lightProxy.value).toBe(-1e300);
+    expect(parsed.message.values.temperature.value).toBe(1e300);
+    expect(parsed.message.values.hydroSetpoint.value).toBe(-1e100);
   });
 });
