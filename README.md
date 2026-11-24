@@ -20,7 +20,7 @@
 2. `AGENTS.md`: instrucciones permanentes de trabajo para OpenCode.
 3. `docs/00_DECISIONES_Y_RIESGOS.md`: decisiones aceptadas, pendientes y desviaciones.
 4. `docs/01_GDD.md`: experiencia, reglas, interfaz y producto.
-5. `docs/02_MODELOS_FISICOS.md`: ecuaciones, unidades, supuestos, validación.
+5. `docs/02_MODELOS_FISICOS.md`: ecuaciones, unidades, supuestos y plan de validación final.
 6. `docs/03_ARQUITECTURA.md`: división del software y contratos.
 7. `docs/04_BACKLOG_Y_FASES.md` y `docs/05_CRITERIOS_ACEPTACION.md`: ejecución verificable.
 8. `docs/06_MATRIZ_TRAZABILIDAD.md`: evidencia por requisito del profesor.
@@ -66,6 +66,11 @@ permite recargar después de apagarlo; la prueba en el equipo objetivo sigue pen
   que normaliza snapshots fail-closed sin puerto serial ni hardware.
 
 ## Fronteras técnicas vigentes
+
+La validación científica independiente y la aceptación integrada se harán al
+completar el MVP y antes de su entrega académica. Durante el desarrollo pueden
+ejecutarse checks y regresiones de software, pero no cuentan como validación
+científica. La decisión y sus límites están en ADR-013.
 
 - Núcleo físico independiente del renderizador: TypeScript puro.
 - Firmware y protocolo USB serial por definir después del inventario y spike de banco.
