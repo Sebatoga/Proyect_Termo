@@ -1,8 +1,8 @@
 # Plan de choque del MVP híbrido — 14 días
 
 **Ventana:** 2026-11-18 a 2026-12-02  
-**Objetivo:** entregar una rebanada híbrida demostrable en la que una entrada
-física validada cambie una partida de seis rondas mediante al menos un fenómeno
+**Objetivo:** completar una rebanada híbrida demostrable en la que una entrada
+física que supera sus controles de seguridad/rango cambie una partida de seis rondas mediante al menos un fenómeno
 termodinámico y uno de mecánica de fluidos.
 
 Este plan sustituye la expectativa operativa de cuatro semanas, pero no elimina
@@ -14,9 +14,9 @@ requisitos académicos ni convierte evidencia pendiente en evidencia realizada.
 2. ESP32-C6 conectado por USB a baja tensión.
 3. Luz y temperatura adquiridas con estado válido, inválido o desconectado.
 4. Control hidro físico o alternativa discreta aprobada y documentada.
-5. Modelo PV térmico e hidro de pasada en SI, con pruebas normal y límite.
+5. Modelos PV térmico e hidro de pasada en SI, rotulados provisionales durante desarrollo, con regresiones normal y límite.
 6. Una entrada física produce una consecuencia visible en tablero y consola.
-7. Partida completa reproducible, prueba HIL, seguridad y límites documentados.
+7. Partida completa reproducible; seguridad antes de energizar y validación HIL final con el MVP completo.
 8. Pitch, guion, manual mínimo, póster y registro de IA coherentes con la evidencia.
 
 ## Fuera del alcance
@@ -58,24 +58,26 @@ requisitos académicos ni convierte evidencia pendiente en evidencia realizada.
 - Matriz de compatibilidad completada desde la
   [plantilla vigente](../evidencias/ECO-108/plantillas/matriz-compatibilidad.md).
 
-### G2 — antes de integrar modelos
+### G2 — desarrollo provisional de modelos
 
 - Parámetros con unidad, rango, fuente o estatus de estimación.
-- Reproducción manual de los vectores PV e hidro.
-- Revisión científica acotada a los dos modelos del MVP.
+- Los vectores y modelos se etiquetan provisionales; no se presentan como aceptados.
+- La reproducción manual independiente y revisión científica pasan al gate final.
 - Entradas inválidas y desconectadas definidas.
 
-### G3 — antes del playtesting
+### G3 — precondiciones de seguridad antes de energizar o playtesting
 
 - Montaje protegido y cableado fijo.
 - Una variable física cambia realmente una resolución.
 - Caudal ecológico aplicado como restricción física.
-- Casos normal, límite, error y desconexión ejecutados.
+- Inspección segura, entradas acotadas y desconexión fail-safe; estas precondiciones no se aplazan.
 
-### G4 — antes de entregar
+### G4 — validación final del MVP completo, antes de entregar
 
 - Seis rondas reproducibles.
 - Comparación esperado/obtenido.
+- Validación científica independiente de los modelos seleccionados y cierre del gate ECO-002.
+- Playtesting final y evaluación integrada; distinguir resultados de regresión obtenidos durante desarrollo.
 - Manual de operación y apagado seguro.
 - Pitch, póster, registro de IA y limitaciones actualizados.
 

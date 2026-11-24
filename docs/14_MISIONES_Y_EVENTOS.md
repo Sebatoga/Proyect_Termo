@@ -35,14 +35,17 @@ referencia no demuestra solvencia, balance ni duración.
 ## Perfil de parámetros orientativos para M1 (NO datos medidos)
 | Parámetro | Propuesta inicial | Comentario |
 |---|---|---|
-| Rondas/duración | 6 / 8–12 min | validar mediante playtesting |
+| Rondas/duración | 6 / 8–12 min | evaluar en el playtest de cierre del MVP; no declarar aceptado antes |
 | PV: A, ηref | 450 m², 0.20 | a G800, T25 → ~72 kW antes de otras pérdidas |
 | Hidro: Qriver, Qeco, Qturb inicial | 3.5, 1, 1.2 m³/s | bypass inicial 2.3 m³/s |
 | Hidro: Hgross, K, eta | 15m, 0.12s²/m⁵, 0.80 | potencia ~139.6 kW, estimación |
 | Batería: capacidad, SOC, Pmax | 400 kWh, 45%, 100 kW | pérdidas de carga/descarga explícitas |
 | Demanda: crítica/no crítica | 120 / 140 kW | valores para calibrar dificultades |
 
-Todos los valores se someten a consistencia y fuentes verificables; cambios requieren registro. Mantener `M1` equilibrada para que la solución óptima use alguna vez batería o racionamiento, no dejarla trivial.
+Todos los valores permanecen provisionales durante desarrollo; sus fuentes,
+consistencia y sensibilidad se revisan en el gate final del MVP. Todo cambio
+requiere registro. El balance de `M1` se evalúa en el playtest final, no se da por
+supuesto.
 
 ## Métricas de playtest
 - % de partidas ganadas, cantidad de acciones significativas, tiempo de confusión, frecuencia de cambios de batería/compuerta, distribución de scores, incidentes más difíciles, intención de rejugar.

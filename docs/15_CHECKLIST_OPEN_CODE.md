@@ -19,7 +19,9 @@
 2. Ejecutar G1: inventario/BOM, datasheets, presupuesto, roles, fechas y banco (ECO-108).
 3. Mantener ECO-002 bloqueada; avanzar solo prototipos explícitamente aislados.
 4. Tras G1, planificar ECO-109 (firmware/calibración/USB serial) y ECO-110 (tablero/controles/LEDs/carcasa).
-5. Exigir banco, HIL, E2E, seguridad y esperado/obtenido antes de cerrar integración.
+5. Mantener checks de seguridad antes de energizar/probar; ejecutar banco, HIL,
+   E2E y esperado/obtenido en el cierre del MVP. No usar resultados provisionales
+   como aceptación científica.
 6. Actualizar estado, backlog, pruebas, IA y relevo al terminar.
 
 ## Nunca confundir

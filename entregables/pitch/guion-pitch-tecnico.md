@@ -111,7 +111,9 @@
 >
 > La validación científica ECO-002 también continúa bloqueada: hay ecuaciones,
 > unidades y casos documentados, pero todavía no existe una línea base aceptada
-> mediante revisión independiente.
+> mediante revisión independiente. Esa revisión, la reproducción independiente
+> y la aceptación integrada se realizarán con el MVP completo, antes de la
+> entrega académica; hasta entonces los modelos se presentan como provisionales.
 >
 > Utilizamos inteligencia artificial para apoyar arquitectura, documentación,
 > generación de código y pruebas. Cada intervención queda registrada. El equipo
