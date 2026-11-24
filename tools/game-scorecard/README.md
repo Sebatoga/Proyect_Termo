@@ -68,14 +68,15 @@ evidencia ambiental no verificable hace que la partida quede incompleta.
 
 1. Misión, ledger o ronda inválida/incompleta → `incomplete`, métricas `null`.
 2. Ledger puntuable que incumple una dimensión → `defeat`.
-3. Todas las rondas resueltas, ambas coberturas sobre sus umbrales y ambiente
-   verificable/conforme → `victory`.
+3. Todas las rondas resueltas, ambas coberturas iguales o superiores a sus
+   umbrales y ambiente verificable/conforme → `victory`.
 
 Las coberturas se agregan por sumas: `sum(service) / sum(demand)`. No existe
 score ponderado. Si un denominador es cero, su cobertura vale `1`; sin embargo,
 demanda total agregada cero produce `defeat` con `NO_TOTAL_DEMAND`, regla
 conservadora que impide una victoria sin obligación externa. Si la demanda total
-es positiva y no se sirve, la cobertura total vale `0` y nunca hay victoria.
+es positiva y no se sirve, `NO_SERVICE` impide la victoria incluso si una misión
+provisional configura umbrales de cobertura en cero.
 Si cualquier suma agregada deja de ser finita, el resultado es `incomplete`, las
 métricas quedan en `null` y se informa `AGGREGATE_QUANTITY_INVALID`.
 

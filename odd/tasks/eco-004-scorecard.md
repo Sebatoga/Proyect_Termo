@@ -84,6 +84,25 @@ Critical-load coverage alone can reward serving only one category while abandoni
   - Route: pending ECO004-8 and ECO004-9.
   - Acceptance: backlog closure distinguishes technical scorecard proof from gameplay balance, environmental review, and scientific validation.
 
+- [x] **ECO004-11 — Prevent zero-threshold shutdown victory**
+  - Route: direct regression and bounded pure-reference fix.
+  - Trigger: `thresholds: { criticalCoverage: 0, totalCoverage: 0 }` allowed a positive-demand ledger with zero service to return `victory`, contradicting the anti-trivial constraint.
+  - Acceptance: positive aggregate demand with zero aggregate service returns `defeat` with stable reason `NO_SERVICE`, independently of provisional threshold values; the acceptance criteria, player manual, scorecard README, and test plan state the same invariant; zero-demand and other scorecard semantics remain unchanged.
+  - Checks: focused and full scorecard Node tests, complete simulator/adapter/scorecard/lifecycle references, and `git diff --check`.
+  - Limitation: technical scorecard regression only; no gameplay balance, environmental review, science, or product acceptance.
+
+- [x] **ECO004-12 — Define exact threshold-boundary behavior**
+  - Route: direct boundary regression.
+  - Trigger: the contract says coverage must meet mission thresholds, but no
+    regression made the exact-equality boundary explicit.
+  - Acceptance: aggregate critical and total coverage exactly equal to their
+    injected provisional thresholds are considered met; no threshold values are
+    promoted or changed by this test, and the scorecard README/CA-21 state the
+    inclusive comparison explicitly.
+  - Checks: `node --test tools/game-scorecard/*.test.mjs`.
+  - Limitation: verifies comparison semantics only; no balance or environmental
+    acceptance.
+
 ## Verification
 
 - Focused Node tests for the scorecard reference.
@@ -117,10 +136,20 @@ Critical-load coverage alone can reward serving only one category while abandoni
   - Post-fix independent verifier: **PASS**, with no blockers.
   - `node --test tools/game-scorecard/*.test.mjs` — exit 0; 24 tests, 24 pass,
     0 fail, 0 skipped.
+- ECO004-11 reproduced the zero-threshold loophole before the fix (actual outcome
+  `victory`, expected `defeat`); the corrected regression requires `NO_SERVICE`.
+  Focused scorecard/package tests: 68/68 PASS; combined simulator, adapter,
+  scorecard, lifecycle and host integration references: 166/166 PASS; full Vitest
+  113/113, typecheck and `git diff --check` PASS.
   - `node --test tools/device-simulator/*.test.mjs tools/host-adapter/*.test.mjs
     tools/game-scorecard/*.test.mjs` — exit 0; 51 tests, 51 pass, 0 fail,
     0 skipped.
   - `git diff --check` — exit 0, no output.
+- ECO004-12 uses two completed rounds with aggregate critical/total coverage
+  exactly `0.8`; both metrics are asserted and the result is `victory` with only
+  `VICTORY`. `node --test tools/game-scorecard/*.test.mjs`: 69/69 PASS
+  (2026-11-23). This is a provisional-threshold boundary regression, not a
+  threshold recommendation or gameplay-balance result.
 
 ### Work unit and native assessment
 

@@ -30,6 +30,7 @@ const MESSAGES = Object.freeze({
   ENVIRONMENT_INVALID: "Resolved rounds require a recognized environmental status and boolean verifiable flag.",
   ENVIRONMENT_UNVERIFIABLE: "Environmental evidence must be verifiable before scoring.",
   NO_TOTAL_DEMAND: "A mission with no external total demand cannot produce a victory.",
+  NO_SERVICE: "Positive external demand requires nonzero service before victory.",
   CRITICAL_COVERAGE_BELOW_THRESHOLD: "Critical coverage is below the mission threshold.",
   TOTAL_COVERAGE_BELOW_THRESHOLD: "Total coverage is below the mission threshold.",
   ENVIRONMENT_NONCOMPLIANT: "A player-attributable environmental breach prevents victory.",
@@ -177,6 +178,9 @@ export function evaluateScorecard(mission, ledger) {
   };
   const outcomeReasons = [];
   if (totals.totalDemand === 0) outcomeReasons.push(reason("NO_TOTAL_DEMAND"));
+  if (totals.totalDemand > 0 && totals.totalService === 0) {
+    outcomeReasons.push(reason("NO_SERVICE"));
+  }
   if (metrics.criticalCoverage < mission.thresholds.criticalCoverage) {
     outcomeReasons.push(reason("CRITICAL_COVERAGE_BELOW_THRESHOLD"));
   }

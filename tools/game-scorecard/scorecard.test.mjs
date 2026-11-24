@@ -34,6 +34,27 @@ test("returns victory with three visible unweighted dimensions", () => {
   assert.equal("score" in result, false);
 });
 
+test("coverage exactly equal to both provisional thresholds meets them", () => {
+  const result = evaluateScorecard(
+    mission({ thresholds: { criticalCoverage: 0.8, totalCoverage: 0.8 } }),
+    ledger(
+      round("r1", {
+        demand: { critical: 5, total: 10 },
+        service: { critical: 4, total: 8 },
+      }),
+      round("r2", {
+        demand: { critical: 5, total: 10 },
+        service: { critical: 4, total: 8 },
+      }),
+    ),
+  );
+
+  assert.equal(result.outcome, "victory");
+  assert.equal(result.metrics.criticalCoverage, 0.8);
+  assert.equal(result.metrics.totalCoverage, 0.8);
+  assert.deepEqual(codes(result), ["VICTORY"]);
+});
+
 test("shutdown of positive demand cannot win", () => {
   const off = { critical: 0, total: 0 };
   const result = evaluateScorecard(mission(), ledger(
@@ -47,9 +68,29 @@ test("shutdown of positive demand cannot win", () => {
     environmentalCompliance: true,
   });
   assert.deepEqual(codes(result), [
+    "NO_SERVICE",
     "CRITICAL_COVERAGE_BELOW_THRESHOLD",
     "TOTAL_COVERAGE_BELOW_THRESHOLD",
   ]);
+});
+
+test("positive demand with zero service cannot win when provisional thresholds are zero", () => {
+  const zero = { critical: 0, total: 0 };
+  const result = evaluateScorecard(
+    mission({ thresholds: { criticalCoverage: 0, totalCoverage: 0 } }),
+    ledger(
+      round("r1", { service: zero }),
+      round("r2", { service: zero }),
+    ),
+  );
+
+  assert.equal(result.outcome, "defeat");
+  assert.deepEqual(result.metrics, {
+    criticalCoverage: 0,
+    totalCoverage: 0,
+    environmentalCompliance: true,
+  });
+  assert.deepEqual(codes(result), ["NO_SERVICE"]);
 });
 
 test("serving only critical loads fails total coverage", () => {
