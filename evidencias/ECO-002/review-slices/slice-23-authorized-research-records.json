@@ -1,0 +1,70 @@
+{
+  "id": "ECO-002-WU4-S23",
+  "order": 23,
+  "purpose": "Review the authorized source research, bounded provenance, narrowed blocking gap, and registry/task updates.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S22",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/working/sources.yaml",
+      "records": [
+        "ACCESS-003",
+        "SRC-021"
+      ],
+      "review_lines": 30
+    },
+    {
+      "path": "evidencias/ECO-002/working/provenance.yaml",
+      "records": [
+        "PROV-018"
+      ],
+      "review_lines": 13
+    },
+    {
+      "path": "evidencias/ECO-002/working/gaps.yaml",
+      "records": [
+        "GAP-013 revision 3"
+      ],
+      "review_lines": 22
+    },
+    {
+      "path": "evidencias/ECO-002/registry.yaml",
+      "records": [
+        "research dependency and current gate pointer"
+      ],
+      "review_lines": 12
+    },
+    {
+      "path": "evidencias/ECO-002/validation/authorized-research-2026-11-22.md",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 18
+    },
+    {
+      "path": "openspec/changes/eco-002/tasks.md",
+      "records": [
+        "task 4.8"
+      ],
+      "review_lines": 1
+    },
+    {
+      "path": "openspec/changes/eco-002/apply-progress.md",
+      "records": [
+        "2026-11-22 addition"
+      ],
+      "review_lines": 10
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-23-authorized-research-records.json",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 16
+    }
+  ],
+  "total_review_lines": 122,
+  "non_overlap_key": "authorized-research-records-2026-11-22"
+}
