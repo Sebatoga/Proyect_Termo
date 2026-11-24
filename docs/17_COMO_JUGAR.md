@@ -120,8 +120,8 @@ acotarla por disponibilidad, seguridad, reserva y restricciones ambientales.
 
 | Entrada o control | Uso correcto |
 |---|---|
-| **Proxy de luz calibrado para gameplay** | selecciona una condición tras calibración, rango y validación; no es una medición de irradiancia ni se manipula para obtener puntos |
-| Temperatura | una lectura validada modifica la condición térmica PV; modelo, sensor y rangos siguen bajo revisión |
+| **Proxy de luz de gameplay** | durante prototipado selecciona una condición provisional; solo tras calibración final puede describirse con el alcance calibrado, nunca como irradiancia sin calibración metrológica |
+| Temperatura | una lectura que pasa los controles de entrada modifica la condición térmica PV; modelo, sensor y rangos siguen provisionales hasta la validación final |
 | Control hidro | solicita una derivación, luego acotada por agua disponible, capacidad y caudal ecológico; si el río no alcanza el mínimo, no se deriva ni se culpa al equipo |
 | Batería | permite conservar reserva, cargar excedente o descargar ante déficit, siempre con límites y pérdidas; nunca carga y descarga a la vez |
 | Confirmación | congela prioridad, hidro y batería para resolver una sola vez; un error técnico obliga a reintentar la misma ronda |
@@ -212,6 +212,11 @@ Exigir `Scrit` y `Stotal` evita la trampa de atender únicamente una categoría 
 de apagar toda la ciudad para aparentar conservación. La reserva final y el
 vertimiento se muestran como diagnóstico o, si una futura misión lo declara,
 como desempate. **Todavía no forman un score ponderado.**
+
+Regla anti-trampa adicional: si la demanda externa total es positiva y el equipo
+no entrega ningún servicio, no puede ganar aunque los umbrales provisionales de
+la misión fueran cero. Esta condición no fija umbrales de cobertura ni demuestra
+que la dificultad esté balanceada.
 
 Esta estructura multidimensional sin pesos fue adoptada en ADR-011. La
 referencia ejecutable permite ensayar el resultado, pero no convierte sus

@@ -2,7 +2,7 @@
 
 ## Intención
 
-Construir, antes de ECO-003, un expediente revisable que conecte cada ecuación, parámetro, hipótesis, unidad, ejemplo y límite de los modelos propuestos con evidencia verificable o con una clasificación honesta de su estado. ECO-002 prepara una línea base científica aprobable; no implementa ni valida experimentalmente los modelos.
+Construir un expediente revisable que conecte cada ecuación, parámetro, hipótesis, unidad, ejemplo y límite de los modelos propuestos con evidencia verificable o con una clasificación honesta de su estado. Por ADR-013, la revisión científica independiente y la validación final se ejecutan al completar el MVP y antes de la entrega académica. Antes de ese gate ECO-003 puede desarrollar prototipos candidatos rotulados como provisionales, pero no declarar aceptación científica ni producir resultados de entrega.
 
 ## Problema
 
@@ -13,12 +13,12 @@ Sin una línea base de procedencia, ECO-003 podría codificar estimaciones o pla
 ## Objetivos
 
 - Identificar las obligaciones académicas autoritativas que condicionan los modelos, sin confundirlas con fuentes técnicas.
-- Obtener y revisar fuentes técnicas exactas para las ecuaciones y parámetros que consumirá ECO-003.
+- Registrar fuentes técnicas exactas para las ecuaciones y parámetros candidatos; completar la segunda revisión en el gate final.
 - Registrar derivaciones internas, supuestos, entradas, salidas, unidades SI, conversiones, rangos y dominio de validez.
 - Comprobar dimensionalmente cada ecuación y conversión relevante.
 - Producir cálculos independientes, reproducibles y trazables para casos nominales y de frontera.
-- Someter la línea base a revisión física, de control, ambiental y de calidad mediante revisores realmente disponibles e identificados.
-- Congelar una versión aprobable del contrato científico y dejar toda brecha restante con estado, responsable, dependencia y siguiente acción.
+- Someter el modelo completo a revisión física, de control, ambiental y de calidad mediante revisores realmente disponibles e identificados al cierre del MVP.
+- Mantener candidatos provisionales durante desarrollo; congelar una versión aprobable al cierre solo si el gate final acepta la evidencia y dejar toda brecha restante con estado, responsable, dependencia y siguiente acción.
 
 ## No objetivos
 
@@ -42,7 +42,7 @@ Sin una línea base de procedencia, ECO-003 podría codificar estimaciones o pla
 6. Casos nominales, nulos y de frontera con resultado esperado, tolerancia, unidades y justificación.
 7. Registro de simplificaciones, dominio de aplicación, sensibilidad prevista y criterio para aceptar, reformular o bloquear cada modelo.
 8. Hallazgos y resolución de revisiones física, de control, ambiental y de calidad.
-9. Línea base científica congelada para consumo de ECO-003, o bloqueo explícito si faltan fuentes o revisiones críticas.
+9. Gate científico final y línea base congelada para aceptación/entrega, o bloqueo explícito si faltan fuentes o revisiones críticas. Durante desarrollo ECO-003 puede usar candidatos solo con estatus provisional.
 
 ### Excluido
 
@@ -89,16 +89,16 @@ Ninguna. La capacidad existente `auditoria-entorno-integridad-kit` no cambia; EC
 | Cuaderno de cálculos independientes | Procedimiento separado, datos trazables, sustitución con unidades y resultado | Incluye al menos un caso nominal y uno de frontera por fenómeno mínimo |
 | Catálogo de límites | Entrada nula, saturación, signo/dominio inválido, disponibilidad física y conservación | Cada caso define comportamiento esperado, tolerancia y justificación |
 | Registro de revisión | Revisor identificado, rol, fecha, hallazgo, severidad, resolución y evidencia | No se infieren aprobaciones de agentes ausentes |
-| Línea base para ECO-003 | Versión congelada, elementos aceptados y brechas derivadas | El gate de salida queda evaluado sin afirmar implementación |
+| Línea base científica para aceptación final | Versión congelada, elementos aceptados y brechas derivadas | El gate final queda evaluado sin afirmar implementación |
 
 ## Enfoque
 
 1. **Separar obligaciones y ciencia.** Usar el PDF oficial para requisitos académicos y fuentes técnicas verificadas para fórmulas, parámetros y rangos.
 2. **Adquirir evidencia antes de citarla.** El equipo debe aportar o autorizar acceso a literatura, normas, fuentes institucionales y fichas técnicas. Registrar la consulta real; no completar referencias por memoria.
 3. **Trazar por elemento.** Asignar ID a cada ecuación y parámetro, registrar su fuente o derivación y clasificar cualquier valor todavía provisional.
-4. **Verificar antes de congelar.** Ejecutar análisis dimensional y cálculos independientes con unidades, tolerancias y casos de frontera.
-5. **Revisar por competencia.** Resolver hallazgos críticos o dejar el elemento bloqueado; la ausencia de `.opencode/` exige revisores humanos identificados o una restauración autorizada posterior, no aprobaciones simuladas.
-6. **Congelar para ECO-003.** Publicar una versión consumible solo cuando el gate se cumpla. Lo no sustentado se excluye o queda explícitamente bloqueado.
+4. **Preparar la verificación.** Documentar desde ahora métodos, unidades, tolerancias y casos de frontera; no afirmar reproducción o aceptación antes de ejecutarlas.
+5. **Revisar al cierre.** En el gate final, resolver hallazgos críticos o dejar el elemento bloqueado; la ausencia de `.opencode/` exige revisores humanos identificados, no aprobaciones simuladas.
+6. **Congelar para aceptación final.** Publicar una baseline científica solo cuando el gate final se cumpla. Lo no sustentado se excluye de aceptación y afirmaciones científicas; los prototipos previos permanecen provisionales.
 
 ## Casos de frontera mínimos
 
@@ -140,7 +140,7 @@ Los nombres concretos están pendientes. Mientras `.opencode/` permanezca ausent
 - Selección explícita de escenario, equipo o rango cuando un parámetro no sea universal.
 - Asignación de integrantes responsables de adquirir evidencia y resolver brechas.
 - Disponibilidad real de revisores competentes o recuperación autorizada de los revisores de proyecto. La aprobación permanece pendiente hasta entonces.
-- ECO-003 debe esperar la línea base congelada para implementar los elementos críticos; ECO-004, ECO-005 y ECO-101 mantienen sus gates separados.
+- ECO-003 puede avanzar con candidatos de desarrollo claramente provisionales; la línea base congelada se exige para aceptación científica y entrega final. ECO-004, ECO-005 y ECO-101 mantienen sus gates separados.
 
 ## Riesgos
 
@@ -159,7 +159,7 @@ Los nombres concretos están pendientes. Mientras `.opencode/` permanezca ausent
 
 La ejecución debe conservar las formulaciones y vectores provisionales con su historial y clasificación, no borrarlos para aparentar cierre. Las modificaciones científicas se realizan de forma trazable: versión anterior, nueva formulación, motivo, fuente o derivación y revisor.
 
-Si una fuente se invalida, un cálculo no se reproduce o una revisión rechaza un elemento, se revierte únicamente su promoción a la línea base congelada: el elemento vuelve a «calibración pendiente» o «placeholder sin soporte», se conserva la evidencia y el hallazgo, y ECO-003 permanece bloqueada para ese elemento. No se revierten cambios ajenos ni se eliminan fuentes, documentos o datos preexistentes del usuario.
+Si una fuente se invalida, un cálculo no se reproduce o una revisión rechaza un elemento, se revierte únicamente su promoción a la línea base congelada: el elemento vuelve a «calibración pendiente» o «placeholder sin soporte», se conserva la evidencia y el hallazgo, y queda excluido de toda aceptación científica y resultado de entrega. El prototipo de desarrollo puede conservar una ruta provisional explícitamente rotulada si no atribuye validez al elemento. No se revierten cambios ajenos ni se eliminan fuentes, documentos o datos preexistentes del usuario.
 
 ## Gate de salida
 
@@ -173,6 +173,6 @@ ECO-002 puede declararse cerrable solo cuando:
 - [ ] Cada simplificación y parámetro de gameplay está separado de constantes, restricciones físicas y calibraciones pendientes.
 - [ ] Los revisores requeridos están identificados y sus hallazgos/resoluciones constan; ninguna aprobación se infiere por la existencia de documentación o agentes ausentes.
 - [ ] Toda brecha remanente tiene estado, responsable, dependencia y tarea posterior, y no bloquea silenciosamente ECO-003.
-- [ ] La línea base está versionada y congelada para ECO-003 sin afirmar código, tests ejecutados, validación experimental, score ambiental ni autorización digital.
+- [ ] En el gate final, la línea base está versionada y congelada para aceptación/entrega sin afirmar mediciones, validación experimental o autorización digital que no se hayan realizado.
 
 Si faltan fuentes críticas o revisores, el resultado correcto es **bloqueado con trazabilidad**, no una aprobación provisional.

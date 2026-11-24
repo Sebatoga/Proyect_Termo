@@ -1,0 +1,23 @@
+{
+  "id": "ECO-002-WU4-S26",
+  "order": 26,
+  "purpose": "Review checksums for the second immutable blocked reevaluation.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S25",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-02/checksums.sha256",
+      "records": ["complete file"],
+      "review_lines": 16
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-26-gate-checksums-02.json",
+      "records": ["complete file"],
+      "review_lines": 23
+    }
+  ],
+  "total_review_lines": 39,
+  "non_overlap_key": "blocked-gate-checksums-2026-11-22-02"
+}

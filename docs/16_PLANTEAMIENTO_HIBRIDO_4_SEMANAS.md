@@ -59,7 +59,10 @@ Cada dato conserva rango, versión de calibración y estado válido, inválido o
 - **Hidro de pasada:** caudal disponible después del caudal ecológico, pérdidas proporcionales a `Q²`, salto neto y potencia; nunca se inventa agua.
 - **Batería y bus:** SOC, límites y pérdidas de carga/descarga, conservación del balance y prioridad de cargas.
 
-Las ecuaciones y vectores de `docs/02_MODELOS_FISICOS.md` son propuestas. ECO-002 permanece **BLOQUEADA**: sus cálculos no constituyen una baseline aceptada hasta completar sus revisiones.
+Las ecuaciones y vectores de `docs/02_MODELOS_FISICOS.md` son candidatos
+provisionales. ECO-002 permanece **BLOQUEADA**: se permite prototipar durante
+desarrollo sin presentarlos como aceptados; la revisión y validación científica
+final se ejecutará al completar el MVP y antes de la entrega (ADR-013).
 
 ## Arquitectura
 
@@ -92,7 +95,7 @@ El firmware adquiere y rotula datos; el protocolo transporta mensajes; el adapta
 | Componentes no disponibles | inventario antes de elegir modelos exactos |
 | Proxy confundido con irradiancia | rótulo obligatorio y protocolo de calibración |
 | Lecturas ruidosas o desconexión | rangos, filtrado declarado, estados de error y prueba límite |
-| Modelo científico no aceptado | mantener ECO-002 bloqueada hasta revisión independiente |
+| Modelo científico provisional | permitir solo prototipos rotulados; ejecutar revisión independiente y gate final al completar el MVP, antes de aceptar o presentar resultados científicos |
 | Electrónica decorativa | prueba causal entrada → modelo → tablero/resultado |
 | Seguridad y acabado | revisión de carcasa, cableado y alimentación antes de feria |
 | Presupuesto, roles, dimensiones y fechas | decisiones humanas pendientes; no inferirlas |
@@ -102,7 +105,7 @@ El firmware adquiere y rotula datos; el protocolo transporta mensajes; el adapta
 1. **Contrato y decisiones:** cerrar alcance híbrido, causalidad y criterios.
 2. **Pruebas de riesgo:** calibración, protocolo, modelos y materiales mediante prototipos acotados.
 3. **Integración:** unir tablero, electrónica, dominio y una partida completa.
-4. **Validación:** casos normal/límite/error, playtesting, seguridad y evidencia de sustentación.
+4. **Cierre del MVP:** completar el producto; entonces ejecutar casos normal/límite/error, validación científica independiente, playtesting y aceptación integrada. Seguridad eléctrica sigue siendo previa a energizar/probar.
 
 El desglose, responsables y gates pertenecen a **HYBRID-002**; este documento no los anticipa.
 

@@ -19,13 +19,23 @@
   Esta decisión evita que una dimensión compense otra; **no** adopta umbrales
   oficiales ni valida balance, ciencia, hardware o producto. Los umbrales por
   misión y la semántica de indisponibilidad natural siguen provisionales hasta
-  playtesting reproducible y revisión ambiental.
+  el playtesting reproducible y revisión ambiental del cierre del MVP (ADR-013).
 - **ADR-012 (provisional, reconciliada 2026-11-15)**: Para ECO-108 se sustituye
   el candidato Arduino Uno por la unidad reportada `Nano ESP32-C6 V1.0`, marcada
   `V1711`, con SoC ESP32-C6 y lógica declarada de 3,3 V. La identidad procede del
   usuario y una publicación comercial inaccesible sin login; todavía no autentica
   fabricante, pinout, revisión eléctrica, memoria, LED integrado ni funciones de
   sus dos conectores USB. Autoriza código C++ neutral y roles sin pines, no banco.
+- **ADR-013 (adoptada por instrucción del usuario, 2026-11-22)**: La validación
+  científica independiente, reproducción de cálculos y aceptación integrada se
+  programan para cuando el MVP esté completo y antes de la entrega académica.
+  Durante desarrollo se permite implementar y ensayar modelos candidatos solo
+  como prototipos provisionales, con supuestos/valores rotulados y sin afirmar
+  aceptación, predicción real ni cumplimiento científico. No se elimina ni
+  sustituye la exigencia del PDF de incluir un procedimiento de validación.
+  Checks de software pueden ejecutarse durante desarrollo; seguridad eléctrica,
+  límites de entrada y precondiciones para energizar/probar con personas siguen
+  siendo gates previos a esas actividades.
 
 ## Gate académico G-ACA-01 — CERRADO por corrección de alcance
 **Problema:** página 4, numeral 5, Liga 4: *«Sistema híbrido (juego de mesa + electrónica) donde variables reales (luz, calor ambiental, etc.) afecten el juego»*. El documento en página 1 admite juego físico, digital o híbrido en términos generales. NO presuponer que ese enunciado general deroga la exigencia específica.
@@ -48,8 +58,8 @@
 | R08 | Datos supuestos se confunden con datos reales | alto | etiquetar valores estimados y fuentes; sensibilidad |
 | R09 | Pérdida de progreso entre sesiones OpenCode | medio | relevo y estado actualizado obligatorios |
 | R14 | Componentes no disponibles o montaje inseguro | crítico | decidir modelos/presupuesto tras inventario; baja tensión, carcasa y cableado fijo |
-| R15 | Confundir proxy de luz con irradiancia medida | alto | rotularlo como `proxy de luz calibrado para gameplay` hasta validación metrológica |
-| R16 | Presentar la referencia ECO-004 como score balanceado o regla ambiental validada | alto | mantener umbrales inyectables y provisionales; exigir playtesting reproducible y revisión ambiental antes de cerrar ECO-004 |
+| R15 | Confundir proxy de luz con irradiancia medida | alto | mantener etiqueta provisional; realizar calibración metrológica en la etapa final antes de atribuir unidades físicas |
+| R16 | Presentar la referencia ECO-004 como score balanceado o regla ambiental validada | alto | mantener umbrales inyectables y provisionales; evaluar con playtesting y revisión ambiental al cierre del MVP, antes de la aceptación final |
 | R17 | Tratar una publicación comercial volátil o con contenido ajeno como fuente técnica confiable | alto | separar hechos visibles de vendedor; revalidar opción/precio/stock al comprar y autenticar datasheet, identidad y pinout antes de energizar |
 | R18 | Inferir pinout, USB o límites eléctricos desde una etiqueta comercial ESP32 | crítico | cotejar `Nano ESP32-C6 V1.0`/`V1711` con documentación aplicable; revisar esquema desenergizado y verificar por etapas antes de asignar pines o conectar señales |
 
@@ -67,15 +77,25 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 |---|---|---|---|
 | R10 | Recursos EcoGrid de `.opencode/` ausentes y sin fuente original autorizada | alto | Mantener recuperación bloqueada; exigir procedencia, rutas, bytes y SHA-256 antes de cualquier escritura |
 | R11 | Confundir un bootstrap técnico con compatibilidad completa del producto | alto | Conservar versiones exactas, pruebas reproducibles y límites explícitos; validar luego navegador objetivo, operación offline y flujo híbrido |
-| R12 | Consumir en ECO-003 modelos sin revisión humana independiente ni baseline congelada | crítico | Mantener ECO-002 bloqueada; exigir gate `accepted_frozen` o excluir explícitamente los elementos afectados |
+| R12 | Presentar modelos provisionales como científicamente aceptados | crítico | Permitir prototipado de desarrollo con estado provisional; exigir revisión independiente y gate `accepted_frozen` antes de aceptación científica o entrega final |
 | R13 | Los gates históricos incluyen el registro mutable y dejan de verificar al avanzar el puntero vigente | medio | No afirmar reproducibilidad total de gates anteriores; registrar el mismatch y rediseñar el snapshot de metadatos en una corrección futura |
 
 ## Hallazgos ECO-002 — gate `ECO-002-GATE-20261022-03`
 
-- El expediente conserva resultado `blocked_with_traceability`; no existe baseline ni autorización para que ECO-003 consuma los elementos científicos bloqueados.
+- El expediente conserva resultado `blocked_with_traceability`; no existe baseline científica aceptada ni autorización para que ECO-003 presente los elementos bloqueados como ciencia aceptada. El uso exploratorio sigue limitado a prototipos provisionales según ADR-013.
 - Hay cuatro cálculos documentales y diez casos, pero siguen pendientes reproducciones y revisiones por personas identificadas con competencia evidenciada.
 - La cobertura de revisión quedó reconciliada en 22 slices de hasta 400 líneas; el validador ya no reporta rutas omitidas.
 - El gate histórico `ECO-002-GATE-20261022-02` fijó el hash del `registry.yaml` mutable. Tras avanzar el registro al gate `...-03`, su comprobación completa falla solo en esa ruta; los gates inmutables no se reescribieron y la limitación quedó documentada.
+
+### Reevaluación documental ECO-002 — 2026-11-22
+
+- El gate vigente `ECO-002-GATE-20261122-03` permanece `blocked_with_traceability`; no se creó baseline ni snapshot.
+- JICA (`SRC-022`) localiza una relación hidro en SI y define cabeza efectiva por cabeza total menos pérdidas identificadas. Esto amplía el soporte documental, pero no aprueba el modelo EcoGrid, su conversión W/kW, el término simplificado de pérdidas ni el caudal derivado.
+- SAM/PVWatts (`SRC-023`) diferencia la ruta térmica Fuentes de V5 frente al modelo/NOCT de V8; no selecciona ninguno ni valida el balance térmico candidato.
+- Leon y Zhu (`SRC-024`, pp. 3–4, ecuaciones 1, 2, 4 y 6) expresan pérdidas de penstock como `Q²` multiplicado por términos de fricción, geometría y pérdidas locales; la observación sobre `f` se limita a las condiciones turbulentas especificadas. Esto no valida un `K_loss` universal ni la aproximación del modelo EcoGrid.
+- Siguen pendientes revisión independiente de citas/licencias, revisores humanos competentes, reproducción de cálculos y revisiones de física, control, ambiente y calidad. La investigación no sustituye esas revisiones.
+- Para facilitar el cierre sin atribuir aprobaciones, el paquete `evidencias/ECO-002/validation/final-human-review-checklist-2026-11-22.md` asigna cada tarea humana a sus registros, brechas y evidencia requerida. El gate 03 es inmutable y antecede el cierre documental 6.5–6.9; la próxima evaluación debe incluir los documentos actuales y las revisiones nuevas.
+- **Calendario de validación — ADR-013:** las revisiones independientes y la aceptación científica final se reservan para el cierre del MVP, antes de la entrega. ECO-002 continúa bloqueada y su gate 03 no cambia; el desarrollo puede avanzar con modelos explícitamente provisionales, sin presentarlos como hechos validados. La inspección de seguridad antes de energizar y los controles de entrada en runtime no se aplazan.
 
 ## Spike de compatibilidad ECO-101 — 2026-10-22/23
 
@@ -84,3 +104,9 @@ Registrar: ADR, fecha, decisión anterior, nueva, fundamento, impacto en física
 - Esta evidencia fue la base técnica para adoptar ADR-005 el 2026-11-04 y crear el bootstrap productivo raíz. No verifica tablero, electrónica, gameplay ni modelos científicos; por tanto, no es el producto final.
 - El build emitió una advertencia no bloqueante por un chunk minificado mayor a 500 kB. Si el stack se ratifica, el bootstrap de producción deberá evaluar carga diferida o justificar el tamaño.
 - ECO-002 continúa **BLOQUEADA** sin baseline; ECO-003 permanece **PENDIENTE** y ECO-101 pasa a **EN CURSO** con un bootstrap técnico aún sin prueba de navegador productiva.
+
+### Reconciliación de alcance ECO-101 — 2026-11-22
+
+- Se conserva la decisión de que ECO-101 cubre bootstrap técnico, no el cierre de gameplay ni integración híbrida. Esos criterios permanecen en sus tareas y gates.
+- El criterio publicado en el backlog —stack adoptado, aplicación raíz tipada, checks reproducibles y operación offline local— quedó verificado; ECO-101 se marca **HECHA** dentro de ese alcance.
+- Esta decisión no cambia ECO-002 (**BLOQUEADA**), G1 ni las tareas de física, validación humana, hardware o HIL. Evidencia: `evidencias/ECO-101/bootstrap-closure-2026-11-22.md`.

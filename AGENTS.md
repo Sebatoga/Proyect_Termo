@@ -12,7 +12,7 @@ Construir **EcoGrid: Ciudad al Límite**, juego cooperativo de mesa con electró
 
 ## Límites académicos
 - El PDF oficial prima sobre suposiciones. Aunque el enunciado general permite varios formatos, **la Liga 4 especifica un sistema híbrido (juego de mesa + electrónica) donde variables reales afectan el juego**; este es el alcance adoptado por el equipo el 2026-10-23.
-- Es obligatorio modelar como mínimo **un fenómeno de termodinámica** y **uno de mecánica de fluidos**, con ecuaciones, unidades SI, hipótesis, entradas/salidas, límites y validación; deben cambiar el resultado del juego.
+- Es obligatorio modelar como mínimo **un fenómeno de termodinámica** y **uno de mecánica de fluidos**, con ecuaciones, unidades SI, hipótesis, entradas/salidas, límites y un procedimiento de validación; deben cambiar el resultado del juego. Por decisión ADR-013, la validación científica independiente y la aceptación integrada se ejecutan al completar el MVP y antes de la entrega final. Hasta entonces, los modelos son candidatos de desarrollo, no resultados validados.
 - Integrar de forma funcional ingeniería electrónica o eléctrica y una tercera ingeniería: **ambiental**. No sustituir integración por preguntas tipo trivia.
 - Máximo **3 integrantes**; la sustentación pide evidencias, comparaciones, condiciones límite, código, manual, documentación de IA, pitch y póster.
 
@@ -20,7 +20,8 @@ Construir **EcoGrid: Ciudad al Límite**, juego cooperativo de mesa con electró
 - El dominio científico NO importa Phaser, DOM, Canvas ni librerías de UI. Fórmulas implementadas y probadas separadamente.
 - En el motor físico usar SI y declarar explícitamente conversiones a kW/kWh; distinguir tiempo real de tiempo simulado.
 - Separar física, reglas de juego, generación de eventos, control electrónico y presentación. No hardcodear físicas dentro de componentes de interfaz.
-- Sensores y controles físicos atraviesan calibración, validación y rangos antes de entrar al dominio; un sensor de luz no calibrado no se presenta como medidor de irradiancia.
+- Sensores y controles físicos atraviesan calibración, chequeos de validez y límites de rango antes de cada entrada al dominio; un sensor de luz no calibrado no se presenta como medidor de irradiancia. Estos controles de entrada no equivalen a la validación científica final del modelo.
+- El aplazamiento de validación final no aplaza controles de seguridad, límites de entrada, compilación ni pruebas de regresión necesarias durante desarrollo. No energizar ni exponer hardware a participantes antes de completar sus precondiciones de seguridad; no atribuir validez científica a prototipos.
 - El MVP opera por USB a baja tensión, con carcasa y cableado fijo; excluye agua real, bombas, calor peligroso y baterías de potencia.
 - Cada parámetro físico incluye unidad, rango y fuente/estatus (documentado, estimación para gameplay o calibración pendiente).
 - No atribuir capacidades imposibles: la energía no surge de la nada, el almacenamiento tiene pérdidas, PV no genera de noche, turbinas no extraen más caudal que el disponible tras caudal ecológico.
@@ -31,10 +32,11 @@ Construir **EcoGrid: Ciudad al Límite**, juego cooperativo de mesa con electró
 
 ## Flujo de desarrollo obligatorio
 - Usar tareas `ECO-###` del backlog. Registrar entrada, plan, implementación, pruebas, evidencia y resultado.
-- Antes de codificar cambios físicos leer skill `modelo-fisico` y pedir revisión a `@revisor-fisica`.
-- Para control y almacenamiento consultar `@revisor-control`; para caudal ecológico e indicadores consultar `@revisor-ambiental`.
+- Antes de codificar cambios físicos leer skill `modelo-fisico`; cualquier implementación anterior al cierre será un prototipo con valores y salidas marcados provisionales. La revisión de `@revisor-fisica` se registra en el gate final según ADR-013.
+- Para control y almacenamiento consultar `@revisor-control`; para caudal ecológico e indicadores consultar `@revisor-ambiental` en el gate final. No presentar asesoría no recibida como revisión.
 - Para cambios de jugabilidad/UX consultar `@disenador-juego`/`@revisor-ux` cuando aplique.
 - Antes de cerrar una fase pedir auditoría al `@auditor-calidad` y verificar pruebas reales (no afirmar que se ejecutaron si no fue así).
+- Las revisiones especialistas y reproducciones científicas se programan para el gate final; mientras estén pendientes, el código y los resultados deben identificarse como provisionales y no aptos para afirmaciones científicas o de producto aceptado.
 - Los especialistas actúan como revisores de solo lectura; el `ecogrid-director` es el responsable de integrar cambios para prevenir escrituras conflictivas.
 
 ## Política de cambios y seguridad

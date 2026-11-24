@@ -10,10 +10,12 @@ import { INPUT_FIELDS, parseLine } from "../src/infrastructure/device-protocol/p
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const fixturePath = join(root, "tools/device-simulator/fixtures/v1-device-disconnected.jsonl");
 const runnerArguments = process.argv.slice(2);
-if (runnerArguments.some((argument) => argument !== "--sanitizers")) {
-  throw new Error("Usage: node tools/firmware-host-test.mjs [--sanitizers]");
+const supportedArguments = new Set(["--sanitizers", "--strict"]);
+if (runnerArguments.some((argument) => !supportedArguments.has(argument))) {
+  throw new Error("Usage: node tools/firmware-host-test.mjs [--sanitizers] [--strict]");
 }
 const useSanitizers = runnerArguments.includes("--sanitizers");
+const useStrictProfile = runnerArguments.includes("--strict");
 const temporaryDirectory = mkdtempSync(join(tmpdir(), "ecogrid-firmware-host-"));
 const executable = join(temporaryDirectory, process.platform === "win32" ? "protocol-test.exe" : "protocol-test");
 
@@ -41,6 +43,9 @@ try {
     "-Wextra",
     "-Werror",
     "-pedantic",
+    ...(useStrictProfile
+      ? ["-O2", "-Wconversion", "-Wsign-conversion", "-Wshadow", "-Wformat=2"]
+      : []),
     ...(useSanitizers ? ["-fsanitize=address,undefined", "-fno-omit-frame-pointer"] : []),
     "firmware/esp32-c6/protocol_v1.cpp",
     "firmware/esp32-c6/protocol_v1_test.cpp",
@@ -49,7 +54,7 @@ try {
   ]);
 
   const unitOutput = run(executable).toString("utf8");
-  assert.equal(unitOutput, "ECO109_PROTOCOL_TESTS=PASS tests=5\n");
+  assert.equal(unitOutput, "ECO109_PROTOCOL_TESTS=PASS tests=6\n");
 
   const invalidArguments = spawnSync(executable, ["--unexpected"], {
     cwd: root,
@@ -146,8 +151,9 @@ try {
 
   const parserMessageCount = parsed.length + boundaryParsed.length + sweepParsed.length;
   const instrumentation = useSanitizers ? " sanitizers=address,undefined" : "";
+  const profile = useStrictProfile ? " profile=optimized-strict" : "";
   console.log(
-    `ECO109_HOST_VERIFICATION=PASS compiler=g++17${instrumentation} unit_tests=5 `
+    `ECO109_HOST_VERIFICATION=PASS compiler=g++17${profile}${instrumentation} unit_tests=6 `
       + `fixture=byte-identical parser=${parserMessageCount}/${parserMessageCount} `
       + `numeric_sweep=${sweepValues.length}`,
   );

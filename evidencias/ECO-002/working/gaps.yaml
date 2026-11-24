@@ -343,6 +343,69 @@ gaps:
     next_action: Obtain localizable primary support for the exact selected hydro formulation and scenario-specific environmental evidence.
     target_change: ECO-002
     status: open
+  - id: GAP-013
+    revision: 3
+    supersedes_revision: 2
+    affected_refs:
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-PAR-ENV-001, revision: 1}
+      - {id: SCI-CLM-HYD-002, revision: 1}
+      - {id: SRC-021, revision: 1}
+      - {id: PROV-018, revision: 1}
+    criticality: blocking
+    reason: SRC-021 now gives a localizable Reclamation power relation in cfs/feet with flow, net head, and efficiency, narrowing the evidence gap. It does not directly establish the EcoGrid SI rho*g*Q*H_net formulation or its loss convention; no watershed, turbine, or applicable Qeco value is selected.
+    owner: unassigned
+    dependency: Independent scientific review of the SI derivation and net-head/loss boundary, plus a selected watershed and applicable environmental-flow evidence if Qeco is treated as site-specific.
+    next_action: Keep the EcoGrid equation excluded from a baseline until a qualified reviewer confirms the SI derivation and model boundary; keep Qeco fictional or pending until its scenario is selected.
+    target_change: ECO-002
+    status: open
+  - id: GAP-013
+    revision: 4
+    supersedes_revision: 3
+    affected_refs:
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-PAR-ENV-001, revision: 1}
+      - {id: SCI-CLM-HYD-002, revision: 1}
+      - {id: SRC-021, revision: 1}
+      - {id: SRC-022, revision: 1}
+      - {id: PROV-018, revision: 1}
+      - {id: PROV-019, revision: 1}
+    criticality: blocking
+    reason: SRC-022 now directly documents a JICA small-hydropower relation in SI input units and defines effective head by subtracting identified losses, narrowing the prior citation gap. It does not independently approve EcoGrid's g=9.81 choice, simplified K_loss·Q² term, turbine-flow boundary, or W-to-kW reporting; the current model text also labels output P_hydro_W while its reference vector is stated in kW. No applicable watershed or Qeco authority is selected.
+    owner: unassigned
+    dependency: Qualified independent physics review of SI units, output conversion, effective-head/loss boundary, and turbine-flow scope; selected watershed and applicable environmental-flow authority if Qeco is treated as site-specific.
+    next_action: Reconcile the W/kW contract and confirm the source-to-model mapping during the required physics review; keep the model excluded from a baseline and Qeco fictional or pending until an applicable scenario is selected.
+    target_change: ECO-002
+    status: open
+  - id: GAP-013
+    revision: 5
+    supersedes_revision: 4
+    affected_refs:
+      - {id: SCI-EQ-HYD-001, revision: 1}
+      - {id: SCI-EQ-HYD-002, revision: 1}
+      - {id: SCI-EQ-HYD-003, revision: 1}
+      - {id: SCI-EQ-HYD-004, revision: 1}
+      - {id: SCI-PAR-ENV-001, revision: 1}
+      - {id: SCI-CLM-HYD-002, revision: 1}
+      - {id: SRC-021, revision: 1}
+      - {id: SRC-022, revision: 1}
+      - {id: SRC-024, revision: 1}
+      - {id: PROV-018, revision: 1}
+      - {id: PROV-019, revision: 1}
+      - {id: PROV-021, revision: 1}
+    criticality: blocking
+    reason: SRC-024 adds localized support for Q² penstock-loss dependence in the cited impulse/reaction turbine cases, with friction-factor behavior conditioned on the stated turbulent-flow assumptions. It does not establish a universal K_loss or the EcoGrid geometry/flow regime; JICA still does not resolve the EcoGrid W/kW contract, turbine-flow boundary, or model-specific loss convention. No applicable watershed or Qeco authority is selected.
+    owner: unassigned
+    dependency: Qualified independent physics review of SI units, output conversion, effective-head/loss boundary, turbine-flow scope, and applicability of the loss simplification; selected watershed and applicable environmental-flow authority if Qeco is treated as site-specific.
+    next_action: Keep the model excluded from a baseline; have the physics reviewer decide whether a fixed-geometry, bounded-flow gameplay approximation can use a calibrated K_loss and document its domain; keep Qeco fictional or pending until an applicable scenario is selected.
+    target_change: ECO-002
+    status: open
   - id: GAP-014
     revision: 2
     supersedes_revision: 1
@@ -460,6 +523,33 @@ gaps:
     owner: project_user
     dependency: Tasks 4.7 and 5.5-5.10 plus a future explicit model/version and equipment decision.
     next_action: Preserve the contrast result as documentary evidence and keep all PV candidate models excluded from a baseline.
+    target_change: ECO-002
+    status: open
+  - id: GAP-015
+    revision: 3
+    supersedes_revision: 2
+    affected_refs:
+      - {id: SCI-EQ-PV-001, revision: 1}
+      - {id: SCI-EQ-PV-002, revision: 1}
+      - {id: SCI-EQ-PV-004, revision: 1}
+      - {id: SCI-EQ-PV-005, revision: 1}
+      - {id: SCI-EQ-PV-006, revision: 1}
+      - {id: SCI-CLM-PV-001, revision: 1}
+      - {id: CALC-PV-001, revision: 1}
+      - {id: SRC-016, revision: 1}
+      - {id: SRC-017, revision: 1}
+      - {id: SRC-018, revision: 1}
+      - {id: SRC-019, revision: 1}
+      - {id: SRC-023, revision: 1}
+      - {id: PROV-014, revision: 1}
+      - {id: PROV-015, revision: 1}
+      - {id: PROV-016, revision: 1}
+      - {id: PROV-020, revision: 1}
+    criticality: blocking
+    reason: SRC-023 distinguishes the Fuentes transient thermal model documented for PVWatts V5 from the V8/SAM thermal-model family and NOCT method; neither source establishes equivalence to or validates EcoGrid's candidate lumped transient balance. Model selection, module/mounting context, coefficients, and applicable domain remain unresolved.
+    owner: project_user
+    dependency: Explicit PV model/version and equipment-context decision plus qualified independent review of model applicability, coefficients, and domain.
+    next_action: Preserve V5/V8 as distinct alternatives; do not combine their thermal assumptions or treat either as validation of the EcoGrid candidate until a model and context are selected and reviewed.
     target_change: ECO-002
     status: open
   - id: GAP-016

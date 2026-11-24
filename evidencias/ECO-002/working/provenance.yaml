@@ -1,6 +1,6 @@
 schema_version: 1
-verified_technical_links: 5
-notice: Metadata-only links now verify bounded hydro-dependence, empirical PV-temperature, PVWatts, and wind claims. They do not close the hydro SI/net-head citation, select a PV validity range or equipment values, or complete independent human review.
+verified_technical_links: 9
+notice: Metadata-only links now include bounded JICA SI hydropower, PVWatts version/model-boundary, and penstock-loss dependence evidence. They do not approve the EcoGrid hydro implementation or a universal K_loss, select a PV model or PV validity range, or complete independent human review.
 links:
   - id: PROV-001
     revision: 1
@@ -187,5 +187,49 @@ links:
     derivation_steps: []
     interpretation: WINDExchange directly states the Cp-based cubic aerodynamic relation, density dependence, operating-point definitions, and Betz limit.
     applicable_scope: Aerodynamic relation and theoretical limit only; actual output, cut thresholds, rated power, turbulence correction, and equipment values require a selected turbine and site distribution.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-018
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-HYD-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-021, revision: 1}]
+    derivation_steps: []
+    interpretation: The Reclamation assessment independently documents a kW power relation using flow, net head, and efficiency in customary units. It supplements the bounded dependence claim but does not directly cite the EcoGrid SI equation or settle the selected model's net-head/loss convention.
+    applicable_scope: Reclamation planning-level relation in cfs and feet only; no SI equation, equipment value, or EcoGrid model approval is inferred.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-019
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-HYD-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-022, revision: 1}]
+    derivation_steps: []
+    interpretation: JICA localizes a small-hydropower relation using water density, approximate gravity, plant discharge, effective head, and combined turbine-generator efficiency, and separately defines effective head by subtracting specified head losses from total head. This supports a bounded SI-form relation and head boundary as source evidence only; it does not validate EcoGrid's 9.81 value, K_loss·Q² simplification, turbine-flow boundary, or output-unit conversion.
+    applicable_scope: JICA small-scale hydropower planning relation and stated effective-head definition; independent scientific review and model-specific boundary selection remain required.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-020
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-PV-001, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-019, revision: 1}, {id: SRC-023, revision: 1}]
+    derivation_steps: []
+    interpretation: PVWatts V5 documents the Fuentes transient module-temperature model with thermal capacitance, whereas Version 8 documents a different thermal-model basis, including an NOCT cell-temperature method. These version-specific references do not establish that either model is equivalent to or validates EcoGrid's candidate lumped thermal balance.
+    applicable_scope: PVWatts model/version distinction only; no PV model selection, coefficient adoption, or validity-range approval.
+    reviewer_id: null
+    status_effect: verified_technical_source
+  - id: PROV-021
+    revision: 1
+    supersedes_revision: null
+    element_ref: {id: SCI-CLM-HYD-002, revision: 1}
+    support_type: direct_source
+    source_refs: [{id: SRC-024, revision: 1}]
+    derivation_steps: []
+    interpretation: Leon and Zhu express penstock head loss as Q² times a factor containing friction, geometry, and local-loss terms for the impulse/reaction turbine cases considered. Their discussion qualifies the near-constant friction-factor assumption to specified fully developed turbulent flows and their derivation assumes constant overall efficiency. This is evidence for bounded quadratic dependence under those conditions, not for an invariant or universal EcoGrid K_loss.
+    applicable_scope: Penstock-loss dependence for the cited turbine/flow assumptions only; no EcoGrid loss coefficient, geometry, flow-regime applicability, or model approval is inferred.
     reviewer_id: null
     status_effect: verified_technical_source

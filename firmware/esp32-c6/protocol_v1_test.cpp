@@ -34,6 +34,43 @@ void encodesDisconnectedInputsExactly() {
          "\"confirm\":{\"value\":null,\"status\":\"disconnected\"}}}\n");
 }
 
+void encodesCalibrationVersionAliasedInsideOutput() {
+  char hello[256] = "sim-v1";
+  assert(ecogrid::firmware::encodeHello(hello, sizeof(hello), 2, 3, hello));
+  assert(std::string(hello).find("\"calibrationVersion\":\"sim-v1\"") != std::string::npos);
+
+  char inputs[768] = "sim-v1";
+  assert(ecogrid::firmware::encodeDisconnectedInputs(inputs, sizeof(inputs), 4, 5, inputs));
+  assert(std::string(inputs).find("\"calibrationVersion\":\"sim-v1\"") != std::string::npos);
+
+  char offsetHello[256] = "xsim-v1";
+  assert(ecogrid::firmware::encodeHello(
+      offsetHello, sizeof(offsetHello), 4, 5, offsetHello + 1));
+  assert(std::string(offsetHello).find("\"calibrationVersion\":\"sim-v1\"")
+      != std::string::npos);
+
+  char offsetInputs[768] = "xsim-v1";
+  assert(ecogrid::firmware::encodeDisconnectedInputs(
+      offsetInputs, sizeof(offsetInputs), 4, 5, offsetInputs + 1));
+  assert(std::string(offsetInputs).find("\"calibrationVersion\":\"sim-v1\"")
+      != std::string::npos);
+
+  const std::string maximumVersion(ecogrid::firmware::kMaxCalibrationVersionLength, 'v');
+  char maximumHello[256]{};
+  std::memcpy(maximumHello, maximumVersion.c_str(), maximumVersion.size() + 1);
+  assert(ecogrid::firmware::encodeHello(
+      maximumHello, sizeof(maximumHello), 6, 7, maximumHello));
+  assert(std::string(maximumHello).find(
+      "\"calibrationVersion\":\"" + maximumVersion + "\"") != std::string::npos);
+
+  char maximumInputs[768]{};
+  std::memcpy(maximumInputs, maximumVersion.c_str(), maximumVersion.size() + 1);
+  assert(ecogrid::firmware::encodeDisconnectedInputs(
+      maximumInputs, sizeof(maximumInputs), 8, 9, maximumInputs));
+  assert(std::string(maximumInputs).find(
+      "\"calibrationVersion\":\"" + maximumVersion + "\"") != std::string::npos);
+}
+
 void rejectsUnsafeCalibrationVersions() {
   char output[256] = "unchanged";
   char inputs[768] = "unchanged";
@@ -61,13 +98,46 @@ void rejectsUnsafeCalibrationVersions() {
   assert(std::string(inputs).find("\"calibrationVersion\":\"" + maximumVersion + "\"")
       != std::string::npos);
 
-  const std::string permittedPunctuation = "A9-_.z";
+  const std::string permittedCharacters = "AZaz09-_.";
   assert(ecogrid::firmware::encodeHello(
-      output, sizeof(output), 0, 0, permittedPunctuation.c_str()));
-  assert(std::string(output).find("\"calibrationVersion\":\"A9-_.z\"") != std::string::npos);
+      output, sizeof(output), 0, 0, permittedCharacters.c_str()));
+  assert(std::string(output).find(
+      "\"calibrationVersion\":\"AZaz09-_.\"") != std::string::npos);
   assert(ecogrid::firmware::encodeDisconnectedInputs(
-      inputs, sizeof(inputs), 1, 100, permittedPunctuation.c_str()));
-  assert(std::string(inputs).find("\"calibrationVersion\":\"A9-_.z\"") != std::string::npos);
+      inputs, sizeof(inputs), 1, 100, permittedCharacters.c_str()));
+  assert(std::string(inputs).find(
+      "\"calibrationVersion\":\"AZaz09-_.\"") != std::string::npos);
+
+  const std::array<const char*, 5> forbiddenCharacters = {
+      "bad value", "bad/value", "bad\\value", "bad\tvalue", "bad:value"};
+  for (const char* invalidVersion : forbiddenCharacters) {
+    assert(!ecogrid::firmware::encodeHello(
+        output, sizeof(output), 0, 0, invalidVersion));
+    assert(output[0] == '\0');
+    assert(!ecogrid::firmware::encodeDisconnectedInputs(
+        inputs, sizeof(inputs), 1, 100, invalidVersion));
+    assert(inputs[0] == '\0');
+  }
+
+  const auto isAllowedAscii = [](unsigned int value) {
+    const bool letter = (value >= 'A' && value <= 'Z')
+        || (value >= 'a' && value <= 'z');
+    const bool digit = value >= '0' && value <= '9';
+    return letter || digit || value == '-' || value == '_' || value == '.';
+  };
+  for (unsigned int value = 1; value <= 0x7f; ++value) {
+    const char candidate[] = {static_cast<char>(value), '\0'};
+    const bool expected = isAllowedAscii(value);
+    const bool helloAccepted = ecogrid::firmware::encodeHello(
+        output, sizeof(output), 0, 0, candidate);
+    assert(helloAccepted == expected);
+    if (!expected) assert(output[0] == '\0');
+
+    const bool inputsAccepted = ecogrid::firmware::encodeDisconnectedInputs(
+        inputs, sizeof(inputs), 1, 100, candidate);
+    assert(inputsAccepted == expected);
+    if (!expected) assert(inputs[0] == '\0');
+  }
 
   const std::string oversizedVersion(ecogrid::firmware::kMaxCalibrationVersionLength + 1, 'v');
   assert(!ecogrid::firmware::encodeHello(output, sizeof(output), 0, 0, oversizedVersion.c_str()));
@@ -211,8 +281,9 @@ int main(int argumentCount, char** arguments) {
 
   encodesHelloExactly();
   encodesDisconnectedInputsExactly();
+  encodesCalibrationVersionAliasedInsideOutput();
   rejectsUnsafeCalibrationVersions();
   failsClosedWhenTheBufferIsTooSmall();
   handlesUint32MaximumAndExactBufferCapacity();
-  std::cout << "ECO109_PROTOCOL_TESTS=PASS tests=5\n";
+  std::cout << "ECO109_PROTOCOL_TESTS=PASS tests=6\n";
 }

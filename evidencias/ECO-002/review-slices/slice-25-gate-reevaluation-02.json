@@ -1,0 +1,28 @@
+{
+  "id": "ECO-002-WU4-S25",
+  "order": 25,
+  "purpose": "Review the second immutable blocked reevaluation and its decision report.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S24",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-02/manifest.yaml",
+      "records": ["complete file"],
+      "review_lines": 251
+    },
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-02/report.md",
+      "records": ["complete file"],
+      "review_lines": 42
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-25-gate-reevaluation-02.json",
+      "records": ["complete file"],
+      "review_lines": 28
+    }
+  ],
+  "total_review_lines": 321,
+  "non_overlap_key": "blocked-gate-reevaluation-2026-11-22-02"
+}

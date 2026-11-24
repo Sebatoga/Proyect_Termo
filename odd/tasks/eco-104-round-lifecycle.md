@@ -137,6 +137,46 @@ The project documents a six-round flow but has no executable lifecycle contract.
   - Acceptance: application owns one deeply immutable provisional manifest and event-key order; Node and Vitest consumers use it directly, the duplicate JSON fixture is removed, and no event effects or runtime wiring are introduced.
   - Checks: lifecycle/integration/full Node suites, Vitest, typecheck, build, browser/offline smokes, duplicate/import scans, whitespace and authored-line guard.
   - Rollback: revert only ECO104-11 to restore the JSON fixture and local test manifests; promoted runtime modules remain intact.
+- [x] **ECO104-12 — Lock down the application resolver handoff**
+  - Route: direct, bounded regression in the application integration suite.
+  - Acceptance: ordinary ingestion does not call the resolver; explicit confirmation forwards the seed, resolver version, canonical round, accepted sequence/token/calibration version, and all six normalized controls as a deeply immutable envelope; replay by either token or already-consumed sequence does not call the resolver again or append history.
+  - Constraints: no resolver effects, physics, scoring, balance, randomness, product wiring, hardware, or acceptance claim.
+  - Checks: focused Vitest integration test, full Vitest, typecheck, and `git diff --check`.
+  - Result: focused integration `4/4`, full Vitest `113/113`, typecheck, and `git diff --check` PASS; token and sequence replays remained single-call/single-append.
+  - Rollback: remove only the ECO104-12 test and its tracker/project-view entries.
+- [x] **ECO104-13 — Keep internal controls behind the session port**
+  - Route: direct application-boundary regression.
+  - Acceptance: after a committed round, the internal lifecycle retains its audit input, while the session snapshot and console view model expose only their closed public fields and contain no token, calibration identifier, or normalized control data.
+  - Constraints: do not change mapping or UI behavior; no privacy certification or security-audit claim.
+  - Checks: focused integration test, full Vitest, typecheck, and `git diff --check`.
+  - Result: focused integration `5/5`, full Vitest `114/114`, `npm run typecheck`, and `git diff --check` PASS.
+  - Rollback: remove only the ECO104-13 test and its tracker/project-view entries.
+
+- [x] **ECO104-14 — Keep session snapshots closed and immutable in every status**
+  - Route: direct application-boundary regression.
+  - Acceptance: `waiting-input` (disconnected, confirmation-required, and fresh
+    input required), `ready`, `reset-required`, and `completed` snapshots expose
+    the same six primitive fields, remain frozen, and reject mutation attempts.
+  - Constraints: no production mapping changes, product wiring, physical models,
+    hardware behavior, privacy-certification, or gameplay claims.
+  - Checks: focused integration test, full Vitest, typecheck, and `git diff --check`.
+  - Result: focused integration `6/6`, full Vitest `115/115`, typecheck,
+    structural/whitespace validators, Markdown audit, and `git diff --check` PASS.
+  - Rollback: remove only the ECO104-14 regression and its tracker/project-view entries.
+
+- [x] **ECO104-15 — Reject uint32 sequence wrap without advancing**
+  - Route: direct host-adapter/application integration boundary regression.
+  - Acceptance: after accepting and confirming sequence `0xffffffff`, a wrapped
+    sequence `0` returns `SEQUENCE_INVALID`, clears exposed values, preserves the
+    accepted maximum sequence and round history, and never invokes the resolver
+    again.
+  - Constraints: no sequence epoch/wrap protocol, reconnect behavior, firmware,
+    product wiring, or hardware claim is added.
+  - Checks: focused integration test, full Vitest, typecheck, and `git diff --check`.
+  - Result: focused integration `7/7`, full Vitest `116/116`, typecheck,
+    docs-link tests `7/7`, Markdown audit, structural/whitespace validators, and
+    `git diff --check` PASS.
+  - Rollback: remove only the ECO104-15 regression and its tracker/project-view entries.
 
 ## Acceptance criteria
 
@@ -314,6 +354,12 @@ constructor exceptions and must not be treated as a safe reference.
   Event effects, scientific values, solvability and `main.ts` remain unchanged.
 - ECO104-11 delivery: one child after `8dd2625`, with 135 authored lines (`92`
   additions and `43` deletions) across 15 paths; no push, PR or merge is created.
+- ECO104-12 confirms the application composition's resolver contract and replay
+  boundary without changing runtime behavior; the reference remains isolated and
+  ECO-104 stays **PENDIENTE**.
+- ECO104-13 verifies the session and console ports do not expose committed
+  tokens, calibration identifiers, or control values; it does not certify privacy
+  or security and does not alter runtime behavior.
 
 ## Delivery decision and review chain
 

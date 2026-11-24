@@ -1,0 +1,27 @@
+{
+  "id": "ECO-002-WU4-S30",
+  "order": 30,
+  "purpose": "Review current autonomous documentation receipt changes without changing the blocked scientific gate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S29",
+  "review_units": [
+    {
+      "path": "openspec/changes/eco-002/apply-progress.md",
+      "records": [
+        "current complete file"
+      ],
+      "review_lines": 315
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-30-autonomous-documentation-receipt.json",
+      "records": [
+        "complete slice manifest"
+      ],
+      "review_lines": 26
+    }
+  ],
+  "total_review_lines": 341,
+  "non_overlap_key": "eco-002-autonomous-docs-30-2026-11-22"
+}

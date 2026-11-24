@@ -46,7 +46,7 @@ La consola no duplica controles físicos ni reemplaza fichas/tablero. Opera offl
 - Mostrar **potencia producida** (renovables), **potencia entregada** a ciudad y **potencia no atendida** por separado; evitar sumar batería dos veces.
 - Batería: barra SOC, potencia de carga/descarga con signo o texto, límite de potencia visible.
 - Caudal: bypass vs turbina en dos canales del río; avisar explícitamente si compuerta se limita por Qeco.
-- Solar: rotular **proxy de luz calibrado para gameplay** hasta validación metrológica; mostrar cómo la temperatura afecta el rendimiento.
+- Solar: hasta la calibración metrológica final, rotularlo **proxy de luz provisional para gameplay**; no llamarlo irradiancia. Mostrar cómo la temperatura afecta el rendimiento dentro del modelo candidato.
 - Pronóstico: indicar si es incertidumbre o información perfecta según escenario; no cambiar cifras que el motor ya determinó sin actualizar origen.
 
 ## Estados visuales (obligatorios)

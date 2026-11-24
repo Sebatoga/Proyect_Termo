@@ -1,0 +1,41 @@
+{
+  "id": "ECO-002-WU4-S27",
+  "order": 27,
+  "purpose": "Review the third immutable blocked reevaluation, its decision report, and checksums.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S26",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-03/manifest.yaml",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 253
+    },
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-03/report.md",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 34
+    },
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-03/checksums.sha256",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 16
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-27-gate-reevaluation-03.json",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 41
+    }
+  ],
+  "total_review_lines": 344,
+  "non_overlap_key": "blocked-gate-reevaluation-2026-11-22-03"
+}

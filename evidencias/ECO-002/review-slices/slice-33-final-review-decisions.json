@@ -1,0 +1,20 @@
+{
+  "id": "ECO-002-WU4-S33",
+  "order": 33,
+  "purpose": "Review final review decisions without changing or implying acceptance of the scientific gate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S32",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-33-final-review-decisions.json",
+      "records": [
+        "complete slice manifest"
+      ],
+      "review_lines": 26
+    }
+  ],
+  "total_review_lines": 26,
+  "non_overlap_key": "eco-002-final-review-33-2026-11-22"
+}

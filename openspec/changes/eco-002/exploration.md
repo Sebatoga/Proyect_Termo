@@ -73,7 +73,7 @@ Cada registro de procedencia debería identificar: autor/institución, título, 
 ### Dependencies, Reviewers, Evidence, and Exit Gate
 
 - **Dependencias:** acceso autorizado a literatura/hojas técnicas; selección explícita de escenario o equipo cuando un parámetro lo requiera; asignación de responsables del equipo, hoy pendiente.
-- **Revisores requeridos por el repositorio:** revisión física para ecuaciones y unidades; revisión de control para batería/bus; revisión ambiental para `Qeco`; auditoría de calidad antes de cerrar F0. Su mecanismo de proyecto está ausente con `.opencode/`, por lo que la propuesta debe exigir restauración autorizada o sustitutos humanos identificados, sin fingir aprobaciones.
+- **Revisores requeridos por el repositorio:** revisión física para ecuaciones y unidades; revisión de control para batería/bus; revisión ambiental para `Qeco`; auditoría de calidad en el gate final. Por ADR-013 se programan al completar el MVP y antes de la entrega. Su mecanismo de proyecto está ausente con `.opencode/`, por lo que se exigen revisores humanos identificados, sin fingir aprobaciones.
 - **Evidencia mínima:** citas verificables; análisis dimensional; cálculo independiente por fenómeno; tabla esperado/error/unidades; caso nominal y de límite; decisión sobre cada simplificación; hallazgos y resolución del revisor.
 - **Gate de salida recomendado:** ningún modelo destinado a ECO-003 conserva una ecuación o parámetro crítico sin fuente, derivación o etiqueta explícita de estimación; los modelos mínimos termo y fluidos tienen hipótesis, I/O, SI, rangos, ejemplos y límites revisables; los vectores son independientes y trazables; las brechas restantes tienen responsable y tarea posterior. Esto no equivale a implementación ni validación experimental.
 
@@ -91,7 +91,7 @@ Cada registro de procedencia debería identificar: autor/institución, título, 
 
 ### Recommendation
 
-Adoptar el enfoque 1. La propuesta debe organizar ECO-002 como un expediente de procedencia por capas: (1) obligaciones oficiales; (2) ecuaciones y derivaciones; (3) parámetros y rangos; (4) cálculos independientes y límites; (5) revisión y congelación de una línea base científica para ECO-003. Debe permitir estados honestos —verificado, derivado, estimación de gameplay o bloqueado por fuente— y prohibir que un placeholder pase a dato científico por repetición documental.
+Adoptar el enfoque 1. La propuesta debe organizar ECO-002 como un expediente de procedencia por capas: (1) obligaciones oficiales; (2) ecuaciones y derivaciones; (3) parámetros y rangos; (4) cálculos independientes y límites; (5) revisión final y congelación científica al completar el MVP. Hasta entonces ECO-003 puede usar candidatos solo en prototipos provisionales. Debe permitir estados honestos —verificado, derivado, estimación de gameplay o bloqueado por fuente— y prohibir que un placeholder pase a dato científico por repetición documental.
 
 La propuesta puede avanzar ya. Su ejecución deberá planificar cómo el equipo aportará o autorizará las fuentes externas necesarias; sin esa evidencia no debe prometerse el cierre de ECO-002.
 

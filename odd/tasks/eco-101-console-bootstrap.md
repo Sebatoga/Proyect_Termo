@@ -106,7 +106,7 @@ The disposable runtime spike proved local compatibility, but the repository stil
 - Root scripts include `dev`, `typecheck`, `test`, `build`, and `preview`.
 - No product-domain physics or blocked ECO-002 import exists.
 - ADR-005 records adoption, date, reason, evidence, and the exclusion of Playwright from this unit.
-- ECO-101 remains open unless its complete current criterion is genuinely met.
+- ECO-101 remains open unless its complete current criterion is genuinely met; the criterion is closed below against the backlog scope.
 - `.codegraph/` remains untouched and uncommitted; the authorized root `.gitignore` is tracked with only the required generated-output rules added.
 
 ## Exact checks
@@ -179,6 +179,22 @@ Revert the single work-unit commit. This removes the root application, exact dep
 - BOOTSTRAP-010 delivery: one child after `2d683b1`, with 55 authored lines
   (`49` additions and `6` deletions) across six text paths; no binary changed.
 
+## ECO-101 closure — 2026-11-22
+
+The backlog criterion is complete: adopted stack, typed root application,
+reproducible checks, and verified local/offline operation. Gameplay, scientific
+models, serial transport, physical integration, and human accessibility review
+remain in their own tasks and gates; this closure does not consume ECO-002 or G1.
+
+- [x] Stack adoption recorded in ADR-005.
+- [x] Typed root application and reproducible test/build scripts present.
+- [x] Product browser and bounded offline operation observed.
+- [x] Verification rerun: typecheck, Vitest 106/106, build, product browser,
+  offline smoke, contrast 11/11, port regression 1/1, offline negatives 2/2,
+  local server 19/19, and `git diff --check`.
+- Evidence: `evidencias/ECO-101/bootstrap-closure-2026-11-22.md`.
+
 ## Next step
 
-Implement one approved product behavior without consuming ECO-002.
+Continue the next authorized ECO task for product behavior or integration; do not
+reuse ECO-101 evidence to claim gameplay, physics, or hardware validation.

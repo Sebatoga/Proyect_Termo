@@ -13,7 +13,7 @@ const MAX_ASSETS = 128;
 const MAX_ASSET_BYTES = 32_000_000;
 const MAX_BUILD_FILES = 256;
 const MAX_BUILD_BYTES = 64_000_000;
-const BUILD_FILES = Symbol("buildFiles");
+const BUILD_FILES = new WeakMap();
 const CONTENT_TYPES = new Map([
   [".css", "text/css; charset=utf-8"], [".html", "text/html; charset=utf-8"],
   [".ico", "image/x-icon"], [".js", "text/javascript; charset=utf-8"],
@@ -142,7 +142,13 @@ export async function preflightBuild(buildRoot) {
     }
     hash.update(name).update("\0").update(bytes);
   }
-  return Object.freeze({ root, buildId: hash.digest("hex"), assets: Object.freeze(localPaths), [BUILD_FILES]: files });
+  const build = Object.freeze({
+    root,
+    buildId: hash.digest("hex"),
+    assets: Object.freeze(localPaths),
+  });
+  BUILD_FILES.set(build, files);
+  return build;
 }
 
 function loopbackHost(host) {
@@ -174,7 +180,7 @@ export async function startLocalConsole({ buildRoot, host = "127.0.0.1", port = 
       }
       const decoded = decodeLocalPath(rawPath);
       const localPath = decoded === "/" ? "/index.html" : `/${decoded.replace(/^\/+/, "")}`;
-      const contents = build[BUILD_FILES].get(localPath);
+       const contents = BUILD_FILES.get(build)?.get(localPath);
       if (!contents) throw Object.assign(new Error("Not found"), { statusCode: 404 });
       const contentType = CONTENT_TYPES.get(path.extname(localPath).toLowerCase());
       if (!contentType) throw Object.assign(new Error("Unsupported file type"), { statusCode: 404 });

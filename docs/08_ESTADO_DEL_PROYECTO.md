@@ -1,11 +1,25 @@
 # ESTADO / RELEVO OBLIGATORIO ENTRE SESIONES
 
-**Última actualización:** 2026-11-22 (ECO109-12: enteros JSON seguros).
+**Última actualización:** 2026-11-23 (ECO105-14; ECO105-13; ECO302-3; ECO104-15).
 **Fase actual:** F1, rebanada vertical local; integración física bloqueada por G1.
-**Tarea vigente:** ECO109-12 hace que el parser rechace números JSON enteros que
-JavaScript no puede representar exactamente y no los repita en mensajes de error.
-No conecta hardware, USB o pines. ECO-109 físico y ECO-108/G1 continúan abiertos;
-ECO-105 sigue PENDIENTE y ECO-002 sigue BLOQUEADA.
+**Tarea vigente:** ECO-101 queda **HECHA dentro del alcance de bootstrap técnico**
+definido en el backlog: aplicación tipada, stack adoptado, checks repetibles y
+operación local/offline observada. Gameplay e integración física no pertenecen a
+este cierre; ECO-002 sigue BLOQUEADA y G1 pendiente. En ECO-002 se añadieron
+SRC-022/023/024 y PROV-019/020/021 bajo la autorización metadata-only ACCESS-003;
+`ECO-002-GATE-20261122-03` conserva el bloqueo por revisión humana, reconciliación
+W/kW y fronteras hidro, selección/aplicabilidad PV y revisión ambiental.
+`docs/11_INVESTIGACION_Y_FUENTES.md` ahora resume el alcance de esas fuentes sin
+promover los valores ficticios del escenario. Se añadieron overlays de evidencia
+a modelos, pruebas, trazabilidad académica y criterios de aceptación; el gate no
+cambió y esos criterios no se declaran científicamente aceptados.
+El paquete `evidencias/ECO-002/validation/final-human-review-checklist-2026-11-22.md`
+concentra las revisiones humanas pendientes y sus entregables; no asigna personas
+ni altera el gate.
+Por ADR-013, la validación científica independiente y la aceptación integrada
+se difieren hasta completar el MVP y antes de la entrega académica. El prototipado
+puede avanzar con modelos marcados provisionales; siguen vigentes controles de
+seguridad, validación de entradas y límites previos al uso de hardware.
 **Producto físico/hardware:** el usuario reporta una placa `Nano ESP32-C6 V1.0`/`V1711` y el inventario listado en la BOM. No hay todavía inspección independiente, pinout autenticado, firmware cargado, calibración, protocolo USB integrado, tablero, carcasa ni pruebas HIL.
 **Herramientas verificadas aquí:** Node `v26.9.0`, npm `11.19.1`, Git `2.55.0` y OpenCode `1.19.3` respondieron durante ECO-001. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`; Chrome headless `156.0.8078.47` verificó tanto el spike histórico como el bootstrap productivo local, con los límites registrados en ECO-101/ECO-105.
 
@@ -91,6 +105,16 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - El reporte permite afirmar únicamente que dos personas recorrieron el flujo
   completo. No acredita balance, duración de 8–12 minutos, ciencia, hardware,
   HIL, seguridad o cierre de ECO-110.
+
+### ECO110-2 — hoja de observación de flujo
+
+- Se preparó una hoja `NOT_RUN` con guion de 90 segundos, tiempos de seis rondas,
+  preguntas, pausas, intervenciones y comentarios cualitativos.
+- Registra hashes del PDF de tablero/cartas y del PDF de fichas; los cuatro
+  archivos del prototipo pasaron `sha256sum -c` el 2026-11-22.
+- Es una observación de usabilidad del papel, separada del paquete de scorecard
+  ECO-004. No demuestra comprensión universal, duración objetivo, balance,
+  ciencia, hardware ni seguridad; ECO-110 sigue **PENDIENTE**.
 
 ### ECO109-1 — núcleo C++ del protocolo seguro
 
@@ -211,6 +235,10 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - Los commits `7e8dc7e` y `e0ff990` registran la implementación y su evidencia:
   suite focalizada 19/19 y suite Node combinada 195/195 PASS. El snapshot inmutable
   limita la build a 256 archivos, 64 MB totales y 32 MB por archivo.
+- ECO304-3 encontró y cerró una fuga de encapsulación: el mapa `Map` mutable ya no
+  aparece bajo un símbolo enumerable del resultado congelado; queda en un
+  `WeakMap` privado. La regresión del objeto público pasa; no es aislamiento frente
+  a atacantes con acceso al mismo proceso.
 - La build sigue siendo explícita y ECO-304 continúa **PENDIENTE**: falta el
   recorrido humano en el equipo objetivo y el ensayo de stand.
 
@@ -356,7 +384,7 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - **Límites:** no es firmware, serial real, calibración, electrónica ni dominio científico; los enums de batería/prioridad son provisionales de la herramienta.
 - **Rollback:** eliminar `tools/device-simulator/` y sus enlaces documentales; ninguna ruta productiva o científica lo importa.
 
-### ECO-101 — bootstrap productivo inicial en curso
+### ECO-101 — bootstrap productivo técnico cerrado (2026-11-22)
 
 - **Resultado actual:** aplicación raíz con shell DOM accesible, escena Phaser mínima, configuración tipada y fronteras puras testeables. ADR-005 adopta Phaser `3.90.0`, Vite `8.3.5`, TypeScript `7.0.2` y Vitest `5.0.5`, con lockfile npm.
 - **Checks del bootstrap:** typecheck sin diagnósticos, 2/2 pruebas Vitest y build completado; Vite conserva la advertencia de chunk minificado de Phaser mayor a 500 kB.
@@ -373,12 +401,26 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - **Promoción HOST-004:** el adaptador fail-closed canónico vive en `src/infrastructure/host-adapter/`, con declaración estricta y snapshots desacoplados; `tools/host-adapter/` conserva CLI/pruebas mediante una fachada y la integración importa infraestructura. Adaptador+integración 33/33, referencias 165/165, Vitest 56/56, typecheck, build y smokes pasaron; offline escaneó 32+3. No existe serial, timeout, retry, hardware ni wiring en `main.ts`.
 - **Integración ECO104-10/BOOTSTRAP-008:** la composición adapter+lifecycle canónica vive en aplicación y un mapper puro produce snapshots aceptados por la consola. Fuente ausente espera entrada; una entrada fresca confirmada queda lista; una secuencia consumida exige otra; desconexión exige reset y seis rondas completan. Integración 18/18, referencias 165/165, Vitest 59/59, typecheck, build y smokes pasaron; offline escaneó 36+3. `main.ts` sigue sin fuente real o manifiesto.
 - **Manifiesto ECO104-11:** una única fuente profundamente inmutable en aplicación define las seis rondas y claves provisionales; reemplaza el fixture JSON y manifiestos locales de Vitest. Lifecycle+integración 71/71, referencias 165/165, Vitest 60/60, typecheck, build y smokes pasaron; offline escaneó 38+3. No define efectos, magnitudes, balance, solvencia ni wiring.
+- **Regresión ECO104-12:** la prueba de integración confirma que la ingesta no resuelve, la confirmación explícita pasa al callback un envelope normalizado e inmutable con semilla/versión/ronda/entrada y el replay no repite la llamada ni agrega historia. No cambia runtime ni promueve ECO-104.
+- **Regresión ECO104-13:** el mapper de sesión y el view model mantienen schemas cerrados y omiten token, calibración y controles guardados en el historial interno; solo verifica la frontera de datos y no es auditoría de privacidad/seguridad.
+- **ECO104-14:** la prueba cubre todos los estados del snapshot de sesión (`waiting-input`, `ready`, `reset-required`, `completed`), incluidos tres motivos distintos de espera; en todos exige los mismos seis campos primitivos, objeto congelado y rechazo a mutación. No modifica producción ni declara aceptación de ECO-104.
+- **ECO104-15:** tras aceptar y confirmar `0xffffffff`, el wrap a secuencia `0` falla con `SEQUENCE_INVALID`, vacía valores expuestos y conserva ronda/historial y el máximo aceptado; no re-invoca el resolver. No define epochs ni recuperación física.
+- **Corrección ECO004-11:** un ledger con demanda positiva, cero servicio y ambos umbrales en cero producía `victory`; ahora produce `defeat` con `NO_SERVICE`. Los umbrales siguen provisionales y ECO-004 permanece EN REVISIÓN.
+- **ECO004-12:** regresión confirma que coberturas agregadas exactamente iguales a ambos umbrales inyectados (0,8 en el fixture sintético) cuentan como cumplimiento; scorecard/paquete 69/69 PASS. Es semántica de comparación, no recomendación de umbral ni evidencia de balance.
+- README y CA-21 expresan ahora ese límite como «igual o superior»; los valores de umbral siguen provisionales.
+- El manual `docs/17_COMO_JUGAR.md` ahora explica esta condición anti-trampa sin prescribir valores de cobertura ni presentar el balance como aceptado.
+- **ECO302-1/2:** el auditor sin dependencias valida existencia de destinos y fragmentos locales contra headings ATX y anchors HTML citados. Suite 6/6; auditoría: 124 Markdown, 35 enlaces, cero fragmentos locales actuales y cero destinos/anchors rotos. La cobertura de slugs es acotada; no valida contenido ni revisión académica y ECO-302 continúa PENDIENTE.
+- **ECO302-3:** preparado `evidencias/ECO-302/revision-documental-plantilla.md` con ruta, criterios, registro de versión/hallazgos y límites para que una persona haga la revisión de ECO-302. El documento permanece `NOT_RUN`; no asigna reviewer ni declara aceptación. ECO302-4 agrega `npm run test:host-references` como entrada única a 100 regresiones host existentes. No sustituye pruebas browser/offline, firmware en placa ni validación científica. Auditoría: 125 Markdown, 36 enlaces, 0 fragmentos locales, 0 rotos.
 - **Loop BOOTSTRAP-009:** `main.ts` usa una fuente local explícitamente simulada, autorizada por el usuario. La interfaz etiqueta valores fijos no calibrados, separa carga/confirmación y avanza por el ciclo canónico con resolver de traza. Vitest 62/62, referencias 165/165, typecheck/build y smokes pasaron; Chrome verificó waiting→ready→ronda 2, móvil 390 px sin overflow y cero errores; offline escaneó 40+3. No acredita serial, hardware, física, energía, score, balance o gameplay.
 - **Evidencia BOOTSTRAP-010:** Chrome `156.0.8078.47` ejecutó seis pares separados de carga/confirmación, observó cada transición ready/avance y terminó en `completed` con ambos controles deshabilitados. Se conservaron el check móvil de 390 px sin overflow y cero errores JavaScript acotados. Es evidencia del loop técnico simulado, no gameplay ni integración física.
+- **Criterio de cierre:** el backlog limita ECO-101 a stack adoptado, aplicación raíz tipada, checks reproducibles y operación local/offline. Los cuatro criterios están cubiertos; no se trasladan a ECO-101 los gates independientes de gameplay, ciencia o integración física.
+- **Reverificación 2026-11-22:** `npm run typecheck`; `npm test` (8 archivos, 106/106); `npm run build`; `npm run test:browser-smoke`; `npm run test:offline-smoke`; `npm run test:contrast` (11/11); regresión de puerto impostor (1/1); negativas offline (2/2); `node --test tools/local-console-server.test.mjs` (19/19); `git diff --check`: PASS. El build conserva advertencia informativa por chunk Phaser de 1,222.79 kB minificado.
+- Evidencia consolidada: `evidencias/ECO-101/bootstrap-closure-2026-11-22.md`. Este cierre no certifica revisión humana, gameplay, modelos científicos, serial físico, sensores, HIL ni seguridad eléctrica.
 - **ECO105-1:** la consola expone el último input simulado normalizado aceptado y
   seis filas de traza derivadas del estado canónico. Chrome observó valores y orden,
-  terminación, 390 px sin overflow y cero errores acotados. ECO-101 sigue **EN
-  CURSO**; ECO-104, ECO-105 y ECO-109 siguen **PENDIENTES**.
+  terminación, 390 px sin overflow y cero errores acotados. En ese momento ECO-101
+  seguía **EN CURSO**; se cerró técnicamente el 2026-11-22. ECO-104, ECO-105 y
+  ECO-109 siguen **PENDIENTES**.
 - **ECO105-2:** sólo una sesión simulada completada puede reiniciarse. Chrome
   observó estado fresco, foco seguro, un único canvas y un segundo ciclo idéntico
   de seis rondas; 64/64 Vitest, 165/165 referencias, typecheck, build y smokes
@@ -459,12 +501,26 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 
 ### ECO-002 — gate científico bloqueado
 
-- **Resultado:** `BLOQUEADA`; no existe baseline científica consumible por ECO-003.
-- **Evidencia:** `evidencias/ECO-002/`, gate vigente `ECO-002-GATE-20261022-03`, cuatro cuadernos y diez casos documentales.
+- **Resultado:** `BLOQUEADA`; no existe baseline científica aceptada. ECO-003 puede avanzar solo con prototipos provisionales según ADR-013.
+- **Evidencia:** `evidencias/ECO-002/`, gate vigente `ECO-002-GATE-20261122-03`, cuatro cuadernos y diez casos documentales.
 - **Completado:** inventario, análisis dimensional, fronteras, procedencia pública acotada, escenario ficticio educativo y cálculos documentales PV/HYD/WIND/BAT-BUS.
 - **Bloqueos:** segunda revisión humana de citas/licencias; revisores identificados con competencia; reproducción y revisiones física, control, ambiental y calidad.
-- **Integridad:** `structural`, whitespace, gate vigente y 22 slices pasan. El checksum histórico completo del gate `...-02` no reproduce porque incluyó el `registry.yaml` mutable; 18 de 19 rutas coinciden y la limitación está registrada en `validation/work-unit-4-reconciliation.md`.
+- **Integridad:** `structural`, whitespace, hashes del gate vigente y 35 slices pasan. La evaluación está bloqueada; estos checks no son validación científica.
 - **Límites:** no hay implementación, tests del juego, validación experimental, baseline, snapshot, commit ni PR.
+- **Calendario:** ADR-013 programa la validación científica independiente y la aceptación integrada para el MVP completo, antes de la entrega. ECO-003 puede continuar como prototipo explícitamente provisional; G1 y las precondiciones de seguridad no se aplazan.
+- **Trabajo técnico ECO-109 (2026-11-23):** ECO109-14–16 prueban rechazo de mensajes `output` en dirección incorrecta, mensajes `error`, desconexión de un solo campo y snapshot parcialmente inválido. El adaptador limpia datos antiguos y solo recupera con una entrada completa y secuencia contigua; no prueba serial ni firmware en placa.
+- ECO109-17 evita el uso solapado de `snprintf` copiando el identificador validado a un buffer local acotado antes de codificar; ambos mensajes pasan con el identificador en el inicio del buffer o desplazado un byte dentro de él, incluido el máximo de 32 caracteres. Host C++17 y ASan/UBSan pasan; hardware sigue pendiente.
+- ECO109-18 barre los 127 bytes ASCII no NUL para `calibrationVersion` en ambos encoders; solo pasan letras, dígitos y `-_.`. Solo fija la allowlist de transporte; no cambia el firmware ni confirma calibración o hardware.
+- ECO109-19 agrega `npm run test:firmware:strict`, compilación host GCC con `-O2` y warnings de conversiones, shadowing y formato como errores. Pasa fixture/parsing/sweep; es otra configuración host, no toolchain de placa.
+- **UX de transporte:** ECO105-12 prueba markup/event handler en `calibrationVersion`; ECO105-13 cubre `error.detail` visible; ECO105-14 pasó en Chrome 156 para el anuncio `aria-live`: texto literal exacto, sin hijos ni handler; smoke completo y 390/320 px PASS. No mide timing de anuncios ni prueba lector de pantalla, seguridad general o aceptación UX.
+- **Checks registrados:** suite Vitest 112/112, typecheck y validadores ECO-002 `structural`, `whitespace`, `slices` y `git diff --check` PASS. `npm run test:firmware` y `npm run test:firmware:sanitized` PASS (`g++17`, ASan/UBSan, pruebas host 5/5, fixture byte-idéntica, parser 36/36, barrida numérica 16). Ninguno es validación científica, de sensor o de transporte físico.
+
+### ECO-002 — investigación autorizada adicional (2026-11-22)
+
+- `SRC-022` localiza una relación de potencia hidro en SI y define cabeza efectiva como cabeza total menos pérdidas identificadas; `SRC-023` distingue PVWatts V5/Fuentes de V8/SAM/NOCT.
+- `SRC-024` localiza pérdidas de penstock proporcionales a `Q²` bajo hipótesis de geometría/flujo acotadas; no establece un `K_loss` universal. Se registró `PROV-021` y `GAP-013` revisión 5; no se modificaron ecuaciones.
+- Gate vigente: `ECO-002-GATE-20261122-03`, `blocked_with_traceability`. No hay baseline ni snapshot. Siguen pendientes revisión humana de citas/licencias, revisores competentes, reproducción independiente, fronteras W/kW y flujo hidro, selección/aplicabilidad PV y escenario ambiental.
+- La evidencia se retuvo como metadatos/localizadores; el PDF SRC-024 se transmitió directamente a extracción sin conservar copia. Los controles documentales no equivalen a aprobación científica.
 
 ### ECO-001 — cierre de auditoría
 
@@ -476,13 +532,14 @@ El usuario reportó inventario real, incluida la unidad `Nano ESP32-C6 V1.0`/`V1
 - **Riesgos abiertos registrados entonces:** recuperación de `.opencode/` dependía de una fuente original autorizada; ADR-005 seguía propuesta. El `G-ACA-01` que estaba pendiente en ECO-005 fue cerrado después por ADR-010 y corrección de alcance, no por permiso docente.
 
 ## Próxima instrucción para agente
-1. Continuar pruebas automatizadas del límite de transporte y su UX, sin asignar
-   rangos físicos ni consumir snapshots en reglas del juego.
+1. Mantener las pruebas de host limitadas a fallos observables; no asignar rangos
+   físicos ni consumir snapshots en reglas del juego sin modelo/prototipo explícito.
 2. Preparar entrada de transporte real solo después de la inspección del equipo y
    cierre G1: autenticar pinout/USB, identificar SW761, registrar host y
    responsables, revisar esquema desenergizado. No asignar GPIO ni energizar.
-3. Mantener ECO-002 bloqueada hasta revisión humana competente; después registrar
-   ensayo cronometrado del pitch y playtest con métricas observables.
+3. Avanzar el prototipo ECO-003 sin presentar modelos como validados. Programar
+   revisiones científicas y aceptación integrada al completar el MVP, antes de
+   la entrega; conservar G1 y seguridad como precondiciones.
 
 ## Plantilla a actualizar tras cada tarea
 Fecha/hora, tarea ECO-###, objetivo, archivos, decisiones, resultados de pruebas (comando, salida), capturas/evidencia, riesgos, git status/commit, próximos tres pasos y bloqueos.

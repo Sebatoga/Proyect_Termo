@@ -6,25 +6,25 @@
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
 | ECO-001 | Auditar entorno/repo/OpenCode, fuente académica | informe entorno, versiones y pendientes | HECHA — rama `blocked`, evidencia `20261021T031528Z` |
-| ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | BLOQUEADA — gate `ECO-002-GATE-20261022-03`; faltan revisiones humanas identificadas |
-| ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE |
-| ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | EN REVISIÓN — referencia y contrato testeados; “balanceada” requiere playtesting reproducible y revisión ambiental |
+| ECO-002 | Revisar hipótesis, unidades y bibliografía de modelos | fórmulas con referencia, ejemplos y límites aprobables | BLOQUEADA para aceptación científica — la validación/revisión independiente se programa al cierre del MVP (ADR-013); entretanto el gate 03 sigue bloqueado y el expediente no es baseline |
+| ECO-003 | Prototipo en TS puro de tick y pruebas de conservación | harness mínimo TS+Vitest y vectores independientes (si precisa, iniciar ECO-101 antes) | PENDIENTE — puede avanzar como prototipo con modelos/datos provisionales; pruebas de regresión no equivalen a validación científica final |
+| ECO-004 | Definir medidas ambientales y score anti-trampa | métrica no trivial, balanceada, testeable | EN REVISIÓN — ECO004-11 impide victoria con demanda positiva/servicio cero (`NO_SERVICE`) y ECO004-12 confirma que igualdad exacta con ambos umbrales provisionales cuenta como cumplimiento; balance y aceptación ambiental se evalúan al cierre del MVP (ADR-013) |
 | ECO-005 | Corregir el alcance a sistema híbrido Liga 4 | ADR-010 y contrato trazables, sin atribuir permiso docente | HECHA — corrección documental 2026-10-23 |
 | ECO-006 | Cerrar requisitos para pitch de hasta 7 min | storyboard, principios, diagrama y reporte IA | EN REVISIÓN — PDF y guion generados; falta ensayo y revisión humana |
 
 ## F1 — Rebanada vertical jugable
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
-| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline local verificada | EN CURSO — loop local simulado y explícito visible; sin gameplay, ciencia, serial ni integración física |
+| ECO-101 | Evaluar consola local web y establecer bootstrap productivo | stack ratificado, app raíz tipada y checks reproducibles; operación offline local verificada | HECHA — stack adoptado, aplicación tipada, checks y operación local/offline verificados; gameplay, ciencia y hardware permanecen en sus tareas/gates |
 | ECO-102 | Modelos mínimos PV térmico + hidro de pasada en SI | tests de fórmulas, calor, caudal ecológico y límites | PENDIENTE |
 | ECO-103 | Bus eléctrico, batería y control prioridades | balance por tick y SOC límites, pruebas | PENDIENTE |
-| ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — lifecycle, composición y manifiesto provisional canónicos; sin efectos, solvencia, balance o wiring de producto |
-| ECO-105 | Consola local secundaria: variables, alertas y causalidad | loop legible sin mapa ni arte final | PENDIENTE |
+| ECO-104 | Secuencia sembrada de seis rondas con eventos mínimos | reproducible y sin eventos imposibles de superar | PENDIENTE — lifecycle, composición y manifiesto provisional canónicos; ECO104-12 handoff inmutable/replay, ECO104-13 exposición cerrada, ECO104-14 snapshots inmutables por estado y ECO104-15 rechazo fail-closed del wrap uint32; sin efectos, solvencia, balance o aceptación |
+| ECO-105 | Consola local secundaria: variables, alertas y causalidad | loop legible sin mapa ni arte final | PENDIENTE — ECO105-12/13/14 verifican en Chrome render literal de `calibrationVersion`, `error.detail` visible y su anuncio aria-live; siguen pendientes revisión humana UX, alertas causales e integración de producto |
 | ECO-106 | Puntuación, derrota, victoria y resultados explicables | 5 escenarios prueba con resultados comprensibles | PENDIENTE |
 | ECO-107 | Prueba E2E/HIL y jugabilidad híbrida | seis rondas sin pérdida silenciosa de entradas | PENDIENTE |
 | ECO-108 | Inventario/BOM y spike de banco | componentes, costos, datasheets y sensor/control→USB registrados | EN CURSO — inventario físico reportado, incluida `Nano ESP32-C6 V1.0`/`V1711` y sonda DS18B20 de 2 m; inspección, documentación aplicable, pinout, USB y banco pendientes |
-| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — ECO109-1/2 núcleo y runner host PASS; ECO109-3/4 cubren límites del serializador, ECO109-5 el identificador, ECO109-6 interoperabilidad, ECO109-7 limpieza temporal, ECO109-8 argumentos inválidos, ECO109-9 sanitizers host opcionales, ECO109-10 argumentos CLI inválidos, ECO109-11 barrida numérica determinista y ECO109-12 enteros JSON seguros; sin Arduino, GPIO, USB, sensores ni calibración |
-| ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE — prototipo A4 recorrió 6 rondas con 2 participantes según reporte; sin tiempo, balance, hardware o seguridad física |
+| ECO-109 | Firmware, calibración y protocolo USB serial | mensajes versionados; rangos, error y timeout reproducibles | EN CURSO — ECO109-1/2 núcleo y runner host PASS; ECO109-3/4 límites del serializador, ECO109-5/18 identificador, ECO109-6 interoperabilidad, ECO109-7/19 runner y perfil estricto, ECO109-8 argumentos inválidos, ECO109-9 sanitizers opcionales, ECO109-10 argumentos CLI, ECO109-11 barrida numérica, ECO109-12 enteros JSON seguros, ECO109-13 separación transporte/rangos físicos, ECO109-14 errores/dirección/recovery, ECO109-15 desconexión parcial, ECO109-16 rechazo de snapshot parcial y ECO109-17 alias seguro cubiertos en host; sin Arduino, GPIO, USB, sensores ni calibración |
+| ECO-110 | Tablero, controles, LEDs y carcasa | montaje protegido y causal, con cableado fijo y seguridad | PENDIENTE — prototipo A4 y hoja reproducible de observación de flujo preparados; reporte previo de 2 participantes sigue parcial; faltan repetición real, montaje, dimensiones y seguridad física |
 
 ECO105-1 añade observabilidad técnica del input simulado aceptado y seis trazas
 canónicas sin efectos. ECO105-2 permite reiniciar sólo esa prueba después de seis
@@ -54,7 +54,12 @@ mensaje rechazado. La vista deja los seis valores vacíos y anuncia entradas
 pendientes; no confunde handshake con error ni con conexión física real.
 ECO105-11 demuestra que, tras rechazar una línea sin secuencia parseable, los
 datos vuelven a aceptarse sin reset si la siguiente línea válida trae exactamente
-la secuencia esperada; los valores rechazados nunca se reutilizan.
+la secuencia esperada; los valores rechazados nunca se reutilizan. ECO105-12
+comprueba en Chrome que un `calibrationVersion` con markup/event handler se
+presenta como texto literal, sin crear nodos ni ejecutar handlers. ECO105-13
+extiende esa regresión a `error.detail` visible y ECO105-14 verifica también el
+anuncio `aria-live`. Ninguna cubre una auditoría de seguridad general, ejecución
+de tecnologías asistivas ni sustituye revisión humana de UX.
 
 ## F2 — Calidad de experiencia e integración
 | ID | Tarea | Criterio de salida | Estado |
@@ -63,27 +68,33 @@ la secuencia esperada; los valores rechazados nunca se reutilizan.
 | ECO-202 | Tutorial no técnico y modo información avanzada | jugador nuevo aprende en ≤90 s en prueba | PENDIENTE |
 | ECO-203 | Afinar demanda, dificultad y clima | curvas jugables, documentado y comprobable | PENDIENTE |
 | ECO-204 | Accesibilidad y legibilidad de tablero/consola | pruebas a distancia y con teclado donde aplique | PENDIENTE — foco, grupo semántico, 7 contrastes y reflow 390/320 px verificados; faltan pruebas humanas, asistivas y a distancia |
-| ECO-205 | Sensibilidad de parámetros y validación independiente | tablas/gráficas de error y límites | PENDIENTE |
+| ECO-205 | Sensibilidad de parámetros y validación independiente | tablas/gráficas de error y límites | PENDIENTE — ejecutar en el gate final del MVP conforme a ADR-013 |
 
 ## F3 — Pitch, feria y cierre
 | ID | Tarea | Criterio de salida | Estado |
 |---|---|---|---|
 | ECO-301 | Pitch de máximo siete minutos | 5 elementos documento profesor evidenciados | EN REVISIÓN — 7 diapositivas y guion 6:30–6:50; falta ensayo humano |
-| ECO-302 | Manual, pruebas límite, repositorio y trazabilidad IA | auditable por jurados | PENDIENTE |
-| ECO-303 | Póster científico/técnico y guion de demostración | unidades, hipótesis, fórmulas, resultados y validación | PENDIENTE |
-| ECO-304 | Ensayo offline de stand y contingencia híbrida | equipo objetivo, repuestos y modo seguro documentados | PENDIENTE |
+| ECO-302 | Manual, pruebas límite, repositorio y trazabilidad IA | auditable por jurados | PENDIENTE — ECO302-1/2 auditan destinos locales/anchors (`125` Markdown, `36` links, `0` fragmentos actuales, `0` rotos); ECO302-3 prepara checklist humano en `NOT_RUN`; ECO302-4 agrega comando de regresiones host (100 tests); no implica aceptación |
+| ECO-303 | Póster científico/técnico y guion de demostración | unidades, hipótesis, fórmulas, resultados y validación | PENDIENTE — incorporar resultados validados solo después del gate final; hasta entonces rotularlos provisionales |
+| ECO-304 | Ensayo offline de stand y contingencia híbrida | equipo objetivo, repuestos y modo seguro documentados | PENDIENTE — ECO304-3 oculta el mapa mutable de archivos de preflight en un WeakMap privado; siguen pendientes walkthrough humano y ensayo de stand |
 | ECO-305 | Auditoría final contra matriz de requisitos y gate docente | todas las obligaciones evidenciadas o brechas declaradas | PENDIENTE |
 
 ECO304-1 aporta el servidor loopback estricto compartido y su preflight; ECO304-2
-reutiliza esa ruta en la evidencia offline y documenta la operación. ECO-304
-permanece **PENDIENTE** hasta ejecutar el recorrido humano en el equipo objetivo.
+reutiliza esa ruta en la evidencia offline y documenta la operación; ECO304-3
+mantiene privado el mapa de archivos verificados. ECO-304 permanece **PENDIENTE**
+hasta ejecutar el recorrido humano en el equipo objetivo.
 
 ## Reglas de secuenciación
-1. Resolver F0 científico antes de balancear gameplay, pero se permite crear prototipos aislados para explorar.
+1. La validación científica independiente se ejecuta al completar el MVP y antes de su aceptación final (ADR-013). Se permite avanzar con prototipos y datos claramente provisionales; no se presentan como validados ni se usan para afirmar resultados reales.
 2. F1 solo se da por terminada cuando hay partida jugable de principio a fin.
 3. F2 no puede degradar conservación, accesibilidad o trazabilidad científica.
 4. F3 requiere evidencia real; no «screenshots imaginarios» ni pruebas declaradas sin ejecutar.
-5. Antes de cada hito: revisión de alcance, evaluación de riesgos, respaldo/commit, test suite y relevo.
+5. Antes de cada hito: revisión de alcance, evaluación de riesgos, respaldo/commit autorizado, checks de regresión aplicables y relevo. La validación final se reserva para el cierre; los gates de seguridad previos a energización/playtesting no se aplazan.
+
+**Definición de cierre:** MVP completo significa integración funcional de la
+rebanada acordada y documentación de alcance/limitaciones. El gate final científico,
+playtesting y aceptación se ejecutan entonces y antes de afirmar cumplimiento o
+entregar; no se trasladan después de la entrega.
 
 ## Rebaseline ejecutable de cuatro semanas
 
@@ -107,7 +118,7 @@ La ejecución `evidencias/ECO-001/20261021T031528Z/` cerró la auditoría median
 
 ## Estado bloqueado ECO-002
 
-El gate `ECO-002-GATE-20261022-03` conserva el resultado `blocked_with_traceability`: existen inventario, dimensiones, fronteras, fuentes públicas acotadas y cuatro cuadernos documentales, pero no revisores humanos identificados, evidencia de competencia, reproducciones independientes ni revisiones física, de control, ambiental y de calidad. No existe línea base congelada para ECO-003.
+El gate vigente `ECO-002-GATE-20261122-03` conserva el resultado `blocked_with_traceability`: existen inventario, dimensiones, fronteras, fuentes públicas acotadas y cuatro cuadernos documentales, pero no revisores humanos identificados, evidencia de competencia, reproducciones independientes ni revisiones física, de control, ambiental y de calidad. No existe baseline científica aceptada; ECO-003 solo puede explorar candidatos como prototipos provisionales.
 
 ## Evidencia parcial ECO-004
 
@@ -122,7 +133,7 @@ humana y revisión ambiental. El paquete real continúa `NOT_RUN` y fail-closed.
 
 ## Evidencia exploratoria para ECO-101
 
-El spike descartable verificó compatibilidad y permitió adoptar ADR-005 el 2026-11-04. El bootstrap productivo raíz añade shell accesible, escena mínima, configuración tipada y un estado de sesión visible mediante puerto, mapper fail-closed y presentador, sin consumir ECO-002. Chrome headless observó el shell/canvas desde una build limpia servida sólo desde `dist/`: no intentó HTTP(S) externo y permaneció visible durante un intervalo acotado tras apagar el servidor. ECO-101 queda **EN CURSO** porque aún falta comportamiento de producto e integración híbrida; ECO-002 sigue **BLOQUEADA** y ECO-003 **PENDIENTE**.
+El spike descartable verificó compatibilidad y permitió adoptar ADR-005 el 2026-11-04. El bootstrap productivo raíz añade shell accesible, escena mínima, configuración tipada y un estado de sesión visible mediante puerto, mapper fail-closed y presentador, sin consumir ECO-002. Chrome headless observó el shell/canvas desde una build limpia servida sólo desde `dist/`: no intentó HTTP(S) externo y permaneció visible durante un intervalo acotado tras apagar el servidor. ECO-101 quedó **HECHA el 2026-11-22** contra su criterio acotado de bootstrap (stack, app tipada, checks y operación offline); comportamiento de producto e integración híbrida siguen en sus tareas. ECO-002 sigue **BLOQUEADA** y ECO-003 **PENDIENTE**.
 
 ## Límites temporales del documento original
 - Pitch: fecha **sugerida** segunda semana de noviembre, **no confirmada** por profesor.

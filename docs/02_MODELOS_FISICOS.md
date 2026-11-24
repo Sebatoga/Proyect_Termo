@@ -1,6 +1,6 @@
 # Contrato científico verificable v0.2 — SI obligatorio
 
-**Carácter:** contrato propuesto, aún bloqueado por ECO-002 y no aceptado como baseline. No reemplaza cálculos de diseño real. Para cada ecuación se mantendrán bibliografía, supuestos, rangos, test vector y validación. Ningún parámetro inventado se presenta como medición.
+**Carácter:** contrato candidato para desarrollo, aún bloqueado por ECO-002 y no aceptado como baseline. No reemplaza cálculos de diseño real. Bibliografía, supuestos, rangos y vectores se documentan ahora; la validación científica independiente y la aceptación integrada se ejecutarán cuando el MVP esté completo y antes de la entrega académica (ADR-013). Ningún parámetro inventado se presenta como medición.
 
 ## A. Tiempo y unidades
 - El MVP resuelve seis rondas; cada ronda usa un intervalo simulado declarado y pendiente de calibración, separado de sus 8–12 minutos de tiempo real.
@@ -75,10 +75,36 @@ El siguiente modelo se conserva como trabajo posterior y no integra el producto 
 - `S_eco`: 100 mientras se respete caudal ecológico en todas las extracciones; reducir solo si existe un modo explícito de sobreexplotación y una métrica definida. **Ojo**: si todo incumplimiento queda bloqueado, `S_eco` sería constante y no discrimina. Antes de implementar, rediseñar componente ambiental en términos de *margen de conservación* o *beneficios ambientales verificables*, sin premiar por apagar toda la ciudad. Registrar decisión en ADR.
 - `S_recursos`: definir integral de energía desperdiciada/vertida normalizada por oportunidad disponible con metas razonables; no penalizar vertimiento hidro inevitable por caudal natural.
 - `S_final = 0.50*Scrit + 0.20*Stotal + 0.20*Seco + 0.10*Srecursos`, todos 0–100, **solo tras resolver problemas de incentivos y denominadores**.
-- Los pesos son decisión jugable **no una ley física**, sujetos a validación con usuarios.
+- Los pesos son decisión jugable **no una ley física**; cualquier evaluación de balance se reserva para el playtest final.
 
 ## I. Casos límite obligatorios
 G=0; G extrema dentro del rango; panel caliente; PV comienza frío; v=0 / justo cut-in / justo cut-out / sobre cut-out; río Q=0 y Q<Qeco; compuerta totalmente cerrada; pérdida neta de carga alta; batería 0/100%; eficiencia =1 y <1; demanda 0; Δt=0 y tick repetido; datos negativos/NaN rechazados; clima extremo con apagón; pausa y reanudación; semilla repetida → resultados idénticos.
 
-## J. Verificación independiente
-Cada módulo tendrá al menos: ecuación documentada, ejemplo manual/calc. independiente, test automatizado, prueba de límite, análisis dimensional, comparación simulador↔referencia, revisión del especialista, gráfico para el póster. Ver `docs/09_PLAN_PRUEBAS.md` y `datos/casos_referencia.json`.
+## J. Verificación independiente al cierre
+Al completar el MVP y antes de la entrega, cada módulo deberá contar con:
+ecuación documentada, ejemplo/cálculo independiente, pruebas automatizadas y de
+límite, análisis dimensional, comparación simulador↔referencia y revisión
+competente. Los checks de regresión ejecutados durante desarrollo son controles
+de implementación, no aceptación científica. Ver el calendario de cierre en
+`docs/09_PLAN_PRUEBAS.md` y `docs/10_ENTREGABLES_ACADEMICOS.md`.
+
+## K. Trazabilidad científica ECO-002
+
+**Estado actual:** propuesta educativa, no baseline aceptada. El gate vigente es
+`ECO-002-GATE-20261122-03` (`blocked_with_traceability`). Los IDs siguientes
+permiten rastrear el contrato sin convertir la investigación documental en
+aprobación científica.
+
+| Parte del contrato | Referencias del expediente | Evidencia y límite vigente |
+|---|---|---|
+| Balance térmico PV y potencia | `SCI-EQ-PV-001`–`SCI-EQ-PV-003` r1; `DIM-PV-001`–`DIM-PV-003` r1; `BND-PV-001`–`BND-PV-005` r1; `PROV-014`–`PROV-016` y `PROV-020` r1; `GAP-015` r3 | Sandia/PVWatts son referencias empíricas/modelo-versionadas, no validación del balance transitorio concentrado de EcoGrid. Módulo, montaje, coeficientes, dominio y paso siguen pendientes. |
+| Disponibilidad hidro, bypass, cabeza y potencia | `SCI-EQ-HYD-001`–`SCI-EQ-HYD-004` r1; `DIM-HYD-001`–`DIM-HYD-003` r1; `BND-HYD-001`–`BND-HYD-004` r1; `PROV-018`, `PROV-019`, `PROV-021` r1; `GAP-013` r5 | USBR/JICA y Leon–Zhu apoyan relaciones acotadas, incluida dependencia penstock `Q²` bajo condiciones declaradas. No aprueban `K_loss` universal, frontera de caudal, salida W/kW ni el dominio del modelo candidato. |
+| Batería y bus | `SCI-EQ-BAT-001`–`SCI-EQ-BAT-002` r1; `SCI-EQ-BUS-001`–`SCI-EQ-BUS-002` r1; `BND-BAT-001`–`BND-BAT-005` r1; `BND-BUS-001`–`BND-BUS-002` r1; `CALC-BUS-001` r1; `GAP-004`, `GAP-016` r1 | El cuaderno ofrece contabilidad documental para un escenario ficticio. Límites, eficiencias, convenciones de signo, fronteras de pérdida y reproducción siguen sin aceptación independiente. |
+| Caudal ambiental | `SCI-PAR-ENV-001`–`SCI-PAR-ENV-002` r1; `BND-ENV-001` r1; `PROV-006`, `PROV-009`, `PROV-010` r1; `GAP-013` r5 | El bypass es una restricción física simplificada, separada del score ECO-004. `Qeco=1 m³/s` es ficticio; no se eligió cuenca ni autoridad aplicable. |
+
+Los cuadernos `CALC-PV-001`, `CALC-HYD-001`, `CALC-WIND-001` y `CALC-BUS-001`
+son cálculos/contrastes documentales, no tests ejecutados ni evidencia
+experimental. ECO-003 puede explorarlos únicamente como candidatos provisionales
+de desarrollo; no son baseline científica ni autorizan afirmaciones de validez.
+La revisión, reproducción independiente y aceptación se programan para el cierre
+del MVP, antes de la entrega académica.

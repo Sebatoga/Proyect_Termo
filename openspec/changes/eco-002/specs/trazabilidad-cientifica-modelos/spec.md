@@ -2,7 +2,7 @@
 
 ## Propósito
 
-Definir el expediente verificable que clasifica y conecta ecuaciones, parámetros, hipótesis, unidades, límites, cálculos y revisiones de los modelos energéticos antes de que ECO-003 pueda implementarlos. Esta capacidad admite como resultado válido una línea base congelada o un bloqueo explícito y trazable; no implementa ni valida experimentalmente los modelos.
+Definir el expediente verificable que clasifica y conecta ecuaciones, parámetros, hipótesis, unidades, límites, cálculos y revisiones de los modelos energéticos. Por ADR-013, la validación independiente y el gate de aceptación se ejecutan al completar el MVP y antes de la entrega; durante desarrollo pueden usarse candidatos solo en prototipos marcados como provisionales. Esta capacidad admite como resultado válido una línea base congelada o un bloqueo explícito y trazable; no implementa modelos ni declara validación experimental.
 
 ## Requisitos
 
@@ -85,7 +85,8 @@ El expediente DEBE conservar únicamente copias cuya retención esté autorizada
 
 - DADA una fuente candidata que el equipo no puede consultar legalmente
 - CUANDO esa fuente es necesaria para un elemento crítico
-- ENTONCES el elemento DEBE permanecer no verificado y bloqueado para ECO-003
+- ENTONCES el elemento DEBE permanecer no verificado y excluido de toda baseline aceptada y de afirmaciones científicas de ECO-003
+- Y solo PUEDE usarse en un prototipo de desarrollo con estado provisional visible, sin presentarse como modelo aceptado
 - Y el expediente DEBE registrar la dependencia de acceso sin intentar eludirla
 
 ### Requisito: Inventario completo de ecuaciones y parámetros
@@ -110,8 +111,9 @@ El expediente DEBE mantener identificadores estables para cada ecuación, variab
 
 - DADA una ecuación crítica sin hipótesis, unidad, límite o procedencia suficiente
 - CUANDO se evalúa para congelación
-- ENTONCES DEBE quedar fuera de la línea base consumible por ECO-003
+- ENTONCES DEBE quedar fuera de la línea base científica aceptada y de toda afirmación científica de ECO-003
 - Y su inventario DEBE conservar la brecha de manera visible
+- Y cualquier prototipo que lo use DEBE identificarlo como provisional
 
 ### Requisito: Consistencia dimensional y conversiones SI
 
@@ -334,18 +336,19 @@ El expediente DEBE registrar para las revisiones física, de control, ambiental 
 
 - DADO un hallazgo crítico no resuelto sobre un elemento
 - CUANDO se prepara la línea base
-- ENTONCES el elemento DEBE quedar bloqueado y fuera de la porción consumible por ECO-003
+- ENTONCES el elemento DEBE quedar bloqueado y fuera de la baseline científica aceptada y de toda afirmación científica de ECO-003
 - Y el hallazgo DEBE conservar responsable y siguiente acción
+- Y su uso exploratorio en desarrollo solo PUEDE continuar como prototipo explícitamente provisional
 
 ### Requisito: Congelación reproducible y bloqueo honesto
 
-El expediente DEBE evaluar un gate reproducible antes de congelar una versión para ECO-003. La versión congelada DEBE identificar elementos aceptados, versiones exactas, revisiones satisfechas y brechas excluidas. Si faltan fuentes críticas, cálculos independientes, consistencia dimensional o revisores requeridos, el resultado DEBE ser `bloqueado con trazabilidad`, nunca una aprobación provisional o implícita.
+El expediente DEBE evaluar el gate reproducible al completar el MVP y antes de su aceptación o entrega final. La versión congelada DEBE identificar elementos aceptados, versiones exactas, revisiones satisfechas y brechas excluidas. Si faltan fuentes críticas, cálculos independientes, consistencia dimensional o revisores requeridos, el resultado DEBE ser `bloqueado con trazabilidad`, nunca una aprobación provisional o implícita. Un prototipo de desarrollo puede usar candidatos no congelados solo con estado provisional visible y sin presentarlos como resultados científicamente aceptados.
 
 #### Escenario: Línea base apta para congelación
 
 - DADOS elementos críticos con procedencia aceptable, dimensiones consistentes, cálculos independientes y revisiones requeridas resueltas
 - CUANDO se evalúa el gate
-- ENTONCES el expediente PUEDE congelar una versión identificada para consumo de ECO-003
+- ENTONCES el expediente PUEDE congelar una versión identificada para aceptación científica y entrega final
 - Y DEBE enumerar exactamente los elementos incluidos y cualquier brecha no bloqueante
 
 #### Escenario: Fuente o revisión crítica faltante
@@ -353,6 +356,8 @@ El expediente DEBE evaluar un gate reproducible antes de congelar una versión p
 - DADO al menos un elemento crítico sin fuente suficiente o revisión requerida
 - CUANDO se evalúa el gate
 - ENTONCES el resultado DEBE ser `bloqueado con trazabilidad`
+- Y el desarrollo PUEDE continuar únicamente como prototipo explícitamente provisional
+- Y el resultado NO DEBE presentarse como científicamente validado ni aceptado para entrega
 - Y la brecha DEBE indicar estado, responsable, dependencia y siguiente acción
 
 #### Escenario: Brecha no crítica conservada
@@ -385,7 +390,8 @@ El expediente DEBE preservar formulaciones, vectores y clasificaciones provision
 - DADO un elemento rechazado durante una revisión
 - CUANDO se revierte su promoción
 - ENTONCES NO DEBEN revertirse ni eliminarse cambios ajenos, fuentes preexistentes o datos del usuario
-- Y ECO-003 DEBE permanecer bloqueada únicamente para los elementos dependientes afectados
+- Y la aceptación científica de ECO-003 DEBE permanecer bloqueada únicamente para los elementos dependientes afectados
+- Y los prototipos de desarrollo afectados DEBEN conservar su carácter provisional
 
 ### Requisito: Dependencias de fuentes y decisiones autorizadas
 

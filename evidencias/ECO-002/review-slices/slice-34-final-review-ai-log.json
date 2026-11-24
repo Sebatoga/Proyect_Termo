@@ -1,0 +1,20 @@
+{
+  "id": "ECO-002-WU4-S34",
+  "order": 34,
+  "purpose": "Review final review ai log without changing or implying acceptance of the scientific gate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S33",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-34-final-review-ai-log.json",
+      "records": [
+        "complete slice manifest"
+      ],
+      "review_lines": 26
+    }
+  ],
+  "total_review_lines": 26,
+  "non_overlap_key": "eco-002-final-review-34-2026-11-22"
+}

@@ -70,6 +70,11 @@ test("preflight creates a deterministic identity from sorted local assets", asyn
   assert.equal(first.buildId, second.buildId);
   assert.match(first.buildId, /^[a-f0-9]{64}$/);
   assert.deepEqual(first.assets, ["/assets/app.css", "/assets/app.js"]);
+  assert.deepEqual(Object.keys(first), ["root", "buildId", "assets"]);
+  assert.deepEqual(Object.getOwnPropertySymbols(first), []);
+  assert.equal(Object.isFrozen(first), true);
+  assert.equal(Object.isFrozen(first.assets), true);
+  assert.throws(() => first.assets.push("/injected.js"), TypeError);
 });
 
 test("preflight rejects missing index, title, asset, and external references", async (context) => {

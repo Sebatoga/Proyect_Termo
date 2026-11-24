@@ -1,0 +1,27 @@
+{
+  "id": "ECO-002-WU4-S31",
+  "order": 31,
+  "purpose": "Review final human review packet without changing or implying acceptance of the scientific gate.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S30",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/validation/final-human-review-checklist-2026-11-22.md",
+      "records": [
+        "current complete file"
+      ],
+      "review_lines": 79
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-31-final-human-review-packet.json",
+      "records": [
+        "complete slice manifest"
+      ],
+      "review_lines": 26
+    }
+  ],
+  "total_review_lines": 105,
+  "non_overlap_key": "eco-002-final-review-31-2026-11-22"
+}

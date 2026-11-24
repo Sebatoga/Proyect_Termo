@@ -33,6 +33,15 @@ access_authorizations:
     scope: Public read-only metadata and localizable citations for SRC-014 through SRC-020 only.
     restrictions: No further web work, credential discovery, remote writes, source-copy retention, redistribution, code, baseline, commit, push, or PR.
     evidence: User-supplied URLs, exact report pages or web equations, recheck date, and required scientific limitations.
+  - id: ACCESS-003
+    revision: 1
+    supersedes_revision: null
+    authorized_by: project_user
+    authorized_at: '2026-11-22'
+    authorization_basis: Explicit user authorization in this session for all authorizations needed to continue ECO-002; scoped here to public-source read-only research.
+    scope: Public read-only research for ECO-002 source metadata, stable locators, and bounded scientific excerpts.
+    restrictions: No credential discovery, remote writes, source-copy retention, redistribution, equipment selection, formula approval, baseline, commit, push, or PR.
+    evidence: User instruction that all needed authorizations are granted; no source-copy retention was requested.
 retention_permissions: []
 retention_decision: No source copy is authorized; only metadata, stable locators, narrow summaries, and provenance links may be retained.
 sources:
@@ -391,6 +400,78 @@ sources:
     applicable_excerpt: 'P=Cp*(1/2)*rho*A*V^3; air density varies with temperature and elevation; Betz limit is 16/27; cut-in, rated, and cut-out are turbine-specific operating points.'
     applicability_domain: Direct support for the aerodynamic relation and theoretical Betz limit; actual output requires a turbine-specific power curve and site wind distribution, and turbulence may reduce estimates by 15-25 percent. No universal turbine values are selected.
     access_authorization_ref: {id: ACCESS-002, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-021
+    revision: 1
+    supersedes_revision: null
+    source_kind: technical_report
+    author_or_institution: United States Bureau of Reclamation
+    title: Hydropower Resource Assessment at Existing Reclamation Facilities
+    edition_or_version: Final report, March 2011
+    locator: 'https://www.usbr.gov/power/AssessmentReport/USBRHydroAssessmentFinalReportMarch2011.pdf, Chapter 2, §2.2 Site Hydrologic Data'
+    consulted_at: '2026-11-22'
+    consulted_by: authorized_research_session
+    applicable_excerpt: 'The report states that flow and net hydraulic head are required, defines net head in the site assessment context, and estimates power in kW as (flow in cfs × net head in feet × efficiency)/11.8.'
+    applicability_domain: Reclamation resource-assessment formula in customary units and planning-level context; supports bounded flow/head/efficiency dependence, not a direct SI rho*g*Q*H_net equation or a selected EcoGrid turbine.
+    access_authorization_ref: {id: ACCESS-003, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-022
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: Japan International Cooperation Agency; Electric Power Development Co., Ltd.; JP Design Co., Ltd.
+    title: 'Guideline and Manual for Hydropower Development, Vol. 2: Small Scale Hydropower'
+    edition_or_version: March 2011, IDD JR 11-020
+    locator: 'https://openjicareport.jica.go.jp/pdf/12024899.pdf, §3.1.2, printed page 3-1; §5.3.1(6), printed page 5-12; §8.3.2(2), printed pages 8-10–8-11'
+    consulted_at: '2026-11-22'
+    consulted_by: authorized_research_session
+    applicable_excerpt: '§3.1.2 states P=ρ·9.8·Q·He·η, with P in kW, ρ=1000 kg/m³, g≈9.8 m/s², Q in m³/s, He effective head in m, and combined turbine-generator efficiency. §5.3.1(6) defines effective head as total head minus intake, headrace, penstock, tailrace, and other losses.'
+    applicability_domain: 'Small-scale hydropower planning formulation and its stated units; supports a bounded SI-form relation and an effective-head definition, but does not approve the EcoGrid 9.81 constant, simplified K_loss·Q² law, turbine boundary, or environmental-flow scenario.'
+    access_authorization_ref: {id: ACCESS-003, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-023
+    revision: 1
+    supersedes_revision: null
+    source_kind: institutional_publication
+    author_or_institution: National Renewable Energy Laboratory (now National Laboratory of the Rockies)
+    title: System Advisor Model Help — PVWatts model and version history
+    edition_or_version: SAM Help 2025.4.16
+    locator: 'https://sam.nlr.gov/images/web_page_files/sam-help-2025-4-16.pdf, PVWatts section, About PVWatts Versions and New features added in Version 8; current help: https://samrepo.nlr.gov/help/pvwatts.html'
+    consulted_at: '2026-11-22'
+    consulted_by: authorized_research_session
+    applicable_excerpt: 'The help states that PVWatts V5 uses the Fuentes thermal model, while V8 updates module thermal modeling to the SAM Detailed PV implementation and uses an NOCT cell-temperature method; listed NOCT defaults differ by array type.'
+    applicability_domain: 'Version boundary and documented model choices only; it does not establish equivalence between either PVWatts version and EcoGrid’s candidate lumped transient thermal balance, nor select a production model or module configuration.'
+    access_authorization_ref: {id: ACCESS-003, revision: 1}
+    retention_mode: metadata_only
+    retention_permission_ref: null
+    local_copy_path: null
+    content_sha256: null
+    status: consulted_verified
+  - id: SRC-024
+    revision: 1
+    supersedes_revision: null
+    source_kind: journal_article_accepted_manuscript
+    author_or_institution: Arturo S. Leon and Ling Zhu
+    title: A dimensional analysis for determining optimal discharge and penstock diameter in impulse and reaction water turbines
+    edition_or_version: 'Renewable Energy, volume 71 (2014), pages 609–615; accepted manuscript'
+    locator: 'https://ir.library.oregonstate.edu/downloads/1v53jz652, printed pages 3–4, equations (1), (2), (4), and (6); DOI: 10.1016/j.renene.2014.06.024'
+    consulted_at: '2026-11-22'
+    consulted_by: authorized_research_session
+    applicable_excerpt: 'Equation (1) expresses electrical power in W as efficiency times water specific weight, discharge, and gross head minus summed head losses. Equations (2) and (4) express penstock loss with Q² multiplied by a geometry/local-loss/friction-factor term. The derivation assumes constant overall efficiency; the discussion on printed page 6 limits its near-constant friction-factor observation to its stated fully developed turbulent-flow context.'
+    applicability_domain: 'Bounded support for a Q² dependence under fixed geometry and stated flow/friction assumptions in impulse/reaction turbine penstocks; not support for one universal K_loss, every flow regime, EcoGrid-specific penstock geometry, or approval of the proposed model.'
+    access_authorization_ref: {id: ACCESS-003, revision: 1}
     retention_mode: metadata_only
     retention_permission_ref: null
     local_copy_path: null

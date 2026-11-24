@@ -154,11 +154,11 @@ Un enlace a una revisión inexistente o sustituir silenciosamente la revisión r
 
 ### Decisión: bloqueo por elemento y cierre honesto del expediente
 
-**Elección:** una brecha crítica excluye el elemento y todos sus dependientes de la porción consumible. Si cualquier elemento crítico requerido por ECO-003 queda excluido, el gate global produce `blocked_with_traceability`.
+**Elección:** una brecha crítica excluye el elemento y todos sus dependientes de la baseline científica aceptada. Si cualquier elemento crítico requerido para aceptación final queda excluido, el gate global produce `blocked_with_traceability`. ECO-003 puede explorar candidatos en prototipos de desarrollo únicamente con estado provisional visible y sin afirmaciones científicas.
 
 **Alternativas consideradas:** aprobación provisional; completar campos por memoria; bloquear todo sin señalar dependencias.
 
-**Rationale:** el bloqueo localizado conserva progreso y muestra el alcance real, pero evita que ECO-003 consuma una cadena científica incompleta.
+**Rationale:** el bloqueo localizado conserva progreso y muestra el alcance real, pero evita aceptar o presentar una cadena científica incompleta.
 
 ## Contratos de datos
 
@@ -368,6 +368,17 @@ status: open
 
 ## Flujo de ejecución y gates
 
+### Calendario ADR-013
+
+La revisión científica independiente, reproducción de cálculos y aceptación
+integrada se ejecutan cuando el MVP esté completo y antes de la entrega
+académica. Hasta entonces ECO-002 conserva el resultado bloqueado y sus candidatos
+pueden utilizarse solo en prototipos de desarrollo con estado provisional
+visible. Estos prototipos no son baseline, no autorizan afirmaciones científicas
+y no sustituyen regresiones automatizadas. Seguridad, calibración de señales
+antes de que entren al dominio y precondiciones antes de energizar/playtesting
+siguen siendo gates previos a esas operaciones.
+
 | Etapa | Entrada | Acción permitida | Salida / bloqueo |
 |---|---|---|---|
 | G0 — Preservar | estado Git y documentos provisionales | Registrar estado y trabajar sin borrar formulaciones/vectores | Inventario de material heredado. |
@@ -380,7 +391,7 @@ status: open
 | G7 — Revisar por competencia | alcance versionado y revisor real | Registrar revisión y resolver hallazgos | Rol ausente o crítico abierto: elementos bloqueados. |
 | G8 — Evaluar dependencias | grafo de IDs/revisiones | Propagar bloqueo solo a dependientes | Lista exacta incluida/excluida. |
 | G9 — Evaluar | candidato completo | Crear `GATE-EVAL-ID`, manifiesto, hashes y reporte inmutables | `accepted_frozen` o `blocked_with_traceability`; el bloqueo no crea línea base. |
-| G10 — Congelar aceptado | `GATE-EVAL-ID` con `accepted_frozen` | Crear `BASELINE-ID`, snapshot y referencia al gate | Línea base inmutable consumible por ECO-003. |
+| G10 — Congelar aceptado | `GATE-EVAL-ID` final con `accepted_frozen` | Crear `BASELINE-ID`, snapshot y referencia al gate | Línea base inmutable para aceptación científica y entrega final. Los prototipos de desarrollo anteriores permanecen provisionales. |
 
 ### Reglas del gate final
 
@@ -467,7 +478,7 @@ N/A — ECO-002 no cambia routing, shell, subprocesses, automatización VCS/PR, 
 
 ## Migración y despliegue
 
-No hay migración de datos ni despliegue de software. La ejecución futura importará las formulaciones y vectores provisionales como revisiones iniciales clasificadas, sin alterar sus valores ni promoverlos. ECO-003 solo podrá consumir un `BASELINE-ID` originado por un `GATE-EVAL-ID` con resultado `accepted_frozen`; un `GATE-EVAL-ID` con resultado `blocked_with_traceability` conserva el reporte de bloqueo, no crea línea base y no autoriza implementación científica de los elementos bloqueados.
+No hay migración de datos ni despliegue de software. La ejecución futura importará las formulaciones y vectores provisionales como revisiones iniciales clasificadas, sin alterar sus valores ni promoverlos. Durante desarrollo ECO-003 puede usarlos solo como candidatos explícitamente provisionales; la aceptación científica y la entrega requieren un `BASELINE-ID` originado por un gate final `accepted_frozen`. Un gate `blocked_with_traceability` conserva el bloqueo, no crea línea base ni autoriza afirmar validez científica de los elementos afectados.
 
 ## Preguntas abiertas
 
