@@ -4,13 +4,14 @@
 
 - Mode: Standard documentary workflow; strict TDD is disabled and no application test runner exists.
 - Delivery: `auto-chain`, `stacked-to-main`; no size exception is requested or authorized.
-- Scope: cumulative Work Units 1–4; this batch reconciles the calculation gate, validation coverage, and a new blocked reevaluation only.
+- Scope: cumulative Work Units 1–4; this continuation completes the documentary model/source/test/traceability/acceptance views while preserving the blocked scientific gate.
 - Gate result: `blocked_with_traceability`.
-- Current gate: `ECO-002-GATE-20261022-03`, which supersedes `ECO-002-GATE-20261022-02` without modifying any prior gate.
+- Current gate: `ECO-002-GATE-20261122-03`, which supersedes gate 02 without modifying any prior evaluation.
 - Baseline: none.
 - Snapshot: none.
-- Tasks 1.1–4.6, 5.1–5.4, 6.1–6.2, and 6.11 are complete; externally dependent and conditional tasks remain unchecked.
+- Tasks 1.1–4.6, 4.8–4.10, 5.1–5.4, 6.1–6.2, 6.5–6.9, 6.11, and 6.12 are complete; human-dependent, baseline-dependent, and clean-checkout tasks remain open.
 - No commit or PR was created or claimed.
+- Additional authorized research on 2026-11-22 recorded as task 4.8; it does not supersede the immutable gate or complete human review.
 
 ## Completed tasks retained
 
@@ -37,7 +38,48 @@
 - `SRC-020` records the WINDExchange cubic relation, density dependence, Betz limit, operating-point definitions, and turbine/site limitations. No universal turbine value is selected.
 - `PROV-013`–`PROV-017` and five new inventory records preserve those bounded interpretations without promoting the existing hydro/PV candidate models or equipment-specific parameters.
 - `GAP-001`, `GAP-002`, `GAP-013`, and `GAP-014` advance to revision 2; `GAP-015` records the open PV model/version and applicability-range decision.
-- Tasks 4.6–4.7 remain unchecked. Tasks 5–6 were not executed. No baseline, source copy, code, install, commit, push, or PR was created or claimed.
+- Task 4.7 and tasks 5.5–5.10 remain unchecked. Tasks 6.3–6.10 remain conditional or externally blocked. No baseline, source copy, code, install, commit, push, or PR was created or claimed.
+
+### Authorized research update — 2026-11-22
+
+- `ACCESS-003` records the user's authorization for public read-only ECO-002 research; retention remains metadata-only.
+- `SRC-021` and `PROV-018` add a Reclamation planning-level hydropower relation in customary units. This narrows the source gap but does not directly cite the EcoGrid SI equation or settle its net-head/loss convention.
+- `GAP-013` revision 3 preserves the SI derivation, independent scientific review, equipment, watershed, and Qeco blockers.
+- Evidence receipt: `evidencias/ECO-002/validation/authorized-research-2026-11-22.md`.
+- Task 4.7 and tasks 5.5–5.10 remain blocked on real, identified human reviewers. The required `modelo-fisico` skill and `@revisor-fisica` reviewer are unavailable in this runtime.
+- The prior immutable gate `ECO-002-GATE-20261022-03` was not edited. New immutable reevaluation `ECO-002-GATE-20261122-01` incorporates the additions and remains blocked; no baseline or snapshot was created.
+- Validation after the reevaluation: structural validator PASS (236 definitions, 226 references, 0 unresolved; 38 checked, 15 blocked-unchecked); whitespace validator PASS (6 files, 0 violations); slice validator PASS (24 slices, 68 paths, all budgets ≤400 lines); gate hash verification PASS (16 files).
+
+## Additional authorized research — 2026-11-22
+
+- `SRC-022` records JICA's localized SI-form small-hydro output relation and effective-head definition; `PROV-019` limits that evidence to the cited formulation, without approval of the EcoGrid implementation.
+- `SRC-023`/`PROV-020` distinguish PVWatts V5's Fuentes transient thermal model from V8's updated SAM/NOCT model family. Neither is treated as validation of EcoGrid's candidate model.
+- `GAP-013` revision 4 preserves the independent physics review and environmental-scenario blockers and explicitly flags the current `P_hydro_W` name versus kW reference-vector mismatch. `GAP-015` revision 3 retains PV model selection/applicability as open.
+- Task 4.9 is complete as metadata-only research. A new immutable evaluation `ECO-002-GATE-20261122-02` remains `blocked_with_traceability`; no formulas were edited, no human reviews were performed, and no baseline/snapshot was created.
+- Research tool limitation: the JICA and SAM PDFs were not downloaded; search results exposed the bounded excerpts and printed-page/section locators recorded in the receipt. No independent verification or licensing conclusion is claimed.
+
+### Penstock-loss research — 2026-11-22
+
+- `SRC-024`/`PROV-021` localize Leon and Zhu's bounded `Q²` penstock-loss formulation and its geometry, friction, local-loss, constant-efficiency, and turbulent-flow assumptions. The public PDF was streamed directly to text extraction; no copy was retained.
+- `GAP-013` advances to revision 5 and explicitly rejects treating this as validation of a universal `K_loss` or the EcoGrid model.
+- New immutable evaluation `ECO-002-GATE-20261122-03` incorporates the new evidence and remains `blocked_with_traceability`. No formula, baseline, snapshot, or prior gate was changed.
+- Licensing and citation conditions, identified reviewer competence, calculation reproduction, and physics/control/environmental/quality reviews remain pending; the gate is not scientifically accepted.
+- Gate-03 checks: structural validation PASS (245 definitions, 233 references, 0 unresolved; 14 hashes), whitespace PASS (15 files), slices PASS (27 slices/77 paths), `git diff --check` PASS, checksum PASS (16 artifacts), and absence checks PASS. These are documentary-integrity checks only.
+
+### Autonomous documentation closure — ECO-002
+
+- `docs/02_MODELOS_FISICOS.md` now maps the candidate contracts to scientific IDs, sources, boundaries, and open gaps; no equation or parameter changed.
+- `docs/11_INVESTIGACION_Y_FUENTES.md` is the current source-facing index, distinguishing cited evidence from fictional example values and recording authorization/retention limits.
+- `docs/09_PLAN_PRUEBAS.md` maps proposed ECO-003 cases to `BND-*` and `CALC-*`, preserving differing inputs/tolerances and explicitly stating that these cases were not executed.
+- `docs/06_MATRIZ_TRAZABILIDAD.md` maps official `ACA-REQ-*` records to scientific evidence while separating academic obligations from technical proof.
+- `docs/05_CRITERIOS_ACEPTACION.md` links scientific acceptance criteria to records and gate status without declaring any criterion scientifically accepted.
+- Tasks 6.5–6.9 and 6.12 are complete. Validator scope now blocks only tasks that truly require accepted baseline evidence or a clean checkout; identified human reviews remain unchecked until the user's final review.
+- Task 6.10 remains open because a clean-checkout verification cannot be honestly claimed without an authorized clean revision/commit. No commit was created.
+- Post-documentation checks: structural PASS (245 definitions, 233 refs, 0 unresolved; 46 checked tasks, 10 externally blocked); whitespace PASS (24 untracked text files); slices PASS (35 slices/86 paths, all ≤400 lines); reference-ID scan PASS (five views); `git diff --check` PASS; gate checksum PASS (16 artifacts); baseline/source-copy/snapshot absence PASS.
+- `evidencias/ECO-002/validation/final-human-review-checklist-2026-11-22.md` is the handoff packet for tasks 4.7 and 5.5–5.10. It records exact review scopes and evidence artifacts without assigning reviewers or claiming approvals. Gate 03 remains immutable; the next reevaluation must include current documentation views 6.5–6.9.
+- Slice manifests S31–S35 cover the final-review packet and this handoff/status update; they extend the existing review chain without altering prior slice records.
+- ADR-013 moves the scientific review/reproduction/acceptance gate to the completed-MVP stage, before academic delivery. Tasks 4.7 and 5.5–5.10 remain unchecked until that gate; 6.3–6.4 still require `accepted_frozen`; 6.10 still requires a clean checkout of the reviewed revision. This timing decision does not change gate 03 or imply acceptance.
+- The checklist now calls for independent reproduction of all ten nominal/boundary cases in `CALC-PV-001`, `CALC-HYD-001`, `CALC-WIND-001`, and `CALC-BUS-001`, including method, provenance, differences, rounding, limits, and discrepancies.
 
 ## Work Unit 2 review slicing
 
