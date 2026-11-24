@@ -1,0 +1,41 @@
+{
+  "id": "ECO-002-WU4-S24",
+  "order": 24,
+  "purpose": "Review the immutable blocked reevaluation, report, and exact artifact hashes.",
+  "chain_strategy": "stacked-to-main",
+  "base": "main",
+  "target": "main",
+  "depends_on": "ECO-002-WU4-S23",
+  "review_units": [
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-01/manifest.yaml",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 247
+    },
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-01/report.md",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 34
+    },
+    {
+      "path": "evidencias/ECO-002/gate-evaluations/ECO-002-GATE-20261122-01/checksums.sha256",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 16
+    },
+    {
+      "path": "evidencias/ECO-002/review-slices/slice-24-blocked-reevaluation.json",
+      "records": [
+        "complete file"
+      ],
+      "review_lines": 16
+    }
+  ],
+  "total_review_lines": 313,
+  "non_overlap_key": "blocked-reevaluation-2026-11-22"
+}
