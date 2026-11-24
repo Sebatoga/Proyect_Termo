@@ -89,6 +89,49 @@ scientific effects or completed gameplay.
     lines, with hard stop before commit above 400.
   - Rollback: revert ECO105-3 while preserving ECO105-1/2 and canonical modules.
 
+- [x] **ECO105-12 — Verify untrusted transport labels render as literal text**
+  - Route: browser regression in the existing manual JSON Lines smoke.
+  - Acceptance: an SVG/event-handler string supplied as `calibrationVersion` is
+    displayed literally in the simulated observation summary; it creates no SVG
+    element and executes no handler.
+  - Boundaries: no parser, protocol, adapter, physics, gameplay, or device changes;
+    this protects text rendering only and is not a general security audit.
+  - Verification: `npm run test:browser-smoke` with Chrome 156; retain existing
+    desktop/mobile, game-state, and zero-JavaScript-error assertions.
+  - Result: PASS; `calibration_markup=rendered-as-text-no-elements-or-event-execution`,
+    390/320 px reflow PASS, JavaScript errors 0.
+
+- [x] **ECO105-13 — Verify untrusted device error details render as literal text**
+  - Route: browser regression in the existing manual JSON Lines smoke.
+  - Acceptance: a valid protocol `error` message carries SVG/event-handler markup
+    in `detail`; Chrome observes the exact `DEVICE_FAULT` reason as text, no SVG
+    descendant in the issue target, and no handler execution.
+  - Boundaries: no parser, protocol, adapter, physics, gameplay, or device changes;
+    this is a narrow rendering regression, not a general security audit.
+  - Verification: `npm run test:browser-smoke` with installed Chrome; preserve
+    existing desktop/mobile, game-state, and bounded JavaScript-error assertions.
+  - Result: PASS; Chrome 156 observed
+    `error_detail_markup=rendered-as-text-no-elements-or-event-execution`,
+    zero bounded JavaScript errors, and 390/320 px reflow; Vitest 116/116,
+    typecheck, docs-link tests 7/7, audit `125/36/0/0`, structural/whitespace
+    validators, and `git diff --check` PASS.
+
+- [x] **ECO105-14 — Verify untrusted error detail in the live announcement**
+  - Route: extend the existing browser regression for both visible issue text and
+    the separate device `role="status"` / `aria-live` announcement.
+  - Acceptance: the `error.detail` appears literally in `#device-announcement`,
+    creates no child elements, and does not execute the same SVG load handler.
+  - Boundaries: no production or accessibility semantics changes; this verifies
+    literal rendering only, not announcement timing, screen-reader behavior, or
+    accessibility conformance.
+  - Verification: `npm run test:browser-smoke`, full Vitest, typecheck, document
+    checks, structural/whitespace validators, and `git diff --check`.
+  - Result: PASS; Chrome 156 observed the exact literal announcement with no
+    child elements or SVG handler execution; zero bounded JavaScript errors and
+    390/320 px reflow PASS. Vitest 116/116, typecheck, docs-link tests 7/7,
+    audit `125/36/0/0`, structural/whitespace validators, and `git diff --check`
+    PASS. No screen-reader behavior was tested.
+
 ## Progress and evidence
 
 - Branch: `feat/eco-105-simulated-observability` from `4ddbecf`.
@@ -175,4 +218,5 @@ scientific effects or completed gameplay.
 
 Obtain the pending human/UX review before treating the presentation as accepted.
 Keep ECO-105 pending because alerts, causal gameplay and physical integration
-remain absent.
+remain absent. ECO105-12 covers safe literal rendering only; it does not replace
+that review.

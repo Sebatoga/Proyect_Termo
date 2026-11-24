@@ -61,6 +61,14 @@ The harness starts root Vite on `127.0.0.1:4173` with `--strictPort`, waits for 
 - A valid `hello` without `inputs` is reported as “Saludo aceptado; entradas
   pendientes”, with six empty values and no visible issue; it is not mislabeled
   as a rejected frame or physical connection.
+- A valid protocol `error` fixture supplied SVG/event-handler markup in
+  `detail`. Chrome observed the exact `DEVICE_FAULT` reason in `#device-issue` as
+  literal text, with no SVG child and no handler execution. This checks only that
+  rendering sink; it is not a general security audit.
+- The same `error.detail` also reached `#device-announcement` (`role=status`,
+  `aria-live=polite`) as the exact literal announcement, without child elements
+  or handler execution. This observes DOM content only; it does not verify
+  announcement timing or screen-reader behavior.
 - After a valid sequence 1 snapshot, a malformed line clears all six values;
   the next valid sequence 2 snapshot recovers without adapter reset. Sequence
   gaps remain fail-closed. No game state, accepted simulated input, or trace

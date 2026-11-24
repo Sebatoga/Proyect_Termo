@@ -30,6 +30,49 @@ const inputsLine = (sequence: number): string => JSON.stringify({
   },
 });
 
+const inputsLineWithNumericValues = (
+  sequence: number,
+  lightProxy: number,
+  temperature: number,
+  hydroSetpoint: number,
+): string => JSON.stringify({
+  type: "inputs",
+  protocolVersion: 1,
+  sequence,
+  uptimeMs: sequence * 100,
+  calibrationVersion: "sim-v1",
+  status: "valid",
+  values: {
+    lightProxy: { value: lightProxy, status: "valid" },
+    temperature: { value: temperature, status: "valid" },
+    hydroSetpoint: { value: hydroSetpoint, status: "valid" },
+    batteryMode: { value: "idle", status: "valid" },
+    loadPriority: { value: "balanced", status: "valid" },
+    confirm: { value: false, status: "valid" },
+  },
+});
+
+const outputLine = (sequence: number): string => JSON.stringify({
+  type: "output",
+  protocolVersion: 1,
+  sequence,
+  uptimeMs: sequence * 100,
+  calibrationVersion: "sim-v1",
+  status: "valid",
+  leds: {},
+});
+
+const deviceErrorLine = (sequence: number): string => JSON.stringify({
+  type: "error",
+  protocolVersion: 1,
+  sequence,
+  uptimeMs: sequence * 100,
+  calibrationVersion: "sim-v1",
+  status: "invalid",
+  code: "DEVICE_FAULT",
+  detail: "The simulated device reported an error.",
+});
+
 const disconnectedInputsLine = JSON.stringify({
   type: "inputs",
   protocolVersion: 1,
@@ -105,6 +148,29 @@ describe("device observation view model", () => {
     expect(viewModel.summary).toContain("no modifican la partida");
   });
 
+  it("labels finite extreme values as transport-only without implying physical validity", () => {
+    const viewModel = createDeviceObservationViewModel(
+      ingestAll(helloLine, inputsLineWithNumericValues(1, -1e300, 1e300, -1e100)),
+      2,
+    );
+
+    expect(viewModel.level).toBe("valid");
+    expect(viewModel.rows.map((row) => row.label)).toEqual([
+      "lightProxy (transporte)",
+      "temperature (transporte)",
+      "hydroSetpoint (transporte)",
+      "batteryMode (transporte)",
+      "loadPriority (transporte)",
+      "confirm (transporte)",
+    ]);
+    expect(viewModel.rows.slice(0, 3).map((row) => row.value)).toEqual([
+      "-1e+300",
+      "1e+300",
+      "-1e+100",
+    ]);
+    expect(viewModel.summary).toContain("no modifican la partida");
+  });
+
   it("clears every value when a later line is rejected", () => {
     const adapter = createHostAdapter();
     adapter.ingest(helloLine);
@@ -116,6 +182,85 @@ describe("device observation view model", () => {
     expect(viewModel.level).toBe("invalid");
     expect(viewModel.issue).toContain("MALFORMED_JSON");
     expect(viewModel.rows.every((row) => row.value === "sin valor")).toBe(true);
+  });
+
+  it("rejects a device-to-host output and recovers on the next expected input sequence", () => {
+    const adapter = createHostAdapter();
+    adapter.ingest(helloLine);
+    adapter.ingest(inputsLine(1));
+    adapter.ingest(outputLine(2));
+
+    const rejected = createDeviceObservationViewModel(adapter.snapshot(), 3);
+
+    expect(rejected.level).toBe("invalid");
+    expect(rejected.issue).toContain("DIRECTION_INVALID");
+    expect(rejected.rows.every((row) => row.value === "sin valor")).toBe(true);
+
+    adapter.ingest(inputsLine(2));
+    const recovered = createDeviceObservationViewModel(adapter.snapshot(), 4);
+
+    expect(recovered.level).toBe("valid");
+    expect(recovered.issue).toBeNull();
+    expect(recovered.rows.find((row) => row.field === "temperature")?.value).toBe("24.5");
+  });
+
+  it("clears the last accepted values and exposes a device error", () => {
+    const adapter = createHostAdapter();
+    adapter.ingest(helloLine);
+    adapter.ingest(inputsLine(1));
+    adapter.ingest(deviceErrorLine(2));
+
+    const viewModel = createDeviceObservationViewModel(adapter.snapshot(), 3);
+
+    expect(viewModel.level).toBe("invalid");
+    expect(viewModel.issue).toContain("DEVICE_FAULT");
+    expect(viewModel.issue).toContain("The simulated device reported an error.");
+    expect(viewModel.rows).toHaveLength(6);
+    expect(viewModel.rows.every((row) => row.value === "sin valor")).toBe(true);
+  });
+
+  it("treats one disconnected field as a disconnected snapshot and recovers on the next sequence", () => {
+    const adapter = createHostAdapter();
+    adapter.ingest(helloLine);
+    adapter.ingest(inputsLine(1));
+    const partialDisconnect = JSON.parse(inputsLine(2));
+    partialDisconnect.values.temperature = { value: null, status: "disconnected" };
+    adapter.ingest(JSON.stringify(partialDisconnect));
+
+    const disconnected = createDeviceObservationViewModel(adapter.snapshot(), 3);
+
+    expect(disconnected.level).toBe("disconnected");
+    expect(disconnected.issue).toContain("DISCONNECTED");
+    expect(disconnected.rows).toHaveLength(6);
+    expect(disconnected.rows.every((row) => row.value === "sin valor")).toBe(true);
+
+    adapter.ingest(inputsLine(3));
+    const recovered = createDeviceObservationViewModel(adapter.snapshot(), 4);
+
+    expect(recovered.level).toBe("valid");
+    expect(recovered.rows.find((row) => row.field === "temperature")?.value).toBe("24.5");
+  });
+
+  it("rejects a partially invalid input snapshot without retaining values", () => {
+    const adapter = createHostAdapter();
+    adapter.ingest(helloLine);
+    adapter.ingest(inputsLine(1));
+    const partiallyInvalid = JSON.parse(inputsLine(2));
+    partiallyInvalid.values.temperature = { value: null, status: "invalid" };
+    adapter.ingest(JSON.stringify(partiallyInvalid));
+
+    const rejected = createDeviceObservationViewModel(adapter.snapshot(), 3);
+
+    expect(rejected.level).toBe("invalid");
+    expect(rejected.issue).toContain("INPUTS_INVALID");
+    expect(rejected.rows).toHaveLength(6);
+    expect(rejected.rows.every((row) => row.value === "sin valor")).toBe(true);
+
+    adapter.ingest(inputsLine(3));
+    const recovered = createDeviceObservationViewModel(adapter.snapshot(), 4);
+
+    expect(recovered.level).toBe("valid");
+    expect(recovered.rows.find((row) => row.field === "temperature")?.value).toBe("24.5");
   });
 
   it("recovers after a rejected unsequenced line when the next expected sequence arrives", () => {
