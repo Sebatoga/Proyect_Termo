@@ -44,3 +44,8 @@ métricas observadas ni atribuir resultados que no fueron suministrados.
 4. Contar pausas, preguntas y rondas repetidas.
 5. Registrar resultado por ronda y reserva final sin inventar umbrales.
 6. Identificar el PDF o material usado mediante SHA-256.
+
+La siguiente observación de flujo puede copiar la
+[plantilla ECO110-2](observacion-flujo-papel-plantilla.md). Es un instrumento
+preparado después de esta sesión y no completa retroactivamente sus datos
+faltantes.
