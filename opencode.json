@@ -585,6 +585,7 @@
       "git diff*": "allow",
       "git log*": "allow",
       "git push*": "deny",
+      "git push origin feat/eco-109-firmware-protocol-core": "allow",
       "git commit*": "ask",
       "rm *": "deny",
       "del *": "deny",
