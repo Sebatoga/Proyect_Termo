@@ -97,3 +97,30 @@ test("firmware host runner removes its temporary build directory after a success
     rmSync(testDirectory, { recursive: true, force: true });
   }
 });
+
+test("firmware host runner supports the optimized strict-warning profile", () => {
+  const testDirectory = mkdtempSync(join(tmpdir(), "ecogrid-firmware-strict-test-"));
+  const isolatedTmp = join(testDirectory, "tmp");
+  mkdirSync(isolatedTmp);
+
+  try {
+    const result = spawnSync(process.execPath, [runnerPath, "--strict"], {
+      cwd: root,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        TEMP: isolatedTmp,
+        TMP: isolatedTmp,
+        TMPDIR: isolatedTmp,
+      },
+    });
+
+    assert.equal(result.error, undefined);
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /profile=optimized-strict/);
+    assert.match(result.stdout, /fixture=byte-identical parser=36\/36 numeric_sweep=16/);
+    assert.deepEqual(readdirSync(isolatedTmp), [], "runner must remove its temporary build directory");
+  } finally {
+    rmSync(testDirectory, { recursive: true, force: true });
+  }
+});

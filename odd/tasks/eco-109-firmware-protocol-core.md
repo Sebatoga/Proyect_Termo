@@ -132,14 +132,125 @@ evidence.
 - [ ] This prevents JavaScript precision loss only; it does not choose a general
   protocol-width maximum or establish device behavior.
 
+## ECO109-13 — keep transport numbers separate from physical ranges
+
+- [x] Verify finite extreme numeric values pass the transport parser without
+  assigning calibration, physical units, or model-domain bounds.
+- [x] Verify the observation view labels all six displayed fields as transport
+  values and states that they do not modify the game.
+- [x] Run focused protocol/observation tests, full Vitest suite, typecheck, build,
+  and whitespace check.
+- [ ] This is a software-boundary regression only; it does not establish sensor
+  range, calibration, physical plausibility, or hardware behavior.
+- Result: focused Vitest `14/14` PASS; full Vitest `108/108` PASS;
+  `npm run typecheck` PASS; `npm run build` PASS with the known Phaser chunk-size
+  warning (`1,222.79 kB`); `git diff --check` PASS.
+
 ## Delivery slices
 
 - ECO108-6: reconcile only the user-reported inventory and unresolved gates.
 - ECO109-1: protocol source/tests plus its executable evidence and status hunks.
 - ECO109-2 through ECO109-6 host runner and serialization boundaries:
   commit `5207af7` (`test(firmware): verify protocol boundaries on host`).
+- ECO109-13 adds protocol/UI regression coverage without changing parser policy
+  or assigning physical-domain limits.
+
+## ECO109-14 — verify protocol error and direction recovery
+
+- [x] Reject a device-to-host `output` message at the host adapter boundary,
+  clear previously accepted values, and recover on the next expected input
+  sequence.
+- [x] Surface a versioned device `error` message and clear stale values without
+  interpreting its content as a physical measurement.
+- [x] Run focused observation/protocol tests, typecheck, and whitespace check.
+- Result: focused Vitest `16/16` PASS; `npm run typecheck` PASS;
+  `git diff --check` PASS.
+- [ ] Host protocol behavior only; no serial, device, sensor, calibration, or
+  hardware evidence.
+
+## ECO109-15 — fail closed on a partially disconnected snapshot
+
+- [x] Verify that one disconnected field disconnects the complete host snapshot
+  and clears every previously accepted value.
+- [x] Verify recovery is possible when the next contiguous sequence supplies a
+  complete valid input snapshot.
+- [x] Run focused observation/protocol tests, typecheck, and whitespace check.
+- Result: focused Vitest `17/17` PASS; `npm run typecheck` PASS;
+  `git diff --check` PASS.
+- [ ] This checks only software handling of protocol status; it is not sensor
+  disconnect, calibration, USB, or hardware evidence.
+
+## ECO109-16 — reject partially invalid snapshots
+
+- [x] Verify a schema-valid `inputs` message with one invalid field is rejected
+  as a whole rather than exposing its other values.
+- [x] Verify previously accepted values are cleared and a subsequent complete
+  snapshot with the next contiguous sequence recovers.
+- [x] Run focused observation/protocol regressions.
+- Result: focused Vitest `18/18` PASS; full Vitest `112/112` PASS;
+  `npm run typecheck` PASS; `git diff --check` PASS. Host firmware and
+  sanitizer commands PASS (`g++17`, ASan/UBSan, 5 unit checks, byte-identical
+  fixture, parser 36/36, deterministic numeric sweep 16).
+- [ ] This verifies software fail-closed behavior only; it does not classify
+  physical sensor faults or establish calibration/ranges.
+
+## ECO109-17 — preserve aliased calibration input during encoding
+
+- [x] Reproduce and fix overlapping `snprintf` source/destination use when the
+  caller stores `calibrationVersion` inside the output buffer.
+- [x] Copy the validated identifier into a bounded local buffer before writing
+  the encoded line; cover both `hello` and disconnected `inputs`, including the
+  maximum 32-character identifier alias and a source pointer beginning one byte
+  inside the destination buffer.
+- [x] Run normal and ASan/UBSan host verification.
+- Result: `npm run test:firmware` and `npm run test:firmware:sanitized` PASS;
+  six C++ host behavior checks, byte-identical fixture, parser `36/36`, sweep
+  `16`.
+- Regression batch: firmware runner 3/3, Vitest 114/114, typecheck, build,
+  product Chrome smoke and offline Chrome smoke PASS; docs-link tests 4/4 and
+  repository audit 124 files/35 links/0 broken; ECO-002 structural/whitespace
+  validators and `git diff --check` PASS.
+- Build emitted the existing Vite warning for the Phaser bundle
+  (`1,222.79 kB` minified, above the 500 kB advisory threshold); this test-only
+  change does not alter the bundle.
+- The first offset-pointer fixture used an array too small for the complete JSON
+  line and correctly failed for insufficient capacity; expanding it to the
+  serializer capacities (256/768 bytes) made the intended overlap case pass.
+- [ ] Host memory/serialization evidence only; no ESP32-C6 build, USB, sensor,
+  calibration, or hardware evidence.
 - The earlier ECO108-6/ECO109-1 combined worktree exceeded the 400-line review
   guard and remained separate; that historical note predates the commits above.
+
+## ECO109-18 — pin calibration identifier character boundaries
+
+- [x] Exercise the first/last ASCII letters and digits plus all permitted
+  punctuation through both encoders: `A-Z`, `a-z`, `0-9`, `-`, `_`, `.`.
+- [x] Sweep every non-NUL ASCII byte from `0x01` through `0x7f` as a one-byte
+  identifier and assert that only the allowlist is accepted by both encoders.
+- [x] Reject whitespace, slash, backslash, tab, and colon for both `hello` and
+  disconnected `inputs`, with output cleared on failure.
+- [x] Run normal and ASan/UBSan host verification.
+- Result: `npm run test:firmware` and `npm run test:firmware:sanitized` PASS;
+  six C++ host behavior checks, byte-identical fixture, parser `36/36`, sweep
+  `16`.
+- Test-fixture note: the first expected output omitted the allowed hyphen and
+  failed its assertion; correcting the expected string made both test commands
+  pass. The exhaustive sweep then passed for all 127 non-NUL ASCII bytes in each
+  encoder. No production behavior changed.
+- [ ] This confirms the software identifier allowlist only; it does not define
+  calibration semantics or establish ESP32-C6/hardware evidence.
+
+## ECO109-19 — add an optimized strict-warning host profile
+
+- [x] Add `npm run test:firmware:strict` without installing a second compiler.
+- [x] Compile with `-O2 -Wconversion -Wsign-conversion -Wshadow -Wformat=2`
+  in addition to the existing C++17 warnings-as-errors profile.
+- [x] Verify byte-identical fixture, canonical parser acceptance, numeric sweep,
+  and temporary-directory cleanup under the strict profile.
+- Result: strict host runner PASS; runner cleanup/profile tests `4/4`; six C++
+  behavior checks, fixture byte-identical, parser `36/36`, numeric sweep `16`.
+- [ ] This is an additional GCC host profile only, not an ESP32-C6 toolchain,
+  Arduino, USB, or hardware check.
 
 ## Rollback
 

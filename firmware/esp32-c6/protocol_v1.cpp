@@ -32,11 +32,22 @@ bool formattedSuccessfully(char* output, std::size_t capacity, int written) {
   return true;
 }
 
-bool validOutput(char* output, std::size_t capacity, const char* calibrationVersion) {
+bool validOutput(
+    char* output,
+    std::size_t capacity,
+    const char* calibrationVersion,
+    char* stableCalibrationVersion) {
   if (output == nullptr || capacity == 0 || !validCalibrationVersion(calibrationVersion)) {
     if (output != nullptr && capacity > 0) output[0] = '\0';
     return false;
   }
+
+  std::size_t index = 0;
+  while (calibrationVersion[index] != '\0') {
+    stableCalibrationVersion[index] = calibrationVersion[index];
+    ++index;
+  }
+  stableCalibrationVersion[index] = '\0';
   return true;
 }
 
@@ -48,7 +59,8 @@ bool encodeHello(
     std::uint32_t sequence,
     std::uint32_t uptimeMs,
     const char* calibrationVersion) {
-  if (!validOutput(output, capacity, calibrationVersion)) return false;
+  char stableCalibrationVersion[kMaxCalibrationVersionLength + 1]{};
+  if (!validOutput(output, capacity, calibrationVersion, stableCalibrationVersion)) return false;
   const int written = std::snprintf(
       output,
       capacity,
@@ -59,7 +71,7 @@ bool encodeHello(
       kProtocolVersion,
       sequence,
       uptimeMs,
-      calibrationVersion);
+      stableCalibrationVersion);
   return formattedSuccessfully(output, capacity, written);
 }
 
@@ -69,7 +81,8 @@ bool encodeDisconnectedInputs(
     std::uint32_t sequence,
     std::uint32_t uptimeMs,
     const char* calibrationVersion) {
-  if (!validOutput(output, capacity, calibrationVersion)) return false;
+  char stableCalibrationVersion[kMaxCalibrationVersionLength + 1]{};
+  if (!validOutput(output, capacity, calibrationVersion, stableCalibrationVersion)) return false;
   const int written = std::snprintf(
       output,
       capacity,
@@ -85,7 +98,7 @@ bool encodeDisconnectedInputs(
       kProtocolVersion,
       sequence,
       uptimeMs,
-      calibrationVersion);
+      stableCalibrationVersion);
   return formattedSuccessfully(output, capacity, written);
 }
 
