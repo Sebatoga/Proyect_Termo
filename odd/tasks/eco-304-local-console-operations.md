@@ -53,6 +53,12 @@ secondary console over loopback without depending on hardware or Internet.
     views and keep ECO-304 pending until a human target-computer rehearsal.
   - Delivery: separate work unit below 400 authored lines with independent rollback
     to the prior private smoke implementation.
+- [x] **ECO304-3 — Keep the verified file map private**
+  - Route: direct API-boundary hardening and regression.
+  - Trigger: `preflightBuild()` returned a frozen object with a discoverable symbol property whose value was a mutable `Map`; callers could mutate the supposedly verified files served by the server.
+  - Acceptance: the public preflight result contains only frozen metadata (`root`, `buildId`, `assets`); the snapshotted file map remains module-private and is still used by the server after preflight.
+  - Checks: focused local-server tests, offline smoke regression, `git diff --check`.
+  - Limitation: protects the in-process snapshot boundary; does not establish OS-level adversary isolation or target-machine operation.
 
 ## Progress and evidence
 
@@ -108,6 +114,20 @@ secondary console over loopback without depending on hardware or Internet.
   started, so `e0ff990` remains the last reviewed boundary for the pending slice.
 - Rollback: restore the private smoke server/tests and remove only the ECO304-2
   operator/documentation integration; the committed ECO304-1 server remains.
+
+### ECO304-3 observed verification — 2026-11-23
+
+- Regression confirmed `Object.getOwnPropertySymbols(preflightBuild(...))`
+  exposed `Symbol(buildFiles)` before the fix; the contained map was mutable.
+- `node --test tools/local-console-server.test.mjs`: 19/19 PASS after moving the
+  map to a module-private `WeakMap`; metadata and `assets` are frozen.
+- `npm run test:offline-smoke`: PASS; Chrome observed 8 local requests, canvas
+  `960×540`, zero JavaScript errors, 1,000 ms after server shutdown, static scan
+  `52+3`.
+- `npm test` 114/114, typecheck, structural/whitespace validators, and
+  `git diff --check` PASS.
+- Offline/browser and target-computer evidence remain separate; ECO-304 remains
+  pending its human walkthrough and stand rehearsal.
 
 ## Next step
 
